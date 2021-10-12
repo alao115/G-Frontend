@@ -1,14 +1,13 @@
 <template>
-  <div class="">
-    <div class="container mx-auto">
-      <WebsiteTheNavbar />
-      <WebsiteHomeLanding />
-    </div>
+  <div>
+    <SignupEmail />
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  layout: 'signup'
+}
 </script>
 
 <style scoped>

@@ -18,7 +18,7 @@
       <div class="flex flex-col items-center w-full border-t border-gray-300">
         <NuxtLink to="/directory" class="flex items-center w-full h-12 px-3 my-2 rounded text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
-            <i class="far fa-book-open mx-auto block"></i>
+            <i class="far fa-book-open mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Annuaire</span>
         </NuxtLink>
@@ -26,31 +26,31 @@
       <div class="flex flex-col items-center w-full border-t border-gray-300">
         <NuxtLink to="/districts" class="flex items-center w-full h-12 px-3 my-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-square mx-auto block"></i>
+            <i class="far fa-square mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Districts</span>
         </NuxtLink>
         <NuxtLink to="/countries" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-flag mx-auto block"></i>
+            <i class="far fa-flag mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Pays</span>
         </NuxtLink>
         <NuxtLink to="/regions" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-th-large mx-auto block"></i>
+            <i class="far fa-th-large mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Régions</span>
         </NuxtLink>
         <NuxtLink to="/zones" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-th mx-auto block"></i>
+            <i class="far fa-th mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Zones</span>
         </NuxtLink>
         <NuxtLink to="/clubs" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-users mx-auto block"></i>
+            <i class="far fa-users mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Clubs</span>
         </NuxtLink>
@@ -58,7 +58,7 @@
       <div class="flex flex-col items-center w-full mt-2 border-t border-gray-300">
         <a class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200" href="#">
           <span class="icon w-6 block">
-            <i class="far fa-cog mx-auto block"></i>
+            <i class="far fa-cog mx-auto block" />
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réglages</span>
         </a>
@@ -69,7 +69,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isLoggedUserDropdownnClosed: true,
       isMinified: false,

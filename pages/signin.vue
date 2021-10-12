@@ -1,8 +1,8 @@
 <template>
-  <div class="">
+  <div class="flex items-center h-screen bg-blue-920 font-body">
+    <div class="cover" />
     <div class="container mx-auto">
-      <WebsiteTheNavbar />
-      <WebsiteHomeLanding />
+      <LoginForm />
     </div>
   </div>
 </template>
