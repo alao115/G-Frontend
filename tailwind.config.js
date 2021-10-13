@@ -46,6 +46,7 @@ module.exports = {
         },
         sky: {
           10: '#f9fafc',
+          50: '#e8f9ff',
           450: '#00bfff',
           550: '#03a8df'
         },
@@ -192,6 +193,7 @@ module.exports = {
       'btn-shadow': '0px 7px 17px rgba(9, 87, 203, 0.32)',
       inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
       none: 'none',
+      'widget': '0px 21px 43px rgba(0, 0, 0, 0.1)'
     },
     contrast: {
       0: '0',

@@ -1,4 +1,15 @@
 <template>
-  <div class="bg-contain bg-center ..." style="background-image: url('/assets/images/landing.jpg')">
+  <div class="font-body bg-contain bg-center h-screen w-screen pt-32 overflow-x-hidden flex items-center" style="background-image: url('/assets/images/landing.jpg')">
+    <div class="container w-full px-16 xl:px-24 flex flex-col justify-center mx-auto h-1/2" style="min-height: 516px">
+      <div class="text-blue-990 w-8/12 mb-16">
+        <h1 class="text-5xl font-semibold leading-snug">
+          De beaux appartements pour votre plaisir !
+        </h1>
+        <p class="text-3xl mt-6">
+          Trouver un logement le plus simplement possible
+        </p>
+      </div>
+      <WebsiteMainWidget />
+    </div>
   </div>
 </template>

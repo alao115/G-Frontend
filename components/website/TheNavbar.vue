@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full items-center flex-shrink-0 h-32 px-8 justify-between">
+  <div class="font-body flex w-full items-center flex-shrink-0 h-32 px-16 xl:px-24 justify-between fixed bg-white">
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>

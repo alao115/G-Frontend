@@ -1,9 +1,10 @@
 <template>
-  <div class="">
-    <div class="container mx-auto">
-      <WebsiteTheNavbar />
-      <WebsiteHomeLanding />
-    </div>
+  <div class="w-screen overflow-x-hidden">
+    <WebsiteTheNavbar />
+    <WebsiteHomeLanding />
+    <WebsiteHomePublications />
+    <WebsiteContactSection />
+    <WebsiteTheFooter />
   </div>
 </template>
 

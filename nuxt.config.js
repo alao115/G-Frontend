@@ -12,7 +12,9 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
+      { rel: 'stylesheet', href: '/assets/css/main.css' },
       { rel: 'stylesheet', href: '/assets/css/line-awesome.min.css' },
+      { rel: 'stylesheet', href: '/assets/css/all.min.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
