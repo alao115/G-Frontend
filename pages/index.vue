@@ -2,6 +2,7 @@
   <div class="w-screen overflow-x-hidden">
     <WebsiteTheNavbar />
     <WebsiteHomeLanding />
+    <WebsiteHomeAdvantages />
     <WebsiteHomePublications />
     <WebsiteContactSection />
     <WebsiteTheFooter />
