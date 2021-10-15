@@ -1,13 +1,13 @@
 <template>
-  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 h-32 px-16 xl:px-36 justify-between fixed" :class="isMinified === true ? 'bg-blue-990' : 'bg-white'">
+  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-16 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-16' : 'h-32'">
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
     <div class="space-x-4">
-      <NuxtLink to="/signin" class="xl:px-6 xl:py-3 border border-blue-990 text-base font-medium rounded-md text-blue-990 hover:bg-gray-100  xl:text-base">
+      <NuxtLink to="/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100  text-sm" :class="isMinified === true ? 'py-2 px-6 ' : 'py-3 px-8 '">
         Publier
       </NuxtLink>
-      <NuxtLink to="/signin" class="shadow-btn-shadow xl:px-6 xl:py-3 border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white xl:text-base">
+      <NuxtLink to="/signin" class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white text-sm" :class="isMinified === true ? 'py-2 px-6 ' : 'py-3 px-8 '">
         Se connecter
       </NuxtLink>
     </div>
@@ -21,23 +21,32 @@ export default {
       isMinified: false
     }
   },
-  mounted () {
-    const navbar = document.getElementById('navbar')
-    const scrollpos = window.scrollY
-    window.addEventListener('scroll', function () {
-      if (scrollpos > 50) {
-        navbar.classList.add('fade-in')
+  methods: {
+    handleScroll () {
+      // console.log(window.scrollY)
+      if (window.scrollY > 100) {
         this.isMinified = true
       } else {
-        navbar.classList.remove('fade-in')
         this.isMinified = false
       }
-    })
+    }
+  },
+  beforeMount () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>
 
 <style>
+#navbar {
+  transition: all .5s;
+}
+#navbar a.btn {
+  transition: all .5s;
+}
 .logo {
   height: 28px;
 }
