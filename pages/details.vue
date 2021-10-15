@@ -1,24 +1,16 @@
 <template>
-  <div class="container w-full p-16 xl:p-24 pb-8 xl:pb-12 flex flex-col justify-center mx-auto h-1/2 font-body xl:pt-32" style="min-height: 516px">
-    <form action="#" class="form text-blue-990 bg-sky-10 p-4 rounded-md">
-      <div class="flex divide-x divide-gray-320 justify-between">
-        <input type="text" class="px-8 mr-4 block w-full bg-transparent border-transparent focus:border-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Affinez vos recherches de logement">
-        <NuxtLink to="#" class="shadow-btn-shadow xl:px-6 xl:py-3 border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white xl:text-base">
-          Rechercher
-        </NuxtLink>
-      </div>
-    </form>
-    <div class="grid lg:grid-cols-3 mt-8">
-      <WebsiteRentable
-        v-for="appartment in appartments"
-        :key="appartment.id"
-        :appartment="appartment" />
-    </div>
+  <div>
+    {{ appartment.location }}
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    appartmentId: {
+      type: Number
+    }
+  },
   data () {
     return {
       appartments: [
@@ -191,6 +183,11 @@ export default {
           ]
         }
       ]
+    }
+  },
+  computed: {
+    appartment () {
+      return this.appartments.find(app => app.id === this.appartmentId)
     }
   }
 }
