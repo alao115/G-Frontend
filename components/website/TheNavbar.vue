@@ -1,13 +1,13 @@
 <template>
-  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-16 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-16' : 'h-32'">
+  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-16 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-20' : 'h-32'">
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
     <div class="space-x-4">
-      <NuxtLink to="/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100  text-sm" :class="isMinified === true ? 'py-2 px-6 ' : 'py-3 px-8 '">
+      <NuxtLink to="/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Publier
       </NuxtLink>
-      <NuxtLink to="/signin" class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white text-sm" :class="isMinified === true ? 'py-2 px-6 ' : 'py-3 px-8 '">
+      <NuxtLink to="/signin" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Se connecter
       </NuxtLink>
     </div>
@@ -21,6 +21,12 @@ export default {
       isMinified: false
     }
   },
+  beforeMount () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
   methods: {
     handleScroll () {
       // console.log(window.scrollY)
@@ -30,12 +36,6 @@ export default {
         this.isMinified = false
       }
     }
-  },
-  beforeMount () {
-    window.addEventListener('scroll', this.handleScroll)
-  },
-  beforeDestroy () {
-    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>

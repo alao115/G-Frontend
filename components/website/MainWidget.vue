@@ -1,7 +1,13 @@
 <template>
   <div class="container bg-white rounded-xl h-auto p-10 font-body shadow-btn-shadow">
     <div class="flex w-min mb-8 rounded-md bg-blue-50">
-      <button v-for="type in types" :key="type.id" class="flex whitespace-nowrap items-center justify-center py-4 px-8 rounded-md text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none" :value="type">
+      <button
+        v-for="type in types"
+        :key="type.id"
+        class="flex whitespace-nowrap items-center justify-center py-4 px-8 rounded-md text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
+        :class="type.id === selectedType ? 'bg-sky-550 text-white' : ''"
+        @click.prevent="selectType(type)"
+      >
         {{ type.label }}
       </button>
     </div>
@@ -38,9 +44,8 @@
           </span>
           <label for="#">Votre budget</label>
         </div>
-        <NuxtLink to="#" class="shadow-btn-shadow px-4 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-sky-550 lg:py-3 xl:py-4 md:text-lg md:px-10">
-          <!-- <span class="icon"><i class="fas fa-search" /></span> -->
-          Rechercher
+        <NuxtLink to="#" class="shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white py-4 text-lg px-10">
+          <span>Rechercher</span>
         </NuxtLink>
       </div>
     </form>
@@ -57,7 +62,12 @@ export default {
         { id: 2, label: 'Maison', descr: '' },
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
-      seelctedType: ''
+      selectedType: 1
+    }
+  },
+  methods: {
+    selectType (type) {
+      this.selectedType = type.id
     }
   }
 }

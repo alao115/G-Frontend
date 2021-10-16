@@ -7,13 +7,16 @@
     </div>
     <div class="flex justify-between">
       <p>Récentes publications</p>
-      <NuxtLink to="/home">Voir plus</NuxtLink>
+      <NuxtLink to="/home" class="text-blue-990 border-b-2 border-transparent hover:border-blue-990">
+        Voir plus
+      </NuxtLink>
     </div>
     <div class="grid md:grid-cols-3 mt-8">
       <WebsiteRentable
         v-for="appartment in appartments"
         :key="appartment.id"
-        :appartment="appartment" />
+        :appartment="appartment"
+      />
     </div>
   </div>
 </template>

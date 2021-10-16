@@ -3,8 +3,8 @@
     <form action="#" class="form text-blue-990 bg-sky-10 p-4 rounded-md">
       <div class="flex divide-x divide-gray-320 justify-between">
         <input type="text" class="px-8 mr-4 block w-full bg-transparent border-transparent focus:border-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Affinez vos recherches de logement">
-        <NuxtLink to="#" class="shadow-btn-shadow xl:px-6 xl:py-3 border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white xl:text-base">
-          Rechercher
+        <NuxtLink to="#" class="shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white py-4 text-lg px-10">
+          <span>Rechercher</span>
         </NuxtLink>
       </div>
     </form>
@@ -12,7 +12,8 @@
       <WebsiteRentable
         v-for="appartment in appartments"
         :key="appartment.id"
-        :appartment="appartment" />
+        :appartment="appartment"
+      />
     </div>
   </div>
 </template>
