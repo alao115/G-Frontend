@@ -1,18 +1,16 @@
 <template>
   <div>
-    {{ appartment.location }}
+    ok
+    <!-- <span v-if="appartment">{{ appartment }}</span> -->
+    <span>{{ id }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    appartmentId: {
-      type: Number
-    }
-  },
   data () {
     return {
+      id: this.$route.params.id,
       appartments: [
         {
           id: 1,
@@ -187,7 +185,7 @@ export default {
   },
   computed: {
     appartment () {
-      return this.appartments.find(app => app.id === this.appartmentId)
+      return this.appartments.find(appartment => appartment.id === this.id)
     }
   }
 }

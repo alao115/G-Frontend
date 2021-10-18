@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     toDetails (appartment) {
-      this.$router.push({ path: 'details/:' + appartment.id })
+      this.$router.push({ path: '/appartment/' + appartment.id })
     }
   }
 }
