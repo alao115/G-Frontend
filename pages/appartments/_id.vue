@@ -2,9 +2,16 @@
   <div class="w-screen overflow-x-hidden font-body">
     <WebsiteTheNavbar />
     <div class="flex space-x-8 justify-center">
+      <div>
+        <img :src="appartment.mainImg" alt="" class="w-full mb-16">
+        <div class="flex space-x-8">
+          <img :src="appartment.mainImg" alt="">
+          <img :src="appartment.mainImg" alt="">
+        </div>
+      </div>
       <div class="container flex flex-col lg:w-5/12 xl:w-4/12 justify-between mt-40">
         <div class="content font-body">
-          <h4 class="text-3xl font-medium mb-2">
+          <h4 class="text-2xl font-medium mb-2">
             {{ appartment.type }}
           </h4>
           <div class="flex items-center">
@@ -13,15 +20,15 @@
             </span>
             <label for="#" class="text-md">{{ appartment.location }}</label>
           </div>
-          <h3 class="block text-5xl font-medium mt-4 text-sky-450">
+          <h3 class="block text-3xl font-medium mt-4 text-sky-450">
             <span>{{ appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
           </h3>
-          <div class="grid grid-cols-2 w-min space-x-16 my-8">
+          <div class="grid grid-cols-2 w-min space-x-16 my-4">
             <span class="icon">
-              <i class="fab fa-whatsapp text-4xl" />
+              <i class="fab fa-whatsapp text-3xl" />
             </span>
             <span class="icon">
-              <i class="far fa-envelope-open text-3xl" />
+              <i class="far fa-envelope-open-text text-2xl" />
             </span>
           </div>
           <div class="details">
