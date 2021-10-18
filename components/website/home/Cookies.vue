@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white dark:bg-gray-800 overflow-hidden absolute rounded-md bottom-20 right-20 shadow-btn-shadow" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
     <div class="text-start w-full py-12 px-4 sm:px-6 lg:py-16 lg:px-8 z-20 relative">
-      <h2 class="text-2xl font-light text-black dark:text-white font-base">
+      <h2 class="text-2xl font-light text-black dark:text-white font-body">
         <span class="block">
           Cookies
         </span>

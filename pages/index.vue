@@ -3,7 +3,7 @@
     <WebsiteTheNavbar />
     <WebsiteHomeLanding />
     <WebsiteHomeAdvantages />
-    <WebsiteHomePublications />
+    <WebsitePublications :in-home-page="false" :in-index="true" />
     <WebsiteContactSection />
     <WebsiteHomeCookies />
     <WebsiteTheFooter />

@@ -1,9 +1,11 @@
 <template>
   <div class="flex w-screen max-w-screen h-screen text-gray-700 font-body">
-    <TheDashboardSidenav/>
+    <TheDashboardSidenav />
     <div class="flex flex-col flex-grow">
       <div class="flex items-center flex-shrink-0 h-16 px-8">
-        <h1 class="text-lg font-medium">Page Title</h1>
+        <h1 class="text-lg font-medium">
+          Page Title
+        </h1>
         <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
           Action 1
         </button>
@@ -12,41 +14,48 @@
         </button>
         <button class="relative ml-2 text-sm focus:outline-none group">
           <div
-            class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300">
+            class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300"
+          >
             <svg
               class="w-5 h-5 mx-auto"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor">
+              stroke="currentColor"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+              />
             </svg>
           </div>
           <div
-            class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex">
+            class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex"
+          >
             <a
               class="w-full px-4 py-2 text-left hover:bg-gray-300"
-              href="#">
+              href="#"
+            >
               Menu Item 1
             </a>
             <a
               class="w-full px-4 py-2 text-left hover:bg-gray-300"
-              href="#">
+              href="#"
+            >
               Menu Item 1
             </a>
             <a
               class="w-full px-4 py-2 text-left hover:bg-gray-300"
-              href="#">
+              href="#"
+            >
               Menu Item 1
             </a>
           </div>
         </button>
       </div>
-      <Nuxt/>
+      <Nuxt />
     </div>
     <div class="flex items-center h-16 border border-gray-300 pr-4 w-full max-w-md shadow-lg font-body absolute right-2 top-2 z-10 bg-blue-75" :class="isDismissed === true ? 'hidden' : ''">
       <div class="flex items-center justify-center bg-blue-730 w-12 h-full text-blue-75">
@@ -55,8 +64,12 @@
         </svg>
       </div>
       <div class="px-6">
-        <h5 class="font-semibold text-blue-730">Hey heads up!</h5>
-        <p class="text-sm">You should notice this alert!</p>
+        <h5 class="font-semibold text-blue-730">
+          Hey heads up!
+        </h5>
+        <p class="text-sm">
+          You should notice this alert!
+        </p>
       </div>
       <button class="ml-auto hover:text-blue-730" @click.prevent="isDismissed = true">
         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

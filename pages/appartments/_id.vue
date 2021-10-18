@@ -1,8 +1,152 @@
 <template>
-  <div>
-    ok
-    <!-- <span v-if="appartment">{{ appartment }}</span> -->
-    <span>{{ id }}</span>
+  <div class="w-screen overflow-x-hidden font-body">
+    <WebsiteTheNavbar />
+    <div class="flex space-x-8 justify-center">
+      <div class="container flex flex-col lg:w-5/12 xl:w-4/12 justify-between mt-40">
+        <div class="content font-body">
+          <h4 class="text-3xl font-medium mb-2">
+            {{ appartment.type }}
+          </h4>
+          <div class="flex items-center">
+            <span class="icon mr-4 text-sky-450">
+              <i class="fas fa-map-marker-alt" />
+            </span>
+            <label for="#" class="text-md">{{ appartment.location }}</label>
+          </div>
+          <h3 class="block text-5xl font-medium mt-4 text-sky-450">
+            <span>{{ appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
+          </h3>
+          <div class="grid grid-cols-2 w-min space-x-16 my-8">
+            <span class="icon">
+              <i class="fab fa-whatsapp text-4xl" />
+            </span>
+            <span class="icon">
+              <i class="far fa-envelope-open text-3xl" />
+            </span>
+          </div>
+          <div class="details">
+            <h4 class="text-sky-450 text-xl mt-8 mb-4">
+              Details
+            </h4>
+            <p class="font-body text-base mb-8">
+              {{ appartment.details }}
+            </p>
+          </div>
+          <div class="rooms w-full">
+            <h4 class="text-sky-450 text-xl mb-4">
+              Pièces ({{ appartment.rooms }})
+            </h4>
+            <div class="grid grid-cols-4 my-4 divide-x divide-gray-200 -ml-12">
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="fas fa-bed-alt text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.bedrooms }}</label>
+                </div>
+                <p class="mt-2">
+                  Chambre(s)
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="fas fa-shower text-xl" /> / <i class="fas fa-toilet text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.bathrooms }}</label>
+                </div>
+                <p class="mt-2">
+                  Salle(s) d'eau
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="fas fa-couch text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.livingrooms }}</label>
+                </div>
+                <p class="mt-2">
+                  Salon (s)
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="fas fa-couch text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.otherrooms }}</label>
+                </div>
+                <p class="mt-2">
+                  Autre (s)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rooms w-full">
+          <h4 class="text-sky-450 text-xl mt-8 mb-4">
+            Conditions
+          </h4>
+          <div class="grid grid-cols-3 my-4 divide-x divide-gray-200 -ml-12">
+            <div class="w-full ml-8 px-4">
+              <div class="flex items-center font">
+                <label for="#" class="text-xl font-semibold">{{ appartment.rent }}</label>
+              </div>
+              <p class="mt-2">
+                Loyer
+              </p>
+            </div>
+            <div class="w-full ml-8 px-4">
+              <div class="flex items-center font">
+                <label for="#" class="text-xl font-semibold">{{ appartment.conditions.advancePayment }}</label>
+              </div>
+              <p class="mt-2">
+                {{ appartment.conditions.prepaidRentMonths }} mois d'avance
+              </p>
+            </div>
+            <div class="w-full ml-8 px-4">
+              <div class="flex items-center font">
+                <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
+              </div>
+              <p class="mt-2">
+                Commission Eau / Elec
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="details">
+          <h4 class="text-sky-450 text-xl mt-8 mb-4">
+            Informations sur le propriétaire
+          </h4>
+          <p class="font-body text-base">
+            Maison appartenant à {{ appartment.ownerInfos.name }} vivant au {{ appartment.ownerInfos.address }}
+          </p>
+          <p class="font-body text-base">
+            Contact: {{ appartment.ownerInfos.phone }}
+          </p>
+          <p class="font-body text-base">
+            Email: {{ appartment.ownerInfos.email }}
+          </p>
+        </div>
+        <div class="others bg-sky-50 p-8 mt-8 rounded-md">
+          <p>
+            Les frais de visites s’élève à 2000 f cfa.
+            Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
+          </p>
+        </div>
+        <div class="space-x-4 mt-12">
+          <NuxtLink to="#" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10">
+            Réserver
+          </NuxtLink>
+          <NuxtLink to="#" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10">
+            Visiter
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+    <WebsitePublications :in-details="true" />
+    <WebsiteTheFooter />
   </div>
 </template>
 
@@ -13,35 +157,34 @@ export default {
       id: this.$route.params.id,
       appartments: [
         {
-          id: 1,
+          id: '1',
           mainImg: '/assets/images/rentables/example1.jpg',
           type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
+          rooms: 8,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 2,
+          otherrooms: 2,
           householdsTotal: 6,
           floor: 'Ground',
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '+229 60 000000',
+            email: 'm.edoae@gmail.com'
+          }
         },
         {
-          id: 2,
+          id: '2',
           mainImg: '/assets/images/rentables/example2.jpg',
           type: 'Chambre salon',
           location: 'Abomey-Calavi',
@@ -49,6 +192,9 @@ export default {
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingRooms: 2,
+          otherRooms: 2,
           householdsTotal: 6,
           floor: 'Ground',
           conditions: [
@@ -69,7 +215,7 @@ export default {
           ]
         },
         {
-          id: 3,
+          id: '3',
           mainImg: '/assets/images/rentables/example3.jpg',
           type: 'Chambre salon',
           location: 'Abomey-Calavi',
@@ -77,6 +223,9 @@ export default {
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingRooms: 2,
+          otherRooms: 2,
           householdsTotal: 6,
           floor: 'Ground',
           conditions: [
@@ -97,7 +246,7 @@ export default {
           ]
         },
         {
-          id: 4,
+          id: '4',
           mainImg: '/assets/images/rentables/example4.jpg',
           type: 'Chambre salon',
           location: 'Abomey-Calavi',
@@ -105,6 +254,9 @@ export default {
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingRooms: 2,
+          otherRooms: 2,
           householdsTotal: 6,
           floor: 'Ground',
           conditions: [
@@ -125,7 +277,7 @@ export default {
           ]
         },
         {
-          id: 5,
+          id: '5',
           mainImg: '/assets/images/rentables/example5.jpg',
           type: 'Chambre salon',
           location: 'Abomey-Calavi',
@@ -133,6 +285,9 @@ export default {
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingRooms: 2,
+          otherRooms: 2,
           householdsTotal: 6,
           floor: 'Ground',
           conditions: [
@@ -153,7 +308,7 @@ export default {
           ]
         },
         {
-          id: 6,
+          id: '6',
           mainImg: '/assets/images/rentables/example6.jpg',
           type: 'Chambre salon',
           location: 'Abomey-Calavi',
@@ -161,6 +316,9 @@ export default {
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingRooms: 2,
+          otherRooms: 2,
           householdsTotal: 6,
           floor: 'Ground',
           conditions: [
@@ -186,6 +344,14 @@ export default {
   computed: {
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
+    }
+  },
+  beforeMount () {
+    this.showTheValue(this.id)
+  },
+  methods: {
+    showTheValue (value) {
+      console.log('the value => ', value)
     }
   }
 }
