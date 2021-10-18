@@ -5,6 +5,7 @@
     <WebsiteHomeAdvantages />
     <WebsiteHomePublications />
     <WebsiteContactSection />
+    <WebsiteHomeCookies />
     <WebsiteTheFooter />
   </div>
 </template>
