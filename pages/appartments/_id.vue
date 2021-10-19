@@ -41,51 +41,139 @@
           </div>
           <div class="rooms w-full">
             <h4 class="text-sky-450 text-xl mb-4">
-              Pièces ({{ appartment.rooms }})
+              Caractéristiques
             </h4>
-            <div class="grid grid-cols-4 my-4 divide-x divide-gray-200 -ml-12">
+            <div class="grid grid-cols-4 my-4  -ml-12">
               <div class="w-full ml-8 px-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
-                    <i class="fas fa-bed-alt text-xl" />
+                    <i class="far fa-bed-alt text-xl" />
                   </span>
                   <label for="#" class="text-xl">{{ appartment.bedrooms }}</label>
                 </div>
-                <p class="mt-2">
+                <p class="mb-8">
                   Chambre(s)
                 </p>
               </div>
               <div class="w-full ml-8 px-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
-                    <i class="fas fa-shower text-xl" /> / <i class="fas fa-toilet text-xl" />
-                  </span>
-                  <label for="#" class="text-xl">{{ appartment.bathrooms }}</label>
-                </div>
-                <p class="mt-2">
-                  Salle(s) d'eau
-                </p>
-              </div>
-              <div class="w-full ml-8 px-4">
-                <div class="flex items-center">
-                  <span class="icon mr-4">
-                    <i class="fas fa-couch text-xl" />
+                    <i class="far fa-couch text-xl" />
                   </span>
                   <label for="#" class="text-xl">{{ appartment.livingrooms }}</label>
                 </div>
-                <p class="mt-2">
+                <p class="mb-8">
                   Salon (s)
                 </p>
               </div>
               <div class="w-full ml-8 px-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
-                    <i class="fas fa-couch text-xl" />
+                    <i class="far fa-oven text-xl" />
                   </span>
-                  <label for="#" class="text-xl">{{ appartment.otherrooms }}</label>
+                  <label for="#" class="text-xl">{{ appartment.kitchen }}</label>
                 </div>
-                <p class="mt-2">
-                  Autre (s)
+                <p class="mb-8">
+                  Cuisine (s)
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.bathrooms }}</label>
+                </div>
+                <p class="mb-8">
+                  Salle(s) d'eau
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-cabinet-filing text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.storageroom }}</label>
+                </div>
+                <p class="mb-8">
+                  Débarras
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-garage-open text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.garage }}</label>
+                </div>
+                <p class="mb-8">
+                  Garage
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-flower-tulip text-sm" /><i class="far fa-flower-daffodil text-sm" /><i class="far fa-flower text-sm" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.garden }}</label>
+                </div>
+                <p class="mb-8">
+                  Jardin
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-list-ol text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.floor }}</label>
+                </div>
+                <p class="mb-8">
+                  Niveau
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-users text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.householdsTotal }}</label>
+                </div>
+                <p class="mb-8">
+                  Voisins
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-air-conditioner text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.ac }}</label>
+                </div>
+                <p class="mb-8">
+                  Climatiseur
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-swimming-pool text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.pool }}</label>
+                </div>
+                <p class="mb-8">
+                  Piscine
+                </p>
+              </div>
+              <div class="w-full ml-8 px-4">
+                <div class="flex items-center">
+                  <span class="icon mr-4">
+                    <i class="far fa-user-shield text-xl" />
+                  </span>
+                  <label for="#" class="text-xl">{{ appartment.keeper }}</label>
+                </div>
+                <p class="mb-8">
+                  Gardien
                 </p>
               </div>
             </div>
@@ -173,10 +261,17 @@ export default {
           rooms: 8,
           bathrooms: 2,
           bedrooms: 2,
-          livingrooms: 2,
-          otherrooms: 2,
+          livingrooms: 1,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: {
             advancePayment: 150000,
             energyCommission: 50000,
@@ -201,9 +296,16 @@ export default {
           bathrooms: 2,
           bedrooms: 2,
           livingRooms: 2,
-          otherRooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -232,9 +334,16 @@ export default {
           bathrooms: 2,
           bedrooms: 2,
           livingRooms: 2,
-          otherRooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -263,9 +372,16 @@ export default {
           bathrooms: 2,
           bedrooms: 2,
           livingRooms: 2,
-          otherRooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -294,9 +410,16 @@ export default {
           bathrooms: 2,
           bedrooms: 2,
           livingRooms: 2,
-          otherRooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -325,9 +448,16 @@ export default {
           bathrooms: 2,
           bedrooms: 2,
           livingRooms: 2,
-          otherRooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -351,14 +481,6 @@ export default {
   computed: {
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
-    }
-  },
-  beforeMount () {
-    this.showTheValue(this.id)
-  },
-  methods: {
-    showTheValue (value) {
-      console.log('the value => ', value)
     }
   }
 }

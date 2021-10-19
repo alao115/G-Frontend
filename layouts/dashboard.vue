@@ -9,9 +9,9 @@
         <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
           Action 1
         </button>
-        <button class="flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300">
-          Action 2
-        </button>
+        <NuxtLink to="/" class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300">
+          Se déconnecter
+        </NuxtLink>
         <button class="relative ml-2 text-sm focus:outline-none group">
           <div
             class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300"

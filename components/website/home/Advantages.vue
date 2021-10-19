@@ -12,19 +12,19 @@
       <div class="grid grid-cols-3 mt-12">
         <div class="text-center">
           <span class="icon">
-            <i class="las la-chart-line text-5xl mb-5 text-sky-450"></i>
+            <i class="las la-chart-line text-5xl mb-5 text-sky-450" />
           </span>
           <p>Valorisation et suivi des bien simmobiliers</p>
         </div>
         <div class="text-center">
           <span class="icon">
-            <i class="las la-shield-alt text-5xl mb-5 text-sky-450"></i>
+            <i class="las la-shield-alt text-5xl mb-5 text-sky-450" />
           </span>
           <p>Sécurité des biens immobiliers</p>
         </div>
         <div class="text-center">
           <span class="icon">
-            <i class="las la-shield-alt text-5xl mb-5 text-sky-450"></i>
+            <i class="las la-shield-alt text-5xl mb-5 text-sky-450" />
           </span>
           <p>Frais de visite de plusieurs logements à <span class="text-sky-450">2000 F CFA</span></p>
         </div>

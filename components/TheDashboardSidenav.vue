@@ -3,7 +3,7 @@
     <div class="w-full px-2">
       <a class="flex items-center w-full h-16" href="#" @click.prevent="isMinified = !isMinified">
         <img src="/assets/images/logo.png" alt="" class="logo">
-        <span class="ml-2 text-sm font-bold" :class="isMinified === true ? 'hidden' : ''">Annuaire du DM</span>
+        <span class="ml-2 text-sm font-bold" :class="isMinified === true ? 'hidden' : ''">Gontché</span>
       </a>
     </div>
     <div class="w-full px-2">
@@ -18,41 +18,47 @@
       <div class="flex flex-col items-center w-full border-t border-gray-300">
         <NuxtLink to="/directory" class="flex items-center w-full h-12 px-3 my-2 rounded text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
-            <i class="far fa-book-open mx-auto block" />
+            <i class="far fa-bullhorn mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Annuaire</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Publications</span>
         </NuxtLink>
       </div>
       <div class="flex flex-col items-center w-full border-t border-gray-300">
         <NuxtLink to="/districts" class="flex items-center w-full h-12 px-3 my-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-square mx-auto block" />
+            <i class="far fa-house-user mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Districts</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réservations</span>
         </NuxtLink>
         <NuxtLink to="/countries" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-flag mx-auto block" />
+            <i class="far fa-users mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Pays</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Utilisateurs</span>
         </NuxtLink>
         <NuxtLink to="/regions" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-th-large mx-auto block" />
+            <i class="far fa-calendar-day mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Régions</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Visites</span>
         </NuxtLink>
         <NuxtLink to="/zones" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-th mx-auto block" />
+            <i class="far fa-house mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Zones</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
         </NuxtLink>
         <NuxtLink to="/clubs" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
           <span class="icon w-6 block">
-            <i class="far fa-users mx-auto block" />
+            <i class="far fa-tags mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Clubs</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Types d'appart</span>
+        </NuxtLink>
+        <NuxtLink to="/clubs" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
+          <span class="icon w-6 block">
+            <i class="far fa-file-signature mx-auto block" />
+          </span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Contrats</span>
         </NuxtLink>
       </div>
       <div class="flex flex-col items-center w-full mt-2 border-t border-gray-300">
