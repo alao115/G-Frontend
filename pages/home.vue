@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen overflow-x-hidden">
     <WebsiteTheNavbar />
-    <WebsitePublications />
+    <WebsitePublications :in-home-page="true" />
     <WebsiteContactSection />
     <WebsiteTheFooter />
   </div>

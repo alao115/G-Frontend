@@ -67,3 +67,13 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    connexionSuccesssfull () {
+      this.$router.push({ path: '/:' + true })
+    }
+  }
+}
+</script>

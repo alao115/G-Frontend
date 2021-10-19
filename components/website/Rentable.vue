@@ -1,5 +1,5 @@
 <template>
-  <div @click.prevent="toDetails(appartment)" class="card flex flex-col bg-transparent rounded-lg pb-8 mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-btn-shadow">
+  <div class="card flex flex-col bg-transparent rounded-lg pb-8 mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartment)">
     <!-- <div class="h-40 bg-gray-400 rounded-lg"></div> -->
     <img :src="appartment.mainImg" alt="">
     <div class="flex flex-col items-start mt-4 px-8">
@@ -23,12 +23,13 @@
 export default {
   props: {
     appartment: {
-      type: Object
+      type: Object,
+      default: null
     }
   },
   methods: {
     toDetails (appartment) {
-      this.$router.push({ path: 'details/:' + appartment.id })
+      this.$router.push({ path: '/appartments/' + appartment.id })
     }
   }
 }
