@@ -1,62 +1,76 @@
 <template>
-  <div class="flex flex-col items-center h-full overflow-hidden text-gray-700 rounded border-r-2 border-gray-200 flex-none" :class="isMinified === true ? 'w-16' : 'w-56'">
+  <div class="flex flex-col items-center h-full overflow-hidden text-gray-700 rounded border-r-2 border-gray-200 flex-none" :class="isMinified === true ? 'w-16' : 'w-64'">
     <div class="w-full px-2">
       <a class="flex items-center w-full h-16" href="#" @click.prevent="isMinified = !isMinified">
         <img src="/assets/images/logo.png" alt="" class="logo">
-        <span class="ml-2 text-sm font-bold" :class="isMinified === true ? 'hidden' : ''">Annuaire du DM</span>
+        <span class="ml-2 text-sm font-bold" :class="isMinified === true ? 'hidden' : ''">Gontché</span>
       </a>
     </div>
     <div class="w-full px-2">
       <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
-        <a class="flex items-center w-full h-12 px-3 my-2 text-white bg-blue-730 rounded" href="#">
+        <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Ajouter un membre</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. publication</span>
         </a>
-      </div>
-      <div class="flex flex-col items-center w-full border-t border-gray-300">
-        <NuxtLink to="/directory" class="flex items-center w-full h-12 px-3 my-2 rounded text-blue-730 bg-blue-75">
+        <NuxtLink to="/dashboard" class="flex items-center relative w-full h-12 px-3 mt-2 rounded text-blue-730">
           <span class="icon w-6 block">
-            <i class="far fa-book-open mx-auto block" />
+            <i class="far fa-tachometer-alt mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Annuaire</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Dashboard</span>
         </NuxtLink>
       </div>
       <div class="flex flex-col items-center w-full border-t border-gray-300">
-        <NuxtLink to="/districts" class="flex items-center w-full h-12 px-3 my-2 rounded hover:bg-gray-200">
+        <NuxtLink to="/publications" class="flex items-center relative w-full h-12 px-3 my-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75 active:bg-sky-50">
           <span class="icon w-6 block">
-            <i class="far fa-square mx-auto block" />
+            <i class="far fa-bullhorn mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Districts</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Publications</span>
         </NuxtLink>
-        <NuxtLink to="/countries" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
+        <NuxtLink to="/districts" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
-            <i class="far fa-flag mx-auto block" />
+            <i class="far fa-house-user mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Pays</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réservations</span>
         </NuxtLink>
-        <NuxtLink to="/regions" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
+        <NuxtLink to="/regions" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
-            <i class="far fa-th-large mx-auto block" />
+            <i class="far fa-calendar-day mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Régions</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Visites</span>
         </NuxtLink>
-        <NuxtLink to="/zones" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
+      </div>
+      <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
+        <NuxtLink to="/zones" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
-            <i class="far fa-th mx-auto block" />
+            <i class="far fa-house mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Zones</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
         </NuxtLink>
-        <NuxtLink to="/clubs" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200">
+        <NuxtLink to="/clubs" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
+          <span class="icon w-6 block">
+            <i class="far fa-tags mx-auto block" />
+          </span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Types d'appart</span>
+        </NuxtLink>
+      </div>
+      <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
+        <NuxtLink to="/countries" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
             <i class="far fa-users mx-auto block" />
           </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Clubs</span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Utilisateurs</span>
+        </NuxtLink>
+        <NuxtLink to="/clubs" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
+          <span class="icon w-6 block">
+            <i class="far fa-file-signature mx-auto block" />
+          </span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Contrats</span>
         </NuxtLink>
       </div>
       <div class="flex flex-col items-center w-full mt-2 border-t border-gray-300">
-        <a class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200" href="#">
+        <a class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200" href="#">
           <span class="icon w-6 block">
             <i class="far fa-cog mx-auto block" />
           </span>
@@ -82,5 +96,19 @@ export default {
 <style scoped>
 .logo {
   height: 48px;
+}
+a.nuxt-link-exact-active.nuxt-link-active {
+  background-color: #e8f9ff;
+  color: #0e265b;
+}
+
+a.nuxt-link-exact-active.nuxt-link-active:after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 100%;
+  background-color: #0e265b;
+  position: absolute;
+  right: -4px;
 }
 </style>

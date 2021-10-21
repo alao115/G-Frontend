@@ -9,9 +9,9 @@
         <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
           Action 1
         </button>
-        <button class="flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300">
-          Action 2
-        </button>
+        <NuxtLink to="/" class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300">
+          Se déconnecter
+        </NuxtLink>
         <button class="relative ml-2 text-sm focus:outline-none group">
           <div
             class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300"
@@ -57,14 +57,14 @@
       </div>
       <Nuxt />
     </div>
-    <div class="flex items-center h-16 border border-gray-300 pr-4 w-full max-w-md shadow-lg font-body absolute right-2 top-2 z-10 bg-blue-75" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="flex items-center justify-center bg-blue-730 w-12 h-full text-blue-75">
+    <div class="flex items-center h-16 border border-gray-300 pr-4 w-full max-w-md shadow-lg font-body absolute right-2 top-2 z-10 bg-sky-50" :class="isDismissed === true ? 'hidden' : ''">
+      <div class="flex items-center text-white justify-center bg-sky-450 w-12 h-full text-blue-75">
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </div>
       <div class="px-6">
-        <h5 class="font-semibold text-blue-730">
+        <h5 class="font-semibold text-sky-450">
           Hey heads up!
         </h5>
         <p class="text-sm">

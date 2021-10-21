@@ -1,16 +1,19 @@
 <template>
   <div class="bg-white dark:bg-gray-800 overflow-hidden absolute rounded-md bottom-20 right-20 shadow-btn-shadow" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-    <div class="text-start w-full py-12 px-4 sm:px-6 lg:py-16 lg:px-8 z-20 relative">
-      <h2 class="text-2xl font-light text-black dark:text-white font-body">
+    <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
+      <h2 class="text-lg font-light text-black dark:text-white font-body">
         <span class="block">
           Cookies
         </span>
       </h2>
-      <p class="text-xl mt-4 text-gray-400">
+      <p class="text-base mt-4 text-gray-400">
         Nous utilisons des cookies pour améliorer votre expérience d'utilisateur sur gontche.com.
         En savoir plus sur notre politique en matière de cookies et comment refuser les cookies en cliquant ici.
       </p>
-      <button type="button" class="py-4 text-lg px-10 leading-none rounded font-medium mt-8 bg-sky-50 text-sm text-sky-450">
+      <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+        Refuser
+      </button>
+      <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920">
         J'accepte
       </button>
       <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
