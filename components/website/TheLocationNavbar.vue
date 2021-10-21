@@ -16,7 +16,7 @@
       <NuxtLink to="/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Publier
       </NuxtLink>
-      <NuxtLink to="/signin" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
+      <NuxtLink to="/signin" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Se connecter
       </NuxtLink>
     </div>
@@ -58,5 +58,9 @@ export default {
 }
 .logo {
   height: 28px;
+}
+
+a.text-lg.nuxt-link-exact-active.nuxt-link-active {
+  border-bottom: 2px solid #0e265b;
 }
 </style>

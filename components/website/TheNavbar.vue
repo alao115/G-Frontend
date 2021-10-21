@@ -4,13 +4,13 @@
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
     <div class="space-x-4">
-      <NuxtLink to="/" class="text-blue-990 text-lg">
+      <NuxtLink to="/" class="text-blue-990 text-lg py-2 mr-4">
         Je cherche
       </NuxtLink>
-      <NuxtLink to="/location" class="text-blue-990 text-lg">
+      <NuxtLink to="/location" class="text-blue-990 text-lg py-2 mr-4">
         Je loue
       </NuxtLink>
-      <NuxtLink to="#" class="text-blue-990 text-lg">
+      <NuxtLink to="#" class="text-blue-990 text-lg py-2 mr-4">
         Nous contacter
       </NuxtLink>
       <!-- <NuxtLink to="/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
@@ -58,5 +58,9 @@ export default {
 }
 .logo {
   height: 28px;
+}
+
+a.text-lg.nuxt-link-exact-active.nuxt-link-active {
+  border-bottom: 2px solid #0e265b;
 }
 </style>
