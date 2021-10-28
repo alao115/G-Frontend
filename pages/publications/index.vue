@@ -27,88 +27,88 @@
       </div>
     </div>
     <div class="flex flex-col w-full table__container">
-      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs">
+        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
           <span>ID</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
+        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-2 text-xs">
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
           <span>LOCALISATION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs">
+        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
           <span>LOYER</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
+        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs">
+        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs">
+        <div class="flex items-center w-48 h-10 px-2 text-xs mx-2">
           <span>NIVEAU</span>
         </div>
       </div>
       <div class="overflow-auto custom__scroll py-4">
-        <div v-for="publication in publications" :key="publication.id" class="flex flex-shrink-0 py-1 text-sm">
+        <div v-for="pub in publications" :key="pub.id" class="flex flex-shrink-0 py-1 text-sm items-center">
           <div class="flex items-center w-min h-10 px-2">
-            <input v-model="selectedPublications" type="checkbox" :value="publication" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+            <input v-model="selectedPublications" type="checkbox" :value="pub" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center">
-            <span class="rounded-full h-16 w-16">
-              <img :src="appartment(publication.appartment).mainImg" alt="" class="rounded-full h-16 w-16">
+          <div class="flex items-center mx-2">
+            <span class="rounded-full h-12 w-12">
+              <img :src="appartment(pub.appartment).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
           </div>
-          <div class="flex items-center w-12 h-10 px-2">
-            <span>{{ publication.id }}</span>
+          <div class="flex items-center w-12 h-10 px-2 mx-1">
+            <span>{{ pub.id }}</span>
           </div>
-          <div class="flex items-center w-24 h-10 px-2">
+          <div class="flex items-center w-36 h-10 px-2 mx-2">
+            <span>{{ appartmentType(appartment(pub.appartment).appartmentType).label }}</span>
+          </div>
+          <div class="flex items-center w-40 h-10 px-2 mx-2">
+            <span>{{ appartment(pub.appartment).location }}</span>
+          </div>
+          <div class="flex items-center w-20 h-10 px-2 mx-2">
+            <span>{{ appartment(pub.appartment).rent }}</span>
+          </div>
+          <div class="flex items-center w-24 h-10 px-2 mx-2">
             <span />
           </div>
-          <div class="flex items-center w-40 h-10 px-2">
+          <div class="flex items-center w-36 h-10 px-2 mx-2">
             <span />
           </div>
-          <div class="flex items-center w-20 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-24 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-36 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-48 h-10 px-2">
+          <div class="flex items-center w-48 h-10 px-2 mx-2">
             <span />
           </div>
         </div>
       </div>
-      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs">
+        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
           <span>ID</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
+        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-2 text-xs">
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
           <span>LOCALISATION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs">
+        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
           <span>LOYER</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
+        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs">
+        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs">
+        <div class="flex items-center w-48 h-10 px-2 text-xs mx-2">
           <span>NIVEAU</span>
         </div>
       </div>

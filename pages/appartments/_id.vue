@@ -241,6 +241,7 @@
       </div>
     </div>
     <WebsitePublications :in-details="true" />
+    <NewVisit :appartment="appartment" />
     <WebsiteTheFooter />
   </div>
 </template>
