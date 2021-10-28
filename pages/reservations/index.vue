@@ -53,18 +53,13 @@
           <span>NIVEAU</span>
         </div>
       </div>
-      <div class="overflow-auto custom__scroll py-4">
-        <div v-for="publication in publications" :key="publication.id" class="flex flex-shrink-0 py-1 text-sm">
+      <div class="overflow-auto custom__scroll">
+        <div v-for="reservation in reservations" :key="reservation.id" class="flex flex-shrink-0 py-1 text-sm">
           <div class="flex items-center w-min h-10 px-2">
-            <input v-model="selectedPublications" type="checkbox" :value="publication" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
-          </div>
-          <div class="flex items-center">
-            <span class="rounded-full h-16 w-16">
-              <img :src="appartment(publication.appartment).mainImg" alt="" class="rounded-full h-16 w-16">
-            </span>
+            <input v-model="selectedMembers" type="checkbox" :value="member" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
           <div class="flex items-center w-12 h-10 px-2">
-            <span>{{ publication.id }}</span>
+            <span />
           </div>
           <div class="flex items-center w-24 h-10 px-2">
             <span />
@@ -124,7 +119,6 @@ export default {
       title: 'Publications',
       isListLayout: true,
       isFilterTrayOpened: false,
-      selectedPublications: [],
       publications: [
         { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '' },
         { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '' },
@@ -339,29 +333,6 @@ export default {
   head () {
     return {
       title: this.title
-    }
-  },
-  computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
-    appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    user () {
-      return id => this.users.find(user => user.id === id)
-    },
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
     }
   }
 }
