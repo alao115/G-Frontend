@@ -1,7 +1,8 @@
 <template>
   <div id="landing-section" class="font-body bg-contain bg-center h-screen w-screen pt-32 overflow-x-hidden flex items-center">
     <div class="container w-full 2xl:px-16 xl:px-24 flex flex-col justify-center mx-auto h-1/2" style="min-height: 516px">
-      <div class="text-blue-990 xl:w-6/12 mb-16">
+      <!-- <div class="text-blue-990 xl:w-6/12 mb-16"> -->
+      <div class="text-blue-990 mb-16">
         <h1 class="text-2xl lg:text-3xl xl:text-5xl font-semibold">
           <span class=" leading-snug">Trouvez l'appartement <br> de vos rêves !</span>
         </h1>

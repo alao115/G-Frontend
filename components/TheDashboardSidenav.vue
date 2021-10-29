@@ -28,7 +28,7 @@
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Publications</span>
         </NuxtLink>
-        <NuxtLink to="/districts" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
+        <NuxtLink to="/reservations" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
           <span class="icon w-6 block">
             <i class="far fa-house-user mx-auto block" />
           </span>
@@ -100,15 +100,5 @@ export default {
 a.nuxt-link-exact-active.nuxt-link-active {
   background-color: #e8f9ff;
   color: #0e265b;
-}
-
-a.nuxt-link-exact-active.nuxt-link-active:after {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 100%;
-  background-color: #0e265b;
-  position: absolute;
-  right: -4px;
 }
 </style>
