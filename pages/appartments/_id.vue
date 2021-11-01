@@ -231,17 +231,14 @@
           </p>
         </div>
         <div class="space-x-4 mt-12">
-          <NuxtLink to="#" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10">
+          <button class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 mr-8">
             Réserver
-          </NuxtLink>
-          <NuxtLink to="#" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10">
-            Visiter
-          </NuxtLink>
+          </button>
+          <NewVisit :appartment="appartment" />
         </div>
       </div>
     </div>
     <WebsitePublications :in-details="true" />
-    <NewVisit :appartment="appartment" />
     <WebsiteTheFooter />
   </div>
 </template>
