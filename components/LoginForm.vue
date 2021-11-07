@@ -47,7 +47,7 @@
           <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
           <input type="password" class="h-12 md:h-16 px-8 mb-4 mt-1 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Mot de passe">
           <p class="text-sm mb-12 text-gray-400">
-            <NuxtLink to="/new-password" class="text-gray-400 hover:text-blue-920 font-semibold">
+            <NuxtLink to="/password-forgotten" class="text-gray-400 hover:text-blue-920 font-semibold">
               Mot de passe oublié
             </NuxtLink>
           </p>
