@@ -27,84 +27,60 @@
       </div>
     </div>
     <div class="flex flex-col w-full table__container">
-      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs">
-          <span>ID</span>
-        </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
+        <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-2 text-xs">
-          <span>LOCALISATION</span>
+        <div class="flex items-center w-80 h-10 px-2 text-xs mx-2">
+          <span>DESCRIPTION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs">
-          <span>LOYER</span>
-        </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
-          <span>ETAT</span>
-        </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs">
-          <span>STATUS</span>
-        </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs">
-          <span>NIVEAU</span>
+        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
+          <span>APPART.</span>
         </div>
       </div>
-      <div class="overflow-auto custom__scroll">
-        <div v-for="reservation in reservations" :key="reservation.id" class="flex flex-shrink-0 py-1 text-sm">
-          <div class="flex items-center w-min h-10 px-2">
-            <input v-model="selectedReservations" type="checkbox" :value="reservation" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+      <div class="overflow-auto custom__scroll py-4">
+        <div v-for="type in appartmentTypes" :key="type.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50">
+          <div class="flex flex-col w-min h-10 px-2">
+            <input v-model="selectedTypes" type="checkbox" :value="type" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center w-12 h-10 px-2">
+          <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
+            <span>{{ appart.id }}</span>
+          </div> -->
+          <div class="flex flex-col w-56 h-10 px-2 mx-2">
+            <span>{{ type.label }}</span>
+          </div>
+          <div class="flex flex-col w-80 h-10 px-2 mx-2">
+            <span>{{ type.description }}</span>
+          </div>
+          <div class="flex flex-col w-20 h-10 px-2 mx-2 text-center">
+            <span>{{ typeAppartments(type.id).length }}</span>
+          </div>
+          <div class="flex flex-col w-24 h-10 px-2 mx-2">
             <span />
           </div>
-          <div class="flex items-center w-24 h-10 px-2">
+          <div class="flex flex-col w-36 h-10 px-2 mx-2">
             <span />
           </div>
-          <div class="flex items-center w-40 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-20 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-24 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-36 h-10 px-2">
-            <span />
-          </div>
-          <div class="flex items-center w-48 h-10 px-2">
+          <div class="flex flex-col w-48 h-10 px-2 mx-2">
             <span />
           </div>
         </div>
       </div>
-      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs">
-          <span>ID</span>
-        </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
+        <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-2 text-xs">
-          <span>LOCALISATION</span>
+        <div class="flex items-center w-80 h-10 px-2 text-xs mx-2">
+          <span>DESCRIPTION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs">
-          <span>LOYER</span>
-        </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs">
-          <span>ETAT</span>
-        </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs">
-          <span>STATUS</span>
-        </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs">
-          <span>NIVEAU</span>
+        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
+          <span>APPART.</span>
         </div>
       </div>
     </div>
@@ -119,7 +95,7 @@ export default {
       title: 'Publications',
       isListLayout: true,
       isFilterTrayOpened: false,
-      selectedReservations: [],
+      selectedTypes: [],
       publications: [
         { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '' },
         { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '' },
@@ -373,10 +349,10 @@ export default {
         }
       ],
       appartmentTypes: [
-        { id: 1, label: 'Studio (Entrée - coucher' },
-        { id: 2, label: 'Appartement' },
-        { id: 3, label: 'Villa' },
-        { id: 4, label: 'Duplex' }
+        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
+        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
+        { id: 3, label: 'Villa', description: '' },
+        { id: 4, label: 'Duplex', description: '' }
       ],
       locations: []
     }
@@ -384,6 +360,37 @@ export default {
   head () {
     return {
       title: this.title
+    }
+  },
+  computed: {
+    publication () {
+      return id => this.publications.find(publication => publication.id === id)
+    },
+    reservation () {
+      return id => this.reservations.find(reservation => reservation.id === id)
+    },
+    visit () {
+      return id => this.visits.find(visit => visit.id === id)
+    },
+    appartment () {
+      return id => this.appartments.find(appartment => appartment.id === id)
+    },
+    appartmentType () {
+      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    },
+    user () {
+      return id => this.users.find(user => user.id === id)
+    },
+    contract () {
+      return id => this.contracts.find(contract => contract.id === id)
+    },
+    typeAppartments () {
+      return id => this.appartments.filter(appartment => appartment.appartmentType === id)
+    }
+  },
+  methods: {
+    toDetails (appartment) {
+      this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     }
   }
 }
