@@ -1,18 +1,18 @@
 <template>
-  <div class="w-screen overflow-x-hidden font-body">
-    <WebsiteTheNavbar />
-    <div class="flex space-x-8 justify-center">
+  <div class="overflow-x-hidden font-body px-8 py-16">
+    <div class="flex space-x-8">
       <div>
         <img :src="appartment.mainImg" alt="" class="w-full mb-16">
-        <div class="flex space-x-8">
+        <div class="flex space-x-8 lg:w-5/12">
           <img :src="appartment.mainImg" alt="">
           <img :src="appartment.mainImg" alt="">
         </div>
       </div>
-      <div class="container flex flex-col lg:w-5/12 xl:w-4/12 justify-between mt-40">
+      <div class="container flex flex-col items-start lg:w-6/12">
         <div class="content font-body">
           <h4 class="text-2xl font-medium mb-2">
-            {{ appartment.type }}
+            {{ appartmentType(appartment.appartmentType).label }} <br>
+            <span class="text-gray-400 text-sm">{{ appartment.bedrooms }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>
           </h4>
           <div class="flex items-center">
             <span class="icon mr-4 text-sky-450">
@@ -210,7 +210,11 @@
             </div>
           </div>
         </div>
-        <div class="details">
+      </div>
+    </div>
+    <div class="flex space-x-8">
+      <div class="flex space-x-8 pr-8">
+        <div class="details w-1/2">
           <h4 class="text-sky-450 text-xl mt-8 mb-4">
             Informations sur le propriétaire
           </h4>
@@ -224,27 +228,26 @@
             Email: {{ appartment.ownerInfos.email }}
           </p>
         </div>
-        <div class="others bg-sky-50 p-8 mt-8 rounded-md">
+        <div class="others bg-sky-50 p-8 mt-8 w-1/2 rounded-md">
           <p>
             Les frais de visites s’élève à 2000 f cfa.
             Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
           </p>
         </div>
-        <div class="space-x-4 mt-12">
-          <button class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 mr-8">
-            Réserver
-          </button>
-          <NewVisit :appartment="appartment" />
-        </div>
+      </div>
+      <div class="space-x-4 mt-12 lg:w-5/12 flex">
+        <button class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 mr-8">
+          Réserver
+        </button>
+        <NewVisit :appartment="appartment" />
       </div>
     </div>
-    <WebsitePublications :in-details="true" />
-    <WebsiteTheFooter />
   </div>
 </template>
 
 <script>
 export default {
+  layout: 'dashboard',
   data () {
     return {
       id: this.$route.params.id,
@@ -252,7 +255,8 @@ export default {
         {
           id: '1',
           mainImg: '/assets/images/rentables/example1.jpg',
-          type: 'Chambre salon',
+          appartmentType: 2,
+          isFurnished: false,
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
@@ -286,7 +290,8 @@ export default {
         {
           id: '2',
           mainImg: '/assets/images/rentables/example2.jpg',
-          type: 'Chambre salon',
+          appartmentType: 2,
+          isFurnished: false,
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
@@ -324,7 +329,8 @@ export default {
         {
           id: '3',
           mainImg: '/assets/images/rentables/example3.jpg',
-          type: 'Chambre salon',
+          appartmentType: 2,
+          isFurnished: false,
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
@@ -361,8 +367,9 @@ export default {
         },
         {
           id: '4',
+          appartmentType: 4,
+          isFurnished: false,
           mainImg: '/assets/images/rentables/example4.jpg',
-          type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
@@ -399,8 +406,9 @@ export default {
         },
         {
           id: '5',
+          appartmentType: 2,
+          isFurnished: false,
           mainImg: '/assets/images/rentables/example5.jpg',
-          type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
@@ -437,8 +445,9 @@ export default {
         },
         {
           id: '6',
+          appartmentType: 3,
+          isFurnished: false,
           mainImg: '/assets/images/rentables/example6.jpg',
-          type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
@@ -473,12 +482,21 @@ export default {
             }
           ]
         }
+      ],
+      appartmentTypes: [
+        { id: 1, label: 'Studio (Entrée - coucher' },
+        { id: 2, label: 'Appartement' },
+        { id: 3, label: 'Villa' },
+        { id: 4, label: 'Duplex' }
       ]
     }
   },
   computed: {
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
+    },
+    appartmentType () {
+      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     }
   }
 }

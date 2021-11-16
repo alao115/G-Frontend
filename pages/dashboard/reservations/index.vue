@@ -27,88 +27,83 @@
       </div>
     </div>
     <div class="flex flex-col w-full table__container">
-      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
+        <div class="flex items-center w-12 h-10 px-2 text-xs">
           <span>ID</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-40 h-10 px-2 text-xs">
           <span>LOCALISATION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-20 h-10 px-2 text-xs">
           <span>LOYER</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-36 h-10 px-2 text-xs">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-48 h-10 px-2 text-xs">
           <span>NIVEAU</span>
         </div>
       </div>
-      <div class="overflow-auto custom__scroll py-4">
-        <div v-for="pub in publications" :key="pub.id" class="flex flex-shrink-0 py-1 text-sm items-center">
+      <div class="overflow-auto custom__scroll">
+        <div v-for="reservation in reservations" :key="reservation.id" class="flex flex-shrink-0 py-1 text-sm">
           <div class="flex items-center w-min h-10 px-2">
-            <input v-model="selectedPublications" type="checkbox" :value="pub" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+            <input v-model="selectedReservations" type="checkbox" :value="reservation" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center mx-2">
-            <span class="rounded-full h-12 w-12">
-              <img :src="appartment(pub.appartment).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
-            </span>
-          </div>
-          <div class="flex items-center w-12 h-10 px-2 mx-1">
-            <span>{{ pub.id }}</span>
-          </div>
-          <div class="flex items-center w-36 h-10 px-2 mx-2">
-            <span>{{ appartmentType(appartment(pub.appartment).appartmentType).label }}</span>
-          </div>
-          <div class="flex items-center w-40 h-10 px-2 mx-2">
-            <span>{{ appartment(pub.appartment).location }}</span>
-          </div>
-          <div class="flex items-center w-20 h-10 px-2 mx-2">
-            <span>{{ appartment(pub.appartment).rent }}</span>
-          </div>
-          <div class="flex items-center w-24 h-10 px-2 mx-2">
+          <div class="flex items-center w-12 h-10 px-2">
             <span />
           </div>
-          <div class="flex items-center w-36 h-10 px-2 mx-2">
+          <div class="flex items-center w-24 h-10 px-2">
             <span />
           </div>
-          <div class="flex items-center w-48 h-10 px-2 mx-2">
+          <div class="flex items-center w-40 h-10 px-2">
+            <span />
+          </div>
+          <div class="flex items-center w-20 h-10 px-2">
+            <span />
+          </div>
+          <div class="flex items-center w-24 h-10 px-2">
+            <span />
+          </div>
+          <div class="flex items-center w-36 h-10 px-2">
+            <span />
+          </div>
+          <div class="flex items-center w-48 h-10 px-2">
             <span />
           </div>
         </div>
       </div>
-      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
+        <div class="flex items-center w-12 h-10 px-2 text-xs">
           <span>ID</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-40 h-10 px-2 text-xs">
           <span>LOCALISATION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-20 h-10 px-2 text-xs">
           <span>LOYER</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-36 h-10 px-2 text-xs">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-48 h-10 px-2 text-xs">
           <span>NIVEAU</span>
         </div>
       </div>
@@ -124,7 +119,7 @@ export default {
       title: 'Publications',
       isListLayout: true,
       isFilterTrayOpened: false,
-      selectedPublications: [],
+      selectedReservations: [],
       publications: [
         { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '' },
         { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '' },
@@ -148,47 +143,61 @@ export default {
       appartments: [
         {
           id: 1,
-          appartmentType: 1,
-          isFurnished: false,
           mainImg: '/assets/images/rentables/example1.jpg',
-          type: 'Chambre salon',
+          appartmentType: 2,
+          isFurnished: false,
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
+          rooms: 8,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 1,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          floor: 0,
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '+229 60 000000',
+            email: 'm.edoae@gmail.com'
+          }
         },
         {
           id: 2,
-          appartmentType: 1,
-          isFurnished: false,
           mainImg: '/assets/images/rentables/example2.jpg',
-          type: 'Chambre salon',
+          appartmentType: 2,
+          isFurnished: false,
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -208,17 +217,26 @@ export default {
         },
         {
           id: 3,
-          appartmentType: 1,
-          isFurnished: false,
           mainImg: '/assets/images/rentables/example3.jpg',
-          type: 'Chambre salon',
+          appartmentType: 2,
+          isFurnished: false,
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -241,14 +259,23 @@ export default {
           appartmentType: 4,
           isFurnished: false,
           mainImg: '/assets/images/rentables/example4.jpg',
-          type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -268,17 +295,26 @@ export default {
         },
         {
           id: 5,
-          appartmentType: 3,
+          appartmentType: 2,
           isFurnished: false,
           mainImg: '/assets/images/rentables/example5.jpg',
-          type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -301,14 +337,23 @@ export default {
           appartmentType: 3,
           isFurnished: false,
           mainImg: '/assets/images/rentables/example6.jpg',
-          type: 'Chambre salon',
           location: 'Abomey-Calavi',
           rent: 50000,
           details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
           rooms: 4,
           bathrooms: 2,
+          bedrooms: 2,
+          livingrooms: 2,
+          storageroom: 1,
+          kitchen: 1,
+          garage: 1,
+          keeper: 'Oui',
+          terrace: 1,
+          garden: 1,
+          ac: 'Oui',
+          pool: 'Oui',
           householdsTotal: 6,
-          floor: 'Ground',
+          floor: 0,
           conditions: [
             {
               advancePayment: 150000,
@@ -328,8 +373,8 @@ export default {
         }
       ],
       appartmentTypes: [
-        { id: 1, label: 'Chambre - Salon' },
-        { id: 2, label: '2 Chambres - Salon' },
+        { id: 1, label: 'Studio (Entrée - coucher' },
+        { id: 2, label: 'Appartement' },
         { id: 3, label: 'Villa' },
         { id: 4, label: 'Duplex' }
       ],
@@ -339,29 +384,6 @@ export default {
   head () {
     return {
       title: this.title
-    }
-  },
-  computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
-    appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    user () {
-      return id => this.users.find(user => user.id === id)
-    },
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
     }
   }
 }

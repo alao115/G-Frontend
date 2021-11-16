@@ -15,7 +15,7 @@
             </NuxtLink>
           </div>
           <div class="rounded-md shadow w-3/5 mb-8 mx-auto">
-            <NuxtLink to="/signup-name" class="shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white md:py-4 md:text-lg md:px-10">
+            <NuxtLink to="/signup/name" class="shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 hover:text-white md:py-4 md:text-lg md:px-10">
               continuer
             </NuxtLink>
           </div>
