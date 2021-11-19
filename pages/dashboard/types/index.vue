@@ -97,12 +97,12 @@ export default {
       isFilterTrayOpened: false,
       selectedTypes: [],
       publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '' },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '' },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '' },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '' },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '' },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '' }
+        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
+        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
+        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
+        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
+        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
+        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
       ],
       reservations: [
         { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
@@ -111,9 +111,9 @@ export default {
         { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
       ],
       users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin' },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher' },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor' }
+        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
+        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
+        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
       ],
       contracts: [],
       appartments: [
@@ -138,7 +138,7 @@ export default {
           ac: 'Oui',
           pool: 'Oui',
           householdsTotal: 6,
-          floor: 0,
+          groundLevel: 0,
           conditions: {
             advancePayment: 150000,
             energyCommission: 50000,
@@ -150,7 +150,9 @@ export default {
             status: 'Alive',
             phone: '+229 60 000000',
             email: 'm.edoae@gmail.com'
-          }
+          },
+          likes: 0,
+          favorite: 0
         },
         {
           id: 2,
@@ -173,23 +175,21 @@ export default {
           ac: 'Oui',
           pool: 'Oui',
           householdsTotal: 6,
-          floor: 0,
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          groundLevel: 0,
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '',
+            email: 'm.edoae@gmail.com'
+          },
+          likes: 0,
+          favorite: 0
         },
         {
           id: 3,
@@ -212,23 +212,21 @@ export default {
           ac: 'Oui',
           pool: 'Oui',
           householdsTotal: 6,
-          floor: 0,
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          groundLevel: 0,
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '',
+            email: 'm.edoae@gmail.com'
+          },
+          likes: 0,
+          favorite: 0
         },
         {
           id: 4,
@@ -251,23 +249,21 @@ export default {
           ac: 'Oui',
           pool: 'Oui',
           householdsTotal: 6,
-          floor: 0,
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          groundLevel: 0,
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '',
+            email: 'm.edoae@gmail.com'
+          },
+          likes: 0,
+          favorite: 0
         },
         {
           id: 5,
@@ -290,23 +286,21 @@ export default {
           ac: 'Oui',
           pool: 'Oui',
           householdsTotal: 6,
-          floor: 0,
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          groundLevel: 0,
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '',
+            email: 'm.edoae@gmail.com'
+          },
+          likes: 0,
+          favorite: 0
         },
         {
           id: 6,
@@ -329,30 +323,28 @@ export default {
           ac: 'Oui',
           pool: 'Oui',
           householdsTotal: 6,
-          floor: 0,
-          conditions: [
-            {
-              advancePayment: 150000,
-              energyCommission: 50000,
-              prepaidRentMonths: 3
-            }
-          ],
-          ownerInfos: [
-            {
-              name: 'M. Edoe',
-              address: 'c/1500',
-              status: 'Alive',
-              phone: '',
-              email: 'm.edoae@gmail.com'
-            }
-          ]
+          groundLevel: 0,
+          conditions: {
+            advancePayment: 150000,
+            energyCommission: 50000,
+            prepaidRentMonths: 3
+          },
+          ownerInfos: {
+            name: 'M. Edoe',
+            address: 'c/1500',
+            status: 'Alive',
+            phone: '',
+            email: 'm.edoae@gmail.com'
+          },
+          likes: 0,
+          favorite: 0
         }
       ],
       appartmentTypes: [
         { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
         { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '' },
-        { id: 4, label: 'Duplex', description: '' }
+        { id: 3, label: 'Villa', description: '-' },
+        { id: 4, label: 'Duplex', description: '-' }
       ],
       locations: []
     }

@@ -25,5 +25,10 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
     "postcss": "^8.3.5"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-console": "off"
+    }
   }
 }
