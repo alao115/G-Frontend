@@ -3,7 +3,7 @@
     <button class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10" @click.prevent="isDismissed = false">
       Visiter
     </button>
-    <div class="bg-black bg-opacity-90 w-screen h-screen fixed top-0 left-0 flex items-center py-8" :class="isDismissed === true ? 'hidden' : ''">
+    <div class="bg-black bg-opacity-75 w-screen h-screen fixed top-0 left-0 flex items-center py-8" :class="isDismissed === true ? 'hidden' : ''">
       <div class="bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <h4 class="text-2xl font-medium mb-8 text-blue-990">
@@ -73,11 +73,11 @@ export default {
   },
   watch: {
     isDismissed (value) {
-      console.log(value)
+      // console.log(value)
     }
   },
   created () {
-    console.log(this.isDismissed)
+    // console.log(this.isDismissed)
   }
 }
 </script>
