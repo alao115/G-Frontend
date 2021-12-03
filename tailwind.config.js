@@ -54,7 +54,7 @@ module.exports = {
           920: '#1d3d83',
           990: '#0e265b'
         }
-      }
+      },
     },spacing: {
       px: '1px',
       0: '0px',
@@ -292,8 +292,8 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ], */
-      'display': ['Montserrat'],
-      'body': ['Montserrat']
+      'display': ['Cera Pro'],
+      'body': ['Cera Pro']
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],

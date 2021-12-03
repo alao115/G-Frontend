@@ -1,47 +1,106 @@
 <template>
-  <div class="contents">
-    <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>
-      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. publication</span>
-    </a>
-    <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
-          <h2 class="text-lg font-light text-black dark:text-white font-body">
-            <h4 class="text-2xl font-medium mb-8 text-blue-990">
-              Nouvelle publication
-            </h4>
-          </h2>
-          <p class="text-base mt-4 text-gray-400">
-            Veuillez sélectionner un appartement parmi ceux en attente de publication
-          </p>
-          <div class="relative inline-block w-full text-gray-700">
-            <select class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-              <option v-for="appart in appartments" :key="appart.id">
-                <span>{{ appartmentType(appart.appartmentType).label }}</span>
-                <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
-              </option>
-            </select>
+  <div class="flex-grow px-6 pt-2 main__content">
+    <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
+      <div class="w-full relative">
+        <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
+        <a class="flex items-center h-12 px-3 mt-1 bg-white border border-gray-200 absolute top-0 right-0" :class="isFilterTrayOpened === true ? 'rounded-tr-md' : 'rounded-r-md'" href="#" @click.prevent="isFilterTrayOpened = !isFilterTrayOpened">
+          <span class="ml-3 text-sm font-medium">Filtres</span>
+          <span class="icon ml-3">
+            <i class="far fa-chevron-down fa-sm" />
+          </span>
+        </a>
+        <span class="icon w-8 block absolute left-2 top-5 h-9">
+          <i class="far fa-search mx-auto block" />
+        </span>
+      </div>
+      <div class="grid grid-cols-2 divide-x-2 divide-gray-300">
+        <a class="flex items-center h-12 px-3 mt-1 ml-2 hover:bg-blue-75" :class="isListLayout ? 'text-blue-730' : 'text-gray-400'" href="#" @click.prevent="isListLayout = true">
+          <span class="icon w-6 block">
+            <i class="far fa-th-list mx-auto block fa-lg" />
+          </span>
+        </a>
+        <a class="flex items-center h-12 px-3 mt-1 hover:bg-blue-75" :class="isListLayout ? 'text-gray-400' : 'text-blue-730'" href="#" @click.prevent="isListLayout = false">
+          <span class="icon w-6 block">
+            <i class="far fa-th-large mx-auto block fa-lg" />
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="flex flex-col w-full table__container">
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
+        <div class="flex items-center w-min h-10 px-2">
+          <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+        </div>
+        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
+          <span>ID</span>
+        </div>
+        <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
+          <span>APPARTEMENT</span>
+        </div>
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>LOCALISATION</span>
+        </div>
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>DATE</span>
+        </div>
+        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+          <span>STATUS</span>
+        </div>
+      </div>
+      <div class="overflow-auto custom__scroll py-4">
+        <div v-for="vis in visits" :key="vis.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50">
+          <div class="flex items-center w-min h-10 px-2">
+            <input v-model="selectedPublications" type="checkbox" :value="pub" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="">
-            <div class="flex space-x-8">
-              <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-              <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
-            </div>
+          <div class="flex flex-col mx-2">
+            <span class="rounded-full h-12 w-12">
+              <img :src="appartment(vis.appartment).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
+            </span>
           </div>
-          <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
-            Annuler
-          </button>
-          <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920">
-            Valider
-          </button>
-          <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
+          <div class="flex items-center w-12 h-10 px-2 mx-1">
+            <span>{{ vis.id }}</span>
+          </div>
+          <div class="flex flex-col w-56 h-10 px-2 mx-2">
+            <span>{{ appartmentType(appartment(vis.appartment).appartmentType).label }}</span>
+            <p class="text-gray-400">
+              {{ appartment(vis.appartment).bedrooms }} Chambre<span v-if="appartment(vis.appartment).bedrooms > 1">s</span> - {{ appartment(vis.appartment).livingrooms }} Salon<span v-if="appartment(vis.appartment).livingrooms > 1">s</span>
+            </p>
+          </div>
+          <div class="flex flex-col w-40 h-10 px-2 mx-2">
+            <span>{{ appartment(vis.appartment).location }}</span>
+          </div>
+          <div class="flex flex-col w-20 h-10 px-2 mx-2">
+            <span>{{ appartment(vis.appartment).rent }}</span>
+          </div>
+          <div class="flex flex-col w-24 h-10 px-2 mx-2">
+            <span />
+          </div>
+          <div class="flex flex-col w-36 h-10 px-2 mx-2">
+            <span />
+          </div>
+          <div class="flex flex-col w-48 h-10 px-2 mx-2">
+            <span />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
+        <div class="flex items-center w-min h-10 px-2">
+          <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+        </div>
+        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
+          <span>ID</span>
+        </div>
+        <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
+          <span>APPARTEMENT</span>
+        </div>
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>LOCALISATION</span>
+        </div>
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>DATE</span>
+        </div>
+        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+          <span>STATUS</span>
         </div>
       </div>
     </div>
@@ -50,15 +109,13 @@
 
 <script>
 export default {
-  props: {
-    isMinified: {
-      type: Boolean,
-      defaul: false
-    }
-  },
+  layout: 'dashboard',
   data () {
     return {
-      isDismissed: true,
+      title: 'Publications',
+      isListLayout: true,
+      isFilterTrayOpened: false,
+      selectedPublications: [],
       publications: [
         { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
         { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
@@ -312,6 +369,11 @@ export default {
       locations: []
     }
   },
+  head () {
+    return {
+      title: this.title
+    }
+  },
   computed: {
     publication () {
       return id => this.publications.find(publication => publication.id === id)
@@ -333,11 +395,6 @@ export default {
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
-    }
-  },
-  methods: {
-    toDetails (appartment) {
-      this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     }
   }
 }
