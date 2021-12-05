@@ -4,7 +4,7 @@
     <div class="flex flex-col flex-grow">
       <div class="flex items-center flex-shrink-0 h-16 px-8">
         <h1 class="text-lg font-medium">
-          Page Title
+          {{ pageTitle }}
         </h1>
         <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
           Action 1
@@ -87,6 +87,35 @@ export default {
       isLoggedUserDropdownnClosed: true,
       isMinified: false,
       isDismissed: false
+    }
+  },
+  computed: {
+    routeName () {
+      return this.$nuxt.$route.name
+    },
+    pageTitle () {
+      let returnableValue
+      switch (this.routeName) {
+        case 'dashboard-publications':
+          returnableValue = 'Publications'
+          break
+        case 'dashboard-appartements':
+          returnableValue = 'Appartements'
+          break
+        case 'dashboard-reservations':
+          returnableValue = 'Réservations'
+          break
+        case 'dashboard-visitres':
+          returnableValue = 'Visites'
+          break
+        case 'dashboard-types':
+          returnableValue = 'Types d\'appartement'
+          break
+        default:
+          returnableValue = 'Dashboard'
+          break
+      }
+      return returnableValue
     }
   }
 }
