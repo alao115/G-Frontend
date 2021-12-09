@@ -14,7 +14,10 @@
 
 <script>
 export default {
-  layout: 'website'
+  layout: 'website',
+  created () {
+
+  }
 }
 </script>
 
