@@ -51,7 +51,7 @@
               Mot de passe oublié
             </NuxtLink>
           </p>
-          <div class="rounded-md shadow w-full w-full lg:w-2/3 xl:w-3/5 mb-8">
+          <div class="rounded-md shadow w-full lg:w-2/3 xl:w-3/5 mb-8">
             <NuxtLink to="/dashboard" class="shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10">
               Se connecter
             </NuxtLink>

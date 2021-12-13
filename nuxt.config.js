@@ -18,7 +18,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: '/assets/js/all.min.js'  }
+      { src: '/assets/js/all.min.js' }
     ]
   },
 
@@ -28,6 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // '~/plugins/api.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,15 +45,56 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/apollo'
   ],
 
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'http://localhost:7500/graphql'
+      }
+    }
+  },
+
+  auth: {
+    redirect: {
+      login: '/signin',
+      logout: '/signin',
+      callback: '/signin',
+      home: '/signin'
+    },
+    strategies: {
+      customStrategy: {
+        scheme: '~/authSchemes/customScheme',
+        token: {
+          property: 'accessToken'
+        },
+        user: {
+          property: 'user'
+        },
+        endpoints: {
+          login: {
+            url: '/auth/signin',
+            method: 'post'
+          },
+          logout: false,
+          user: { url: '/users/me', method: 'get' }
+        }
+      }
+    }
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL || 'http://localhost:5000/api'
+    // credentials: true,
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend(config, ctx) {
+    extend (config, ctx) {
       if (ctx.isDev) {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
