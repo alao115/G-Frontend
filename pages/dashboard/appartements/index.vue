@@ -1,5 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
+    <EditAppartment :appartment="appartmentToEdit" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -51,11 +52,11 @@
         </div>
       </div>
       <div class="overflow-auto custom__scroll py-4">
-        <div v-for="appart in appartments" :key="appart.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50" @click.prevent="toDetails(appart)">
-          <div class="flex flex-col w-min h-10 px-2">
+        <div v-for="appart in appartments" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer">
+          <div class="flex flex-col w-min h-10 px-2" @click.prevent="toDetails(appart)">
             <input v-model="selectedAppartments" type="checkbox" :value="appart" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex flex-col mx-2">
+          <div class="flex flex-col mx-2" @click.prevent="toDetails(appart)">
             <span class="rounded-full h-12 w-12">
               <img :src="appart.mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
@@ -63,26 +64,38 @@
           <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
             <span>{{ appart.id }}</span>
           </div> -->
-          <div class="flex flex-col w-56 h-10 px-2 mx-2">
+          <div class="flex flex-col w-56 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appartmentType(appart.appartmentType).label }}</span>
             <p class="text-gray-400">
               {{ appart.bedrooms }} Chambre<span v-if="appart.bedrooms > 1">s</span> - {{ appart.livingrooms }} Salon<span v-if="appart.livingrooms > 1">s</span>
             </p>
           </div>
-          <div class="flex flex-col w-40 h-10 px-2 mx-2">
+          <div class="flex flex-col w-40 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appart.location }}</span>
           </div>
-          <div class="flex flex-col w-20 h-10 px-2 mx-2">
+          <div class="flex flex-col w-20 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appart.rent }}</span>
           </div>
-          <div class="flex flex-col w-24 h-10 px-2 mx-2">
+          <div class="flex flex-col w-24 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span />
           </div>
-          <div class="flex flex-col w-36 h-10 px-2 mx-2">
+          <div class="flex flex-col w-36 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span />
           </div>
-          <div class="flex flex-col w-48 h-10 px-2 mx-2">
+          <div class="flex flex-col w-36 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span />
+          </div>
+          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="setToEdition(appart)"> -->
+          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
+            <span class="icon">
+              <i class="far fa-edit" />
+            </span>
+          </div>
+          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="delete(appart)"> -->
+          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
+            <span class="icon">
+              <i class="far fa-trash" />
+            </span>
           </div>
         </div>
       </div>
@@ -120,6 +133,7 @@ export default {
     return {
       title: 'Publications',
       isListLayout: true,
+      appartmentToEdit: {},
       isFilterTrayOpened: false,
       selectedAppartments: [],
       publications: [
@@ -406,7 +420,19 @@ export default {
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
+    },
+    setToEdition (appartment) {
+      this.appartments = appartment
     }
   }
 }
 </script>
+
+<style>
+  .appart .action-link {
+    opacity: 0;
+  }
+  .appart:hover .action-link {
+    opacity: 1;
+  }
+</style>

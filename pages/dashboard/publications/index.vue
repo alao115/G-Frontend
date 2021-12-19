@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="overflow-auto custom__scroll py-4">
-        <div v-for="pub in publications" :key="pub.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50">
+        <div v-for="pub in publications" :key="pub.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 publication">
           <div class="flex items-center w-min h-10 px-2">
             <input v-model="selectedPublications" type="checkbox" :value="pub" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
@@ -86,6 +86,18 @@
           </div>
           <div class="flex flex-col w-48 h-10 px-2 mx-2">
             <span />
+          </div>
+          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="setToEdition(appart)"> -->
+          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
+            <span class="icon">
+              <i class="far fa-edit" />
+            </span>
+          </div>
+          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="delete(appart)"> -->
+          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
+            <span class="icon">
+              <i class="far fa-trash" />
+            </span>
           </div>
         </div>
       </div>
@@ -411,3 +423,12 @@ export default {
   }
 }
 </script>
+
+<style>
+  .publication .action-link {
+    opacity: 0;
+  }
+  .publication:hover .action-link {
+    opacity: 1;
+  }
+</style>
