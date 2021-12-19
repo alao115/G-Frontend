@@ -13,10 +13,11 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+
 export default {
   layout: 'website',
   created () {
-
   }
 }
 </script>

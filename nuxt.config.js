@@ -28,7 +28,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // '~/plugins/api.js'
+    '~/plugins/api.js'
+    // '~/plugins/test_plugins.js',
+    // '~/plugins/apollo.config.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,10 +57,15 @@ export default {
       default: {
         httpEndpoint: 'http://localhost:7500/graphql'
       }
-    }
+    },
+    authenticationType: 'Bearer',
+    tokenName: 'auth.gontche.customStrategy'
   },
 
   auth: {
+    localStorage: {
+      prefix: 'gontche.'
+    },
     redirect: {
       login: '/signin',
       logout: '/signin',
@@ -69,7 +76,8 @@ export default {
       customStrategy: {
         scheme: '~/authSchemes/customScheme',
         token: {
-          property: 'accessToken'
+          property: 'accessToken',
+          prefix: 'gontche.'
         },
         user: {
           property: 'user'
@@ -88,7 +96,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:5000/api'
+    baseURL: process.env.BASE_URL || 'http://localhost:7500/api'
     // credentials: true,
   },
 

@@ -114,8 +114,30 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+
 export default {
   layout: 'dashboard',
+
+  // eslint-disable-next-line require-await
+  async asyncData ({ $api }) {
+    const appartments = (await $api.appartmentService.getAll()).data.appartments
+    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
+    const publications = (await $api.publicationService.getAll()).data.publications
+    const reservations = (await $api.reservationService.getAll()).data.reservations
+    const visits = (await $api.visitService.getAll()).data.visits
+    const accounts = (await $api.accountService.getAll()).data.accounts
+
+    return {
+      appartments,
+      appartmentTypes,
+      publications,
+      reservations,
+      visits,
+      accounts
+    }
+  },
+
   data () {
     return {
       title: 'Publications',

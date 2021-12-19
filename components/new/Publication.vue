@@ -309,8 +309,17 @@ export default {
         { id: 3, label: 'Villa', description: '-' },
         { id: 4, label: 'Duplex', description: '-' }
       ],
-      locations: []
+      locations: [],
+      newPublication: {}
     }
+  },
+  async fetch () {
+    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
+    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
+    this.publications = (await this.$api.publicationService.getAll()).data.publications
+    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
+    this.visits = (await this.$api.visitService.getAll()).data.visits
+    this.accounts = (await this.$api.accountService.getAll()).data.accounts
   },
   computed: {
     publication () {
