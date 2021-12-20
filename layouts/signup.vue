@@ -36,3 +36,9 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  middleware: 'isloggedIn'
+}
+</script>

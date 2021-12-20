@@ -88,8 +88,27 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+
 export default {
   layout: 'dashboard',
+  async asyncData ({ $api }) {
+    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
+    const appartments = (await $api.appartmentService.getAll()).data.appartments
+    const publications = (await $api.publicationService.getAll()).data.publications
+    const reservations = (await $api.reservationService.getAll()).data.reservations
+    const visits = (await $api.visitService.getAll()).data.visits
+    const accounts = (await $api.accountService.getAll()).data.accounts
+
+    return {
+      appartmentTypes,
+      appartments,
+      publications,
+      reservations,
+      visits,
+      accounts
+    }
+  },
   data () {
     return {
       title: 'Publications',
@@ -340,12 +359,12 @@ export default {
           favorite: 0
         }
       ],
-      appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ],
+      // appartmentTypes: [
+      //   { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
+      //   { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
+      //   { id: 3, label: 'Villa', description: '-' },
+      //   { id: 4, label: 'Duplex', description: '-' }
+      // ],
       locations: []
     }
   },

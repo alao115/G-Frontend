@@ -9,9 +9,9 @@
         <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
           Action 1
         </button>
-        <NuxtLink to="/" class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300">
+        <button class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
           Se déconnecter
-        </NuxtLink>
+        </button>
         <button class="relative ml-2 text-sm focus:outline-none group">
           <div
             class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300"
@@ -82,6 +82,8 @@
 
 <script>
 export default {
+  middleware: 'isAdmin',
+
   data () {
     return {
       isLoggedUserDropdownnClosed: true,
@@ -116,6 +118,12 @@ export default {
           break
       }
       return returnableValue
+    }
+  },
+  methods: {
+    logout () {
+      this.$auth.logout()
+        .then(() => this.$router.push({ name: 'index' }))
     }
   }
 }

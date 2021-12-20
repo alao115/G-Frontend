@@ -43,7 +43,7 @@
           <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Annuler</span>
           </button>
-          <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep = 'congrats'">
+          <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createAppartType">
             Suivant
           </button>
         </div>
@@ -64,11 +64,7 @@ export default {
     return {
       currentStep: 'first',
       isDismissed: true,
-      newType: {
-        /* id: '',
-        label: '',
-        description: '' */
-      },
+      newType: {},
       appartmentTypes: [
         { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
         { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
@@ -114,6 +110,14 @@ export default {
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
+    },
+    createAppartType () {
+      this.$api.appartmentTypeService.create({ variables: { data: this.newType } })
+        .then((response) => {
+          // console.log(response.data)
+          this.newType = {}
+          this.currentStep = 'congrats'
+        })
     }
   }
 }

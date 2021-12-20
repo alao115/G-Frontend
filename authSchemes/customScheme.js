@@ -141,7 +141,10 @@ export default class CustomScheme extends LocalScheme {
           )
           return Promise.reject(error)
         }
-        this.$auth.setUser(userData)
+        // eslint-disable-next-line no-unused-vars
+        // const tokenName = `${this.options.token.prefix}${this.options.name}`
+        // const token = this.$auth.$state[tokenName]
+        this.$auth.setUser({ ...userData/* , token */ })
         return response
       })
       .catch((error) => {
