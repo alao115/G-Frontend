@@ -27,7 +27,10 @@
         </a>
       </div>
     </div>
-    <div class="flex flex-col w-full table__container">
+    <div v-if="appartments.length === 0" class="flex flex-col w-full items-center justify-center">
+      0 appartement
+    </div>
+    <div v-else class="flex flex-col w-full table__container">
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">

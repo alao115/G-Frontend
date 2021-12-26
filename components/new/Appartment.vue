@@ -48,21 +48,20 @@
             <p class="text-base mt-8 text-gray-400">
               Détails
             </p>
-            <textarea v-model="details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
-
+            <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
             <p class="text-base mt-4 text-gray-400">
               Loyer
             </p>
             <div class="flex space-x-8">
-              <input v-model="conditions.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <input v-model="newAppartment.conditions.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
                 <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
-                  <span v-if="conditions.paymentFrequency === ''" class="leading-none">
+                  <span v-if="newAppartment.conditions.paymentFrequency === ''" class="leading-none">
                     Choisissez une fréquence
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ paymentFrequency(conditions.paymentFrequency).label }}
-                    <span class="text-sm mt-1 text-gray-400">{{ paymentFrequency(conditions.paymentFrequency).description }}</span>
+                    {{ paymentFrequency(newAppartment.conditions.paymentFrequency).label }}
+                    <span class="text-sm mt-1 text-gray-400">{{ paymentFrequency(newAppartment.conditions.paymentFrequency).description }}</span>
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -70,7 +69,7 @@
                 </button>
                 <div v-if="paymentFrequenciesIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                   <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
-                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="conditions.paymentFrequency = frequency, paymentFrequenciesIsOpen = false">
+                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.conditions.paymentFrequency = frequency, paymentFrequenciesIsOpen = false">
                     {{ frequency.label }}
                     <span class="text-gray-400">{{ frequency.description }}</span>
                   </a>
@@ -81,17 +80,17 @@
               Caution Loyer
             </p>
             <div class="flex space-x-8">
-              <input v-model="conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-              <input :value="conditions.prepaidRentMonths * conditions.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <input v-model="newAppartment.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <input :value="newAppartment.conditions.prepaidRentMonths * newAppartment.conditions.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second">
-            <p class="text-2xl mt-12 mb-4 text-gray-400">
+            <p class="text-2xl mt-12 mb-4 text-gray-400 font-normal">
               Caratéristiques
             </p>
             <div class="grid grid-cols-2">
-              <div class="w-full pr-8 relative">
-                <input v-model="features.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <div class="w-full pr-4 relative">
+                <input v-model="newAppartment.features.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-bed-alt fa-lg" />
                 </span>
@@ -99,8 +98,8 @@
                   Chambre(s)
                 </p>
               </div>
-              <div class="w-full pl-8 relative">
-                <input v-model="features.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <div class="w-full pl-4 relative">
+                <input v-model="newAppartment.features.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-couch fa-lg" />
                 </span>
@@ -108,8 +107,8 @@
                   Salon(s)
                 </p>
               </div>
-              <div class="w-full pr-8 relative">
-                <input v-model="features.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <div class="w-full pr-4 relative">
+                <input v-model="newAppartment.features.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-oven fa-lg" />
                 </span>
@@ -117,8 +116,8 @@
                   Cuisine(s)
                 </p>
               </div>
-              <div class="w-full pl-8 relative">
-                <input v-model="features.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <div class="w-full pl-4 relative">
+                <input v-model="newAppartment.features.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
                 </span>
@@ -126,32 +125,32 @@
                   Salle(s) d'eau
                 </p>
               </div>
-              <div class="w-full pr-8 relative">
-                <input v-model="features.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <div class="w-full pr-4 relative">
+                <input v-model="newAppartment.features.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-cabinet-filing fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Débarras
                 </p>
-              </div><div class="w-full pl-8 relative">
-                <input v-model="features.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              </div><div class="w-full pl-4 relative">
+                <input v-model="newAppartment.features.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-garage-open fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Garage
                 </p>
-              </div><div class="w-full pr-8 relative">
-                <input v-model="features.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              </div><div class="w-full pr-4 relative">
+                <input v-model="newAppartment.features.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-list-ol fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Niveau
                 </p>
-              </div><div class="w-full pl-8 relative">
-                <input v-model="features.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              </div><div class="w-full pl-4 relative">
+                <input v-model="newAppartment.features.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-users fa-lg" />
                 </span>
@@ -161,13 +160,99 @@
               </div>
             </div>
           </div>
+          <div v-if="currentStep === 'third'" class="third">
+            <p class="text-2xl mt-12 text-gray-400 font-normal">
+              Infos sur le propriétaire
+            </p>
+            <div class="grid grid-cols-2 mb-4">
+              <div class="relative pr-4">
+                <p class="text-base mt-8 text-gray-400">
+                  Civilité
+                </p>
+                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
+                  <span v-if="selectedCivility === ''" class="leading-none">
+                    Choisissez un type
+                  </span>
+                  <p v-else class="leading-none text-left flex flex-col">
+                    {{ selectedCivility.value }}
+                  </p>
+                  <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div v-if="civilitySelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
+                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility, civilitySelectIsOpen = false">
+                    {{ civility.value }}
+                  </a>
+                </div>
+              </div>
+              <div class="relative pl-4">
+                <p class="text-base mt-8 text-gray-400">
+                  Est vivant(e)
+                </p>
+                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
+                  <span v-if="ownerInfos.isAlive === ''" class="leading-none">
+                    -
+                  </span>
+                  <p v-else class="leading-none text-left flex flex-col">
+                    {{ ownerInfos.isAlive === true ? "Vivant(e)" : 'Décédé(e)' }}
+                  </p>
+                  <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div v-if="livingStatusSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = true, livingStatusSelectIsOpen = false">
+                    Vivant(e)
+                  </a>
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = false, livingStatusSelectIsOpen = false">
+                    Décédée(e)
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 mb-4">
+              <div class="relative pr-4">
+                <p class="text-base mt-1 text-gray-400">
+                  Prénom(s)
+                </p>
+                <input v-model="ownerInfos.firstname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
+              </div>
+              <div class="relative pl-4">
+                <p class="text-base mt-1 text-gray-400">
+                  Nom
+                </p>
+                <input v-model="ownerInfos.lastname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Nom">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 mb-4">
+              <div class="relative pr-4">
+                <p class="text-base mt-1 text-gray-400">
+                  Téléphone
+                </p>
+                <input v-model="ownerInfos.firstname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
+              </div>
+              <div class="relative pl-4">
+                <p class="text-base mt-1 text-gray-400">
+                  Email
+                </p>
+                <input v-model="ownerInfos.lastname" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
+              </div>
+            </div>
+            <div class="w-full relative">
+              <p class="text-base mt-1 text-gray-400">
+                Adresse
+              </p>
+              <textarea v-model="ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            </div>
+          </div>
         </div>
-        <div class="footer p-4 sm:px-6 lg:p-8">
-          <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep = 'second'">
+        <div class="footer p-4 sm:px-6 lg:p-8 pt-0 flex justify-between">
+          <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep = 'second'">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? currentStep = 'second' : currentStep = 'third'">
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? currentStep = 'second' : currentStep = 'third'">
             Suivant
           </button>
         </div>
@@ -189,9 +274,17 @@ export default {
       currentStep: 'first',
       isDismissed: true,
       typeSelectIsOpen: false,
+      civilitySelectIsOpen: false,
+      livingStatusSelectIsOpen: false,
       paymentFrequenciesIsOpen: false,
       selectedType: '',
       details: '',
+      civilities: [
+        { id: 1, value: 'M.' },
+        { id: 1, value: 'Mr' },
+        { id: 3, value: 'Autre' }
+      ],
+      selectedCivility: '',
       isFurnished: false,
       advancePayment: 0,
       paymentFrequencies: [
@@ -200,7 +293,30 @@ export default {
         { id: 3, value: 'Day', label: 'Par jour', description: 'Paiements par jour' },
         { id: 4, value: 'Night', label: 'Par nuit', description: 'Paiements à la nuité' }
       ],
-      features: {
+      newAppartment: {
+        conditions: {
+          rent: 0,
+          paymentFrequency: 1,
+          energyCommission: 0,
+          prepaidRentMonths: 3
+        },
+        features: {
+          bedrooms: 0,
+          livingrooms: 0,
+          kitchen: 0,
+          bathrooms: 0,
+          storageroom: 0,
+          garage: 0,
+          garden: 0,
+          groundLevel: 0,
+          householdsTotal: 0,
+          ac: 'Non',
+          pool: 'Non',
+          keeper: 'Non'
+        },
+        rent: {}
+      },
+      /* features: {
         bedrooms: 0,
         livingrooms: 0,
         kitchen: 0,
@@ -213,17 +329,20 @@ export default {
         ac: 'Non',
         pool: 'Non',
         keeper: 'Non'
-      },
-      conditions: {
+      }, */
+      /* conditions: {
         rent: 0,
         paymentFrequency: 1,
         energyCommission: 0,
         prepaidRentMonths: 3
-      },
+      }, */
       ownerInfos: {
-        name: '',
+        firstname: '',
+        lastname: '',
+        userType: 'owner',
         address: '',
-        status: '',
+        isAlive: true,
+        /* status: '', */
         phone: '',
         email: ''
       },
@@ -244,10 +363,11 @@ export default {
       users: [
         { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
         { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
+        { id: 3, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] },
+        { id: 4, name: 'Owner', firstname: 'Owner', phone: '+22965432123', email: 'owner@gontche.com', user: '4', userType: 'owner', favorites: [], likes: [] }
       ],
       contracts: [],
-      appartments: [
+      /* appartments: [
         {
           id: 1,
           mainImg: '/assets/images/rentables/example1.jpg',
@@ -470,15 +590,14 @@ export default {
           likes: 0,
           favorite: 0
         }
-      ],
+      ] */
       // appartmentTypes: [
       //   { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
       //   { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
       //   { id: 3, label: 'Villa', description: '-' },
       //   { id: 4, label: 'Duplex', description: '-' }
       // ],
-      locations: [],
-      newAppartment: {}
+      locations: []
     }
   },
   async fetch () {
@@ -525,6 +644,14 @@ export default {
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
+    },
+    createAppartment () {
+      this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
+        .then((response) => {
+          // console.log(response.data)
+          this.newAppartment = {}
+          this.currentStep = 'congrats'
+        })
     }
   }
 }

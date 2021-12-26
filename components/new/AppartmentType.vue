@@ -39,12 +39,12 @@
             </div>
           </div>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-4 sm:px-6 lg:p-8">
-          <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+        <div v-if="currentStep !== 'congrats'" class="footer p-4 sm:px-6 lg:p-8 flex justify-between">
+          <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Annuler</span>
           </button>
-          <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createAppartType">
-            Suivant
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createAppartType">
+            Enregistrer le type
           </button>
         </div>
       </div>
