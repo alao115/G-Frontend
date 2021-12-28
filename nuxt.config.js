@@ -55,7 +55,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://localhost:7000/graphql'
+        httpEndpoint: 'http://localhost:7500/graphql'
       }
     },
     authenticationType: 'Bearer',
@@ -96,7 +96,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:7000/api'
+    baseURL: process.env.BASE_URL || 'http://localhost:7500/api'
     // credentials: true,
   },
 
