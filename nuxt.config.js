@@ -100,11 +100,11 @@ export default {
     // credentials: true,
   },
 
-  generate: {
-    dir: '/home/anonymous/Documents/coding/Node/gontche_backend/dist/public'
-  },
-  target: 'static',
-  ssr: false,
+  // generate: {
+  //   dir: '/home/anonymous/Documents/coding/Node/gontche_backend/dist/public'
+  // },
+  // target: 'static',
+  // ssr: false,
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
