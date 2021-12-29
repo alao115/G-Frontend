@@ -10,5 +10,5 @@ export default ({ $axios, store, app, $apolloHelpers }, inject) => {
   // }, null)
   const apolloClient = app.apolloProvider.defaultClient
 
-  inject('api', services({ apollo: apolloClient }))
+  inject('api', services({ apollo: apolloClient }, $axios))
 }
