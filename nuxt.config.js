@@ -55,7 +55,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://localhost:7500/graphql'
+        httpEndpoint: process.env.GRAPHQL_URL || 'http://localhost:7500/graphql'
       }
     },
     authenticationType: 'Bearer',
@@ -99,6 +99,12 @@ export default {
     baseURL: process.env.BASE_URL || 'http://localhost:7500/api'
     // credentials: true,
   },
+
+  generate: {
+    dir: '/home/anonymous/Documents/coding/Node/gontche_backend/dist/public'
+  },
+  target: 'static',
+  ssr: false,
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
