@@ -252,8 +252,8 @@
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? currentStep = 'second' : currentStep === 'second' ? currentStep = 'third' : createAppartment">
-            <span v-if="currentStep === 'third'">ENregistrer</span>
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'third' ? createAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
+            <span v-if="currentStep === 'third'">Enregistrer</span>
             <span v-else>Suivant</span>
           </button>
         </div>
@@ -646,6 +646,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createAppartment () {
+      console.log(this.newAppartment)
       this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
         .then((response) => {
           console.log(response.data)
