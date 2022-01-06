@@ -40,7 +40,7 @@
               <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                 <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
                 <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.appartmentType = type.id, typeSelectIsOpen = false">
-                  {{ type.label }}
+                  {{ type.label + ' ' + type.id}}
                   <span class="text-gray-400">{{ type.description }}</span>
                 </a>
               </div>
@@ -56,12 +56,12 @@
               <input v-model.number="newAppartment.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
                 <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
-                  <span v-if="!newAppartment.conditions.paymentFrequency" class="leading-none">
+                  <span v-if="selectedPaymentFrequency === null" class="leading-none">
                     Choisissez une fréquence
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ newAppartment.conditions && newAppartment.conditions.paymentFrequency && paymentFrequency(newAppartment.conditions.paymentFrequency).label }}
-                    <span class="text-sm mt-1 text-gray-400">{{ newAppartment.conditions.paymentFrequency && paymentFrequency(newAppartment.conditions.paymentFrequency).description }}</span>
+                    {{ selectedPaymentFrequency.label }}
+                    <span class="text-sm mt-1 text-gray-400">{{ selectedPaymentFrequency.description }}</span>
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -69,7 +69,7 @@
                 </button>
                 <div v-if="paymentFrequenciesIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                   <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
-                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.conditions.paymentFrequency = frequency.id, paymentFrequenciesIsOpen = false">
+                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedPaymentFrequency = frequency, paymentFrequenciesIsOpen = false">
                     {{ frequency.label }}
                     <span class="text-gray-400">{{ frequency.description }}</span>
                   </a>
@@ -82,6 +82,12 @@
             <div class="flex space-x-8">
               <input v-model.number="newAppartment.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <input :value="newAppartment.conditions.prepaidRentMonths * newAppartment.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+            </div>
+            <div class="relative pr-4 col-span-2">
+              <p class="text-base mt-1 text-gray-400">
+                Localisation
+              </p>
+              <input v-model="newAppartment.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second">
@@ -164,7 +170,7 @@
             <p class="text-2xl mt-12 text-gray-400 font-normal">
               Infos sur le propriétaire
             </p>
-            <div class="grid grid-cols-2 mb-4">
+            <!-- <div class="grid grid-cols-2 mb-4">
               <div class="relative pr-4">
                 <p class="text-base mt-8 text-gray-400">
                   Civilité
@@ -191,60 +197,60 @@
                   Est vivant(e)
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
-                  <span v-if="ownerInfos.isAlive === ''" class="leading-none">
+                  <span v-if="newAppartment.ownerInfos && newAppartment.ownerInfos.status === ''" class="leading-none">
                     -
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ ownerInfos.isAlive === true ? "Vivant(e)" : 'Décédé(e)' }}
+                    {{ newAppartment.ownerInfos && newAppartment.ownerInfos.status && newAppartment.ownerInfos.status === true ? "Vivant(e)" : 'Décédé(e)' }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="livingStatusSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = true, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.ownerInfos.status = true, livingStatusSelectIsOpen = false">
                     Vivant(e)
                   </a>
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = false, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.ownerInfos.status = false, livingStatusSelectIsOpen = false">
                     Décédée(e)
                   </a>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="grid grid-cols-2 mb-4">
-              <div class="relative pr-4">
+              <div class="relative pr-4 col-span-2">
                 <p class="text-base mt-1 text-gray-400">
-                  Prénom(s)
+                  Name
                 </p>
-                <input v-model="ownerInfos.firstname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
+                <input v-model="newAppartment.ownerInfos" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
               </div>
-              <div class="relative pl-4">
+              <!-- <div class="relative pl-4">
                 <p class="text-base mt-1 text-gray-400">
                   Nom
                 </p>
                 <input v-model="ownerInfos.lastname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Nom">
-              </div>
+              </div> -->
             </div>
-            <div class="grid grid-cols-2 mb-4">
+            <!-- <div class="grid grid-cols-2 mb-4">
               <div class="relative pr-4">
                 <p class="text-base mt-1 text-gray-400">
                   Téléphone
                 </p>
-                <input v-model="ownerInfos.phone" type="number" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
+                <input v-model="newAppartment.ownerInfos.phone" type="number" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
               </div>
               <div class="relative pl-4">
                 <p class="text-base mt-1 text-gray-400">
                   Email
                 </p>
-                <input v-model="ownerInfos.email" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
+                <input v-model="newAppartment.ownerInfos.email" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
               </div>
             </div>
             <div class="w-full relative">
               <p class="text-base mt-1 text-gray-400">
                 Adresse
               </p>
-              <textarea v-model="ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
-            </div>
+              <textarea v-model="newAppartment.ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            </div> -->
           </div>
         </div>
         <div class="footer p-4 sm:px-6 lg:p-8 pt-0 flex justify-between">
@@ -294,6 +300,7 @@ export default {
         { id: 3, value: 'Day', label: 'Par jour', description: 'Paiements par jour' },
         { id: 4, value: 'Night', label: 'Par nuit', description: 'Paiements à la nuité' }
       ],
+      selectedPaymentFrequency: {},
       newAppartment: {
         conditions: {
           prepaidRentMonths: 3
