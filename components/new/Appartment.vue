@@ -304,7 +304,8 @@ export default {
       newAppartment: {
         conditions: {
           prepaidRentMonths: 3
-        }
+        },
+        ownerInfos: {}
         /* rent: 0,
         paymentFrequency: 1,
         energyCommission: 0,
@@ -653,6 +654,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createAppartment () {
+      this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility }
       console.log(this.newAppartment)
       this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
         .then((response) => {
