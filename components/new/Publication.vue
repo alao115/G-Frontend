@@ -33,7 +33,7 @@
             <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
               <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
               <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
-                {{ type.label }}
+                {{ type && type.label }}
                 <span class="text-gray-400">{{ type.description }}</span>
               </a>
             </div>
@@ -42,9 +42,9 @@
             Veuillez sélectionner un appartement à publier
           </p>
           <div class="relative inline-block w-full text-gray-700">
-            <select class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input" v-model="newPublication.appart">
-              <option v-for="appart in appartments" :key="appart.id">
-                <span>{{ appartmentType(appart.appartmentType).label }}</span>
+            <select v-model="newPublication.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+              <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
+                <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                 <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
               </option>
             </select>
@@ -64,7 +64,7 @@
             <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
               Annuler
             </button>
-            <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createPublication, isDismissed = true">
+            <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click="createPublication">
               Valider
             </button>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
@@ -100,7 +100,7 @@ export default {
         { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
         { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
       ], */
-      reservations: [
+      /* reservations: [
         { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
       ],
       visits: [
@@ -110,10 +110,16 @@ export default {
         { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
         { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
         { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
+      ], */
       contracts: [],
       locations: [],
-      newPublication: {}
+      newPublication: {},
+      appartments: [],
+      appartmentTypes: [],
+      publications: [],
+      reservations: [],
+      visits: [],
+      accounts: []
     }
   },
   async fetch () {
@@ -147,6 +153,9 @@ export default {
       return id => this.contracts.find(contract => contract.id === id)
     }
   },
+  mounted () {
+    this.$fetch()
+  },
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
@@ -154,8 +163,8 @@ export default {
     createPublication () {
       this.$api.publicationService.create({ variables: { data: this.newPublication } })
         .then((response) => {
+          console.log(response.data)
           this.newPublication = {}
-          this.currentStep = 'congrats'
         })
     }
   }

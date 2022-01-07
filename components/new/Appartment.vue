@@ -187,7 +187,7 @@
                   </svg>
                 </button>
                 <div v-if="civilitySelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility, civilitySelectIsOpen = false">
+                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility.value, civilitySelectIsOpen = false">
                     {{ civility.value }}
                   </a>
                 </div>
@@ -308,7 +308,7 @@ export default {
         /* rent: 0,
         paymentFrequency: 1,
         energyCommission: 0,
-        prepaidRentMonths: 3,
+        prepaidRentappartmentsMonths: 3,
         bedrooms: 0,
         livingrooms: 0,
         kitchen: 0,
@@ -647,6 +647,9 @@ export default {
         this.advancePayment = value.rent * value.prepaidRentMonths
       }
     }
+  },
+  mounted () {
+    this.$fetch()
   },
   methods: {
     toDetails (appartment) {
