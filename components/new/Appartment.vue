@@ -302,7 +302,7 @@ export default {
         /* rent: 0,
         paymentFrequency: 1,
         energyCommission: 0,
-        prepaidRentMonths: 3,
+        prepaidRentappartmentsMonths: 3,
         bedrooms: 0,
         livingrooms: 0,
         kitchen: 0,
@@ -641,6 +641,9 @@ export default {
         this.advancePayment = value.rent * value.prepaidRentMonths
       }
     }
+  },
+  mounted () {
+    this.$fetch()
   },
   methods: {
     toDetails (appartment) {
