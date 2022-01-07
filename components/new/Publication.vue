@@ -64,7 +64,7 @@
             <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
               Annuler
             </button>
-            <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920">
+            <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createPublication, isDismissed = true">
               Valider
             </button>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
@@ -150,6 +150,13 @@ export default {
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
+    },
+    createPublication () {
+      this.$api.publicationService.create({ variables: { data: this.newPublication } })
+        .then((response) => {
+          this.newPublication = {}
+          this.currentStep = 'congrats'
+        })
     }
   }
 }

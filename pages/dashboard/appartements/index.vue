@@ -419,29 +419,6 @@ export default {
       title: this.title
     }
   },
-  computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
-    appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    user () {
-      return id => this.users.find(user => user.id === id)
-    },
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
-    }
-  },
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })

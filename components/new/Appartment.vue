@@ -170,7 +170,7 @@
             <p class="text-2xl mt-12 text-gray-400 font-normal">
               Infos sur le propriétaire
             </p>
-            <!-- <div class="grid grid-cols-2 mb-4">
+            <div class="grid grid-cols-2 mb-4">
               <div class="relative pr-4">
                 <p class="text-base mt-8 text-gray-400">
                   Civilité
@@ -197,60 +197,60 @@
                   Est vivant(e)
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
-                  <span v-if="newAppartment.ownerInfos && newAppartment.ownerInfos.status === ''" class="leading-none">
+                  <span v-if="ownerInfos && ownerInfos.isAlive === ''" class="leading-none">
                     -
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ newAppartment.ownerInfos && newAppartment.ownerInfos.status && newAppartment.ownerInfos.status === true ? "Vivant(e)" : 'Décédé(e)' }}
+                    {{ ownerInfos && ownerInfos.isAlive && ownerInfos.isAlive === true ? "Vivant(e)" : 'Décédé(e)' }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="livingStatusSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.ownerInfos.status = true, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = true, livingStatusSelectIsOpen = false">
                     Vivant(e)
                   </a>
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.ownerInfos.status = false, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = false, livingStatusSelectIsOpen = false">
                     Décédée(e)
                   </a>
                 </div>
               </div>
-            </div> -->
+            </div>
             <div class="grid grid-cols-2 mb-4">
-              <div class="relative pr-4 col-span-2">
+              <div class="relative pr-4">
                 <p class="text-base mt-1 text-gray-400">
-                  Name
+                  Prénom
                 </p>
-                <input v-model="newAppartment.ownerInfos" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
+                <input v-model="ownerInfos.firstname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
               </div>
-              <!-- <div class="relative pl-4">
+              <div class="relative pl-4">
                 <p class="text-base mt-1 text-gray-400">
                   Nom
                 </p>
                 <input v-model="ownerInfos.lastname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Nom">
-              </div> -->
+              </div>
             </div>
-            <!-- <div class="grid grid-cols-2 mb-4">
+            <div class="grid grid-cols-2 mb-4">
               <div class="relative pr-4">
                 <p class="text-base mt-1 text-gray-400">
                   Téléphone
                 </p>
-                <input v-model="newAppartment.ownerInfos.phone" type="number" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
+                <input v-model="ownerInfos.phone" type="number" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
               </div>
               <div class="relative pl-4">
                 <p class="text-base mt-1 text-gray-400">
                   Email
                 </p>
-                <input v-model="newAppartment.ownerInfos.email" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
+                <input v-model="ownerInfos.email" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
               </div>
             </div>
             <div class="w-full relative">
               <p class="text-base mt-1 text-gray-400">
                 Adresse
               </p>
-              <textarea v-model="newAppartment.ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
-            </div> -->
+              <textarea v-model="ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            </div>
           </div>
         </div>
         <div class="footer p-4 sm:px-6 lg:p-8 pt-0 flex justify-between">
@@ -288,7 +288,7 @@ export default {
       details: '',
       civilities: [
         { id: 1, value: 'M.' },
-        { id: 2, value: 'Mr' },
+        { id: 2, value: 'Mme' },
         { id: 3, value: 'Autre' }
       ],
       selectedCivility: '',
@@ -304,8 +304,7 @@ export default {
       newAppartment: {
         conditions: {
           prepaidRentMonths: 3
-        },
-        ownerInfos: {}
+        }
         /* rent: 0,
         paymentFrequency: 1,
         energyCommission: 0,
@@ -654,7 +653,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createAppartment () {
-      this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility }
+      this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
       console.log(this.newAppartment)
       this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
         .then((response) => {
