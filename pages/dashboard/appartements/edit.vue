@@ -6,6 +6,11 @@
       </svg>
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. appartment</span>
     </a> -->
+    <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
+      <span class="icon">
+        <i class="far fa-edit" />
+      </span>
+    </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">

@@ -88,8 +88,7 @@
           <div class="flex flex-col w-36 h-10 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span />
           </div>
-          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="setToEdition(appart)"> -->
-          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
+          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
             <span class="icon">
               <i class="far fa-edit" />
             </span>
@@ -181,230 +180,7 @@ export default {
         { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
       ],
       contracts: [],
-      appartments: [
-        {
-          id: 1,
-          mainImg: '/assets/images/rentables/example1.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 8,
-          bathrooms: 2,
-          bedrooms: 2,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '+229 60 000000',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 2,
-          mainImg: '/assets/images/rentables/example2.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 1,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 3,
-          mainImg: '/assets/images/rentables/example3.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 3,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 4,
-          appartmentType: 4,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example4.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 4,
-          livingrooms: 2,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 5,
-          appartmentType: 2,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example5.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 2,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 6,
-          appartmentType: 3,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example6.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 3,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        }
-      ],
+      /*  */
       appartmentTypes: [
         { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
         { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
@@ -417,6 +193,29 @@ export default {
   head () {
     return {
       title: this.title
+    }
+  },
+  computed: {
+    publication () {
+      return id => this.publications.find(publication => publication.id === id)
+    },
+    reservation () {
+      return id => this.reservations.find(reservation => reservation.id === id)
+    },
+    visit () {
+      return id => this.visits.find(visit => visit.id === id)
+    },
+    appartment () {
+      return id => this.appartments.find(appartment => appartment.id === id)
+    },
+    appartmentType () {
+      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    },
+    user () {
+      return id => this.users.find(user => user.id === id)
+    },
+    contract () {
+      return id => this.contracts.find(contract => contract.id === id)
     }
   },
   methods: {

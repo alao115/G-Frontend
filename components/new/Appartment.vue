@@ -7,7 +7,7 @@
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. appartment</span>
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
           <h4 class="text-2xl font-medium mb-8 text-blue-990">
             Nv. location
@@ -40,7 +40,7 @@
               <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                 <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
                 <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.appartmentType = type.id, typeSelectIsOpen = false">
-                  {{ type.label + ' ' + type.id}}
+                  {{ type.label}}
                   <span class="text-gray-400">{{ type.description }}</span>
                 </a>
               </div>
@@ -253,7 +253,7 @@
             </div>
           </div>
         </div>
-        <div class="footer p-4 sm:px-6 lg:p-8 pt-0 flex justify-between">
+        <div class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep = 'second'">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>

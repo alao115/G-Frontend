@@ -38,7 +38,6 @@
                 </svg>
               </button>
               <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
                 <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
                   {{ appartment. type.label }}
                   <span class="text-gray-400">{{ appartment. type.description }}</span>
@@ -69,7 +68,6 @@
                   </svg>
                 </button>
                 <div v-if="paymentFrequenciesIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
                   <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="conditions.paymentFrequency = frequency, paymentFrequenciesIsOpen = false">
                     {{ appartment. frequency.label }}
                     <span class="text-gray-400">{{ appartment. frequency.description }}</span>

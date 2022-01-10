@@ -51,12 +51,12 @@
           </div>
           <div class="flex items-center h-10 my-4">
             <span class="text-lg mr-28">Publier maintenant ?</span>
-            <label for="" class="mr-8"><input type="radio" name="publishNow" class="appearance-none w-8 h-8 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400 mr-4"> OUI</label>
-            <label for=""><input type="radio" name="publishNow" class="appearance-none w-8 h-8 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400 mr-4"> NON</label>
+            <label for="" class="mr-8"><input v-model="publishNow" type="radio" name="publishNow" class="appearance-none w-8 h-8 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400 mr-4" :value="true"> OUI</label>
+            <label for=""><input v-model="publishNow" type="radio" name="publishNow" class="appearance-none w-8 h-8 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400 mr-4" :value="false"> NON</label>
           </div>
           <div class="">
             <div class="flex space-x-8">
-              <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+              <input v-model="newPublication.date" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
               <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
             </div>
           </div>
@@ -113,13 +113,17 @@ export default {
       ], */
       contracts: [],
       locations: [],
-      newPublication: {},
+      newPublication: {
+        status: 'Scheduled',
+        publisher: this.$auth.user._id
+      },
       appartments: [],
       appartmentTypes: [],
       publications: [],
       reservations: [],
       visits: [],
-      accounts: []
+      accounts: [],
+      publishNow: false
     }
   },
   async fetch () {
@@ -151,6 +155,17 @@ export default {
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
+    }
+  },
+  watch: {
+    publishNow (value) {
+      console.log(value)
+      if (value === true) {
+        this.newPublication.date = new Date()
+        this.newPublication.status = 'Published'
+      } else {
+        this.newPublication.status = 'Scheduled'
+      }
     }
   },
   mounted () {
