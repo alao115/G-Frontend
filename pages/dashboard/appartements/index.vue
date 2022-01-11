@@ -93,7 +93,6 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="delete(appart)"> -->
           <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
             <span class="icon">
               <i class="far fa-trash" />
