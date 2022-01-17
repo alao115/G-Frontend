@@ -8,7 +8,7 @@
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
+        <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <h4 class="text-2xl font-medium mb-8 text-blue-990">
             Nv. location
           </h4>
@@ -17,10 +17,10 @@
               <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
           </button>
-          <p class="text-lg mt-4 text-gray-600">
+          <p v-if="currentStep !== 'congrats'" class="text-lg mt-4 text-gray-600">
             Veuillez remplir ce formulaire pour enregistrer une nouvelle location / vente
           </p>
-          <div v-if="currentStep === 'first'" class="first">
+          <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 pr-4">
             <div class="relative">
               <p class="text-base mt-8 text-gray-400">
                 Type
@@ -40,7 +40,7 @@
               <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                 <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
                 <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="newAppartment.appartmentType = type.id, typeSelectIsOpen = false">
-                  {{ type.label}}
+                  {{ type.label }}
                   <span class="text-gray-400">{{ type.description }}</span>
                 </a>
               </div>
@@ -56,7 +56,7 @@
               <input v-model.number="newAppartment.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
                 <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
-                  <span v-if="selectedPaymentFrequency === null" class="leading-none">
+                  <span v-if="selectedPaymentFrequency === ''" class="leading-none">
                     Choisissez une fréquence
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
@@ -83,7 +83,7 @@
               <input v-model.number="newAppartment.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <input :value="newAppartment.conditions.prepaidRentMonths * newAppartment.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
             </div>
-            <div class="relative pr-4 col-span-2">
+            <div class="relative col-span-2 mb-8">
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
@@ -166,7 +166,7 @@
               </div>
             </div>
           </div>
-          <div v-if="currentStep === 'third'" class="third">
+          <div v-if="currentStep === 'third'" class="third overflow-scroll h-4/5 pb-16 pr-4">
             <p class="text-2xl mt-12 text-gray-400 font-normal">
               Infos sur le propriétaire
             </p>
@@ -187,7 +187,7 @@
                   </svg>
                 </button>
                 <div v-if="civilitySelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility.value, civilitySelectIsOpen = false">
+                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility, civilitySelectIsOpen = false">
                     {{ civility.value }}
                   </a>
                 </div>
@@ -251,15 +251,37 @@
               </p>
               <textarea v-model="ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
             </div>
+            <div class="retative">
+              <a href="#" class="text-gray-400 hover:" @click.prevent="currentStep='photos'">Rajouter les photos maintenant</a>
+            </div>
+          </div>
+          <div v-if="currentStep === 'photos'" class="photos">
+            <p class="text-2xl mt-12 text-gray-400 font-normal">
+              Photos de l'appartememnt
+            </p>
+          </div>
+          <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
+            <div class="w-full">
+              <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
+              <!-- <span class="icon text-5xl mx-auto"><i class="fal fa-thumbs-up fa-lg" /></span> -->
+              <p class="text-xl my-12 text-blue-920 text-center">
+                Nouvel appartement ajouté avec succès
+              </p>
+            </div>
           </div>
         </div>
-        <div class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep = 'second'">
+        <div v-if="currentStep === 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+            <span>Retour</span>
+          </button>
+        </div>
+        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+          <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep === 'third' ? currentStep = 'second' : currentStep = 'third'">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
           <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'third' ? createAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
-            <span v-if="currentStep === 'third'">Enregistrer</span>
+            <span v-if="currentStep === 'photos' || currentStep === 'third'">Enregistrer</span>
             <span v-else>Suivant</span>
           </button>
         </div>
@@ -285,6 +307,7 @@ export default {
       livingStatusSelectIsOpen: false,
       paymentFrequenciesIsOpen: false,
       selectedType: '',
+      errorToShow: '',
       details: '',
       civilities: [
         { id: 1, value: 'M.' },
@@ -300,7 +323,7 @@ export default {
         { id: 3, value: 'Day', label: 'Par jour', description: 'Paiements par jour' },
         { id: 4, value: 'Night', label: 'Par nuit', description: 'Paiements à la nuité' }
       ],
-      selectedPaymentFrequency: {},
+      selectedPaymentFrequency: '',
       newAppartment: {
         conditions: {
           prepaidRentMonths: 3
@@ -657,12 +680,15 @@ export default {
     },
     createAppartment () {
       this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
-      console.log(this.newAppartment)
+      this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency.id
+      // console.log(this.newAppartment)
       this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
         .then((response) => {
-          console.log(response.data)
           this.newAppartment = {}
           this.currentStep = 'congrats'
+        })
+        .catch((error) => {
+          this.errorToshow = error
         })
     }
   }
