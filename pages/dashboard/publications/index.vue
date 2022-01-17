@@ -26,7 +26,15 @@
         </a>
       </div>
     </div>
-    <div class="flex flex-col w-full table__container">
+    <div v-if="publications.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
+      <h1 class="text-3xl font-bold">
+        0 publication trouvée
+      </h1><br>
+      <p class="text-gray-400">
+        Cliquez sur le bouton " + Nv. publication" en haut à gauche pour <span class="font-bold text-blue-920">publier une annonce</span>.
+      </p>
+    </div>
+    <div v-else class="flex flex-col w-full table__container">
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
@@ -46,16 +54,16 @@
         <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>NIVEAU</span>
         </div>
       </div>
       <div class="overflow-auto custom__scroll py-4">
-        <div v-for="pub in publications" :key="pub.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 publication">
-          <div class="flex items-center w-min h-10 px-2">
+        <div v-for="(pub, count) in publications" :key="pub.id" class="publication flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
+          <div class="flex items-center w-min px-2">
             <input v-model="selectedPublications" type="checkbox" :value="pub" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
           <div class="flex flex-col mx-2">
@@ -64,41 +72,33 @@
             </span>
           </div>
           <div class="flex items-center w-12 h-10 px-2 mx-1">
-            <span>{{ pub.id }}</span>
+            <!-- <span>{{ pub.id }}</span> -->
+            <span> - </span>
           </div>
-          <div class="flex flex-col w-56 h-10 px-2 mx-2">
-            <span>{{ appartmentType(appartment(pub.appartment).appartmentType).label }}</span>
-            <p class="text-gray-400">
-              {{ appartment(pub.appartment).bedrooms }} Chambre<span v-if="appartment(pub.appartment).bedrooms > 1">s</span> - {{ appartment(pub.appartment).livingrooms }} Salon<span v-if="appartment(pub.appartment).livingrooms > 1">s</span>
-            </p>
+          <div class="flex flex-col w-56 px-2 mx-2">
+            <p>{{ appartmentType(appartment(pub.appartment).appartmentType).label }} | <span class="text-gray-400">{{ appartment(pub.appartment).bedrooms }} Chambre<span v-if="appartment(pub.appartment).bedrooms > 1">s</span> - {{ appartment(pub.appartment).livingrooms }} Salon<span v-if="appartment(pub.appartment).livingrooms > 1">s</span></span></p>
           </div>
-          <div class="flex flex-col w-40 h-10 px-2 mx-2">
+          <div class="flex flex-col w-40 px-2 mx-2">
             <span>{{ appartment(pub.appartment).location }}</span>
           </div>
-          <div class="flex flex-col w-20 h-10 px-2 mx-2">
+          <div class="flex flex-col w-20 px-2 mx-2">
             <span>{{ appartment(pub.appartment).rent }}</span>
           </div>
-          <div class="flex flex-col w-24 h-10 px-2 mx-2">
+          <div class="flex flex-col w-24 px-2 mx-2">
             <span />
           </div>
-          <div class="flex flex-col w-36 h-10 px-2 mx-2">
+          <div class="flex flex-col w-24 px-2 mx-2">
             <span />
           </div>
-          <div class="flex flex-col w-48 h-10 px-2 mx-2">
+          <div class="flex flex-col w-24 px-2 mx-2">
             <span />
           </div>
-          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="setToEdition(appart)"> -->
-          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
+          <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(type)">
             <span class="icon">
               <i class="far fa-edit" />
             </span>
           </div>
-          <!-- <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer" @click.prevent="delete(appart)"> -->
-          <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link">
-            <span class="icon">
-              <i class="far fa-trash" />
-            </span>
-          </div>
+          <DeletePrompt />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -120,10 +120,10 @@
         <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-48 h-10 px-2 text-xs mx-2">
+        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>NIVEAU</span>
         </div>
       </div>

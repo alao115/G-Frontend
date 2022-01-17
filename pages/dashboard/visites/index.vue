@@ -26,13 +26,23 @@
         </a>
       </div>
     </div>
-    <div class="flex flex-col w-full table__container">
+    <div v-if="visits.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
+      <h1 class="text-3xl font-bold">
+        0 visite trouvée
+      </h1>
+      <br>
+      <p class="text-gray-400">
+        Cliquez sur le bouton " + Nv. visite" en haut à gauche pour
+        <span class="font-bold text-blue-920">programmer une visite</span>.
+      </p>
+    </div>
+    <div v-else class="flex flex-col w-full table__container">
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
         <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
-          <span>ID</span>
+          <!-- <span>ID</span> -->
         </div>
         <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
           <span>APPARTEMENT</span>
@@ -48,39 +58,39 @@
         </div>
       </div>
       <div class="overflow-auto custom__scroll py-4">
-        <div v-for="vis in visits" :key="vis.id" class="flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50">
-          <div class="flex items-center w-min h-10 px-2">
-            <input v-model="selectedPublications" type="checkbox" :value="pub" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+        <div v-for="(vis, count) in visits" :key="vis.id" class="visit flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
+          <div class="flex items-center w-min px-2">
+            <input v-model="selectedVisits" type="checkbox" :value="vis" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
           <div class="flex flex-col mx-2">
             <span class="rounded-full h-12 w-12">
               <img :src="appartment(vis.appartment).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
           </div>
-          <div class="flex items-center w-12 h-10 px-2 mx-1">
-            <span>{{ vis.id }}</span>
+          <div class="flex items-center w-12 px-2 mx-1">
+            <span> - </span>
           </div>
-          <div class="flex flex-col w-56 h-10 px-2 mx-2">
-            <span>{{ appartmentType(appartment(vis.appartment).appartmentType).label }}</span>
-            <p class="text-gray-400">
-              {{ appartment(vis.appartment).bedrooms }} Chambre<span v-if="appartment(vis.appartment).bedrooms > 1">s</span> - {{ appartment(vis.appartment).livingrooms }} Salon<span v-if="appartment(vis.appartment).livingrooms > 1">s</span>
-            </p>
+          <div class="flex flex-col w-56 px-2 mx-2">
+            <p><span>{{ appartmentType(appartment(vis.appartment).appartmentType).label }}</span> | <span class="text-gray-400">{{ appartment(vis.appartment).bedrooms }} Chambre<span v-if="appartment(vis.appartment).bedrooms > 1">s</span> - {{ appartment(vis.appartment).livingrooms }} Salon<span v-if="appartment(vis.appartment).livingrooms > 1">s</span></span></p>
           </div>
-          <div class="flex flex-col w-40 h-10 px-2 mx-2">
+          <div class="flex flex-col w-40 px-2 mx-2">
             <span>{{ appartment(vis.appartment).location }}</span>
           </div>
-          <div class="flex flex-col w-20 h-10 px-2 mx-2">
-            <span>{{ appartment(vis.appartment).rent }}</span>
+          <div class="flex flex-col w-40 px-2 mx-2">
+            <span>{{ vis.date }}</span>
           </div>
-          <div class="flex flex-col w-24 h-10 px-2 mx-2">
+          <div class="flex flex-col w-24 px-2 mx-2">
             <span />
           </div>
-          <div class="flex flex-col w-36 h-10 px-2 mx-2">
+          <div class="flex flex-col w-36 px-2 mx-2">
             <span />
           </div>
-          <div class="flex flex-col w-48 h-10 px-2 mx-2">
-            <span />
+          <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(vis)">
+            <span class="icon">
+              <i class="far fa-edit" />
+            </span>
           </div>
+          <DeletePrompt />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -88,7 +98,7 @@
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
         <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
-          <span>ID</span>
+          <!-- <span>ID</span> -->
         </div>
         <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
           <span>APPARTEMENT</span>
@@ -134,7 +144,7 @@ export default {
       title: 'Publications',
       isListLayout: true,
       isFilterTrayOpened: false,
-      selectedPublications: [],
+      selectedVisits: [],
       publications: [
         { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
         { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
@@ -155,236 +165,8 @@ export default {
         { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
       ],
       contracts: [],
-      appartments: [
-        {
-          id: 1,
-          mainImg: '/assets/images/rentables/example1.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 8,
-          bathrooms: 2,
-          bedrooms: 2,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '+229 60 000000',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 2,
-          mainImg: '/assets/images/rentables/example2.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 1,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 3,
-          mainImg: '/assets/images/rentables/example3.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 3,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 4,
-          appartmentType: 4,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example4.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 4,
-          livingrooms: 2,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 5,
-          appartmentType: 2,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example5.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 2,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 6,
-          appartmentType: 3,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example6.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 3,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        }
-      ],
-      appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ],
+      appartments: [],
+      appartmentTypes: [],
       locations: []
     }
   },
@@ -418,3 +200,12 @@ export default {
   }
 }
 </script>
+
+<style>
+  .visit .action-link {
+    opacity: 0;
+  }
+  .visit:hover .action-link {
+    opacity: 1;
+  }
+</style>

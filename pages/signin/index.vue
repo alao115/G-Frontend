@@ -41,8 +41,42 @@
             </div>
           </div>
         </div>
-        <div class="container flex-col bg-white lg:w-5/12 xl:w-4/12 border-t-4 border-blue-730 flex justify-center item-center pb-12 px-16" style="min-height: 516px">
-          <div class="w-full">
+        <div class="container flex-col bg-white lg:w-5/12 xl:w-4/12 flex justify-center item-center pb-12 relative" style="min-height: 516px">
+          <div v-if="errorToShow" class="w-full text-white bg-red-500 absolute top-0" :class="isDismissed === true ? 'hidden' : ''">
+            <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+              <div class="flex">
+                <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+                  <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
+                </svg>
+                <p class="mx-3">
+                  {{ errorToShow.message }}
+                </p>
+              </div>
+              <button class="p-1 transition-colors duration-200 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none" @click="isDismissed = true">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div v-if="notificationToShow" class="w-full text-white bg-green-500 absolute top-0" :class="isDismissed === true ? 'hidden' : ''">
+            <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+              <div class="flex">
+                <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+                  <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
+                </svg>
+                <p class="mx-3">
+                  {{ notificationToShow }}
+                </p>
+              </div>
+              <button class="p-1 transition-colors duration-200 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none" @click="isDismissed = true">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="w-full px-16">
             <p class="title font-semibold text-3xl mt-32 mb-6 text-sky-450">
               Connexion
             </p>
@@ -54,7 +88,7 @@
                   Mot de passe oublié
                 </NuxtLink>
               </p>
-              <div class="rounded-md shadow w-full lg:w-2/3 xl:w-3/5 mb-8">
+              <div class="rounded-md shadow w-full">
                 <button class="shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10">
                   Se connecter
                 </button>
@@ -78,14 +112,24 @@ export default {
   middleware: 'isloggedIn',
   data () {
     return {
-      user: { }
+      user: {},
+      isDismissed: true,
+      errorToShow: '',
+      notificationToShow: ''
     }
   },
   methods: {
     loginUser () {
       this.$auth.loginWith('customStrategy', { data: this.user })
         .then((response) => {
+          /* this.notificationToShow = 'Connection réussie' */
           this.$router.push({ name: 'dashboard' })
+        })
+        .catch((error) => {
+          if (error) {
+            this.errorToShow = error
+            this.isDismissed = false
+          }
         })
     },
     connexionSuccesssfull () {

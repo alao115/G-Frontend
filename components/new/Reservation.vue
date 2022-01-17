@@ -1,20 +1,20 @@
 <template>
   <div class="contents">
-    <a v-if="routeName === 'dashboard-visites'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
+    <a v-if="routeName === 'dashboard-reservations'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
-      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. visite</span>
+      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. Réservation</span>
     </a>
     <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10" @click.prevent="isDismissed = false">
-      Visiter
+      Réserver
     </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-blue-990">
-              Demande de visite
+              Réserver un appartement
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -25,10 +25,10 @@
           <form action="#" class="pt-4 grid grid-cols-1 divide-y divide-gray-300">
             <div v-if="currentStep === 'first'" class="relative">
               <p class="text-base mt-4 text-gray-400">
-                Veuillez sélectionner un appartement à visiter
+                Veuillez sélectionner un appartement à réserver
               </p>
               <div class="relative inline-block w-full text-gray-700">
-                <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                <select v-model="newReservation.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
                   <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
                     <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                     <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
@@ -36,16 +36,16 @@
                 </select>
               </div>
               <div class="flex space-x-8">
-                <input v-model="newVisit.user" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-                <input type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+                <input v-model="newReservation.user" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
               </div>
               <div class="flex space-x-8">
-                <input type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                <input type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+                <input type="text" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+                <input type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
               </div>
               <div class="flex space-x-8">
-                <input v-model="newVisit.date" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+                <input v-model="newReservation.date" type="text" class="mt-4 h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <input type="text" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
               </div>
             </div>
             <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
@@ -53,7 +53,7 @@
                 <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
                 <!-- <span class="icon text-5xl mx-auto"><i class="fal fa-thumbs-up fa-lg" /></span> -->
                 <p class="text-xl my-12 text-blue-920 text-center">
-                  Nouvelle visite ajoutée avec succès
+                  Nouvelle réservation ajoutée avec succès
                 </p>
               </div>
             </div>
@@ -63,8 +63,8 @@
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
-            Enregistrer
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createReservation">
+            Envoyer
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
@@ -92,7 +92,7 @@ export default {
   data () {
     return {
       typeSelectIsOpen: false,
-      currentStep: 'congrats',
+      currentStep: 'first',
       isDismissed: true,
       users: [
         { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
@@ -105,7 +105,9 @@ export default {
       publications: [],
       reservations: [],
       locations: [],
-      newVisit: {},
+      newReservation: {
+        status: 'New'
+      },
       selectedAppart: ''
     }
   },
@@ -152,10 +154,10 @@ export default {
     this.$fetch()
   },
   methods: {
-    createVisit () {
-      this.$api.visitService.create({ variables: { data: this.newVisit } })
+    createReservation () {
+      this.$api.reservationService.create({ variables: { data: this.newReservation } })
         .then((response) => {
-          this.newVisit = {}
+          this.newReservation = {}
           this.currentStep = 'congrats'
         })
         .catch((error) => {

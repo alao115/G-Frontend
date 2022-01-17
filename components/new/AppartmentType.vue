@@ -7,16 +7,18 @@
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. type</span>
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+      <div class="relative flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
-          <h4 class="text-2xl font-medium mb-8 text-blue-990">
-            Nv. type
-          </h4>
-          <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
+          <div class="flex items-center justify-between">
+            <h4 class="text-2xl font-medium mb-8 text-blue-990">
+              Nouveau type
+            </h4>
+            <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
+              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
           <p v-if="currentStep !== 'congrats'" class="text-lg mt-4 text-gray-600">
             Veuillez remplir ce formulaire pour enregistrer un nouveau type
           </p>
@@ -39,12 +41,17 @@
             </div>
           </div>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-4 sm:px-6 lg:p-8 flex justify-between">
+        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Annuler</span>
           </button>
           <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createAppartType">
             Enregistrer le type
+          </button>
+        </div>
+        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+            <span>Fermer</span>
           </button>
         </div>
       </div>
@@ -114,7 +121,6 @@ export default {
     createAppartType () {
       this.$api.appartmentTypeService.create({ variables: { data: this.newType } })
         .then((response) => {
-          // console.log(response.data)
           this.newType = {}
           this.currentStep = 'congrats'
         })

@@ -6,13 +6,18 @@
       </svg>
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. appartment</span>
     </a> -->
+    <div class="flex flex-col h-10 px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
+      <span class="icon">
+        <i class="far fa-edit" />
+      </span>
+    </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
           <h4 class="text-2xl font-medium mb-8 text-blue-990">
-            Nv. location
+            Éditer l'appartement
           </h4>
-          <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = first">
+          <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
@@ -30,8 +35,8 @@
                   Choisissez un type
                 </span>
                 <p v-else class="leading-none text-left flex flex-col">
-                  {{ appartment. selectedType.label }}
-                  <span class="text-sm mt-1 text-gray-400">{{ appartment. selectedType.description }}</span>
+                  {{ appartmentType(appartment.appartmentType).label }}
+                  <span class="text-sm mt-1 text-gray-400">{{ appartment. appartmentType }}</span>
                 </p>
                 <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
