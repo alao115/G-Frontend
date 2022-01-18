@@ -13,9 +13,9 @@
           </button>
           <p class="text-lg mt-4 text-gray-600">
             Modifier les informations de cet appartement
-            {{ appartment }}
+            <!-- {{ appartment }} -->
           </p>
-          <!-- <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 pr-4">
+          <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 pr-4">
             <div class="relative">
               <p class="text-base mt-8 text-gray-400">
                 Type
@@ -33,13 +33,13 @@
                 </svg>
               </button>
               <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartment.appartmentType = type.id, typeSelectIsOpen = false">
+                <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.appartmentType = type.id, typeSelectIsOpen = false">
                   {{ type.label }}
                   <span class="text-gray-400">{{ type.description }}</span>
                 </a>
               </div>
             </div>
-            <p class="text-base mt-8 text-gray-400">
+            <!-- <p class="text-base mt-8 text-gray-400">
               Détails
             </p>
             <textarea v-model="appartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
@@ -81,8 +81,8 @@
                 Localisation
               </p>
               <input v-model="appartment.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
-            </div>
-          </div> -->
+            </div> -->
+          </div>
           <!-- <div v-if="currentStep === 'second'" class="second">
             <p class="text-2xl mt-12 mb-4 text-gray-400 font-normal">
               Caratéristiques
@@ -290,6 +290,7 @@ export default {
   },
   data () {
     return {
+      appartToEdit: '',
       currentStep: 'first',
       isDismissed: true,
       typeSelectIsOpen: false,
@@ -407,6 +408,9 @@ export default {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     }
+  },
+  created () {
+    this.appartToEdit = this.appartment
   }
 }
 </script>
