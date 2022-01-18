@@ -290,7 +290,7 @@ export default {
   },
   data () {
     return {
-      appartToEdit: '',
+      appartToEdit: null,
       currentStep: 'first',
       isDismissed: true,
       typeSelectIsOpen: false,
@@ -404,13 +404,23 @@ export default {
       }
     }
   },
+  created () {
+    this.appartToEdit = this.appartment
+  },
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
+    },
+
+    editAppartment () {
+      this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: this.appartToEdit } })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
-  },
-  created () {
-    this.appartToEdit = this.appartment
   }
 }
 </script>
