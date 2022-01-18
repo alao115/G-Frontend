@@ -10,7 +10,7 @@
       Réserver
     </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full" style="width: 584px">
+      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-blue-990">
@@ -22,42 +22,40 @@
               </svg>
             </button>
           </div>
-          <form action="#" class="pt-4 grid grid-cols-1 divide-y divide-gray-300">
-            <div v-if="currentStep === 'first'" class="relative">
-              <p class="text-base mt-4 text-gray-400">
-                Veuillez sélectionner un appartement à réserver
+          <div v-if="currentStep === 'first'" class="relative">
+            <p class="text-base mt-4 text-gray-400">
+              Veuillez sélectionner un appartement à réserver
+            </p>
+            <div class="relative inline-block w-full text-gray-700">
+              <select v-model="newReservation.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
+                  <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
+                  <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
+                </option>
+              </select>
+            </div>
+            <div class="flex space-x-8">
+              <input v-model="newReservation.user" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+              <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+            </div>
+            <div class="flex space-x-8">
+              <input type="text" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+              <input type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+            </div>
+            <div class="flex space-x-8">
+              <input v-model="newReservation.date" type="text" class="mt-4 h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+              <input type="text" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+            </div>
+          </div>
+          <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
+            <div class="w-full">
+              <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
+              <!-- <span class="icon text-5xl mx-auto"><i class="fal fa-thumbs-up fa-lg" /></span> -->
+              <p class="text-xl my-12 text-blue-920 text-center">
+                Nouvelle réservation ajoutée avec succès
               </p>
-              <div class="relative inline-block w-full text-gray-700">
-                <select v-model="newReservation.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
-                    <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
-                    <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
-                  </option>
-                </select>
-              </div>
-              <div class="flex space-x-8">
-                <input v-model="newReservation.user" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-                <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
-              </div>
-              <div class="flex space-x-8">
-                <input type="text" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                <input type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
-              </div>
-              <div class="flex space-x-8">
-                <input v-model="newReservation.date" type="text" class="mt-4 h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input type="text" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
-              </div>
             </div>
-            <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
-              <div class="w-full">
-                <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-                <!-- <span class="icon text-5xl mx-auto"><i class="fal fa-thumbs-up fa-lg" /></span> -->
-                <p class="text-xl my-12 text-blue-920 text-center">
-                  Nouvelle réservation ajoutée avec succès
-                </p>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
         <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">

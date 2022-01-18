@@ -41,7 +41,7 @@
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
+        <div class="flex items-center w-2 h-10 px-2 text-xs ml-16 mr-2">
           <!-- <span>ID</span> -->
         </div>
         <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
@@ -49,6 +49,9 @@
         </div>
         <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
           <span>LOCALISATION</span>
+        </div>
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>VISITEUR</span>
         </div>
         <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
           <span>DATE</span>
@@ -67,7 +70,7 @@
               <img :src="appartment(vis.appartment).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
           </div>
-          <div class="flex items-center w-12 px-2 mx-1">
+          <div class="flex items-center w-2 px-2 mx-1">
             <span> - </span>
           </div>
           <div class="flex flex-col w-56 px-2 mx-2">
@@ -77,12 +80,12 @@
             <span>{{ appartment(vis.appartment).location }}</span>
           </div>
           <div class="flex flex-col w-40 px-2 mx-2">
+            <span>{{ vis.user }}</span>
+          </div>
+          <div class="flex flex-col w-40 px-2 mx-2">
             <span>{{ vis.date }}</span>
           </div>
-          <div class="flex flex-col w-24 px-2 mx-2">
-            <span />
-          </div>
-          <div class="flex flex-col w-36 px-2 mx-2">
+          <div class="flex flex-col w-20 px-2 mx-2">
             <span />
           </div>
           <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(vis)">
@@ -97,7 +100,7 @@
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-12 h-10 px-2 text-xs ml-16 mr-2">
+        <div class="flex items-center w-2 h-10 px-2 text-xs ml-16 mr-2">
           <!-- <span>ID</span> -->
         </div>
         <div class="flex items-center w-56 h-10 px-2 text-xs mx-2">
@@ -105,6 +108,9 @@
         </div>
         <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
           <span>LOCALISATION</span>
+        </div>
+        <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>VISITEUR</span>
         </div>
         <div class="flex items-center w-40 h-10 px-2 text-xs mx-2">
           <span>DATE</span>

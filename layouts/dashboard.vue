@@ -95,6 +95,9 @@ export default {
     routeName () {
       return this.$nuxt.$route.name
     },
+    connectedUser () {
+      return this.$auth.user
+    },
     pageTitle () {
       let returnableValue
       switch (this.routeName) {

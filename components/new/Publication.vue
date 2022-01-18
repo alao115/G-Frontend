@@ -41,7 +41,7 @@
               </button>
               <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                 <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
-                <a v-for="type in appartmentTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
+                <a v-for="type in listOfTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
                   {{ type && type.label }}
                   <span class="text-gray-400">{{ type.description }}</span>
                 </a>
@@ -174,16 +174,32 @@ export default {
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
+    },
+    typeAppartments () {
+      return id => this.appartments.filter(appartment => appartment.appartmentType === id)
+    },
+    listOfTypes () {
+      const returnedListOfTypes = []
+      this.appartmentTypes.forEach((type) => {
+        if (this.typeAppartments(type.id).length > 0) {
+          returnedListOfTypes.push(type)
+        }
+      })
+      return returnedListOfTypes
     }
   },
   watch: {
     publishNow (value) {
-      console.log(value)
       if (value === true) {
         this.newPublication.date = new Date()
         this.newPublication.status = 'Published'
       } else {
         this.newPublication.status = 'Scheduled'
+      }
+    },
+    selectedType (value) {
+      if (value !== '') {
+        this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
       }
     }
   },
@@ -197,8 +213,11 @@ export default {
     createPublication () {
       this.$api.publicationService.create({ variables: { data: this.newPublication } })
         .then((response) => {
-          console.log(response.data)
           this.newPublication = {}
+          this.currentStep = 'congrats'
+        })
+        .catch((error) => {
+          this.errorToshow = error
         })
     }
   }
