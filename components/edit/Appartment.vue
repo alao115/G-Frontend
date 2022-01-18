@@ -281,7 +281,7 @@ export default {
   props: {
     appartment: {
       type: Object,
-      default () {}
+      default: () => ({})
     },
     isMinified: {
       type: Boolean,
@@ -290,7 +290,7 @@ export default {
   },
   data () {
     return {
-      appartToEdit: null,
+      appartToEdit: { ...this.appartment },
       currentStep: 'first',
       isDismissed: true,
       typeSelectIsOpen: false,
@@ -333,25 +333,6 @@ export default {
         phone: '',
         email: ''
       },
-      publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ],
-      reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
       appartments: [],
       appartmentTypes: [],
@@ -400,12 +381,13 @@ export default {
     },
     appartment (value) {
       if (value !== null) {
+        this.appartToEdit = { ...value }
         this.isDismissed = false
       }
     }
   },
   created () {
-    this.appartToEdit = this.appartment
+    this.appartToEdit = { ...this.appartment }
   },
   methods: {
     toDetails (appartment) {
