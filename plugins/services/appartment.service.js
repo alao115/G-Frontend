@@ -6,4 +6,8 @@ export default ({ apollo, gql }) => class AppartmentService {
   create ({ projections, variables } = { projections: 'id ', variables: {} }) {
     return apollo.mutate({ mutation: gql`mutation createAppart($data: appartmentData) { createAppartment(data: $data) { id } }`, variables })
   }
+
+  update ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    return apollo.mutate({ mutation: gql`mutation updateAppart($data: appartmentData, $appartmentId: ID) { updateAppartment(appartmentId: $appartmentId, data: $data) { id } }`, variables })
+  }
 }
