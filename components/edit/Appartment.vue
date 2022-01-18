@@ -14,7 +14,6 @@
           <p class="text-lg mt-4 text-gray-600">
             Modifier les informations de cet appartement
             <!-- {{ appartment }} -->
-            <!-- je ne comprends toujours pas -->
           </p>
           <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 pr-4">
             <div class="relative">
