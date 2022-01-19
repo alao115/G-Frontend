@@ -89,6 +89,7 @@ export default {
   },
   data () {
     return {
+      selectedType: '',
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
@@ -141,11 +142,28 @@ export default {
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
+    },
+    typeAppartments () {
+      return id => this.appartments.filter(appartment => appartment.appartmentType === id)
+    },
+    listOfTypes () {
+      const returnedListOfTypes = []
+      this.appartmentTypes.forEach((type) => {
+        if (this.typeAppartments(type.id).length > 0) {
+          returnedListOfTypes.push(type)
+        }
+      })
+      return returnedListOfTypes
     }
   },
   watch: {
     isDismissed (value) {
       // console.log(value)
+    },
+    selectedType (value) {
+      if (value !== '') {
+        this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
+      }
     }
   },
   mounted () {

@@ -21,12 +21,12 @@
                 Type
               </p>
               <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
-                <span v-if="!appartment.appartmentType" class="leading-none">
+                <span v-if="!appartToEdit.appartmentType" class="leading-none">
                   Choisissez un type
                 </span>
                 <p v-else class="leading-none text-left flex flex-col">
-                  {{ appartment.appartmentType && appartmentType(appartment.appartmentType).label }}
-                  <span class="text-sm mt-1 text-gray-400">{{ appartment.appartmentType && appartmentType(appartment.appartmentType).description }}</span>
+                  {{ appartToEdit.appartmentType && appartmentType(appartToEdit.appartmentType).label }}
+                  <span class="text-sm mt-1 text-gray-400">{{ appartToEdit.appartmentType && appartmentType(appartToEdit.appartmentType).description }}</span>
                 </p>
                 <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -39,30 +39,30 @@
                 </a>
               </div>
             </div>
-            <!-- <p class="text-base mt-8 text-gray-400">
+            <p class="text-base mt-8 text-gray-400">
               Détails
             </p>
-            <textarea v-model="appartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            <textarea v-model="appartToEdit.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
             <p class="text-base mt-4 text-gray-400">
               Loyer
             </p>
             <div class="flex space-x-8">
-              <input v-model.number="appartment.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <input v-model.number="appartToEdit.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
                 <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
-                  <span v-if="selectedPaymentFrequency === ''" class="leading-none">
+                  <p v-if="appartToEdit.conditions && appartToEdit.conditions.paymentFrequency" class="leading-none text-left flex flex-col">
+                    {{ paymentFrequency(appartToEdit.conditions.paymentFrequency).label }}
+                    <span class="text-sm mt-1 text-gray-400">{{ paymentFrequency(appartToEdit.conditions.paymentFrequency).description }}</span>
+                  </p>
+                  <span v-else class="leading-none">
                     Choisissez une fréquence
                   </span>
-                  <p v-else class="leading-none text-left flex flex-col">
-                    {{ selectedPaymentFrequency.label }}
-                    <span class="text-sm mt-1 text-gray-400">{{ selectedPaymentFrequency.description }}</span>
-                  </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="paymentFrequenciesIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedPaymentFrequency = frequency, paymentFrequenciesIsOpen = false">
+                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.conditions.paymentFrequency = frequency.id, paymentFrequenciesIsOpen = false">
                     {{ frequency.label }}
                     <span class="text-gray-400">{{ frequency.description }}</span>
                   </a>
@@ -72,24 +72,24 @@
             <p class="text-base mt-4 text-gray-400">
               Caution Loyer
             </p>
-            <div class="flex space-x-8">
-              <input v-model.number="appartment.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-              <input :value="appartment.conditions.prepaidRentMonths * appartment.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+            <div v-if="appartToEdit.conditions && appartToEdit.conditions.prepaidRentMonths" class="flex space-x-8">
+              <input v-model.number="appartToEdit.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+              <input :value="appartToEdit.conditions.prepaidRentMonths * appartToEdit.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
             </div>
             <div class="relative col-span-2 mb-8">
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
-              <input v-model="appartment.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
-            </div> -->
+              <input v-model="appartToEdit.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
+            </div>
           </div>
-          <!-- <div v-if="currentStep === 'second'" class="second">
+          <div v-if="currentStep === 'second'" class="second">
             <p class="text-2xl mt-12 mb-4 text-gray-400 font-normal">
               Caratéristiques
             </p>
             <div class="grid grid-cols-2">
               <div class="w-full pr-4 relative">
-                <input v-model.number="appartment.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-bed-alt fa-lg" />
                 </span>
@@ -98,7 +98,7 @@
                 </p>
               </div>
               <div class="w-full pl-4 relative">
-                <input v-model.number="appartment.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-couch fa-lg" />
                 </span>
@@ -107,7 +107,7 @@
                 </p>
               </div>
               <div class="w-full pr-4 relative">
-                <input v-model.number="appartment.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-oven fa-lg" />
                 </span>
@@ -116,7 +116,7 @@
                 </p>
               </div>
               <div class="w-full pl-4 relative">
-                <input v-model.number="appartment.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
                 </span>
@@ -125,7 +125,7 @@
                 </p>
               </div>
               <div class="w-full pr-4 relative">
-                <input v-model.number="appartment.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-cabinet-filing fa-lg" />
                 </span>
@@ -133,7 +133,7 @@
                   Débarras
                 </p>
               </div><div class="w-full pl-4 relative">
-                <input v-model.number="appartment.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-garage-open fa-lg" />
                 </span>
@@ -141,7 +141,7 @@
                   Garage
                 </p>
               </div><div class="w-full pr-4 relative">
-                <input v-model.number="appartment.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-list-ol fa-lg" />
                 </span>
@@ -149,7 +149,7 @@
                   Niveau
                 </p>
               </div><div class="w-full pl-4 relative">
-                <input v-model.number="appartment.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                <input v-model.number="appartToEdit.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 <span class="flex justify-center items-center absolute icon top-0 mt-3 h-12 w-16 block">
                   <i class="far fa-users fa-lg" />
                 </span>
@@ -169,18 +169,18 @@
                   Civilité
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
-                  <span v-if="selectedCivility === ''" class="leading-none">
+                  <span v-if="appartToEdit.ownerInfos.civility === ''" class="leading-none">
                     Choisissez un type
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ selectedCivility.value }}
+                    {{ appartToEdit.ownerInfos.value }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="civilitySelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility, civilitySelectIsOpen = false">
+                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.ownerInfos.civility = civility.value, civilitySelectIsOpen = false">
                     {{ civility.value }}
                   </a>
                 </div>
@@ -190,21 +190,21 @@
                   Est vivant(e)
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
-                  <span v-if="ownerInfos && ownerInfos.isAlive === ''" class="leading-none">
+                  <span v-if="ownerInfos && appartToEdit.ownerInfos.isAlive === ''" class="leading-none">
                     -
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ ownerInfos && ownerInfos.isAlive && ownerInfos.isAlive === true ? "Vivant(e)" : 'Décédé(e)' }}
+                    {{ appartToEdit.ownerInfos && appartToEdit.ownerInfos.isAlive && appartToEdit.ownerInfos.isAlive === true ? "Vivant(e)" : 'Décédé(e)' }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="livingStatusSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = true, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.ownerInfos.isAlive = true, livingStatusSelectIsOpen = false">
                     Vivant(e)
                   </a>
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="ownerInfos.isAlive = false, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.ownerInfos.isAlive = false, livingStatusSelectIsOpen = false">
                     Décédée(e)
                   </a>
                 </div>
@@ -215,13 +215,13 @@
                 <p class="text-base mt-1 text-gray-400">
                   Prénom
                 </p>
-                <input v-model="ownerInfos.firstname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
+                <input v-model="appartToEdit.ownerInfos.firstname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Prénom">
               </div>
               <div class="relative pl-4">
                 <p class="text-base mt-1 text-gray-400">
                   Nom
                 </p>
-                <input v-model="ownerInfos.lastname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Nom">
+                <input v-model="appartToEdit.ownerInfos.lastname" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Nom">
               </div>
             </div>
             <div class="grid grid-cols-2 mb-4">
@@ -229,20 +229,20 @@
                 <p class="text-base mt-1 text-gray-400">
                   Téléphone
                 </p>
-                <input v-model="ownerInfos.phone" type="number" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
+                <input v-model="appartToEdit.ownerInfos.phone" type="number" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Téléphone">
               </div>
               <div class="relative pl-4">
                 <p class="text-base mt-1 text-gray-400">
                   Email
                 </p>
-                <input v-model="ownerInfos.email" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
+                <input v-model="appartToEdit.ownerInfos.email" type="email" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Email">
               </div>
             </div>
             <div class="w-full relative">
               <p class="text-base mt-1 text-gray-400">
                 Adresse
               </p>
-              <textarea v-model="ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+              <textarea v-model="appartToEdit.ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
             </div>
             <div class="retative">
               <a href="#" class="text-gray-400 hover:" @click.prevent="currentStep='photos'">Rajouter les photos maintenant</a>
@@ -257,18 +257,24 @@
             <div class="w-full">
               <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
               <p class="text-xl my-12 text-blue-920 text-center">
-                Nouvel appartement ajouté avec succès
+                Appartement mis à jour avec succès
               </p>
             </div>
-          </div> -->
+          </div>
         </div>
-        <div class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep = 'second'">
+        <div v-if="currentStep === 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+            <span>Retour</span>
+          </button>
+        </div>
+        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+          <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep === 'third' ? currentStep = 'second' : currentStep = 'third'">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? currentStep = 'second' : currentStep = 'third'">
-            Suivant
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'third' ? editAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
+            <span v-if="currentStep === 'photos' || currentStep === 'third'">Enregistrer</span>
+            <span v-else>Suivant</span>
           </button>
         </div>
       </div>
@@ -294,6 +300,13 @@ export default {
       currentStep: 'first',
       isDismissed: true,
       typeSelectIsOpen: false,
+      civilitySelectIsOpen: false,
+      livingStatusSelectIsOpen: false,
+      civilities: [
+        { id: 1, value: 'M.' },
+        { id: 2, value: 'Mme' },
+        { id: 3, value: 'Autre' }
+      ],
       paymentFrequenciesIsOpen: false,
       selectedType: '',
       details: '',

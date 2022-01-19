@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-blue-990 flex justify-evenly px-16 xl:px-24 h-48 items-center space-x-16 text-white font-body text-sm">
+  <div class="bg-blue-990 flex justify-evenly px-8 lg:px-16 xl:px-24 h-48 items-center lg:space-x-16 text-white font-body text-sm flex-col lg:flex-row">
     <GontcheLogoWhite />
-    <p class="w-4/12">
+    <p class="w-full lg:w-4/12 hidden lg:block">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     </p>
     <p>
       © 2021 Gontché
     </p>
-    <a href="#">Nous contacter</a>
-    <div class="flex space-x-3">
+    <a class="hidden lg:block" href="#">Nous contacter</a>
+    <div class="hidden lg:flex space-x-3">
       <NuxtLink to="#">
         <span class="icon">
           <i class="la la-facebook-f text-xl" />

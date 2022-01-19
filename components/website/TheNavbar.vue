@@ -1,9 +1,9 @@
 <template>
-  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-16 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-20' : 'h-32'">
+  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-8 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-8 md:h-20' : 'h-16 md:h-32'">
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
-    <div class="space-x-4">
+    <div class="space-x-4 hidden lg:block">
       <NuxtLink to="/" class="text-blue-990 text-lg py-2 mr-4">
         Je cherche
       </NuxtLink>
@@ -23,6 +23,13 @@
         Se connecter
       </NuxtLink>
     </div>
+    <div class="block md:hidden mobile-menu">
+      <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="menuIsOpen = true">
+        <span class="icon">
+          <i class="far fa-bars" />
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,7 +37,8 @@
 export default {
   data () {
     return {
-      isMinified: false
+      isMinified: false,
+      menuIsOpen: false
     }
   },
   computed: {

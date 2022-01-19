@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-sky-450 px-16 xl:px-24 py-12 items-center space-x-16 text-white font-body">
-    <div class="container text-center p-24 w-2/3 mx-auto">
+  <div class="bg-sky-450 px-8 xl:px-24 py-8 lg:py-12 items-center text-white font-body">
+    <div class="container text-center xl:p-24 w-full lg:mx-auto">
       <div class="text-white">
-        <h1 class="text-4xl font-semibold">
+        <h1 class="text-3xl xl:text-4xl font-semibold">
           N'hésitez pas à nous contacter !
         </h1>
         <p class="text-xl my-6">
