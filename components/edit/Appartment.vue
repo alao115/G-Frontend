@@ -410,10 +410,11 @@ export default {
     editAppartment () {
       this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: this.appartToEdit } })
         .then((response) => {
-          console.log(response)
+          this.appartmentToEdit = {}
+          this.currentStep = 'congrats'
         })
         .catch((error) => {
-          console.log(error)
+          this.errorToshow = error
         })
     }
   }

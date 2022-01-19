@@ -1,5 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
+    <EditAppartmentType :appartmentType="appartmentTypeToEdit" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -128,6 +129,7 @@ export default {
   data () {
     return {
       title: 'Publications',
+      appartmentTypeToEdit: {},
       isListLayout: true,
       isFilterTrayOpened: false,
       selectedTypes: [],
@@ -174,6 +176,9 @@ export default {
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
+    },
+    setToEdition (type) {
+      this.appartmentTypeToEdit = type
     }
   }
 }
