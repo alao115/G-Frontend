@@ -681,9 +681,11 @@ export default {
     createAppartment () {
       this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
       this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency.id
-      // console.log(this.newAppartment)
       this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
-        .then((response) => {
+        .then(() => {
+          return this.$api.appartmentService.getAll()
+        })
+        .then(() => {
           this.newAppartment = {}
           this.currentStep = 'congrats'
         })

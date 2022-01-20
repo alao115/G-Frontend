@@ -12,7 +12,7 @@
       <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium bg-white hover:bg-gray-100 border-2 border-gray-200" @click.prevent="isClosed = true">
         <span>Finalement, non</span>
       </button>
-      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700" @click.prevent="isClosed = true">
+      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700" @click.prevent="deleteAppartment">
         <span>Oui, supprimer</span>
       </button>
       <div class="flex flex-col px-2 mx-2 cursor-pointer text-gray-300" @click.prevent="isClosed = true">
@@ -26,9 +26,28 @@
 
 <script>
 export default {
+  props: {
+    appartment: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+
   data () {
     return {
       isClosed: true
+    }
+  },
+
+  methods: {
+    deleteAppartment () {
+      this.$api.appartmentService.delete({ variables: { appartmentId: this.appartment.id } })
+        .then(() => this.$api.appartmentService.getAll())
+        .then((response) => {
+          this.isClosed = true
+          // console.log(response)
+        })
+        .catch(error => console.log(error))
     }
   }
 }
