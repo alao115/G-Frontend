@@ -8,6 +8,15 @@ export default ({ apollo, gql }) => class AppartmentService {
   }
 
   update ({ projections, variables } = { projections: 'id ', variables: {} }) {
-    return apollo.mutate({ mutation: gql`mutation updateAppart($data: appartmentData, $appartmentId: ID) { updateAppartment(appartmentId: $appartmentId, data: $data) { id } }`, variables })
+    delete variables?.data.conditions.__typename
+    delete variables?.data.ownerInfos.__typename
+    delete variables?.data.__typename
+    delete variables?.data.id
+    return apollo.mutate({ mutation: gql`mutation updateAppart($data: appartmentData, $appartmentId: ID!) { updateAppartment(appartmentId: $appartmentId, data: $data) { id } }`, variables })
+  }
+
+  delete ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    console.log(variables)
+    return apollo.mutate({ mutation: gql`mutation deleteAppart($appartmentId: ID!) { deleteAppartment(appartmentId: $appartmentId ) { id } }`, variables })
   }
 }

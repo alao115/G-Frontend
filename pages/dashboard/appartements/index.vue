@@ -97,7 +97,7 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <DeletePrompt />
+          <DeletePrompt :appartment="appart" />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
