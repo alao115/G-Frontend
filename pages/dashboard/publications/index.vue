@@ -98,7 +98,7 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <DeletePrompt />
+          <DeletePrompt :delete-placeholder="() => deletePublication(pub)" />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -160,14 +160,7 @@ export default {
       isListLayout: true,
       isFilterTrayOpened: false,
       selectedPublications: [],
-      publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ],
+      publications: [],
       reservations: [
         { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
       ],
@@ -214,6 +207,15 @@ export default {
   methods: {
     setToEdition (publication) {
       this.publicationToEdit = publication
+    },
+    deletePublication (publication) {
+      return this.$api.publicationService.delete({ variables: { publicationId: publication.id } })
+        .then(() => this.$api.publicationService.getAll())
+        .then(({ data }) => {
+          // console.log(data)
+          this.publications = data.publications
+        })
+        .catch(error => console.log(error))
     }
   }
 }

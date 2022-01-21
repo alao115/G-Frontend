@@ -94,7 +94,7 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <DeletePrompt />
+          <DeletePrompt :delete-placeholder="() => deleteVisit(vis)" />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -212,6 +212,14 @@ export default {
     }, */
     setToEdition (visit) {
       this.visitToEdit = visit
+    },
+    deleteVisit (visit) {
+      return this.$api.visitService.delete({ variables: { visitId: visit.id } })
+        .then(() => this.$api.visitService.getAll())
+        .then(({ data }) => {
+          this.visits = data.visits
+        })
+        .catch(error => console.log(error))
     }
   }
 }

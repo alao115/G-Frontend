@@ -16,7 +16,6 @@ export default ({ apollo, gql }) => class AppartmentService {
   }
 
   delete ({ projections, variables } = { projections: 'id ', variables: {} }) {
-    console.log(variables)
     return apollo.mutate({ mutation: gql`mutation deleteAppart($appartmentId: ID!) { deleteAppartment(appartmentId: $appartmentId ) { id } }`, variables })
   }
 }

@@ -91,7 +91,7 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <DeletePrompt />
+          <DeletePrompt :delete-placeholder="() => deleteReservation(reserv)" />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -204,6 +204,15 @@ export default {
     }, */
     setToEdition (reservation) {
       this.reservationToEdit = reservation
+    },
+
+    deleteReservation (reservation) {
+      return this.$api.reservationService.delete({ variables: { reservationId: reservation.id } })
+        .then(() => this.$api.reservationService.getAll())
+        .then(({ data }) => {
+          this.reservations = data.reservations
+        })
+        .catch(error => console.log(error))
     }
   }
 }

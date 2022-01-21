@@ -6,4 +6,16 @@ export default ({ apollo, gql }) => class VisitService {
   create ({ projections, variables } = { projections: 'id ', variables: {} }) {
     return apollo.mutate({ mutation: gql`mutation createVisit($data: visitData) { createVisit(data: $data) { id } }`, variables })
   }
+
+  update ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    delete variables?.data.__typename
+    delete variables?.data.appartment.__typename
+    delete variables?.data.user.__typename
+    delete variables?.data.id
+    return apollo.mutate({ mutation: gql`mutation updateVisit($data: visitData, $visitId: ID!) { updateVisit(visitId: $visitId, data: $data) { id } }`, variables })
+  }
+
+  delete ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    return apollo.mutate({ mutation: gql`mutation deleteVisit($visitId: ID!) { deleteVisit(visitId: $visitId ) { id } }`, variables })
+  }
 }
