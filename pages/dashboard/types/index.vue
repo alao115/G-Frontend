@@ -1,6 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <EditAppartmentType :appartmentType="appartmentTypeToEdit" />
+    <EditAppartmentType :appartment-type="appartmentTypeToEdit" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -83,7 +83,7 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <DeletePrompt />
+          <DeletePrompt :delete-placeholder="() => deleteAppartmentType(type)" />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -179,6 +179,15 @@ export default {
     },
     setToEdition (type) {
       this.appartmentTypeToEdit = type
+    },
+    deleteAppartmentType (type) {
+      return this.$api.appartmentTypeService.delete({ variables: { appartmentTypeId: type.id } })
+        .then(() => this.$api.appartmentTypeService.getAll())
+        .then(({ data }) => {
+          // console.log(data)
+          this.appartmentTypes = data.appartmentTypes
+        })
+        .catch(error => console.log(error))
     }
   }
 }

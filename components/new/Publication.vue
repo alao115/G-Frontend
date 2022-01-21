@@ -65,7 +65,7 @@
             </div>
             <div v-if="!publishNow" class="">
               <div class="flex space-x-8">
-                <input v-model="newPublication.date" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <input v-model="newPublication.date" type="date" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
                 <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
               </div>
             </div>
@@ -211,6 +211,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createPublication () {
+      this.newPublication.date = new Date(this.newPublication.date).valueOf().toString()
       this.$api.publicationService.create({ variables: { data: this.newPublication } })
         .then((response) => {
           this.newPublication = {}

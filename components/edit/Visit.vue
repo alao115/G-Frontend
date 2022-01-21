@@ -165,6 +165,10 @@ export default {
   },
   methods: {
     editVisit () {
+      this.visitToEdit.appartment = this.visitToEdit.appartment.id
+      this.visitToEdit.user = this.visitToEdit.user.id
+      this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
+
       this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: this.visitToEdit } })
         .then((response) => {
           this.visitToEdit = {}

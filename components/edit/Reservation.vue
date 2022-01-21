@@ -163,6 +163,10 @@ export default {
   },
   methods: {
     editReservation () {
+      this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
+      this.reservationToEdit.user = this.reservationToEdit.user.id
+      this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
+
       this.$api.reservationService.update({ variables: { data: this.reservationToEdit } })
         .then((response) => {
           this.reservationToEdit = {}

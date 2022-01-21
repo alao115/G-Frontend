@@ -97,7 +97,7 @@
               <i class="far fa-edit" />
             </span>
           </div>
-          <DeletePrompt :appartment="appart" />
+          <DeletePrompt :delete-placeholder="() => deleteAppartment(appart)" />
         </div>
       </div>
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -223,6 +223,14 @@ export default {
     },
     setToEdition (appartment) {
       this.appartmentToEdit = appartment
+    },
+    deleteAppartment (appartment) {
+      return this.$api.appartmentService.delete({ variables: { appartmentId: appartment.id } })
+        .then(() => this.$api.appartmentService.getAll())
+        .then(({ data }) => {
+          this.appartments = data.appartments
+        })
+        .catch(error => console.log(error))
     }
   }
 }

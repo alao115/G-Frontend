@@ -188,6 +188,10 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     updatePublication () {
+      this.publicationToEdit.appartment = this.publicationToEdit.appartment.id
+      this.publicationToEdit.publisher = this.publicationToEdit.publisher.id
+      this.publicationToEdit.date = new Date(this.publicationToEdit.date).valueOf().toString()
+
       this.$api.publicationService.update({ variables: { publicationId: this.publicationToEdit.id, data: this.publicationToEdit } })
         .then((response) => {
           this.publicationToEdit = {}

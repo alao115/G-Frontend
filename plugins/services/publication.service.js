@@ -4,6 +4,16 @@ export default ({ apollo, gql }) => class PublicationService {
   }
 
   create ({ projections, variables } = { projections: 'id', variables: {} }) {
-    return apollo.mutate({ mutation: gql`mutation createAppartType($data: publicationData) { createPublication(data: $data) { id } }`, variables })
+    return apollo.mutate({ mutation: gql`mutation createPublication($data: publicationData) { createPublication(data: $data) { id } }`, variables })
+  }
+
+  update ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    delete variables?.data.__typename
+    delete variables?.data.id
+    return apollo.mutate({ mutation: gql`mutation updatePublication($data: publicationData, $publicationId: ID!) { updatePublication(publicationId: $publicationId, data: $data) { id } }`, variables })
+  }
+
+  delete ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    return apollo.mutate({ mutation: gql`mutation deletePublication($publicationId: ID!) { deletePublication(publicationId: $publicationId ) { id } }`, variables })
   }
 }
