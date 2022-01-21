@@ -31,7 +31,7 @@
       </div>
       <div class="to-animate mobile-widget flex items-end justify-center bg-black bg-opacity-75 w-screen absolute top-0 left-0 z-50" :class="menuIsOpen === true ? 'h-screen fixed' : 'h-0'">
         <div class="to-animate flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow justify-between relative w-full" :class="menuIsOpen === true ? 'h-screen' : 'h-0'">
-          <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
+          <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-50 bg-white relative">
             <div class="flex flex-col items-end">
               <button class="hover:text-blue-730 p-4 relative mx-2" @click.prevent="menuIsOpen = false">
                 <span class="icon"><i class="fas fa-times fa-lg" /></span>
@@ -53,13 +53,13 @@
                 </NuxtLink>
               </div>
               <div class="grid grid-cols-1 space-4 ml-4 py-8">
-                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/signin" class="text-gray-400 text-lg py-2 mr-4" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'" @click.prevent="goToPage('/signin')">
+                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Publier
                 </NuxtLink>
                 <NuxtLink v-if="connectedUser" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/dashboard')">
                   Accéder au Dashboard
                 </NuxtLink>
-                <NuxtLink v-else to="/signin" class="text-gray-400 text-lg py-2 mr-4" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'" @click.prevent="goToPage('/signin')">
+                <NuxtLink v-else to="/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Se connecter
                 </NuxtLink>
               </div>

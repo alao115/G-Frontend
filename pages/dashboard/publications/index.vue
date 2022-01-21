@@ -32,7 +32,7 @@
         0 publication trouvée
       </h1><br>
       <p class="text-gray-400">
-        Cliquez sur le bouton " + Nv. publication" en haut à gauche pour <span class="font-bold text-blue-920">publier une annonce</span>.
+        Cliquez sur le bouton " + Nv. publication" en haut à gauche pour <span class="font-extrabold">publier une annonce</span>.
       </p>
     </div>
     <div v-else class="flex flex-col w-full table__container">
@@ -69,21 +69,20 @@
           </div>
           <div class="flex flex-col mx-2">
             <span class="rounded-full h-12 w-12">
-              <img :src="appartment(pub.appartment.id).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
+              <img :src="pub.appartment.mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
           </div>
           <div class="flex items-center w-12 h-10 px-2 mx-1">
-            <!-- <span>{{ pub.id }}</span> -->
             <span> - </span>
           </div>
           <div class="flex flex-col w-56 px-2 mx-2">
-            <p>{{ appartmentType(appartment(pub.appartment.id).appartmentType).label }} | <span class="text-gray-400">{{ appartment(pub.appartment.id).bedrooms }} Chambre<span v-if="appartment(pub.appartment.id).bedrooms > 1">s</span> - {{ appartment(pub.appartment.id).livingrooms }} Salon<span v-if="appartment(pub.appartment.id).livingrooms > 1">s</span></span></p>
+            <p>{{ appartmentType(pub.appartment.appartmentType).label }} | <span class="text-gray-400">{{ pub.appartment.bedrooms }} Chambre<span v-if="pub.appartment.bedrooms > 1">s</span> - {{ pub.appartment.livingrooms }} Salon<span v-if="pub.appartment.livingrooms > 1">s</span></span></p>
           </div>
           <div class="flex flex-col w-40 px-2 mx-2">
-            <span>{{ appartment(pub.appartment.id).location }}</span>
+            <span>{{ pub.appartment.location }}</span>
           </div>
           <div class="flex flex-col w-20 px-2 mx-2">
-            <span>{{ appartment(pub.appartment.id).rent }}</span>
+            <span>{{ pub.appartment.rent }}</span>
           </div>
           <div class="flex flex-col w-24 px-2 mx-2">
             <span />

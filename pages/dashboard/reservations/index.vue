@@ -33,8 +33,8 @@
       </h1>
       <br>
       <p class="text-gray-400">
-        Cliquez sur le bouton " + Nv. réservation" en haut à gauche publicationService
-        <span class="font-bold text-blue-920">réserver un appartement</span>.
+        Cliquez sur le bouton " + Nv. réservation" en haut à gauche pour
+        <span class="font-extrabold">réserver un appartement</span>.
       </p>
     </div>
     <div v-else class="flex flex-col w-full table__container">

@@ -34,7 +34,7 @@
       <br>
       <p class="text-gray-400">
         Cliquez sur le bouton " + Nv. visite" en haut à gauche pour
-        <span class="font-bold text-blue-920">programmer une visite</span>.
+        <span class="font-extrabold">programmer une visite</span>.
       </p>
     </div>
     <div v-else class="flex flex-col w-full table__container">

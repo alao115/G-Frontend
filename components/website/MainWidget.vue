@@ -62,11 +62,11 @@
         </div>
       </form>
     </div>
-    <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10 block lg:hidden mt-8" href="#" @click.prevent="mobileWidgetIsVisible = true">
+    <!-- <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10 block lg:hidden mt-8" href="#" @click.prevent="mobileWidgetIsVisible = true">
       <span class="icon"><i class="fas fa-search" /></span>
       <span class="ml-3 text-sm font-medium">Rechercher</span>
-    </a>
-    <div class="to-animate mobile-widget flex items-end justify-center bg-black bg-opacity-75 w-screen absolute top-0 left-0 z-50" :class="mobileWidgetIsVisible === true ? 'h-screen fixed' : 'h-0'">
+    </a> -->
+    <!-- <div class="to-animate mobile-widget flex items-end justify-center bg-black bg-opacity-75 w-screen absolute top-0 left-0 z-50" :class="mobileWidgetIsVisible === true ? 'h-screen fixed' : 'h-0'">
       <div class="to-animate flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow justify-between relative w-full" :class="mobileWidgetIsVisible === true ? 'h-screen' : 'h-0'">
         <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center">
@@ -124,6 +124,77 @@
             <span>Trouver</span>
           </button>
         </div>
+      </div>
+    </div> -->
+    <div class="container bg-white rounded-xl h-auto font-body shadow-btn-shadow mt-4 -mb-16 bg-opacity-90 block lg:hidden pb-4">
+      <div v-if="listOfTypes.length > 0" class="flex w-full mb-4 rounded-md bg-blue-50">
+        <button
+          v-for="type in listOfTypes"
+          :key="type.id"
+          class="flex w-1/2 whitespace-nowrap items-center justify-center py-4 px-8 rounded-md rounded-b-none text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
+          :class="type.id === selectedType.id ? 'bg-sky-550 text-white' : ''"
+          @click.prevent="selectedType = type"
+        >
+          {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
+        </button>
+      </div>
+      <div v-else class="flex w-min mb-8 rounded-md bg-blue-50">
+        <button
+          v-for="type in types"
+          :key="type.id"
+          class="flex w-1/2 whitespace-nowrap items-center justify-center py-4 px-8 rounded-md rounded-b-none text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
+          :class="type.id === selectedType.id ? 'bg-sky-550 text-white' : ''"
+          @click.prevent="selectedType = type"
+        >
+          {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
+        </button>
+      </div>
+      <div class="fkex flex-col px-4">
+        <div class="flex flex-col mb-8">
+          <p class="mb-2 text-sm">
+            <span class="icon mr-2">
+              <i class="fas fa-map-marker-alt" />
+            </span>
+            <label for="#">Zone</label>
+          </p>
+          <input v-model="location" type="text" class="text-sm w-full h-12 md:h-16 px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Ville, Quartier">
+        </div>
+        <div class="grid grid-cols-2 space-x-4">
+          <div class="flex flex-col">
+            <p class="mb-2 text-sm">
+              <span class="icon mr-2">
+                <i class="fas fa-home" />
+              </span>
+              <label class="mr-4" for="#">Chambres</label>
+            </p>
+            <div class="flex justify-between w-full">
+              <!-- <a class="border-2 border-blue-990 p-3 md:p-4 ml-2 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white h-12 md:h-16 w-12 md:w-16 text-center" :class="roomsQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" roomsQty > 1 ? roomsQty-- : '' ">
+                <span class="icon">
+                  <i class="fas fa-minus fa-sm" />
+                </span>
+              </a> -->
+              <input v-model.number="roomsQty" type="number" class="text-sm w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="0">
+              <!-- <a class="border-2 border-blue-990 p-3 md:p-4 ml-2 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white h-12 md:h-16 w-12 md:w-16 text-center" @click.prevent="roomsQty++">
+                <span class="icon">
+                  <i class="fas fa-plus fa-sm" />
+                </span>
+              </a> -->
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <p class="mb-2 text-sm">
+              <span class="icon mr-2">
+                <i class="fas fa-money-bill-wave-alt" />
+              </span>
+              <label for="#">Budget</label>
+            </p>
+            <input v-model.number="budget" type="number" class="text-sm w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="0">
+          </div>
+        </div>
+        <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-2 text-lg px-10 block lg:hidden mt-8 h-12" href="#">
+          <span class="icon"><i class="fas fa-search" /></span>
+          <span class="ml-3 text-sm font-medium">Rechercher</span>
+        </a>
       </div>
     </div>
   </div>
