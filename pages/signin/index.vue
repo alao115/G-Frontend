@@ -2,8 +2,8 @@
   <div class="flex items-center h-screen bg-blue-920 font-body">
     <div class="cover" />
     <div class="container mx-auto">
-      <div class="flex space-x-8 justify-center">
-        <div class="container flex flex-col lg:w-5/12 xl:w-4/12 justify-between" style="min-height: 516px">
+      <div class="flex lg:space-x-8 justify-center">
+        <div class="container flex-col lg:w-5/12 xl:w-4/12 justify-between hidden lg:flex" style="min-height: 516px">
           <GontcheLogo />
           <div class="text-white">
             <h1 class="text-2xl lg:text-3xl xl:text-5xl font-bold">
@@ -41,7 +41,7 @@
             </div>
           </div>
         </div>
-        <div class="container flex-col bg-white lg:w-5/12 xl:w-4/12 flex justify-center item-center pb-12 relative" style="min-height: 516px">
+        <div class="container flex-col bg-white w-full lg:w-5/12 xl:w-4/12 flex justify-center item-center pb-12 relative" style="min-height: 516px">
           <div v-if="errorToShow" class="w-full text-white bg-red-500 absolute top-0" :class="isDismissed === true ? 'hidden' : ''">
             <div class="container flex items-center justify-between px-6 py-4 mx-auto">
               <div class="flex">

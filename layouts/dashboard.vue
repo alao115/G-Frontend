@@ -1,62 +1,62 @@
 <template>
   <div class="flex w-screen max-w-screen h-screen text-gray-700 font-body">
-    <TheDashboardSidenav />
+    <TheDashboardSidenav class="hidden lg:block" />
     <div class="flex flex-col flex-grow">
-      <div class="flex items-center flex-shrink-0 h-16 px-8">
+      <div class="flex items-center justify-between flex-shrink-0 h-16 px-8">
         <h1 class="text-lg font-medium">
           {{ pageTitle }}
         </h1>
-        <button class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
-          Action 1
-        </button>
-        <button class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
-          Se déconnecter
-        </button>
-        <button class="relative ml-2 text-sm focus:outline-none group">
-          <div
-            class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300"
-          >
-            <svg
-              class="w-5 h-5 mx-auto"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <div class="flex">
+          <button class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
+            Se déconnecter
+          </button>
+          <button class="relative ml-2 text-sm focus:outline-none group">
+            <div
+              class="flex items-center justify-between w-10 h-10 rounded hover:bg-gray-300"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-              />
-            </svg>
-          </div>
-          <div
-            class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex"
-          >
-            <a
-              class="w-full px-4 py-2 text-left hover:bg-gray-300"
-              href="#"
+              <svg
+                class="w-5 h-5 mx-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                />
+              </svg>
+            </div>
+            <div
+              class="absolute right-0 flex-col items-start hidden w-40 pb-1 bg-white border border-gray-300 shadow-lg group-focus:flex"
             >
-              Menu Item 1
-            </a>
-            <a
-              class="w-full px-4 py-2 text-left hover:bg-gray-300"
-              href="#"
-            >
-              Menu Item 1
-            </a>
-            <a
-              class="w-full px-4 py-2 text-left hover:bg-gray-300"
-              href="#"
-            >
-              Menu Item 1
-            </a>
-          </div>
-        </button>
+              <a
+                class="w-full px-4 py-2 text-left hover:bg-gray-300"
+                href="#"
+              >
+                Menu Item 1
+              </a>
+              <a
+                class="w-full px-4 py-2 text-left hover:bg-gray-300"
+                href="#"
+              >
+                Menu Item 1
+              </a>
+              <a
+                class="w-full px-4 py-2 text-left hover:bg-gray-300"
+                href="#"
+              >
+                Menu Item 1
+              </a>
+            </div>
+          </button>
+        </div>
       </div>
       <Nuxt />
     </div>
+    <TheDashboardBottomBar />
     <div class="flex items-center h-16 border border-gray-300 pr-4 w-full max-w-md shadow-lg font-body absolute right-2 top-2 z-10 bg-sky-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="flex items-center text-white justify-center bg-sky-450 w-12 h-full text-blue-75">
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

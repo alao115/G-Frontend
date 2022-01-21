@@ -1,5 +1,5 @@
 <template>
-  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-8 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-8 md:h-20' : 'h-16 md:h-32'">
+  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-8 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-16 md:h-20' : 'h-24 md:h-32'">
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
@@ -26,8 +26,51 @@
     <div class="block md:hidden mobile-menu">
       <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="menuIsOpen = true">
         <span class="icon">
-          <i class="far fa-bars" />
+          <i class="fas fa-bars" />
         </span>
+      </div>
+      <div class="to-animate mobile-widget flex items-end justify-center bg-black bg-opacity-75 w-screen absolute top-0 left-0 z-50" :class="menuIsOpen === true ? 'h-screen fixed' : 'h-0'">
+        <div class="to-animate flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow justify-between relative w-full" :class="menuIsOpen === true ? 'h-screen' : 'h-0'">
+          <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
+            <div class="flex flex-col items-end">
+              <button class="hover:text-blue-730 p-4 relative mx-2" @click.prevent="menuIsOpen = false">
+                <span class="icon"><i class="fas fa-times fa-lg" /></span>
+              </button>
+            </div>
+            <div class="grid grid-cols-1 divide-y items-center">
+              <h4 class="text-4xl font-medium text-blue-990 mb-8 ml-4">
+                Menu
+              </h4>
+              <div class="grid grid-cols-1 space-y-4 ml-4 py-8">
+                <NuxtLink to="/" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                  Je cherche
+                </NuxtLink>
+                <NuxtLink to="/location" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                  Je loue
+                </NuxtLink>
+                <NuxtLink to="#" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                  Nous contacter
+                </NuxtLink>
+              </div>
+              <div class="grid grid-cols-1 space-4 ml-4 py-8">
+                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/signin" class="text-gray-400 text-lg py-2 mr-4" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'" @click.prevent="goToPage('/signin')">
+                  Publier
+                </NuxtLink>
+                <NuxtLink v-if="connectedUser" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/dashboard')">
+                  Accéder au Dashboard
+                </NuxtLink>
+                <NuxtLink v-else to="/signin" class="text-gray-400 text-lg py-2 mr-4" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'" @click.prevent="goToPage('/signin')">
+                  Se connecter
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
+          <div class="footer p-8 flex justify-center absolute w-full bg-white z-20 bottom-0">
+            <p class="text-gray-300">
+              © 2021 Gontché
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -60,6 +103,10 @@ export default {
       } else {
         this.isMinified = false
       }
+    },
+    goToPage (address) {
+      this.$router.push({ path: address })
+      this.menuIsOpen = false
     }
   }
 }
@@ -78,5 +125,6 @@ export default {
 
 a.text-lg.nuxt-link-exact-active.nuxt-link-active {
   border-bottom: 2px solid #0e265b;
+  color: #0e265b;
 }
 </style>

@@ -13,12 +13,6 @@
         <NewAppartmentType v-if="routeName === 'dashboard-types'" is-minisfied="isMinified" />
         <NewVisit v-if="routeName === 'dashboard-visites'" is-minisfied="isMinified" />
         <NewReservation v-if="routeName === 'dashboard-reservations'" is-minisfied="isMinified" />
-        <!-- <a v-if="routeName === 'dashboard-reservations'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. réservation</span>
-        </a> -->
         <NuxtLink to="/dashboard" class="flex items-center relative w-full h-12 px-3 mt-2 rounded text-blue-730">
           <span class="icon w-6 block">
             <i class="far fa-tachometer-alt mx-auto block" />
@@ -73,21 +67,7 @@
           </span>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réglages</span>
         </a>
-        <!-- <NuxtLink to="/clubs" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
-          <span class="icon w-6 block">
-            <i class="far fa-file-signature mx-auto block" />
-          </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Contrats</span>
-        </NuxtLink> -->
       </div>
-      <!-- <div class="flex flex-col items-center w-full mt-2 border-t border-gray-300">
-        <a class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200" href="#">
-          <span class="icon w-6 block">
-            <i class="far fa-cog mx-auto block" />
-          </span>
-          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réglages</span>
-        </a>
-      </div> -->
     </div>
   </div>
 </template>

@@ -63,21 +63,21 @@
       </form>
     </div>
     <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10 block lg:hidden mt-8" href="#" @click.prevent="mobileWidgetIsVisible = true">
-      <span class="icon"><i class="fas fa-search"></i></span>
+      <span class="icon"><i class="fas fa-search" /></span>
       <span class="ml-3 text-sm font-medium">Rechercher</span>
     </a>
-    <div class="mobile-widget flex items-end justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="mobileWidgetIsVisible === true ? '' : 'hidden'">
-      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative w-full" :class="mobileWidgetIsVisible === true ? '' : 'hidden'">
+    <div class="to-animate mobile-widget flex items-end justify-center bg-black bg-opacity-75 w-screen absolute top-0 left-0 z-50" :class="mobileWidgetIsVisible === true ? 'h-screen fixed' : 'h-0'">
+      <div class="to-animate flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow justify-between relative w-full" :class="mobileWidgetIsVisible === true ? 'h-screen' : 'h-0'">
         <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center">
             <button class="hover:text-blue-730 p-4 relative" @click.prevent="mobileWidgetIsVisible = false">
-              <span class="icon"><i class="fas fa-chevron-left"></i></span>
+              <span class="icon"><i class="fas fa-chevron-left" /></span>
             </button>
-            <h4 class="text-xl font-medium text-blue-990">
-              Trouver mon appartement
-            </h4>
           </div>
           <div class="fkex flex-col divide-y">
+            <h4 class="text-4xl font-medium text-blue-990">
+              Trouver mon appartement
+            </h4>
             <div class="p-2 flex flex-col space-y-4 mb-4">
               <p class="">
                 <span class="icon mr-4">
@@ -204,3 +204,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .to-animate {
+    transition: all .5s;
+  }
+  .to-animate.mobile-widget {
+    transition: all .5s;
+  }
+</style>
