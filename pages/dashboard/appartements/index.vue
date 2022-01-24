@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-grow px-6 pt-2 main__content">
+  <div class="px-6 pt-2 main__content w-full">
     <EditAppartment :appartment="appartmentToEdit" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
       <div class="w-full relative">
@@ -42,22 +42,22 @@
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-56 h-10 px-4 text-xs mr-2 ml-16">
+        <div class="flex items-center w-64 h-10 px-4 text-xs mr-2 ml-16">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-4 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-2">
           <span>LOCALISATION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-2">
           <span>LOYER</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-32 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-32 h-10 px-2 text-xs mx-2">
           <span>VISITES</span>
         </div>
       </div>
@@ -74,8 +74,11 @@
           <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
             <span>{{ appart.id }}</span>
           </div> -->
-          <div class="flex flex-col w-56 px-2 mx-2" @click.prevent="toDetails(appart)">
+          <div class="flex flex-col w-64 px-2 mx-2" @click.prevent="toDetails(appart)">
             <p>{{ appartmentType(appart.appartmentType).label }} | <span class="text-gray-400">{{ appart.bedrooms }} Chambre<span v-if="appart.bedrooms > 1">s</span> - {{ appart.livingrooms }} Salon<span v-if="appart.livingrooms > 1">s</span></span></p>
+            <p class="lg:hidden">
+              {{ appart.rent }} | <span class="text-gray-400">{{ appart.location }}</span>
+            </p>
           </div>
           <div class="flex flex-col w-40 px-2 mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appart.location }}</span>
@@ -90,7 +93,7 @@
             <span />
           </div>
           <div class="flex flex-col w-36 px-2 mx-2" @click.prevent="toDetails(appart)">
-            <span />
+            <span>{{ appartVisits(appart.id).length }}</span>
           </div>
           <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
             <span class="icon">
@@ -104,22 +107,22 @@
         <div class="flex items-center w-min h-10 px-2">
           <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
         </div>
-        <div class="flex items-center w-56 h-10 px-4 text-xs mr-2 ml-16">
+        <div class="flex items-center w-64 h-10 px-4 text-xs mr-2 ml-16">
           <span>TYPE</span>
         </div>
-        <div class="flex items-center w-40 h-10 px-4 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-2">
           <span>LOCALISATION</span>
         </div>
-        <div class="flex items-center w-20 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-2">
           <span>LOYER</span>
         </div>
-        <div class="flex items-center w-24 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-24 h-10 px-2 text-xs mx-2">
           <span>ETAT</span>
         </div>
-        <div class="flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
         </div>
-        <div class="flex items-center w-32 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-32 h-10 px-2 text-xs mx-2">
           <span>VISITES</span>
         </div>
       </div>
@@ -215,6 +218,9 @@ export default {
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
+    },
+    appartVisits () {
+      return id => this.visits.filter(visit => visit.appartment === id)
     }
   },
   methods: {

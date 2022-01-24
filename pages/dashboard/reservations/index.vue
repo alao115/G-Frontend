@@ -13,7 +13,7 @@
         <span class="icon w-8 block absolute left-2 top-5 h-9">
           <i class="far fa-search mx-auto block" />
         </span>
-      </div>x
+      </div>
       <div class="grid grid-cols-2 divide-x-2 divide-gray-300">
         <a class="flex items-center h-12 px-3 mt-1 ml-2 hover:bg-blue-75" :class="isListLayout ? 'text-blue-730' : 'text-gray-400'" href="#" @click.prevent="isListLayout = true">
           <span class="icon w-6 block">

@@ -10,15 +10,18 @@
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <h4 class="text-2xl font-medium mb-8 text-blue-990">
-            Nv. location
+            Nouvelle location
           </h4>
           <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = first">
             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
           </button>
-          <p v-if="currentStep !== 'congrats'" class="text-lg mt-4 text-gray-600">
-            Veuillez remplir ce formulaire pour enregistrer une nouvelle location / vente
+          <p v-if="currentStep !== 'congrats' && currentStep !=='photos'" class="text-lg mt-4 text-gray-600">
+            Veuillez remplir ce formulaire pour enregistrer un nouveau local
+          </p>
+          <p v-if="currentStep === 'photos'" class="text-lg mt-4 text-gray-600">
+            Veuillez rajouter les photos du nouveau local
           </p>
           <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 pr-4">
             <div class="relative">
@@ -48,7 +51,8 @@
             <p class="text-base mt-8 text-gray-400">
               Détails
             </p>
-            <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            <!-- <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " /> -->
+            <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 relative placeholder-gray-320 border-gray-320 rounded-md focus:placeholder-sky-550 focus:border-sky-550" placeholder="Détails sur la maison, l'adresse, etc.. " />
             <p class="text-base mt-4 text-gray-400">
               Loyer
             </p>
@@ -251,14 +255,84 @@
               </p>
               <textarea v-model="ownerInfos.address" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
             </div>
-            <div class="retative">
-              <a href="#" class="text-gray-400 hover:" @click.prevent="currentStep='photos'">Rajouter les photos maintenant</a>
+            <div class="retative text-center mt-4">
+              <a href="#" class="py-4 px-8 w-full text-gray-400 border border-gray-300 rounded-md hover:bg-blue-920 hover:text-white" @click.prevent="currentStep='photos'">Rajouter les photos maintenant</a>
             </div>
           </div>
-          <div v-if="currentStep === 'photos'" class="photos">
-            <p class="text-2xl mt-12 text-gray-400 font-normal">
-              Photos de l'appartememnt
+          <div v-if="currentStep === 'photos'" class="photos pt-4">
+            <p class="text-lg my-2 text-gray-400">
+              Photo principale <span class="text-base">(Veuillez choisir une photo en mode paysage)</span>
             </p>
+            <div class="flex items-center justify-center w-full">
+              <label class="flex flex-col w-full py-8 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                <div class="flex flex-col items-center justify-center pt-7">
+                  <span class="icon text-gray-400">
+                    <i class="fal fa-image fa-5x" />
+                  </span>
+                  <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                    Choisissez la photo principale
+                  </p>
+                </div>
+                <input type="file" class="opacity-0">
+              </label>
+            </div>
+            <p class="text-lg mt-4 mb-2 text-gray-400">
+              Autres photos
+            </p>
+            <div class="grid grid-cols-4 space-x-4">
+              <div class="flex items-center justify-center">
+                <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                  <div class="flex flex-col items-center justify-center pt-7">
+                    <span class="icon text-gray-400">
+                      <i class="fal fa-image fa-lg" />
+                    </span>
+                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                      Photo 1
+                    </p>
+                  </div>
+                  <input type="file" class="opacity-0">
+                </label>
+              </div>
+              <div class="flex items-center justify-center">
+                <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                  <div class="flex flex-col items-center justify-center pt-7">
+                    <span class="icon text-gray-400">
+                      <i class="fal fa-image fa-lg" />
+                    </span>
+                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                      Photo 2
+                    </p>
+                  </div>
+                  <input type="file" class="opacity-0">
+                </label>
+              </div>
+              <div class="flex items-center justify-center">
+                <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                  <div class="flex flex-col items-center justify-center pt-7">
+                    <span class="icon text-gray-400">
+                      <i class="fal fa-image fa-lg" />
+                    </span>
+                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                      Photo 3
+                    </p>
+                  </div>
+                  <input type="file" class="opacity-0">
+                </label>
+              </div>
+              <div class="flex items-center justify-center">
+                <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                  <div class="flex flex-col items-center justify-center pt-7">
+                    <span class="icon text-gray-400">
+                      <i class="fal fa-image fa-lg" />
+                    </span>
+                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                      Photo 4
+                    </p>
+                  </div>
+                  <input type="file" class="opacity-0">
+                </label>
+              </div>
+            </div>
           </div>
           <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
             <div class="w-full">

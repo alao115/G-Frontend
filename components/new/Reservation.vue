@@ -23,6 +23,30 @@
             </button>
           </div>
           <div v-if="currentStep === 'first'" class="relative">
+            <div class="relative">
+              <p class="text-base mt-8 text-gray-400">
+                Type
+              </p>
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+                <span v-if="!selectedType" class="leading-none">
+                  Choisissez un type
+                </span>
+                <p v-else class="leading-none text-left flex flex-col">
+                  {{ selectedType && selectedType.label }}
+                  <span class="text-sm mt-1 text-gray-400">{{ selectedType && selectedType.description }}</span>
+                </p>
+                <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
+                <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
+                <a v-for="type in listOfTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
+                  {{ type && type.label }}
+                  <span class="text-gray-400">{{ type.description }}</span>
+                </a>
+              </div>
+            </div>
             <p class="text-base mt-4 text-gray-400">
               Veuillez sélectionner un appartement à réserver
             </p>
@@ -139,6 +163,15 @@ export default {
     },
     user () {
       return id => this.users.find(user => user.id === id)
+    },
+    account () {
+      return id => this.accounts.find(account => account.id === id)
+    },
+    connectedUser () {
+      return this.$auth.user
+    },
+    connectedUserAccount () {
+      return id => this.accounts.find(account => account.userId === this.connectedUser.id)
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)

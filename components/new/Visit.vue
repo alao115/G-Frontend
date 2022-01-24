@@ -24,8 +24,32 @@
           </div>
           <form action="#" class="pt-4 grid grid-cols-1 divide-y divide-gray-300">
             <div v-if="currentStep === 'first'" class="relative">
+              <div class="relative">
+                <p class="text-base mt-8 text-gray-400">
+                  Type
+                </p>
+                <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+                  <span v-if="!selectedType" class="leading-none">
+                    Choisissez un type
+                  </span>
+                  <p v-else class="leading-none text-left flex flex-col">
+                    {{ selectedType && selectedType.label }}
+                    <span class="text-sm mt-1 text-gray-400">{{ selectedType && selectedType.description }}</span>
+                  </p>
+                  <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
+                  <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
+                  <a v-for="type in listOfTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
+                    {{ type && type.label }}
+                    <span class="text-gray-400">{{ type.description }}</span>
+                  </a>
+                </div>
+              </div>
               <p class="text-base mt-4 text-gray-400">
-                Veuillez sélectionner un appartement à visiter
+                Veuillez sélectionner un appartement à réserver
               </p>
               <div class="relative inline-block w-full text-gray-700">
                 <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
@@ -44,8 +68,8 @@
                 <input type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
               </div>
               <div class="flex space-x-8">
-                <input v-model="newVisit.date" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+                <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
               </div>
             </div>
             <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
@@ -139,6 +163,9 @@ export default {
     },
     user () {
       return id => this.users.find(user => user.id === id)
+    },
+    account () {
+      return id => this.accounts.find(account => account.id === id)
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
