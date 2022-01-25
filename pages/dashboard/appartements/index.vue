@@ -45,19 +45,19 @@
         <div class="flex items-center w-64 h-10 px-4 text-xs mr-2 ml-16">
           <span>TYPE</span>
         </div>
-        <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
           <span>LOCALISATION</span>
         </div>
-        <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>LOYER</span>
         </div>
-        <div class="hidden lg:flex items-center w-24 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-24 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>ETAT</span>
         </div>
-        <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>STATUS</span>
         </div>
-        <div class="hidden lg:flex items-center w-32 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-32 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>VISITES</span>
         </div>
       </div>
@@ -66,7 +66,7 @@
           <div class="flex flex-col w-min px-2">
             <input v-model="selectedAppartments" type="checkbox" :value="appart" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex flex-col mx-2" @click.prevent="toDetails(appart)">
+          <div class="flex flex-col mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
             <span class="rounded-full h-12 w-12">
               <img :src="appart.mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
@@ -74,28 +74,33 @@
           <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
             <span>{{ appart.id }}</span>
           </div> -->
-          <div class="flex flex-col w-64 px-2 mx-2" @click.prevent="toDetails(appart)">
-            <p>{{ appartmentType(appart.appartmentType).label }} | <span class="text-gray-400">{{ appart.bedrooms }} Chambre<span v-if="appart.bedrooms > 1">s</span> - {{ appart.livingrooms }} Salon<span v-if="appart.livingrooms > 1">s</span></span></p>
+          <div class="flex flex-col w-60 lg:w-64 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+            <p>{{ appartmentType(appart.appartmentType).label }} |
+              <span class="text-gray-400">{{ appart.bedrooms }}
+                <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><i class="far fa-bed-alt"/> </span> -
+                  {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><i class="far fa-couch"/> </span>
+                </span>
+            </p>
             <p class="lg:hidden">
               {{ appart.rent }} | <span class="text-gray-400">{{ appart.location }}</span>
             </p>
           </div>
-          <div class="flex flex-col w-40 px-2 mx-2" @click.prevent="toDetails(appart)">
+          <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appart.location }}</span>
           </div>
-          <div class="flex flex-col w-20 px-2 mx-2" @click.prevent="toDetails(appart)">
+          <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appart.rent }}</span>
           </div>
-          <div class="flex flex-col w-24 px-2 mx-2" @click.prevent="toDetails(appart)">
+          <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
             <span />
           </div>
-          <div class="flex flex-col w-36 px-2 mx-2" @click.prevent="toDetails(appart)">
+          <div class="hidden lg:flex  flex-col w-36 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
             <span />
           </div>
-          <div class="flex flex-col w-36 px-2 mx-2" @click.prevent="toDetails(appart)">
+          <div class="hidden lg:flex  flex-col w-36 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
             <span>{{ appartVisits(appart.id).length }}</span>
           </div>
-          <div class="flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
+          <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
             <span class="icon">
               <i class="far fa-edit" />
             </span>
@@ -110,19 +115,19 @@
         <div class="flex items-center w-64 h-10 px-4 text-xs mr-2 ml-16">
           <span>TYPE</span>
         </div>
-        <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
           <span>LOCALISATION</span>
         </div>
-        <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>LOYER</span>
         </div>
-        <div class="hidden lg:flex items-center w-24 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-24 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>ETAT</span>
         </div>
-        <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>STATUS</span>
         </div>
-        <div class="hidden lg:flex items-center w-32 h-10 px-2 text-xs mx-2">
+        <div class="hidden lg:flex items-center w-32 h-10 px-2 text-xs mx-1 lg:mx-2">
           <span>VISITES</span>
         </div>
       </div>
