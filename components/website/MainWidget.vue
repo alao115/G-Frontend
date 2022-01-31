@@ -127,7 +127,7 @@
       </div>
     </div> -->
     <div class="container bg-white rounded-xl h-auto font-body shadow-btn-shadow mt-4 -mb-16 bg-opacity-90 block lg:hidden pb-4">
-      <div v-if="listOfTypes.length > 0" class="flex w-full mb-4 rounded-md bg-blue-50">
+      <!-- <div v-if="listOfTypes.length > 0" class="flex w-full mb-4 rounded-md bg-blue-50">
         <button
           v-for="type in listOfTypes"
           :key="type.id"
@@ -148,7 +148,17 @@
         >
           {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
         </button>
-      </div>
+      </div> -->
+      <select v-if="listOfTypes.length > 0" v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+        <option v-for="type in listOfTypes" :key="type.id" :value="type.id">
+          {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
+        </option>
+      </select>
+      <select v-else v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+        <option v-for="type in types" :key="type.id" :value="type.id">
+          {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
+        </option>
+      </select>
       <div class="fkex flex-col px-4">
         <div class="flex flex-col mb-8">
           <p class="mb-2 text-sm">
@@ -214,7 +224,7 @@ export default {
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
       // selectedType: 1,
-      selectedType: '',
+      selectedType: 'Choisissez un type',
       appartments: [],
       appartmentTypes: [],
       publications: []

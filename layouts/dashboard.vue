@@ -1,14 +1,17 @@
 <template>
   <div class="flex w-screen max-w-screen h-screen text-gray-700 font-body">
     <TheDashboardSidenav class="hidden lg:block" />
-    <div class="flex flex-col flex-grow">
-      <div class="flex items-center justify-between flex-shrink-0 h-16 px-8">
+    <div class="flex flex-col w-full">
+      <div class="flex items-center justify-between h-16 px-8">
         <h1 class="text-lg font-medium">
           {{ pageTitle }}
         </h1>
         <div class="flex">
           <button class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
-            Se déconnecter
+            <span class="hidden lg:block">Se déconnecter</span>
+            <span class="block lg:hidden icon">
+              <i class="far fa-sign-out-alt" />
+            </span>
           </button>
           <!-- <div class="relative ml-2 text-sm focus:outline-none group">
             <div

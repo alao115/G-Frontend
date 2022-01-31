@@ -1,5 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
+    <NewPublication :is-mobile="true" />
     <EditPublication :publication="publicationToEdit" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
       <div class="w-full relative">

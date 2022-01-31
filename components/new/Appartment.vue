@@ -1,6 +1,11 @@
 <template>
   <div class="contents">
-    <a class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
+    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>
+    </a>
+    <a v-else class="hidden lg:flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10 " href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -8,22 +13,24 @@
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full h-full p-4 sm:px-6 lg:p-8 z-20 relative">
-          <h4 class="text-2xl font-medium mb-8 text-blue-990">
-            Nouvelle location
-          </h4>
-          <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = first">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          <p v-if="currentStep !== 'congrats' && currentStep !=='photos'" class="text-lg mt-4 text-gray-600">
-            Veuillez remplir ce formulaire pour enregistrer un nouveau local
-          </p>
-          <p v-if="currentStep === 'photos'" class="text-lg mt-4 text-gray-600">
-            Veuillez rajouter les photos du nouveau local
-          </p>
-          <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 pr-4">
+        <div class="text-start w-full h-full lg:p-8 z-20 relative h-full lg:h-9/12">
+          <div class="p-4">
+            <h4 class="text-2xl font-medium mb-8 text-blue-990">
+              Nouvelle location
+            </h4>
+            <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = first">
+              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <p v-if="currentStep !== 'congrats' && currentStep !=='photos'" class="text-lg mt-4 text-gray-600">
+              Veuillez remplir ce formulaire pour enregistrer un nouveau local
+            </p>
+            <p v-if="currentStep === 'photos'" class="text-lg mt-4 text-gray-600">
+              Veuillez rajouter les photos du nouveau local
+            </p>
+          </div>
+          <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 p-4">
             <div class="relative">
               <p class="text-base mt-8 text-gray-400">
                 Type
@@ -170,7 +177,7 @@
               </div>
             </div>
           </div>
-          <div v-if="currentStep === 'third'" class="third overflow-scroll h-4/5 pb-16 pr-4">
+          <div v-if="currentStep === 'third'" class="third overflow-scroll h-4/5 pb-16 p-4">
             <p class="text-2xl mt-12 text-gray-400 font-normal">
               Infos sur le propriétaire
             </p>
@@ -368,6 +375,10 @@
 export default {
   props: {
     isMinified: {
+      type: Boolean,
+      defaul: false
+    },
+    isMobile: {
       type: Boolean,
       defaul: false
     }

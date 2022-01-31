@@ -105,6 +105,10 @@ export default {
     isMinified: {
       type: Boolean,
       defaul: false
+    },
+    isMobile: {
+      type: Boolean,
+      defaul: false
     }
     /* appartment: {
       type: Object,
