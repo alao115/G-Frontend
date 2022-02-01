@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic');
 
 @font-face {
-  font-family: 'Cera Pro', 'PT Sans' sans-serif;
+  font-family: 'Cera Pro', 'Gotham', 'PT Sans' sans-serif;
   src: local('Cera Pro'), url(../webfonts/Cera-Pro-medium.woff) format('woff');
 }
 
@@ -12,5 +12,5 @@ html,
 body {
   width: 100vw;
   overflow-x: hidden;
-  font-family: 'Cera Pro', 'PT Sans', sans-serif !important;
+  font-family: 'Cera Pro', 'Gotham', 'PT Sans', sans-serif !important;
 }
