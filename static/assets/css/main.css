@@ -17,6 +17,6 @@ html,
 body {
   width: 100vw;
   overflow-x: hidden;
-  font-family: 'Cera Pro', 'Gotham', 'PT Sans', sans-serif !important;
-  /* font-family: 'Cera Pro', sans-serif !important; */
+  /* font-family: 'Cera Pro', 'Gotham', 'PT Sans', sans-serif !important; */
+  font-family: 'PT Sans', sans-serif !important;
 }
