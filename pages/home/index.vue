@@ -22,6 +22,6 @@ export default {}
     background-repeat: no-repeat;
   }
   .container {
-    z-index: 1;
+    z-index: 2;
   }
 </style>
