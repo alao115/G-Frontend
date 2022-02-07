@@ -120,7 +120,7 @@ export default {
     editAppartType () {
       this.$api.appartmentTypeService.update({ variables: { appartmentTypeId: this.appartTypeToEdit.id, data: this.appartTypeToEdit } })
         .then((response) => {
-          this.appartTypeToEdit = {}
+          this.appartTypeToEdit = { }
           this.currentStep = 'congrats'
         })
         .catch((error) => {
