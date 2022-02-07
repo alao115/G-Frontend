@@ -156,7 +156,7 @@
       </select>
       <select v-else v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
         <option v-for="type in types" :key="type.id" :value="type.id">
-          {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
+          {{ type.label }}
         </option>
       </select>
       <div class="fkex flex-col px-4">
@@ -219,12 +219,13 @@ export default {
       budget: 0,
       location: '',
       types: [
+        { id: 0, label: 'Choisissez un type', descr: '' },
         { id: 1, label: 'Chambres', descr: '' },
         { id: 2, label: 'Maison', descr: '' },
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
       // selectedType: 1,
-      selectedType: 'Choisissez un type',
+      selectedType: 0,
       appartments: [],
       appartmentTypes: [],
       publications: []

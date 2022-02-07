@@ -37,12 +37,13 @@
             </p>
             <textarea v-model="newType.description" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Description du type " />
           </div>
-          <div v-if="currentStep === 'congrats'" class="congrats">
-            <div class="w-full">
+          <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
+            <div class="w-full px-16">
               <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-              <p class="text-xl my-12 text-blue-920 text-center">
-                Nouveau type ajouté avec succès
+              <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
+                Nouveau type
               </p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajouté avec succès</p>
             </div>
           </div>
         </div>

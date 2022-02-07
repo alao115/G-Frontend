@@ -57,12 +57,13 @@
               </div>
             </div>
           </div>
-          <div v-if="currentStep === 'congrats'" class="congrats">
-            <div class="w-full">
+          <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
+            <div class="w-full px-16">
               <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-              <p class="text-xl my-12 text-blue-920 text-center">
-                Publication modifiée avec succès
+              <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
+                Publication
               </p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mise à jour avec succès</p>
             </div>
           </div>
         </div>

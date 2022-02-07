@@ -18,7 +18,7 @@
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouvelle location
             </h4>
-            <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = first">
+            <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
               </svg>
@@ -343,12 +343,12 @@
             </div>
           </div>
           <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
-            <div class="w-full">
+            <div class="w-full px-16">
               <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-              <!-- <span class="icon text-5xl mx-auto"><i class="fal fa-thumbs-up fa-lg" /></span> -->
-              <p class="text-xl my-12 text-blue-920 text-center">
-                Nouvel appartement ajouté avec succès
+              <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
+                Nouvel appartement
               </p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajouté avec succès</p>
             </div>
           </div>
         </div>

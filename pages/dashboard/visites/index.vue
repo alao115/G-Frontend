@@ -126,7 +126,7 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay'
+/* import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay' */
 
 export default {
   layout: 'dashboard',
@@ -184,6 +184,9 @@ export default {
       title: this.title
     }
   },
+  /* mounted () {
+    addKkiapayListener('success', this.successHandler)
+  }, */
   computed: {
     publication () {
       return id => this.publications.find(publication => publication.id === id)
