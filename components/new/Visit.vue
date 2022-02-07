@@ -10,10 +10,10 @@
       Visiter
     </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-5/6" style="width: 584px">
+      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
-            <h4 class="text-2xl font-medium mb-8 text-blue-990">
+            <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Demande de visite
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
@@ -22,7 +22,7 @@
               </svg>
             </button>
           </div>
-          <form action="#" class="pt-4 grid grid-cols-1 divide-y divide-gray-300">
+          <form action="#" class="pt-0 grid grid-cols-1 divide-y divide-gray-300">
             <div v-if="currentStep === 'first'" class="relative">
               <div class="relative">
                 <p class="text-base mt-8 text-gray-400">
@@ -90,6 +90,16 @@
           <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Enregistrer
           </button>
+          <!-- <button @click="open">click me</button> -->
+          <!-- <kkiapay-widget
+            amount="<montant-a-preleve-chez-le-client>"
+            key="<votre-api-key>"
+            url="<url-vers-votre-logo>"
+            position="center"
+            sandbox="true"
+            data=""
+            callback="<url-de-redirection-quand-lepaiement-est-reuissi>">
+          </kkiapay-widget> -->
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
@@ -199,6 +209,7 @@ export default {
   },
   mounted () {
     this.$fetch()
+    // addKkiapayListener('success', this.successHandler)
   },
   methods: {
     createVisit () {
@@ -211,6 +222,20 @@ export default {
           this.errorToshow = error
         })
     }
+    /* open () {
+      openKkiapayWidget({
+        amount: 4000,
+        api_key: 'xxxxxxxxxxxxxxxxxxxxx',
+        sandbox: true,
+        phone: '97000000'
+      })
+    },
+    successHandler (response) {
+      console.log(response)
+    } */
   }
+  /* beforeDestroy () {
+    removeKkiapayListener('success', this.successHandler)
+  } */
 }
 </script>

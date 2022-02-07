@@ -1,17 +1,17 @@
 <template>
   <div class="contents">
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
-          <h4 class="text-2xl font-medium mb-8 text-blue-990">
-            Éditer l'appartement
+      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+        <div class="text-start w-full p-4 pt-8 sm:px-6 lg:p-8 lg:pt-16 z-20 pb-0 lg:pb-0 relative">
+          <h4 class="text-2xl font-medium mb-8 text-sky-550">
+            <span v-if="currentStep !== 'congrats'">Éditer l'appartement</span>
           </h4>
           <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
           </button>
-          <p class="text-lg mt-4 text-gray-600">
+          <p v-if="currentStep !== 'congrats'" class="text-lg mt-4 text-gray-600">
             Modifier les informations de cet appartement
             <!-- {{ appartment }} -->
           </p>
@@ -254,16 +254,17 @@
             </p>
           </div>
           <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
-            <div class="w-full">
+            <div class="w-full px-16">
               <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-              <p class="text-xl my-12 text-blue-920 text-center">
-                Appartement mis à jour avec succès
+              <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
+                Appartement
               </p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mis à jour avec succès</p>
             </div>
           </div>
         </div>
         <div v-if="currentStep === 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-lg px-8 leading-none hover:border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Retour</span>
           </button>
         </div>

@@ -1,7 +1,7 @@
 <template>
-  <div class="container flex-col bg-white lg:w-10/12 xl:w-9/12 border-t-4 border-blue-730 flex justify-center item-center pb-12 px-16 mx-auto" style="min-height: 516px">
+  <div class="container flex-col bg-white w-full lg:w-5/12 xl:w-4/12 flex justify-center item-center pb-12 relative" style="min-height: 516px">
     <div class="absolute h-1 border-t-8 border-sky-450 w-1/3 -mt-2 -ml-20 top-0" />
-    <div class="w-full">
+    <div class="w-full px-8 lg:px-16">
       <p class="title font-semibold text-3xl mt-24 mb-6 text-sky-450">
         Inscription
       </p>

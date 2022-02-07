@@ -12,10 +12,10 @@
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. appartment</span>
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full h-full lg:p-8 z-20 relative h-full lg:h-9/12">
           <div class="p-4">
-            <h4 class="text-2xl font-medium mb-8 text-blue-990">
+            <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouvelle location
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = first">
@@ -59,7 +59,7 @@
               Détails
             </p>
             <!-- <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " /> -->
-            <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 relative placeholder-gray-320 border-gray-320 rounded-md focus:placeholder-sky-550 focus:border-sky-550" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            <textarea v-model="newAppartment.details" type="text" class="w-full h-24 md:h-48 pr-4 pl-4 my-1 relative placeholder-gray-320 border-gray-320 rounded-md focus:placeholder-sky-550 focus:border-sky-550" placeholder="Détails sur la maison, l'adresse, etc.. " />
             <p class="text-base mt-4 text-gray-400">
               Loyer
             </p>
@@ -101,8 +101,8 @@
               <input v-model="newAppartment.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
             </div>
           </div>
-          <div v-if="currentStep === 'second'" class="second">
-            <p class="text-2xl mt-12 mb-4 text-gray-400 font-normal">
+          <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
+            <p class="text-2xl lg:mt-12 mb-4 text-gray-400 font-normal">
               Caratéristiques
             </p>
             <div class="grid grid-cols-2">
@@ -188,7 +188,8 @@
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
                   <span v-if="selectedCivility === ''" class="leading-none">
-                    Choisissez un type
+                    <span class="hidden lg:block">Choisissez un type</span>
+                    <span class="block lg:hidden">Civilité</span>
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
                     {{ selectedCivility.value }}
@@ -356,7 +357,7 @@
             <span>Retour</span>
           </button>
         </div>
-        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-else class="footer p-4 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep === 'third' ? currentStep = 'second' : currentStep = 'third'">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
