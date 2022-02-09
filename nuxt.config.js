@@ -12,9 +12,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'stylesheet', href: '/assets/css/main.css' },
-      { rel: 'stylesheet', href: '/assets/css/line-awesome.min.css' },
-      { rel: 'stylesheet', href: '/assets/css/all.min.css' },
+      /* { rel: 'stylesheet', href: '/assets/css/main.css' }, */
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
@@ -25,8 +23,9 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~static/assets/css/main.css',
-    '~static/assets/css/all.min.css'
+    '~/static/assets/css/main.css',
+    '~/static/assets/css/line-awesome.min.css',
+    '~/static/assets/css/all.min.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
