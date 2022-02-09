@@ -36,9 +36,6 @@
         Cliquez sur le bouton " + Nv. visite" en haut à gauche pour
         <span class="font-extrabold">programmer une visite</span>.
       </p>
-      <client-only>
-        <button @click.prevent="open">click me</button>
-      </client-only>
     </div>
     <div v-else class="flex flex-col w-full table__container">
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">

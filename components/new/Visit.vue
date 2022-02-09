@@ -236,10 +236,10 @@ export default {
     },
     open () {
       this.$openKkiapayWidget({
-        amount: 4000,
+        amount: 2000,
         api_key: 'f8095850886111ec953617ecac48fe09',
         sandbox: true,
-        phone: '97000000'
+        phone: ''
       })
     },
     successHandler (response) {
