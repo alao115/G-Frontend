@@ -23,7 +23,7 @@
             </button>
           </div>
           <form action="#" class="pt-0 grid grid-cols-1 divide-y divide-gray-300">
-            <div v-if="currentStep === 'first'" class="relative">
+            <div v-if="currentStep === 'first'" class="overflow-scroll h-4/5 pb-16 p-4">
               <div class="relative">
                 <p class="text-base mt-8 text-gray-400">
                   Type
@@ -71,6 +71,12 @@
                 <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
                 <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
               </div>
+              <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
+                <p>
+                  Les frais de visites s’élèvent à 2000 f cfa.
+                  Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
+                </p>
+              </div>
             </div>
             <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
               <div class="w-full px-16">
@@ -90,7 +96,7 @@
           <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Enregistrer
           </button>
-          <!-- <button @click="open">click me</button> -->
+          <!-- <button @click.prevent="open">click me</button> -->
           <!-- <kkiapay-widget
             amount="<montant-a-preleve-chez-le-client>"
             key="<votre-api-key>"
@@ -112,6 +118,8 @@
 </template>
 
 <script>
+/* import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay' */
+
 export default {
   props: {
     isMinified: {
@@ -209,10 +217,14 @@ export default {
   },
   mounted () {
     this.$fetch()
-    // addKkiapayListener('success', this.successHandler)
+    this.$addKkiapayListener('success', this.successHandler)
+  },
+  beforeDestroy () {
+    this.$removeKkiapayListener('success', this.successHandler)
   },
   methods: {
     createVisit () {
+      this.open()
       this.$api.visitService.create({ variables: { data: this.newVisit } })
         .then((response) => {
           this.newVisit = {}
@@ -221,21 +233,18 @@ export default {
         .catch((error) => {
           this.errorToshow = error
         })
-    }
-    /* open () {
-      openKkiapayWidget({
+    },
+    open () {
+      this.$openKkiapayWidget({
         amount: 4000,
-        api_key: 'xxxxxxxxxxxxxxxxxxxxx',
+        api_key: 'f8095850886111ec953617ecac48fe09',
         sandbox: true,
         phone: '97000000'
       })
     },
     successHandler (response) {
       console.log(response)
-    } */
+    }
   }
-  /* beforeDestroy () {
-    removeKkiapayListener('success', this.successHandler)
-  } */
 }
 </script>

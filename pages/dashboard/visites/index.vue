@@ -36,6 +36,9 @@
         Cliquez sur le bouton " + Nv. visite" en haut à gauche pour
         <span class="font-extrabold">programmer une visite</span>.
       </p>
+      <client-only>
+        <button @click.prevent="open">click me</button>
+      </client-only>
     </div>
     <div v-else class="flex flex-col w-full table__container">
       <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
@@ -126,7 +129,7 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-/* import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay' */
+// import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay'
 
 export default {
   layout: 'dashboard',
@@ -184,9 +187,6 @@ export default {
       title: this.title
     }
   },
-  /* mounted () {
-    addKkiapayListener('success', this.successHandler)
-  }, */
   computed: {
     publication () {
       return id => this.publications.find(publication => publication.id === id)
@@ -210,6 +210,12 @@ export default {
       return id => this.contracts.find(contract => contract.id === id)
     }
   },
+  /* mounted () {
+    addKkiapayListener('success', this.successHandler)
+  },
+  beforeDestroy () {
+    removeKkiapayListener('success', this.successHandler)
+  }, */
   methods: {
     /* toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
@@ -225,6 +231,17 @@ export default {
         })
         .catch(error => console.log(error))
     }
+    /* open () {
+      openKkiapayWidget({
+        amount: 4000,
+        api_key: 'f8095850886111ec953617ecac48fe09',
+        sandbox: true,
+        phone: '97000000'
+      })
+    }, */
+    /* successHandler (response) {
+      onsole.log(response)
+    } */
   }
 }
 </script>
