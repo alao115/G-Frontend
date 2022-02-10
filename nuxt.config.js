@@ -23,7 +23,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/static/assets/css/main.css',
+    /* '~/static/assets/css/main.css', */
     '~/static/assets/css/line-awesome.min.css',
     '~/static/assets/css/all.min.css'
   ],
