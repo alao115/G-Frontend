@@ -12,7 +12,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      /* { rel: 'stylesheet', href: '/assets/css/main.css' }, */
+      { rel: 'stylesheet', href: '/assets/css/main.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
