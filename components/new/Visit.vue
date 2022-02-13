@@ -1,14 +1,21 @@
 <template>
   <div class="contents">
-    <a v-if="routeName === 'dashboard-visites'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
+    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
-      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. visite</span>
     </a>
-    <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-2 h-12 text-lg px-10" @click.prevent="isDismissed = false">
-      Visiter
-    </button>
+    <div class="contents" v-else>
+      <a v-if="routeName === 'dashboard-visites'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. visite</span>
+      </a>
+      <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-2 h-12 text-lg px-10" @click.prevent="isDismissed = false">
+        Visiter
+      </button>
+    </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
@@ -71,7 +78,7 @@
                 <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
                 <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
               </div>
-              <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
+              <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
                   Les frais de visites s’élèvent à 2000 f cfa.
                   Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
@@ -89,11 +96,11 @@
             </div>
           </form>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
+        <div v-if="currentStep !== 'congrats'" class="footer py-4 px-8 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-4">
+          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 lg:mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Enregistrer
           </button>
           <!-- <button @click.prevent="open">click me</button> -->
@@ -107,7 +114,7 @@
             callback="<url-de-redirection-quand-lepaiement-est-reuissi>">
           </kkiapay-widget> -->
         </div>
-        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-else class="footer py-4 px-8 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Fermer</span>
           </button>

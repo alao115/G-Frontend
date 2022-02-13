@@ -1,15 +1,15 @@
 <template>
   <div class="w-screen overflow-x-hidden font-body">
     <WebsiteTheNavbar />
-    <div class="flex space-x-8 justify-center">
-      <div>
+    <div class="flex lg:space-x-8 justify-center">
+      <div class="hidden lg:block">
         <img :src="appartment.mainImg" alt="" class="w-full mb-16">
         <div class="flex space-x-8">
           <img :src="appartment.mainImg" alt="">
           <img :src="appartment.mainImg" alt="">
         </div>
       </div>
-      <div class="container flex flex-col lg:w-5/12 xl:w-4/12 justify-between mt-40">
+      <div class="container px-8 lg:px-0 flex flex-col w-full lg:w-5/12 xl:w-4/12 justify-between mt-24 lg:mt-40">
         <div class="content font-body">
           <h4 class="text-2xl font-medium mb-2">
             {{ appartment.type }}
@@ -31,6 +31,17 @@
               <i class="far fa-envelope-open-text text-2xl" />
             </span>
           </div>
+          <div class="mb-4">
+            <img :src="appartment.mainImg" alt="">
+          </div>
+          <div class="flex space-x-4 lg:hidden">
+            <div>
+              <img :src="appartment.mainImg" alt="">
+            </div>
+            <div>
+              <img :src="appartment.mainImg" alt="">
+            </div>
+          </div>
           <div class="details">
             <h4 class="text-sky-450 text-xl mt-8 mb-4">
               Details
@@ -43,7 +54,7 @@
             <h4 class="text-sky-450 text-xl mb-4">
               Caractéristiques
             </h4>
-            <div class="grid grid-cols-4 my-4  -ml-12">
+            <div class="grid grid-cols-3 lg:grid-cols-4 my-4  -ml-12">
               <div class="w-full ml-8 px-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
