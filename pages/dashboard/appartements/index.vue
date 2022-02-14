@@ -2,8 +2,8 @@
   <div class="px-6 pt-2 main__content w-full">
     <NewAppartment :is-mobile="true" />
     <EditAppartment :appartment="appartmentToEdit" />
-    <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
-      <div class="w-7/12 lg:w-full relative">
+    <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
+      <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
         <a class="flex items-center h-12 px-3 mt-1 bg-white border border-gray-200 absolute top-0 right-0" :class="isFilterTrayOpened === true ? 'rounded-tr-md' : 'rounded-r-md'" href="#" @click.prevent="isFilterTrayOpened = !isFilterTrayOpened">
           <span class="ml-3 text-sm font-medium hidden md:visible">Filtres</span>
@@ -15,8 +15,8 @@
           <i class="far fa-search mx-auto block" />
         </span>
       </div>
-      <div class="grid grid-cols-2 divide-x-2 divide-gray-300 w-4/12">
-        <a class="flex items-center h-12 px-3 mt-1 ml-2 hover:bg-blue-75" :class="isListLayout ? 'text-blue-730' : 'text-gray-400'" href="#" @click.prevent="isListLayout = true">
+      <div class="grid grid-cols-2 divide-x-2 divide-gray-300 w-auto">
+        <a class="flex items-center h-12 px-3 mt-1 hover:bg-blue-75 justify-end" :class="isListLayout ? 'text-blue-730' : 'text-gray-400'" href="#" @click.prevent="isListLayout = true">
           <span class="icon w-6 block">
             <i class="far fa-th-list mx-auto block fa-lg" />
           </span>
@@ -78,10 +78,10 @@
             </div> -->
             <div class="flex flex-col w-60 lg:w-64 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <p>
-                {{ appartmentType(appart.appartmentType).label }} |
+                {{ appartmentType(appart.appartmentType).label }} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
-                  <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><i class="far fa-bed-alt" /> </span> -
-                  {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><i class="far fa-couch" /> </span>
+                  <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
+                  {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
                 </span>
               </p>
               <p class="lg:hidden">

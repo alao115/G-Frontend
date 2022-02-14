@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-white dark:bg-gray-800 overflow-hidden absolute rounded-md bottom-20 right-12 left-10 lg:left-auto lg:right-20 shadow-btn-shadow w-80 lg:w-1/4" style="" :class="isDismissed === true ? 'hidden' : ''">
+  <div class="bg-white dark:bg-gray-800 overflow-hidden fixed rounded-md bottom-20 right-12 left-10 lg:left-auto lg:right-20 shadow-btn-shadow w-80 lg:w-1/4" style="" :class="isDismissed === true ? 'hidden' : ''">
     <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
       <h2 class="text-lg font-light text-black dark:text-white font-body">
         <span class="block">

@@ -19,8 +19,8 @@
         Voir plus
       </NuxtLink>
     </div>
-    <div v-if="inDetails" class="text-blue-990 w-7/12 mb-4">
-      <h1 class="text-3xl font-semibold leading-snug">
+    <div v-if="inDetails" class="text-blue-990 w-full lg:w-7/12 mt-8 lg:mb-4">
+      <h1 class="text-2xl lg:text-3xl font-semibold leading-snug">
         Autres appartements du même type
       </h1>
     </div>

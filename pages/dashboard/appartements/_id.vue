@@ -1,5 +1,6 @@
 <template>
   <div class="overflow-x-hidden font-body p-8 lg:px-8 lg:py-16">
+    <EditAppartment :appartment="appartmentToEdit" />
     <div class="flex space-x-8">
       <!-- <div>
         <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full pr-4 mb-16">
@@ -22,6 +23,9 @@
               </p>
             </button>
             <div v-if="contextMenuIsOpen" class="absolute flex flex-col mt-14 lg:mt-20 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
+              <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
+                <span class="font-medium">Modifier</span>
+              </a>
               <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
                 <span class="font-medium">Réserver</span>
               </a>
@@ -287,7 +291,8 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      contextMenuIsOpen: false
+      contextMenuIsOpen: false,
+      appartmentToEdit: {}
     }
   },
   computed: {
@@ -296,6 +301,19 @@ export default {
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    }
+  },
+  methods: {
+    setToEdition (appartment) {
+      this.appartmentToEdit = appartment
+    },
+    deleteAppartment (appartment) {
+      return this.$api.appartmentService.delete({ variables: { appartmentId: appartment.id } })
+        .then(() => this.$api.appartmentService.getAll())
+        .then(({ data }) => {
+          this.appartments = data.appartments
+        })
+        .catch(error => console.log(error))
     }
   }
 }

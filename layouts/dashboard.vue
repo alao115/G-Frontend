@@ -3,7 +3,7 @@
     <TheDashboardSidenav class="hidden lg:block" />
     <div class="flex flex-col w-full">
       <div class="flex items-center justify-between h-16 px-8">
-        <h1 class="text-lg font-medium">
+        <h1 class="text-lg font-medium text-sky-550">
           {{ pageTitle }}
         </h1>
         <div class="flex">
@@ -114,7 +114,7 @@ export default {
         case 'dashboard-reservations':
           returnableValue = 'Réservations'
           break
-        case 'dashboard-visitres':
+        case 'dashboard-visites':
           returnableValue = 'Visites'
           break
         case 'dashboard-types':

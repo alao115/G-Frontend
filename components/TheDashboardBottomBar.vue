@@ -1,5 +1,5 @@
 <template>
-  <div class="footer p-2 justify-center absolute w-full bg-white z-20 bottom-0 grid grid-cols-5 lg:hidden ">
+  <div class="footer p-2 justify-center absolute w-full bg-white z-20 bottom-0 grid grid-cols-5 lg:hidden">
     <NuxtLink to="/dashboard" class="flex items-center justify-center relative w-full h-16 px-3 rounded hover:bg-gray-200 text-blue-730 bg-blue-75 active:bg-sky-50">
       <span class="icon w-6 block text-center">
         <i class="far fa-tachometer-alt mx-auto block" />

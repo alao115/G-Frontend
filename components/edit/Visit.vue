@@ -1,10 +1,10 @@
 <template>
   <div class="contents">
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-5/6" style="width: 584px">
+      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
-            <h4 class="text-2xl font-medium mb-8 text-blue-990">
+            <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Modifier la demande de visite
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
@@ -40,12 +40,12 @@
               </div>
             </div>
             <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
-              <div class="w-full">
+              <div class="w-full px-16">
                 <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-                <!-- <span class="icon text-5xl mx-auto"><i class="fal fa-thumbs-up fa-lg" /></span> -->
-                <p class="text-xl my-12 text-blue-920 text-center">
-                  Nouvelle visite ajoutée avec succès
+                <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
+                  Appartement
                 </p>
+                <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mise à jour avec succès</p>
               </div>
             </div>
           </form>

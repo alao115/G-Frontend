@@ -12,10 +12,10 @@
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. type</span>
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+      <div class="relative flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-full lg:h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
           <div class="flex items-center justify-between">
-            <h4 class="text-2xl font-medium mb-8 text-blue-990">
+            <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouveau type
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
@@ -37,12 +37,13 @@
             </p>
             <textarea v-model="newType.description" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Description du type " />
           </div>
-          <div v-if="currentStep === 'congrats'" class="congrats">
-            <div class="w-full">
+          <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
+            <div class="w-full px-16">
               <img src="/assets/images/success.svg" alt="Logo Long Gontché" class="success-img mx-auto">
-              <p class="text-xl my-12 text-blue-920 text-center">
-                Nouveau type ajouté avec succès
+              <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
+                Nouveau type
               </p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajouté avec succès</p>
             </div>
           </div>
         </div>

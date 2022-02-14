@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic');
+@import url('http://fonts.cdnfonts.com/css/gotham');
+
 @tailwind base;
 @tailwind components;
 
-@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic');
-
 @font-face {
-  font-family: 'Cera Pro', 'Gotham', 'PT Sans' sans-serif;
-  src: local('Cera Pro'), url('../webfonts/Cera-Pro-medium.woff') format('woff');
+  font-family: 'Cera Pro';
+  src: local('Cera Pro'), url('../webfonts/Cera-Pro-Medium.woff') format('woff');
 }
 
 /* @font-face {
@@ -18,5 +19,6 @@ body {
   width: 100vw;
   overflow-x: hidden;
   /* font-family: 'Cera Pro', 'Gotham', 'PT Sans', sans-serif !important; */
-  font-family: 'PT Sans', sans-serif !important;
+  font-family: 'Cera Pro', 'Gotham' 'PT Sans', sans-serif !important;
 }
+.cera {font-family: 'Cera Pro' !important;}

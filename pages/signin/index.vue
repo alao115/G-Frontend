@@ -76,7 +76,7 @@
               </button>
             </div>
           </div>
-          <div class="w-full px-16">
+          <div class="w-full px-8 lg:px-16">
             <p class="title font-semibold text-3xl mt-32 mb-6 text-sky-450">
               Connexion
             </p>
