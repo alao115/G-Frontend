@@ -91,6 +91,7 @@
             <p class="text-base mt-4 text-gray-400">
               Caution Loyer
             </p>
+
             <div class="flex space-x-8">
               <input v-model.number="newAppartment.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <input :value="newAppartment.conditions.prepaidRentMonths * newAppartment.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
@@ -275,31 +276,41 @@
             <div class="flex items-center justify-center w-full">
               <label class="flex flex-col w-full py-8 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                 <div class="flex flex-col items-center justify-center pt-7">
-                  <span class="icon text-gray-400">
-                    <i class="fal fa-image fa-5x" />
-                  </span>
-                  <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
-                    Choisissez la photo principale
-                  </p>
+                  <template v-if="!pictures[mainImg]">
+                    <span class="icon text-gray-400">
+                      <i class="fal fa-image fa-5x" />
+                    </span>
+                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                      Choisissez la photo principale
+                    </p>
+                  </template>
+                  <template v-else>
+                    <img :src="pictures[mainImg]" alt="">
+                  </template>
                 </div>
-                <input type="file" class="opacity-0">
+                <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, mainImg)">
               </label>
             </div>
             <p class="text-lg mt-4 mb-2 text-gray-400">
               Autres photos
             </p>
-            <div class="grid grid-cols-4 space-x-4">
+            <div class="grid grid-cols-4 justify-items-stretch gap-4">
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <span class="icon text-gray-400">
-                      <i class="fal fa-image fa-lg" />
-                    </span>
-                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
-                      Photo 1
-                    </p>
+                    <template v-if="!pictures[firstImg]">
+                      <span class="icon text-gray-400">
+                        <i class="fal fa-image fa-lg" />
+                      </span>
+                      <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                        Photo 1
+                      </p>
+                    </template>
+                    <template v-else>
+                      <img :src="pictures[firstImg]" alt="">
+                    </template>
                   </div>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, firstImg)">
                 </label>
               </div>
               <div class="flex items-center justify-center">
@@ -312,7 +323,7 @@
                       Photo 2
                     </p>
                   </div>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, secondImg)">
                 </label>
               </div>
               <div class="flex items-center justify-center">
@@ -325,7 +336,7 @@
                       Photo 3
                     </p>
                   </div>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, thirdImg)">
                 </label>
               </div>
               <div class="flex items-center justify-center">
@@ -338,7 +349,7 @@
                       Photo 4
                     </p>
                   </div>
-                  <input type="file" class="opacity-0">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, fourthImg)">
                 </label>
               </div>
             </div>
@@ -349,7 +360,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Nouvel appartement
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajouté avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                ajouté avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -363,7 +376,7 @@
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'third' ? createAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'third' || currentStep === 'photos') ? createAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
             <span v-if="currentStep === 'photos' || currentStep === 'third'">Enregistrer</span>
             <span v-else>Suivant</span>
           </button>
@@ -415,306 +428,18 @@ export default {
         conditions: {
           prepaidRentMonths: 3
         }
-        /* rent: 0,
-        paymentFrequency: 1,
-        energyCommission: 0,
-        prepaidRentappartmentsMonths: 3,
-        bedrooms: 0,
-        livingrooms: 0,
-        kitchen: 0,
-        bathrooms: 0,
-        storageroom: 0,
-        garage: 0,
-        garden: 0,
-        groundLevel: 0,
-        householdsTotal: 0,
-        ac: 'Non',
-        pool: 'Non',
-        keeper: 'Non',
-        rent: {} */
+        // files: null
       },
-      /* features: {
-        bedrooms: 0,
-        livingrooms: 0,
-        kitchen: 0,
-        bathrooms: 0,
-        storageroom: 0,
-        garage: 0,
-        garden: 0,
-        groundLevel: 0,
-        householdsTotal: 0,
-        ac: 'Non',
-        pool: 'Non',
-        keeper: 'Non'
-      }, */
-      /* conditions: {
-        rent: 0,
-        paymentFrequency: 1,
-        energyCommission: 0,
-        prepaidRentMonths: 3
-      }, */
-      /* ownerInfos: {
-        firstname: '',
-        lastname: '',
-        userType: 'owner',
-        address: '',
-        isAlive: true,
-        phone: '',
-        email: ''
-      }, */
       ownerInfos: {},
-      publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ],
-      reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 3, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] },
-        { id: 4, name: 'Owner', firstname: 'Owner', phone: '+22965432123', email: 'owner@gontche.com', user: '4', userType: 'owner', favorites: [], likes: [] }
-      ],
       contracts: [],
-      /* appartments: [
-        {
-          id: 1,
-          mainImg: '/assets/images/rentables/example1.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 8,
-          bathrooms: 2,
-          bedrooms: 2,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '+229 60 000000',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 2,
-          mainImg: '/assets/images/rentables/example2.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 1,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 3,
-          mainImg: '/assets/images/rentables/example3.jpg',
-          appartmentType: 2,
-          isFurnished: false,
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 3,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 4,
-          appartmentType: 4,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example4.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 4,
-          livingrooms: 2,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 5,
-          appartmentType: 2,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example5.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 2,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        },
-        {
-          id: 6,
-          appartmentType: 3,
-          isFurnished: false,
-          mainImg: '/assets/images/rentables/example6.jpg',
-          location: 'Abomey-Calavi',
-          rent: 50000,
-          details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor fames mattis at nibh. Ultricies eu vel ipsum aliquet nullam vulputate aliquet purus. Habitant pulvinar adipiscing semper leo, nam orci. ',
-          rooms: 4,
-          bathrooms: 2,
-          bedrooms: 3,
-          livingrooms: 1,
-          storageroom: 1,
-          kitchen: 1,
-          garage: 1,
-          keeper: 'Oui',
-          terrace: 1,
-          garden: 1,
-          ac: 'Oui',
-          pool: 'Oui',
-          householdsTotal: 6,
-          groundLevel: 0,
-          conditions: {
-            advancePayment: 150000,
-            energyCommission: 50000,
-            prepaidRentMonths: 3
-          },
-          ownerInfos: {
-            name: 'M. Edoe',
-            address: 'c/1500',
-            status: 'Alive',
-            phone: '',
-            email: 'm.edoae@gmail.com'
-          },
-          likes: 0,
-          favorite: 0
-        }
-      ] */
-      // appartmentTypes: [
-      //   { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-      //   { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-      //   { id: 3, label: 'Villa', description: '-' },
-      //   { id: 4, label: 'Duplex', description: '-' }
-      // ],
-      locations: []
+      locations: [],
+      mainImg: 'main',
+      firstImg: 'first',
+      secondImg: 'second',
+      thirdImg: 'third',
+      fourthImg: 'fourth',
+      pictures: {},
+      appartImg: null
     }
   },
   async fetch () {
@@ -762,23 +487,55 @@ export default {
     this.$fetch()
   },
   methods: {
+    uploadPicture (event, source) {
+      // this.msgOfSizeOfFile = ''
+      const files = event.target.files
+      // const filename = files[0].name
+      // this.fileName = filename
+      // const theSizeOfLFile = files[0].size
+      // this.msgOfSizeOfFile = ''
+      // if (filename.lastIndexOf('.') <= 0) {
+      //   return alert('Please add a valid file!')
+      // }
+      // if (theSizeOfLFile < 1024 * 1024) {
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.pictures[source] = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+
+      if (!this.appartImg) { this.appartImg = {} }
+      this.appartImg[source] = files[0]
+      // } else {
+      //   this.msgOfSizeOfFile = 'Attention!!! Votre fichier dépasse la taille requise'
+      // }
+    },
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
-    createAppartment () {
-      this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
-      this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency.id
-      this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
-        .then(() => {
-          return this.$api.appartmentService.getAll()
-        })
-        .then(() => {
-          this.newAppartment = {}
-          this.currentStep = 'congrats'
-        })
-        .catch((error) => {
-          this.errorToshow = error
-        })
+    async createAppartment () {
+      try {
+        this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
+        this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency.id
+
+        const { data } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
+
+        if (this.appartImg) {
+          for await (const key of Object.keys(this.appartImg)) {
+            const ImgData = new FormData()
+            ImgData.append('file', this.appartImg[key])
+            ImgData.append('filePath', `appartments/${data.createAppartment.id}/${key}_${this.appartImg[key].name}`)
+            this.$api.firebaseStorageService.upload(ImgData)
+              .then(async (firestoreResponse) => {
+                await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
+              }).catch((err) => { throw err })
+          }
+        }
+        this.newAppartment = {}
+        this.currentStep = 'congrats'
+      } catch (error) {
+        this.errorToshow = error
+      }
     }
   }
 }

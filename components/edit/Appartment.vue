@@ -276,7 +276,7 @@
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'third' ? editAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'third' || currentStep === 'photos') ? editAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
             <span v-if="currentStep === 'photos' || currentStep === 'third'">Enregistrer</span>
             <span v-else>Suivant</span>
           </button>
@@ -413,7 +413,7 @@ export default {
 
     editAppartment () {
       this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: this.appartToEdit } })
-        .then((response) => {
+        .then(() => {
           this.appartmentToEdit = {}
           this.currentStep = 'congrats'
         })

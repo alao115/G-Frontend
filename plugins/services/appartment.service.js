@@ -8,10 +8,10 @@ export default ({ apollo, gql }) => class AppartmentService {
   }
 
   update ({ projections, variables } = { projections: 'id ', variables: {} }) {
-    delete variables?.data.conditions.__typename
-    delete variables?.data.ownerInfos.__typename
-    delete variables?.data.__typename
-    delete variables?.data.id
+    variables?.data?.conditions && delete variables?.data?.conditions.__typename
+    variables?.data?.ownerInfos && delete variables?.data?.ownerInfos.__typename
+    variables?.data?.__typename && delete variables?.data?.__typename
+    variables?.data?.id && delete variables?.data?.id
     return apollo.mutate({ mutation: gql`mutation updateAppart($data: appartmentData, $appartmentId: ID!) { updateAppartment(appartmentId: $appartmentId, data: $data) { id } }`, variables })
   }
 

@@ -160,6 +160,7 @@
 
 <script>
 /* eslint-disable no-unused-vars */
+import path from 'path'
 
 export default {
   layout: 'dashboard',
@@ -190,25 +191,6 @@ export default {
       appartmentToEdit: {},
       isFilterTrayOpened: false,
       selectedAppartments: [],
-      publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ],
-      reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
       /*  */
       appartmentTypes: [
@@ -258,13 +240,22 @@ export default {
     setToEdition (appartment) {
       this.appartmentToEdit = appartment
     },
-    deleteAppartment (appartment) {
-      return this.$api.appartmentService.delete({ variables: { appartmentId: appartment.id } })
-        .then(() => this.$api.appartmentService.getAll())
-        .then(({ data }) => {
-          this.appartments = data.appartments
-        })
-        .catch(error => console.log(error))
+    async deleteAppartment (appartment) {
+      try {
+        await this.$api.appartmentService.delete({ variables: { appartmentId: appartment.id } })
+        for await (const key of ['main', 'first', 'second', 'third', 'fourth']) {
+          const imgUrl = appartment[`${key}Img`]
+
+          if (imgUrl) {
+            const baseUrl = imgUrl.split('?')[0]
+            const filename = path.basename(baseUrl)
+            const filePath = `appartments/${appartment.id}/${filename}`
+            await this.$api.firebaseStorageService.delete({ filePath })
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
