@@ -7,6 +7,7 @@ import appartmentTypeService from './appartmentType.service'
 import publicationService from './publication.service'
 import reservationService from './reservation.service'
 import visitService from './visit.service'
+import firebaseStorageService from './firebase.storage.service'
 
 export default ({ apollo }, $axios) => ({
   accountService: new (accountService({ apollo, gql }, $axios))(),
@@ -15,5 +16,6 @@ export default ({ apollo }, $axios) => ({
   appartmentTypeService: new (appartmentTypeService({ apollo, gql }))(),
   publicationService: new (publicationService({ apollo, gql }))(),
   reservationService: new (reservationService({ apollo, gql }))(),
-  visitService: new (visitService({ apollo, gql }))()
+  visitService: new (visitService({ apollo, gql }))(),
+  firebaseStorageService: new (firebaseStorageService({ http: $axios, serviceName: 'storage' }))()
 })

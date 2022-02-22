@@ -104,11 +104,6 @@ export default {
     }
   },
   watch: {
-    /* conditions (value) {
-      if (value.rent !== 0) {
-        this.advancePayment = value.rent * value.prepaidRentMonths
-      }
-    } */
     appartmentType (value) {
       if (value !== null) {
         this.appartTypeToEdit = { ...value }
@@ -126,7 +121,7 @@ export default {
     editAppartType () {
       this.$api.appartmentTypeService.update({ variables: { appartmentTypeId: this.appartTypeToEdit.id, data: this.appartTypeToEdit } })
         .then((response) => {
-          this.appartTypeToEdit = {}
+          this.appartTypeToEdit = { }
           this.currentStep = 'congrats'
         })
         .catch((error) => {
