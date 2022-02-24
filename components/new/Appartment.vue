@@ -269,10 +269,11 @@
               <a href="#" class="py-4 px-8 w-full text-gray-400 border border-gray-300 rounded-md hover:bg-blue-920 hover:text-white" @click.prevent="currentStep='photos'">Rajouter les photos maintenant</a>
             </div>
           </div>
-          <div v-if="currentStep === 'photos'" class="photos pt-4">
+          <div v-if="currentStep === 'photos'" class="photos overflow-scroll h-4/5 pb-16 p-4">
             <p class="text-lg my-2 text-gray-400">
               Photo principale <span class="text-base">(Veuillez choisir une photo en mode paysage)</span>
             </p>
+            {{ pictures[mainImg] ? pictures[mainImg] : 'not ok' }}
             <div class="flex items-center justify-center w-full">
               <label class="flex flex-col w-full py-8 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                 <div class="flex flex-col items-center justify-center pt-7">
@@ -316,12 +317,17 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <span class="icon text-gray-400">
-                      <i class="fal fa-image fa-lg" />
-                    </span>
-                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
-                      Photo 2
-                    </p>
+                    <template v-if="!pictures[secondImg]">
+                      <span class="icon text-gray-400">
+                        <i class="fal fa-image fa-lg" />
+                      </span>
+                      <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                        Photo 2
+                      </p>
+                    </template>
+                    <template v-else>
+                      <img :src="pictures[secondImg]" alt="">
+                    </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, secondImg)">
                 </label>
@@ -329,12 +335,17 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <span class="icon text-gray-400">
-                      <i class="fal fa-image fa-lg" />
-                    </span>
-                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
-                      Photo 3
-                    </p>
+                    <template v-if="!pictures[thirdImg]">
+                      <span class="icon text-gray-400">
+                        <i class="fal fa-image fa-lg" />
+                      </span>
+                      <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                        Photo 3
+                      </p>
+                    </template>
+                    <template v-else>
+                      <img :src="pictures[thirdImg]" alt="">
+                    </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, thirdImg)">
                 </label>
@@ -342,12 +353,17 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <span class="icon text-gray-400">
-                      <i class="fal fa-image fa-lg" />
-                    </span>
-                    <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
-                      Photo 4
-                    </p>
+                    <template v-if="!pictures[fourthImg]">
+                      <span class="icon text-gray-400">
+                        <i class="fal fa-image fa-lg" />
+                      </span>
+                      <p class="pt-1 text-base tracking-wider text-gray-400 group-hover:text-gray-600">
+                        Photo 4
+                      </p>
+                    </template>
+                    <template v-else>
+                      <img :src="pictures[fourthImg]" alt="">
+                    </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, fourthImg)">
                 </label>
