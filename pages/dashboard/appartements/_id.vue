@@ -9,7 +9,6 @@
           <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="">
         </div>
       </div> -->
-      {{ appartment.mainImg }}
       <div class="container flex flex-col items-start lg:w-6/12">
         <div class="content font-body">
           <h4 class="text-2xl font-medium mb-2">
