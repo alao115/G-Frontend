@@ -3,11 +3,11 @@ export default ({ http, serviceName }) => class storageService {
     return http.post(`/${serviceName}/upload`, data)
   }
 
-  download () {
-    return http.get(`/${serviceName}/download`)
+  download (data) {
+    return http.post(`/${serviceName}/download`, data)
   }
 
-  delete (entityID) {
-    return http.post(`/${serviceName}/delete`, entityID)
+  delete (data) {
+    return http.post(`/${serviceName}/delete`, data)
   }
 }
