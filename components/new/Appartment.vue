@@ -537,14 +537,13 @@ export default {
         const { data } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
 
         if (this.appartImg) {
-          for await (const key of Object.keys(this.appartImg)) {
+          for (const key of Object.keys(this.appartImg)) {
             const ImgData = new FormData()
             ImgData.append('file', this.appartImg[key])
             ImgData.append('filePath', `appartments/${data.createAppartment.id}/${key}_${this.appartImg[key].name}`)
-            this.$api.firebaseStorageService.upload(ImgData)
-              .then(async (firestoreResponse) => {
-                await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
-              }).catch((err) => { throw err })
+            const firestoreResponse = await this.$api.firebaseStorageService.upload(ImgData)
+            const updateResponse = await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
+            console.log(updateResponse)
           }
         }
         this.newAppartment = {}
