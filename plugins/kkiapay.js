@@ -3,5 +3,4 @@ import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kk
 
 Vue.prototype.$openKkiapayWidget = openKkiapayWidget
 Vue.prototype.$addKkiapayListener = addKkiapayListener
-Vue.prototype.$removeKkiapayListener
- = removeKkiapayListener
+Vue.prototype.$removeKkiapayListener = removeKkiapayListener

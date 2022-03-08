@@ -160,7 +160,8 @@ export default {
       reservations: [],
       locations: [],
       newVisit: {},
-      selectedAppart: ''
+      selectedAppart: '',
+      visitResponse: {}
     }
   },
   async fetch () {
@@ -233,7 +234,8 @@ export default {
     createVisit () {
       this.open()
       this.$api.visitService.create({ variables: { data: this.newVisit } })
-        .then((response) => {
+        .then(({ data }) => {
+          this.visitResponse = data.createVisit
           this.newVisit = {}
           this.currentStep = 'congrats'
         })
@@ -242,6 +244,7 @@ export default {
         })
     },
     open () {
+      // console.log(this.$openKkiapayWidget)
       this.$openKkiapayWidget({
         amount: 2000,
         api_key: 'f8095850886111ec953617ecac48fe09',
@@ -250,7 +253,7 @@ export default {
       })
     },
     successHandler (response) {
-      console.log(response)
+      this.$api.visitService.update({ variables: { visitId: this.visitResponse.id, data: { status: 'paid' } } })
     }
   }
 }
