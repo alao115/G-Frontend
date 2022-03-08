@@ -59,7 +59,7 @@
               Détails
             </p>
             <!-- <textarea v-model="newAppartment.details" type="text" class="w-full h-48 md:h-16 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " /> -->
-            <textarea v-model="newAppartment.details" type="text" class="w-full h-24 md:h-48 pr-4 pl-4 my-1 relative placeholder-gray-320 border-gray-320 rounded-md focus:placeholder-sky-550 focus:border-sky-550" placeholder="Détails sur la maison, l'adresse, etc.. " />
+            <textarea v-model="newAppartment.details" type="text" class="w-full h-16 md:h-24 pr-4 pl-4 my-1 relative placeholder-gray-320 border-gray-320 rounded-md focus:placeholder-sky-550 focus:border-sky-550" placeholder="Détails sur la maison, l'adresse, etc.. " />
             <p class="text-base mt-4 text-gray-400">
               Loyer
             </p>
@@ -71,9 +71,8 @@
                     <span class="hidden lg:block">Choisissez une fréquence</span>
                     <span class="block lg:hidden">Fréquence</span>
                   </span>
-                  <p v-else class="leading-none text-left flex flex-col">
+                  <p v-else class="leading-none text-left flex flex-col py-8">
                     {{ selectedPaymentFrequency.label }}
-                    <span class="text-sm mt-1 text-gray-400">{{ selectedPaymentFrequency.description }}</span>
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -263,9 +262,9 @@
               <p class="text-base mt-1 text-gray-400">
                 Adresse
               </p>
-              <textarea v-model="ownerInfos.address" type="text" class="w-full h-24 md:h-32 lg:h-48 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
+              <textarea v-model="ownerInfos.address" type="text" class="w-full h-16 md:h-24 pr-4 pl-4 my-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Détails sur la maison, l'adresse, etc.. " />
             </div>
-            <div class="retative text-center mt-4">
+            <div class="retative text-center mt-4 my-8">
               <a href="#" class="py-4 px-8 w-full text-gray-400 border border-gray-300 rounded-md hover:bg-blue-920 hover:text-white" @click.prevent="currentStep='photos'">Rajouter les photos maintenant</a>
             </div>
           </div>
@@ -387,7 +386,7 @@
             <span>Retour</span>
           </button>
         </div>
-        <div v-else class="footer p-4 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0 border border-t-2">
+        <div v-else class="footer p-4 lg:p-8 lg:py-4 flex justify-between absolute w-full bg-white z-20 bottom-0 border border-t-2">
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'first' ? isDismissed = true : currentStep === 'second' ? currentStep = 'first' : currentStep === 'third' ? currentStep = 'second' : currentStep = 'third'">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
@@ -434,10 +433,10 @@ export default {
       isFurnished: false,
       advancePayment: 0,
       paymentFrequencies: [
-        { id: 1, value: 'Month', label: 'Par mois', description: 'Paimements par mois' },
-        { id: 2, value: 'Week', label: 'Par semaine', description: 'Paiements par semaine' },
-        { id: 3, value: 'Day', label: 'Par jour', description: 'Paiements par jour' },
-        { id: 4, value: 'Night', label: 'Par nuit', description: 'Paiements à la nuité' }
+        { id: 1, value: 'Month', label: 'Paimements par mois' },
+        { id: 2, value: 'Week', label: 'Paiements par semaine' },
+        { id: 3, value: 'Day', label: 'Paiements par jour' },
+        { id: 4, value: 'Night', label: 'Paiements à la nuité' }
       ],
       selectedPaymentFrequency: '',
       newAppartment: {

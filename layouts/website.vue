@@ -2,6 +2,7 @@
   <div class="w-screen overflow-x-hidden">
     <WebsiteTheNavbar />
     <Nuxt />
+    <!-- <WebsiteHomeAdvantages /> -->
     <WebsitePublications :in-home-page="false" :in-index="true" />
     <WebsiteContactSection />
     <WebsiteHomeCookies />
