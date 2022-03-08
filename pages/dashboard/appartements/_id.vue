@@ -2,14 +2,15 @@
   <div class="overflow-x-hidden font-body p-8 lg:px-8 lg:py-16">
     <EditAppartment :appartment="appartmentToEdit" />
     <div class="flex space-x-8">
-      <!-- <div>
-        <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full pr-4 mb-16">
-        <div class="flex space-x-8 lg:w-5/12">
-          <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="">
-          <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="">
+      <div class="relative flex flex-col w-1/2">
+        <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full mb-8">
+        <div class="flex space-x-8">
+          <div><img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class=""></div>
+          <div><img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class=""></div>
+          <div><img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class=""></div>
         </div>
-      </div> -->
-      <div class="container flex flex-col items-start lg:w-6/12">
+      </div>
+      <div class="flex flex-col items-start w-1/2">
         <div class="content font-body">
           <h4 class="text-2xl font-medium mb-2">
             {{ appartmentType(appartment.appartmentType).label }} <br>
@@ -55,7 +56,7 @@
             </span>
           </div>
           <div class="details">
-            <h4 class="text-sky-450 text-xl mt-8 mb-4">
+            <h4 class="text-sky-450 text-xl mt-8">
               Details
             </h4>
             <p class="font-body text-base mb-8">
@@ -63,11 +64,11 @@
             </p>
           </div>
           <div class="rooms w-full pr-4">
-            <h4 class="text-sky-450 text-xl mb-4">
+            <h4 class="text-sky-450 text-xl">
               Caractéristiques
             </h4>
-            <div class="grid grid-cols-3 md:grid-cols-4 my-4">
-              <div class="w-full pr-4">
+            <div class="grid grid-cols-3 md:grid-cols-4 mt-2">
+              <div v-if="appartment.bedrooms" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-bed-alt text-xl" />
@@ -78,7 +79,7 @@
                   Chambre(s)
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.livingrooms" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-couch text-xl" />
@@ -89,7 +90,7 @@
                   Salon (s)
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.kitchen" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-oven text-xl" />
@@ -100,7 +101,7 @@
                   Cuisine (s)
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.bathrooms" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
@@ -111,7 +112,7 @@
                   Salle(s) d'eau
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.storageroom" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-cabinet-filing text-xl" />
@@ -122,7 +123,7 @@
                   Débarras
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.garage" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-garage-open text-xl" />
@@ -133,7 +134,7 @@
                   Garage
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.garden" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-flower-tulip text-sm" /><i class="far fa-flower-daffodil text-sm" /><i class="far fa-flower text-sm" />
@@ -144,7 +145,7 @@
                   Jardin
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.floor" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-list-ol text-xl" />
@@ -155,7 +156,7 @@
                   Niveau
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.householdsTotal" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-4">
                     <i class="far fa-users text-xl" />
@@ -166,7 +167,7 @@
                   Voisins
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.ac" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-2 lg:mr-4">
                     <i class="far fa-air-conditioner text-xl" />
@@ -177,7 +178,7 @@
                   Climatiseur
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.pool" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-2 lg:mr-4">
                     <i class="far fa-swimming-pool text-xl" />
@@ -188,7 +189,7 @@
                   Piscine
                 </p>
               </div>
-              <div class="w-full pr-4">
+              <div v-if="appartment.keeper" class="w-full pr-4">
                 <div class="flex items-center">
                   <span class="icon mr-2 lg:mr-4">
                     <i class="far fa-user-shield text-xl" />
@@ -203,7 +204,7 @@
           </div>
         </div>
         <div class="rooms w-full">
-          <h4 class="text-sky-450 text-xl mt-8 mb-4">
+          <h4 class="text-sky-450 text-xl">
             Conditions
           </h4>
           <div class="grid grid-cols-1 lg:grid-cols-3 my-4">
@@ -211,7 +212,7 @@
               <div class="flex items-center font">
                 <label for="#" class="text-xl font-semibold">{{ appartment.rent }}</label>
               </div>
-              <p class="lg:mt-2 text-gray-400">
+              <p class="text-gray-400">
                 Loyer
               </p>
             </div>
@@ -219,7 +220,7 @@
               <div class="flex items-center font">
                 <label for="#" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
               </div>
-              <p class="lg:mt-2 text-gray-400">
+              <p class="text-gray-400">
                 {{ appartment.conditions.prepaidRentMonths }} mois d'avance
               </p>
             </div>
@@ -227,7 +228,7 @@
               <div class="flex items-center font">
                 <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
               </div>
-              <p class="lg:mt-2 text-gray-400">
+              <p class="text-gray-400">
                 Commission Eau / Elec
               </p>
             </div>
