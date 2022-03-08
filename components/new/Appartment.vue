@@ -269,14 +269,14 @@
             </div>
           </div>
           <div v-if="currentStep === 'photos'" class="photos overflow-scroll h-4/5 pb-16 p-4">
+            {{ appartImg }}
             <p class="text-lg my-2 text-gray-400">
               Photo principale <span class="text-base">(Veuillez choisir une photo en mode paysage)</span>
             </p>
-            {{ pictures[mainImg] ? pictures[mainImg] : 'not ok' }}
             <div class="flex items-center justify-center w-full">
               <label class="flex flex-col w-full py-8 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                 <div class="flex flex-col items-center justify-center pt-7">
-                  <template v-if="!pictures[mainImg]">
+                  <template v-if="!mainImg">
                     <span class="icon text-gray-400">
                       <i class="fal fa-image fa-5x" />
                     </span>
@@ -285,10 +285,10 @@
                     </p>
                   </template>
                   <template v-else>
-                    <img :src="pictures[mainImg]" alt="">
+                    <img :src="mainImg" alt="">
                   </template>
                 </div>
-                <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, mainImg)">
+                <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'main')">
               </label>
             </div>
             <p class="text-lg mt-4 mb-2 text-gray-400">
@@ -298,7 +298,7 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!pictures[firstImg]">
+                    <template v-if="!firstImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -307,16 +307,16 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="pictures[firstImg]" alt="">
+                      <img :src="firstImg" alt="" class="w-full h-full">
                     </template>
                   </div>
-                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, firstImg)">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'first')">
                 </label>
               </div>
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!pictures[secondImg]">
+                    <template v-if="!secondImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -325,16 +325,16 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="pictures[secondImg]" alt="">
+                      <img :src="secondImg" alt="">
                     </template>
                   </div>
-                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, secondImg)">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'second')">
                 </label>
               </div>
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!pictures[thirdImg]">
+                    <template v-if="!thirdImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -343,16 +343,16 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="pictures[thirdImg]" alt="">
+                      <img :src="thirdImg" alt="">
                     </template>
                   </div>
-                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, thirdImg)">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'third')">
                 </label>
               </div>
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!pictures[fourthImg]">
+                    <template v-if="!fourthImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -361,10 +361,10 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="pictures[fourthImg]" alt="">
+                      <img :src="fourthImg" alt="">
                     </template>
                   </div>
-                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, fourthImg)">
+                  <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'fourth')">
                 </label>
               </div>
             </div>
@@ -448,12 +448,11 @@ export default {
       ownerInfos: {},
       contracts: [],
       locations: [],
-      mainImg: 'main',
-      firstImg: 'first',
-      secondImg: 'second',
-      thirdImg: 'third',
-      fourthImg: 'fourth',
-      pictures: {},
+      mainImg: '',
+      firstImg: '',
+      secondImg: '',
+      thirdImg: '',
+      fourthImg: '',
       appartImg: null
     }
   },
@@ -503,31 +502,37 @@ export default {
   },
   methods: {
     uploadPicture (event, source) {
-      // this.msgOfSizeOfFile = ''
       const files = event.target.files
-      // const filename = files[0].name
-      // this.fileName = filename
-      // const theSizeOfLFile = files[0].size
-      // this.msgOfSizeOfFile = ''
-      // if (filename.lastIndexOf('.') <= 0) {
-      //   return alert('Please add a valid file!')
-      // }
-      // if (theSizeOfLFile < 1024 * 1024) {
       const fileReader = new FileReader()
       fileReader.addEventListener('load', () => {
-        this.pictures[source] = fileReader.result
+        switch (source) {
+          case 'main':
+            this.mainImg = fileReader.result
+            break
+          case 'first':
+            this.firstImg = fileReader.result
+            break
+          case 'second':
+            this.secondImg = fileReader.result
+            break
+          case 'third':
+            this.thirdImg = fileReader.result
+            break
+          case 'fourth':
+            this.fourthImg = fileReader.result
+            break
+        }
       })
       fileReader.readAsDataURL(files[0])
 
       if (!this.appartImg) { this.appartImg = {} }
       this.appartImg[source] = files[0]
-      // } else {
-      //   this.msgOfSizeOfFile = 'Attention!!! Votre fichier dépasse la taille requise'
-      // }
     },
+
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
+
     async createAppartment () {
       try {
         this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }

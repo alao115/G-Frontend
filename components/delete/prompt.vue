@@ -12,7 +12,7 @@
       <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium bg-white hover:bg-gray-100 border-2 border-gray-200" @click.prevent="isClosed = true">
         <span>Finalement, non</span>
       </button>
-      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700" @click.prevent="deleteCommand">
+      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700 disabled:bg-red-200" :disabled="!isClosed" @click.prevent="deleteCommand">
         <span>Oui, supprimer</span>
       </button>
       <div class="flex flex-col px-2 mx-2 cursor-pointer text-gray-300" @click.prevent="isClosed = true">
@@ -36,15 +36,18 @@ export default {
 
   data () {
     return {
-      isClosed: true
+      isClosed: true,
+      isClicked: false
     }
   },
 
   methods: {
     deleteCommand () {
       if (this.deletePlaceholder) {
+        this.isClicked = true
         this.deletePlaceholder()
           .then(() => {
+            this.isClicked = false
             this.isClosed = true
           })
       }
