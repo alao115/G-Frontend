@@ -1,42 +1,41 @@
 <template>
-  <div class="flex w-screen h-screen items-center justify-center">
-    <div class="lds-ripple">
-      <div></div>
-      <div></div>
-    </div>
+  <div class="flex">
+    <div class="lds-ripple" />
   </div>
 </template>
 
-<style scoped>
-  lds-ripple {
+<style scoped lang="scss">
+  .lds-ripple {
     display: inline-block;
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 30px;
+    height: 30px;
+
+    &::before, &::after {
+      position: absolute;
+      border: 2px solid #fff;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      content: "";
+      animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+      border-radius: 50%;
+    }
+
+    &::after {
+      animation-delay: -0.5s;
+    }
   }
-  .lds-ripple div {
-    position: absolute;
-    border: 4px solid #fff;
-    opacity: 1;
-    border-radius: 50%;
-    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-  }
-  .lds-ripple div:nth-child(2) {
-    animation-delay: -0.5s;
-  }
+
   @keyframes lds-ripple {
     0% {
-      top: 36px;
-      left: 36px;
-      width: 0;
-      height: 0;
+      width: 0%;
+      height: 0%;
       opacity: 1;
     }
     100% {
-      top: 0px;
-      left: 0px;
-      width: 72px;
-      height: 72px;
+      width: 100%;
+      height: 100%;
       opacity: 0;
     }
   }

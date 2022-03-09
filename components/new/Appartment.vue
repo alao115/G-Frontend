@@ -391,9 +391,10 @@
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'third' || currentStep === 'photos') ? createAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
+          <button type="button" class="flex relative space-x-2 justify-center w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'third' || currentStep === 'photos') ? createAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
             <span v-if="currentStep === 'photos' || currentStep === 'third'">Enregistrer</span>
             <span v-else>Suivant</span>
+            <loader v-if="loading" class=" absolute right-4 top-1/2 transform -translate-y-1/2" />
           </button>
         </div>
       </div>
@@ -453,7 +454,8 @@ export default {
       secondImg: '',
       thirdImg: '',
       fourthImg: '',
-      appartImg: null
+      appartImg: null,
+      loading: false
     }
   },
   async fetch () {
@@ -535,10 +537,13 @@ export default {
 
     async createAppartment () {
       try {
+        this.loading = true
         this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
         this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency.id
 
-        const { data } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
+        const { data, errors } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
+
+        if (errors) { this.errorToshow = errors[1]?.message }
 
         if (this.appartImg) {
           for (const key of Object.keys(this.appartImg)) {
@@ -552,8 +557,10 @@ export default {
         }
         this.newAppartment = {}
         this.currentStep = 'congrats'
+        this.loading = false
       } catch (error) {
         this.errorToshow = error
+        this.loading = false
       }
     }
   }
