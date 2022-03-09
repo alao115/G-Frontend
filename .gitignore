@@ -91,3 +91,4 @@ sw.*
 
 # package-lock.json
 .enl
+package-lock.json

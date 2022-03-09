@@ -258,7 +258,7 @@
             <div class="flex items-center justify-center w-full">
               <label class="flex flex-col w-full py-8 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                 <div class="flex flex-col items-center justify-center pt-7">
-                  <template v-if="!appartToEdit['mainImg'] || !mainImg">
+                  <template v-if="!computedMainImg">
                     <span class="icon text-gray-400">
                       <i class="fal fa-image fa-5x" />
                     </span>
@@ -267,7 +267,7 @@
                     </p>
                   </template>
                   <template v-else>
-                    <img :src="appartToEdit['mainImg'] || mainImg" alt="">
+                    <img :src="computedMainImg" alt="">
                   </template>
                 </div>
                 <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'main')">
@@ -280,7 +280,7 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!appartToEdit['firstImg'] || !firstImg">
+                    <template v-if="!computedFirstImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -289,7 +289,7 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="appartToEdit['firstImg'] || firstImg" alt="">
+                      <img :src="computedFirstImg" alt="">
                     </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'first')">
@@ -298,7 +298,7 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!appartToEdit['secondImg'] || !secondImg">
+                    <template v-if="!computedSecondImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -307,7 +307,7 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="appartToEdit['secondImg'] || secondImg" alt="">
+                      <img :src="computedSecondImg" alt="">
                     </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'second')">
@@ -316,7 +316,7 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!appartToEdit['thirdImg'] || !thirdImg">
+                    <template v-if="!computedThirdImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -325,7 +325,7 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="appartToEdit['thirdImg'] || thirdImg" alt="">
+                      <img :src="computedThirdImg" alt="">
                     </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'third')">
@@ -334,7 +334,7 @@
               <div class="flex items-center justify-center">
                 <label class="flex flex-col w-full py-1 border-4 border-gray-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div class="flex flex-col items-center justify-center pt-7">
-                    <template v-if="!appartToEdit['fourthImg'] || !fourthImg">
+                    <template v-if="!computedFourthImg">
                       <span class="icon text-gray-400">
                         <i class="fal fa-image fa-lg" />
                       </span>
@@ -343,7 +343,7 @@
                       </p>
                     </template>
                     <template v-else>
-                      <img :src="appartToEdit['fourthImg'] || fourthImg" alt="">
+                      <img :src="computedFourthImg" alt="">
                     </template>
                   </div>
                   <input type="file" class="opacity-0" @change="(e) => uploadPicture(e, 'fourth')">
@@ -357,7 +357,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Appartement
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mis à jour avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                mis à jour avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -371,9 +373,10 @@
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Retour</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'third' || currentStep === 'photos') ? editAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
+          <button type="button" class="w-1/2 flex justify-center relative shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'third' || currentStep === 'photos') ? editAppartment() : currentStep === 'second' ? currentStep = 'third' : currentStep = 'second'">
             <span v-if="currentStep === 'photos' || currentStep === 'third'">Enregistrer</span>
             <span v-else>Suivant</span>
+            <loader v-if="loading" class=" absolute right-4 top-1/2 transform -translate-y-1/2" />
           </button>
         </div>
       </div>
@@ -382,6 +385,9 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import path from 'path'
+
 export default {
   props: {
     appartment: {
@@ -454,7 +460,8 @@ export default {
       secondImg: '',
       thirdImg: '',
       fourthImg: '',
-      appartImg: null
+      appartImg: null,
+      loading: false
     }
   },
   async fetch () {
@@ -466,6 +473,21 @@ export default {
     this.accounts = (await this.$api.accountService.getAll()).data.accounts
   },
   computed: {
+    computedMainImg () {
+      return this.mainImg ? this.mainImg : this.appartToEdit.mainImg
+    },
+    computedFirstImg () {
+      return this.firstImg ? this.firstImg : this.appartToEdit.firstImg
+    },
+    computedSecondImg () {
+      return this.secondImg ? this.secondImg : this.appartToEdit.secondImg
+    },
+    computedThirdImg () {
+      return this.thirdImg ? this.thirdImg : this.appartToEdit.thirdImg
+    },
+    computedFourthImg () {
+      return this.fourthImg ? this.fourthImg : this.appartToEdit.fourthImg
+    },
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
@@ -512,39 +534,59 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
 
-    editAppartment () {
-      this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: this.appartToEdit } })
-        .then(() => {
-          this.appartmentToEdit = {}
-          this.currentStep = 'congrats'
-        })
-        .catch((error) => {
-          this.errorToshow = error
-        })
+    async editAppartment () {
+      try {
+        this.loading = true
+
+        await this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: { ...this.appartToEdit } } })
+
+        if (this.appartImg) {
+          for (const key of Object.keys(this.appartImg)) {
+            const ImgData = new FormData()
+            const filePath = `appartments/${this.appartToEdit.id}/${key}_${this.appartImg[key].name}`
+            // const filePathToBeDeleted = `appartments/${this.appartToEdit.id}/${path.basename(this.appartToEdit[key].split('?')[0])}`
+            ImgData.append('file', this.appartImg[key])
+            ImgData.append('filePath', filePath)
+            // await this.$api.firebaseStorageService.delete({ filePath: filePathToBeDeleted })
+            const firestoreResponse = await this.$api.firebaseStorageService.upload(ImgData)
+            await this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
+          }
+        }
+
+        this.loading = false
+        this.currentStep = 'congrats'
+      } catch (error) {
+        this.errorToshow = error
+        this.loading = false
+      }
     },
+
     uploadPicture (event, source) {
-      // this.msgOfSizeOfFile = ''
       const files = event.target.files
-      // const filename = files[0].name
-      // this.fileName = filename
-      // const theSizeOfLFile = files[0].size
-      // this.msgOfSizeOfFile = ''
-      // if (filename.lastIndexOf('.') <= 0) {
-      //   return alert('Please add a valid file!')
-      // }
-      // if (theSizeOfLFile < 1024 * 1024) {
       const fileReader = new FileReader()
-      const $this = this
-      fileReader.addEventListener('load', function () {
-        $this.source = fileReader.result
+      fileReader.addEventListener('load', () => {
+        switch (source) {
+          case 'main':
+            this.mainImg = fileReader.result
+            break
+          case 'first':
+            this.firstImg = fileReader.result
+            break
+          case 'second':
+            this.secondImg = fileReader.result
+            break
+          case 'third':
+            this.thirdImg = fileReader.result
+            break
+          case 'fourth':
+            this.fourthImg = fileReader.result
+            break
+        }
       })
       fileReader.readAsDataURL(files[0])
 
       if (!this.appartImg) { this.appartImg = {} }
       this.appartImg[source] = files[0]
-      // } else {
-      //   this.msgOfSizeOfFile = 'Attention!!! Votre fichier dépasse la taille requise'
-      // }
     }
   }
 }

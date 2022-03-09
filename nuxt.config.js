@@ -31,7 +31,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/api.js',
-    { src: '~/plugins/kkiapay', ssr: false}
+    { src: '~/plugins/kkiapay', ssr: false }
     // '~/plugins/test_plugins.js',
     // '~/plugins/apollo.config.js'
   ],
