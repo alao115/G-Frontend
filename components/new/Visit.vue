@@ -101,7 +101,7 @@
             Annuler
           </button>
           <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
-            Enregistrer
+            Payer puis Enreg.
           </button>
           <!-- <button @click.prevent="open">click me</button> -->
           <!-- <kkiapay-widget

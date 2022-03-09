@@ -88,7 +88,7 @@
             <span>{{ vis.date }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-20 px-2 mx-2">
-            <span />
+            <span>{{ vis.status }}</span>
           </div>
           <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(vis)">
             <span class="icon">
