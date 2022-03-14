@@ -26,19 +26,20 @@
             <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep = 'Email'">
               <span>Retour</span>
             </button>
-            <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep = 'Password'">
+            <button type="button" :class="(newAccount.firstname && newAccount.firstname !== '') || (newAccount.lastname && newAccount.lastname !== '') ? 'text-white bg-sky-550 hover:bg-blue-920 shadow-btn-shadow border border-transparent' : 'cursor-not-allowed bg-gray-100 text-gray-400'" class="w-1/2 py-4 text-sm px-8 leading-none rounded font-medium" @click.prevent="currentStep = 'Password'">
               <span>Suivant</span>
             </button>
           </div>
         </div>
         <div v-if="currentStep === 'Password'">
-          <input type="password" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Mot de passe">
-          <input v-model="newAccount.password" type="password" class="h-12 md:h-16 px-8 mt-1 mb-12 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Confirmer mot de passe">
+          <input type="password" v-model="testPassword" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Mot de passe">
+          <input v-model="newAccount.password" type="password" :class="newAccount.password && newAccount.password !== testPassword ? 'mb-0' : 'mb-12'" class="h-12 md:h-16 px-8 mt-1 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Confirmer mot de passe">
+          <p v-if="newAccount.password && newAccount.password !== testPassword" class="text-red-300 mt-4 mb-12">Les mots de passe ne correspondent pas</p>
           <div class="footer py-4  flex justify-between">
             <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep = 'Name'">
               <span>Retour</span>
             </button>
-            <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createAccount">
+            <button type="button" :class="newAccount.password !== testPassword ? 'cursor-not-allowed bg-gray-100 text-gray-400' : ' text-white bg-sky-550 hover:bg-blue-920 shadow-btn-shadow border border-transparent'" class="w-1/2 py-4 text-sm px-8 leading-none rounded font-medium" @click.prevent="newAccount.password === testPassword ? createAccount : ''">
               <span>Enregistrer</span>
             </button>
           </div>
@@ -65,6 +66,7 @@ export default {
   data () {
     return {
       testEmail: '',
+      testPassword: '',
       currentStep: 'Email',
       newAccount: {}
     }

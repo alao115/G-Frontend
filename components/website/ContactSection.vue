@@ -10,7 +10,7 @@
         </p>
         <form action="#" class="form text-blue-990 bg-sky-10 p-4 rounded-md">
           <div class="flex divide-x divide-gray-320 justify-between">
-            <input type="text" class="px-8 mr-4 block w-full bg-transparent border-transparent focus:border-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Entrez votre message !">
+            <input type="text" class="px-8 mr-4 block w-full bg-transparent border-transparent focus:border-white focus:ring-0 placeholder-gray-300 focus:placeholder-blue-380" placeholder="Entrez votre message !">
             <NuxtLink to="#" class="shadow-btn-shadow border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-3 text-lg px-6 lg:px-10">
               <span class="hidden lg:block">Envoyer</span>
               <span class="icon block lg:hidden">

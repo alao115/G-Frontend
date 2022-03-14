@@ -217,9 +217,11 @@ export default {
       roomsQty: 1,
       mobileWidgetIsVisible: false,
       budget: 0,
+      budgetMin: 0,
+      budgetMax: 0,
       location: '',
       types: [
-        { id: 0, label: 'Choisissez un type', descr: '' },
+        /* { id: 0, label: 'Choisissez un type', descr: '' }, */
         { id: 1, label: 'Chambres', descr: '' },
         { id: 2, label: 'Maison', descr: '' },
         { id: 3, label: 'Appartements meublés', descr: '' }

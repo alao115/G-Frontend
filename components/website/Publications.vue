@@ -8,7 +8,7 @@
         </NuxtLink>
       </div>
     </form>
-    <div v-if="inIndex" class="text-blue-990 w-full lg:w-5/12 mb-4">
+    <div v-if="inIndex" class="text-blue-920 w-full lg:w-5/12 mb-4">
       <h1 class="text-3xl font-semibold leading-snug">
         Trouvez votre prochain lieu de résidence
       </h1>
