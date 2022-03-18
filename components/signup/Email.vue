@@ -39,7 +39,7 @@
             <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep = 'Name'">
               <span>Retour</span>
             </button>
-            <button type="button" :class="newAccount.password !== testPassword ? 'cursor-not-allowed bg-gray-100 text-gray-400' : ' text-white bg-sky-550 hover:bg-blue-920 shadow-btn-shadow border border-transparent'" class="w-1/2 py-4 text-sm px-8 leading-none rounded font-medium" @click.prevent="newAccount.password === testPassword ? createAccount : ''">
+            <button type="button" :class="newAccount.password !== testPassword ? 'cursor-not-allowed bg-gray-100 text-gray-400' : ' text-white bg-sky-550 hover:bg-blue-920 shadow-btn-shadow border border-transparent'" class="w-1/2 py-4 text-sm px-8 leading-none rounded font-medium" @click.prevent="newAccount.password === testPassword ? createAccount() : ''">
               <span>Enregistrer</span>
             </button>
           </div>

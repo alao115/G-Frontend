@@ -52,9 +52,18 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
+    'nuxt-logrocket'
   ],
 
+  logRocket: {
+    // configure LogRocket
+    logRocketId: 'yqrw52/first-one',
+    devModeAllowed: false,
+    config: {
+      //
+    }
+  },
   apollo: {
     clientConfigs: {
       default: {
