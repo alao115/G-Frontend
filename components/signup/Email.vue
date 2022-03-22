@@ -1,5 +1,22 @@
 <template>
-  <div class="container flex-col bg-white w-full lg:w-10/12 xl:w-9/12 flex justify-center item-center pb-12 mx-auto" style="min-height: 516px">
+  <div class="container flex-col bg-white w-full lg:w-5/12 xl:w-4/12 flex justify-center item-center pb-12 mx-auto">
+    <div v-if="errorToShow" class="w-full text-white bg-red-500 absolute top-0" :class="isDismissed === true ? 'hidden' : ''">
+      <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+        <div class="flex">
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+            <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
+          </svg>
+          <p class="mx-3">
+            {{ errorToShow }}
+          </p>
+        </div>
+        <button class="p-1 transition-colors duration-200 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none" @click="isDismissed = true">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
     <div class="absolute h-1 border-t-8 border-sky-450 w-1/3 -mt-2 -ml-20 top-0" />
     <div class="w-full px-8 lg:px-16">
       <p class="title font-semibold text-3xl mt-24 mb-6 text-sky-450">
@@ -68,7 +85,10 @@ export default {
       testEmail: '',
       testPassword: '',
       currentStep: 'Email',
-      newAccount: {}
+      newAccount: {},
+      isDismissed: true,
+      errorToShow: '',
+      notificationToShow: ''
     }
   },
   methods: {
@@ -78,6 +98,12 @@ export default {
     createAccount () {
       this.$api.accountService.signup(this.newAccount)
         .then(() => this.$router.push({ name: 'signin' }))
+        .catch((error) => {
+          if (error) {
+            this.errorToShow = error
+            this.isDismissed = false
+          }
+        })
     }
   }
 }

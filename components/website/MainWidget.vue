@@ -1,22 +1,22 @@
 <template>
   <div class="contents">
     <div class="container bg-white rounded-xl h-auto p-10 font-body shadow-btn-shadow mt-16 -mb-16 bg-opacity-90 hidden lg:block">
-      <div v-if="listOfTypes.length > 0" class="flex w-min mb-8 rounded-md bg-blue-50">
+      <div v-if="listOfTypes.length > 0" class="flex w-min mb-8 rounded-md bg-blue-50 list-of-types">
         <button
           v-for="type in listOfTypes"
           :key="type.id"
-          class="flex whitespace-nowrap items-center justify-center py-4 px-8 rounded-md text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
+          class="flex whitespace-nowrap items-center justify-center py-4 px-8 text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
           :class="type.id === selectedType.id ? 'bg-sky-550 text-white' : ''"
           @click.prevent="selectedType = type"
         >
           {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
         </button>
       </div>
-      <div v-else class="flex w-min mb-8 rounded-md bg-blue-50">
+      <div v-else class="flex w-min mb-8 rounded-md bg-blue-50 list-of-types">
         <button
           v-for="type in types"
           :key="type.id"
-          class="flex whitespace-nowrap items-center justify-center py-4 px-8 rounded-md text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
+          class="flex whitespace-nowrap items-center justify-center py-4 px-8 text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
           :class="type.id === selectedType.id ? 'bg-sky-550 text-white' : ''"
           @click.prevent="selectedType = type"
         >
@@ -50,11 +50,42 @@
             </a>
           </div>
           <hr class="divider-v bg-gray-200 w-0.5 h-16">
-          <div class="p-2 flex items-center">
+          <!-- <div class="p-2 flex items-center">
             <span class="icon mr-4">
               <i class="fas fa-money-bill-wave-alt" />
             </span>
             <label for="#">Votre budget</label>
+          </div> -->
+          <div class="flex items-center pr-4">
+            <div class="p-2 flex items-center" @click.prevent="budgetDropdownOpened = !budgetDropdownOpened">
+              <span class="icon mr-4">
+                <i class="fas fa-money-bill-wave-alt" />
+              </span>
+              <label v-if="budget">
+                {{ budget }}
+              </label>
+              <label v-else>
+                Votre budget
+              </label>
+            </div>
+            <div v-if="budgetDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white">
+              <span class="icon" @click.prevent="budgetDropdownOpened = false"><i class="far fa-times fa-lg"></i></span>
+              <div class="flex space-x-2">
+                <div>
+                  <label class=" py-4">
+                    Entre
+                  </label>
+                  <input v-model.number="budgetMin" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                </div>
+                <div>
+                  <label class="py-4">
+                    Et
+                  </label>
+                  <input v-model.number="budgetMax" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                </div>
+                .
+              </div>
+            </div>
           </div>
           <NuxtLink to="#" class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16">
             <span>Rechercher</span>
@@ -216,7 +247,8 @@ export default {
     return {
       roomsQty: 1,
       mobileWidgetIsVisible: false,
-      budget: 0,
+      budgetDropdownOpened: false,
+      budget: '',
       budgetMin: 0,
       budgetMax: 0,
       location: '',
@@ -295,5 +327,15 @@ export default {
   }
   .to-animate.mobile-widget {
     transition: all .5s;
+  }
+
+  .list-of-types button:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  .list-of-types button:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
 </style>
