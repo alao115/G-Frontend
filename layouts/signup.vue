@@ -1,10 +1,10 @@
 <template>
   <div class="flex items-center h-screen bg-sky-10 font-body">
     <div class="cover" />
-    <div class="container w-full md:w-7/12 lg:w-5/12 mx-auto text-center">
+    <div class="container w-full mx-auto text-center">
       <div class="flex space-x-8 justify-center">
         <div class="container flex flex-col justify-between" style="min-height: 516px">
-          <SignupGontcheLogo class="hidden lg:block"/>
+          <SignupGontcheLogo class="hidden lg:block" />
           <Nuxt />
           <div class="copyright mt-12">
             <div class="flex space-x-3 text-gray-300 align-center justify-center">

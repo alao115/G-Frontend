@@ -6,7 +6,38 @@
 
 @font-face {
   font-family: 'Cera Pro';
+  font-weight: 200;
+  src: local('Cera Pro'), url('../webfonts/Cera-Pro-Thin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  font-weight: 300;
+  src: local('Cera Pro'), url('../webfonts/Cera-Pro-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  font-weight: 400;
+  src: local('Cera Pro'), url('../webfonts/Cera-Pro-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  font-weight: 500;
   src: local('Cera Pro'), url('../webfonts/Cera-Pro-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  font-weight: 700;
+  src: local('Cera Pro'), url('../webfonts/Cera-Pro-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Cera Pro';
+  font-weight: 900;
+  src: local('Cera Pro'), url('../webfonts/Cera-Pro-Black.woff') format('woff');
 }
 
 /* @font-face {
