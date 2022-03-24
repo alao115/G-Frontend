@@ -6,7 +6,7 @@
           v-for="type in listOfTypes"
           :key="type.id"
           class="flex whitespace-nowrap items-center justify-center py-4 px-8 text-sm font-medium hover:bg-blue-990 hover:text-white focus:outline-none"
-          :class="type.id === selectedType.id ? 'bg-sky-550 text-white' : ''"
+          :class="selectedType && (type.id === selectedType.id) ? 'bg-sky-550 text-white' : ''"
           @click.prevent="selectedType = type"
         >
           {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
@@ -243,6 +243,19 @@
 
 <script>
 export default {
+  props: {
+    appartments: {
+      type: Array,
+      required: true,
+      default: () => ([])
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true,
+      default: () => ([])
+    }
+  },
+
   data () {
     return {
       roomsQty: 1,
@@ -259,24 +272,26 @@ export default {
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
       // selectedType: 1,
-      selectedType: 0,
-      appartments: [],
-      appartmentTypes: [],
-      publications: []
+      selectedType: 0
+      // appartments: [],
+      // appartmentTypes: []
+      // publications: []
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-  },
+  // async fetch () {
+  //   this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
+  //   // console.log(this.appartments)
+  //   this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+  //   // console.log(this.appartmentTypes)
+  //   // this.publications = (await this.$api.publicationService.getAll()).data.publications
+  // },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
     },
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
+    // publication () {
+    //   return id => this.publications.find(publication => publication.id === id)
+    // },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
@@ -289,6 +304,7 @@ export default {
     listOfTypes () {
       const returnedListOfTypes = []
       this.appartmentTypes.forEach((type) => {
+        // console.log(this.typeAppartments(type.id))
         if (this.typeAppartments(type.id).length > 0) {
           returnedListOfTypes.push(type)
         }
