@@ -24,7 +24,6 @@
     "kkiapay": "^1.0.6",
     "nuxt": "^2.15.7",
     "sass": "^1.49.9",
-    "sass-loader": "^10.2.1",
     "vue-apollo": "^3.1.0"
   },
   "devDependencies": {
@@ -37,7 +36,8 @@
     "eslint-plugin-vue": "^7.12.1",
     "graphql": "^15.7.2",
     "nuxt-graphql-request": "^4.3.0",
-    "postcss": "^8.3.5"
+    "postcss": "^8.3.5",
+    "sass-loader": "^10.2.1"
   },
   "eslintConfig": {
     "rules": {
