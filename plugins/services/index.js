@@ -11,7 +11,7 @@ import firebaseStorageService from './firebase.storage.service'
 
 export default ({ apollo }, $axios) => ({
   accountService: new (accountService({ apollo, gql }, $axios))(),
-  appartmentService: new (appartmentService({ apollo, gql }))(),
+  appartmentService: new (appartmentService({ apollo, gql, $axios }))(),
   appartmentDetailService: new (appartmentDetailService({ apollo, gql }))(),
   appartmentTypeService: new (appartmentTypeService({ apollo, gql }))(),
   publicationService: new (publicationService({ apollo, gql }))(),

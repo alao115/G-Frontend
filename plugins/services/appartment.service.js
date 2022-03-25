@@ -1,4 +1,4 @@
-export default ({ apollo, gql }) => class AppartmentService {
+export default ({ apollo, gql, $axios }) => class AppartmentService {
   getAll ({ projections, variables } = { projections: 'id mainImg firstImg secondImg thirdImg fourthImg appartmentType isFurnished location rent details rooms bathrooms bedrooms livingrooms storageroom kitchen garage keeper terrace garden ac pool householdsTotal groundLevel conditions { advancePayment energyCommission prepaidRentMonths } ownerInfos { civility firstname lastname address isAlive phone email } likes favorite', variables: {} }) {
     return apollo.query({ query: gql`query { appartments { ${projections} } }`, variables })
   }
@@ -17,5 +17,13 @@ export default ({ apollo, gql }) => class AppartmentService {
 
   delete ({ projections, variables } = { projections: 'id ', variables: {} }) {
     return apollo.mutate({ mutation: gql`mutation deleteAppart($appartmentId: ID!) { deleteAppartment(appartmentId: $appartmentId ) { id } }`, variables })
+  }
+
+  async getAllAppartmentFromREST () {
+    return await $axios.$get('/appartments/')
+  }
+
+  async getAllAppartmentTypeFromREST () {
+    return await $axios.$get('/appartments/appartmenttypes')
   }
 }

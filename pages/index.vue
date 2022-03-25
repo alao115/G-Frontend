@@ -6,7 +6,7 @@
         <h1 class="text-3xl lg:text-3xl xl:text-5xl font-bold">
           <span class=" leading-snug">Trouvez l'appartement <br> de vos rêves !</span>
         </h1>
-        <WebsiteMainWidget />
+        <WebsiteMainWidget :appartments="appartments" :appartment-types="appartmentTypes" />
       </div>
     </div>
   </div>
@@ -17,6 +17,15 @@
 
 export default {
   layout: 'website',
+  async asyncData ({ $api }) {
+    const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
+    const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+
+    return {
+      appartments,
+      appartmentTypes
+    }
+  },
   created () {}
 }
 </script>

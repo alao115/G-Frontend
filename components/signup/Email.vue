@@ -24,9 +24,11 @@
       </p>
       <form action="#" class="pt-4">
         <div v-if="currentStep === 'Email'">
-          <input type="email" v-model="testEmail" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Entrez votre email">
+          <input v-model="testEmail" type="email" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Entrez votre email">
           <input v-model="newAccount.email" type="email" :class="newAccount.email && newAccount.email !== testEmail ? 'mb-0' : 'mb-12'" class="h-12 md:h-16 px-8 mt-1 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Confirmez votre email">
-          <p v-if="newAccount.email && newAccount.email !== testEmail" class="text-red-300 mt-4 mb-12">Les emails ne correspondent pas</p>
+          <p v-if="newAccount.email && newAccount.email !== testEmail" class="text-red-300 mt-4 mb-12">
+            Les emails ne correspondent pas
+          </p>
           <div class="footer py-4  flex justify-between">
             <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="backToSignin">
               <span>Annuler</span>
@@ -49,9 +51,11 @@
           </div>
         </div>
         <div v-if="currentStep === 'Password'">
-          <input type="password" v-model="testPassword" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Mot de passe">
+          <input v-model="testPassword" type="password" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Mot de passe">
           <input v-model="newAccount.password" type="password" :class="newAccount.password && newAccount.password !== testPassword ? 'mb-0' : 'mb-12'" class="h-12 md:h-16 px-8 mt-1 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Confirmer mot de passe">
-          <p v-if="newAccount.password && newAccount.password !== testPassword" class="text-red-300 mt-4 mb-12">Les mots de passe ne correspondent pas</p>
+          <p v-if="newAccount.password && newAccount.password !== testPassword" class="text-red-300 mt-4 mb-12">
+            Les mots de passe ne correspondent pas
+          </p>
           <div class="footer py-4  flex justify-between">
             <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep = 'Name'">
               <span>Retour</span>
@@ -96,7 +100,7 @@ export default {
       this.$router.push({ path: '/signin' })
     },
     createAccount () {
-      this.$api.accountService.signup(this.newAccount)
+      this.$api.accountService.signup({ ...this.newAccount, userType: 2 })
         .then(() => this.$router.push({ name: 'signin' }))
         .catch((error) => {
           if (error) {
