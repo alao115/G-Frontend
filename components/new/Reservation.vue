@@ -85,8 +85,8 @@
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createReservation">
-            Envoyer
+          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createReservation">
+            Payer puis Enreg.
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
@@ -216,6 +216,18 @@ export default {
         .catch((error) => {
           this.errorToshow = error
         })
+    },
+    open () {
+      // console.log(this.$openKkiapayWidget)
+      this.$openKkiapayWidget({
+        amount: 2000,
+        api_key: 'f8095850886111ec953617ecac48fe09',
+        sandbox: true,
+        phone: ''
+      })
+    },
+    successHandler (response) {
+      this.$api.reservationtService.update({ variables: { reservationId: this.reservationtResponse.id, data: { status: 'reserved' } } })
     }
   }
 }

@@ -133,6 +133,7 @@ export default {
         })
     },
     connexionSuccesssfull () {
+      alert('connection successful')
       this.$router.push({ path: '/:' + true })
     }
   }
