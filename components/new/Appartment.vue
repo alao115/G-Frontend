@@ -1,6 +1,12 @@
 <template>
   <div class="contents">
-    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-if="isDropdown" class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75" @click.prevent="isDismissed = false">
+      <span class="icon w-6 block">
+        <i class="far fa-house mx-auto block" />
+      </span>
+      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
+    </a>
+    <a v-else-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -407,11 +413,15 @@ export default {
   props: {
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     },
     isMobile: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    isDropdown: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

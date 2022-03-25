@@ -6,7 +6,16 @@
         <h1 class="text-lg font-medium text-sky-550">
           {{ pageTitle }}
         </h1>
-        <div class="flex">
+        <div class="flex w-80 justify-center items-center space-x-2">
+          <button class="flex space-x-4 items-center w-auto h-10 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="addDropdownDismissed = !addDropdownDismissed">
+            <span class="icon"><i class="fas fa-plus"></i></span>
+            <span class="leading-none">
+              Ajouter
+            </span>
+          </button>
+          <div v-if="addDropdownDismissed === false" class="w-auto flex flex-col -mb-16 -ml-44 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
+            <NewAppartment :is-dropdown="true" />
+          </div>
           <button class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
             <span class="hidden lg:block">Se déconnecter</span>
             <span class="block lg:hidden icon">
@@ -92,7 +101,8 @@ export default {
     return {
       isLoggedUserDropdownnClosed: true,
       isMinified: false,
-      isDismissed: false
+      isDismissed: false,
+      addDropdownDismissed: true
     }
   },
   computed: {
