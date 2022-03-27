@@ -30,20 +30,20 @@
           </div>
         </div>
       </div>
-      <div class="flex space-x-8">
-        <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-1/2">
-        <div class="grid grid-cols-2 gap-8">
+      <div class="flex space-x-8 flex-col md:flex-col">
+        <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
+        <div class="grid grid-cols-3 md:grid-cols-2 gap-8">
           <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="">
           <img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="">
           <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="">
         </div>
       </div>
-      <div class="flex space-x-8">
-        <div class="flex flex-col items-start w-3/5">
+      <div class="flex lg:space-x-8 flex-col md-flex-row">
+        <div class="flex flex-col items-start w-full lg:w-3/5">
           <div class="content font-body">
-            <h3 class="block text-3xl font-medium mt-4 text-sky-450">
+            <!-- <h3 class="block text-3xl font-medium mt-4 text-sky-450">
               <span>{{ appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
-            </h3>
+            </h3> -->
             <div class="grid grid-cols-2 w-min space-x-16 my-4">
               <span class="icon">
                 <i class="fab fa-whatsapp text-3xl" />
@@ -215,7 +215,7 @@
             </p>
           </div>
         </div>
-        <div class="w-2/5">
+        <div class="w-full lg:w-2/5">
           <div class="others p-8 mt-4 lg:mt-8 w-full rounded-md border border-gray-400">
             <div class="">
               <h4 class="text-sky-450 text-xl mb-4">
