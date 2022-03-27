@@ -135,6 +135,7 @@ export default {
       newReservation: {
         status: 'New'
       },
+      reservationResponse: {},
       selectedAppart: ''
     }
   },
@@ -205,11 +206,17 @@ export default {
   },
   mounted () {
     this.$fetch()
+    this.$addKkiapayListener('success', this.successHandler)
+  },
+  beforeDestroy () {
+    this.$removeKkiapayListener('success', this.successHandler)
   },
   methods: {
     createReservation () {
+      this.open()
       this.$api.reservationService.create({ variables: { data: this.newReservation } })
-        .then((response) => {
+        .then(({ data }) => {
+          this.reservationResponse = data.createReservation
           this.newReservation = {}
           this.currentStep = 'congrats'
         })

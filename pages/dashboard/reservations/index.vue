@@ -77,7 +77,7 @@
             <span>{{ reserv.date }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-24 px-2 mx-2">
-            <span />
+            <span>{{ reserv.status }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-36 px-2 mx-2">
             <span />
