@@ -18,7 +18,7 @@
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. appartment</span>
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+      <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full h-full lg:p-8 z-20 relative h-full lg:h-9/12">
           <div class="p-4">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
@@ -109,78 +109,97 @@
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
-            <p class="text-2xl lg:mt-12 mb-4 text-gray-400 font-normal">
+            <p class="text-2xl mb-4 text-gray-400 font-normal">
               Caratéristiques
             </p>
             <div class="grid grid-cols-2 mb-8 lg:mb-0">
-              <div class="w-full pr-4 relative">
-                <input v-model.number="newAppartment.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-bed-alt fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+              <div class="w-full pr-4 relative mb-4">
+                <p class="text-base mt-1 text-gray-400">
                   Chambre(s)
                 </p>
+                <div class="relative">
+                  <input v-model.number="newAppartment.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-bed-alt fa-lg" />
+                  </span>
+                </div>
               </div>
-              <div class="w-full pl-4 relative">
-                <input v-model.number="newAppartment.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-couch fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+              <div class="w-full pl-4 relative mb-4">
+                <p class="text-base mt-1 text-gray-400">
                   Salon(s)
                 </p>
+                <div class="relative">
+                  <input v-model.number="newAppartment.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-couch fa-lg" />
+                  </span>
+                </div>
               </div>
               <div class="w-full pr-4 relative">
-                <input v-model.number="newAppartment.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-oven fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+                <p class="text-base mt-1 text-gray-400">
                   Cuisine(s)
                 </p>
+                <div class="relative">
+                  <input v-model.number="newAppartment.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-oven fa-lg" />
+                  </span>
+                </div>
               </div>
               <div class="w-full pl-4 relative">
-                <input v-model.number="newAppartment.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+                <p class="text-base mt-1 text-gray-400">
                   Salle(s) d'eau
                 </p>
+                <div class="relative">
+                  <input v-model.number="newAppartment.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
+                  </span>
+                </div>
               </div>
               <div class="w-full pr-4 relative">
-                <input v-model.number="newAppartment.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-cabinet-filing fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+                <p class="text-base mt-1 text-gray-400">
                   Débarras
                 </p>
-              </div><div class="w-full pl-4 relative">
-                <input v-model.number="newAppartment.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-garage-open fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+                <div class="relative">
+                  <input v-model.number="newAppartment.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-cabinet-filing fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full pl-4 relative">
+                <p class="text-base mt-1 text-gray-400">
                   Garage
                 </p>
-              </div><div class="w-full pr-4 relative">
-                <input v-model.number="newAppartment.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-list-ol fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+                <div class="relative">
+                  <input v-model.number="newAppartment.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-garage-open fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full pr-4 relative">
+                <p class="text-base mt-1 text-gray-400">
                   Niveau
                 </p>
-              </div><div class="w-full pl-4 relative">
-                <input v-model.number="newAppartment.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
-                  <i class="far fa-users fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+                <div class="relative">
+                  <input v-model.number="newAppartment.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-list-ol fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full pl-4 relative">
+                <p class="text-base mt-1 text-gray-400">
                   Voisinage
                 </p>
+                <div class="relative">
+                  <input v-model.number="newAppartment.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                    <i class="far fa-users fa-lg" />
+                  </span>
+                </div>
               </div>
             </div>
           </div>

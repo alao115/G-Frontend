@@ -12,12 +12,12 @@
         </svg>
         <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. visite</span>
       </a>
-      <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-2 h-12 text-lg px-10" @click.prevent="isDismissed = false">
+      <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-2 h-12 text-lg px-10 w-full" @click.prevent="isDismissed = false">
         Visiter
       </button>
     </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
+      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
@@ -144,6 +144,7 @@ export default {
   },
   data () {
     return {
+      appartmentId: this.$route.params.id,
       selectedType: '',
       typeSelectIsOpen: false,
       currentStep: 'first',
@@ -220,6 +221,11 @@ export default {
     selectedType (value) {
       if (value !== '') {
         this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
+      }
+    },
+    appartmentId (value) {
+      if (value) {
+        this.newVisit.appartment = this.appartment
       }
     }
   },
