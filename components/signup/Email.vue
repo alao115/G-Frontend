@@ -60,8 +60,9 @@
             <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep = 'Name'">
               <span>Retour</span>
             </button>
-            <button type="button" :class="newAccount.password !== testPassword ? 'cursor-not-allowed bg-gray-100 text-gray-400' : ' text-white bg-sky-550 hover:bg-blue-920 shadow-btn-shadow border border-transparent'" class="w-1/2 py-4 text-sm px-8 leading-none rounded font-medium" @click.prevent="newAccount.password === testPassword ? createAccount() : ''">
+            <button type="button" :class="newAccount.password !== testPassword ? 'cursor-not-allowed bg-gray-100 text-gray-400' : 'relative text-white bg-sky-550 hover:bg-blue-920 shadow-btn-shadow border border-transparent'" class="w-1/2 py-4 text-sm px-8 leading-none rounded font-medium" @click.prevent="newAccount.password === testPassword ? createAccount() : ''">
               <span>Enregistrer</span>
+              <loader v-if="onSignup" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
             </button>
           </div>
         </div>
@@ -92,7 +93,8 @@ export default {
       newAccount: {},
       isDismissed: true,
       errorToShow: '',
-      notificationToShow: ''
+      notificationToShow: '',
+      onSignup: false
     }
   },
   methods: {
@@ -100,13 +102,16 @@ export default {
       this.$router.push({ path: '/signin' })
     },
     createAccount () {
+      this.onSignup = true
       this.$api.accountService.signup({ ...this.newAccount })
         .then(() => this.$router.push({ name: 'signin' }))
         .catch((error) => {
           if (error) {
-            this.errorToShow = error
+            this.errorToShow = error?.response?.data.error.message || error.message
             this.isDismissed = false
           }
+        }).finally(() => {
+          this.onSignup = false
         })
     }
   }

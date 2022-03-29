@@ -5,7 +5,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
     </a>
-    <div class="contents" v-else>
+    <div v-else class="contents">
       <a v-if="routeName === 'dashboard-visites'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg px-10" href="#" @click.prevent="isDismissed = false">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -91,7 +91,9 @@
                 <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                   Nouvelle visite
                 </p>
-                <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajoutée avec succès</p>
+                <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                  ajoutée avec succès
+                </p>
               </div>
             </div>
           </form>
@@ -100,22 +102,13 @@
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 lg:mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Payer puis Enreg.
+            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
-          <!-- <button @click.prevent="open">click me</button> -->
-          <!-- <kkiapay-widget
-            amount="<montant-a-preleve-chez-le-client>"
-            key="<votre-api-key>"
-            url="<url-vers-votre-logo>"
-            position="center"
-            sandbox="true"
-            data=""
-            callback="<url-de-redirection-quand-lepaiement-est-reuissi>">
-          </kkiapay-widget> -->
         </div>
         <div v-else class="footer py-4 px-8 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
         </div>
@@ -162,7 +155,8 @@ export default {
       locations: [],
       newVisit: {},
       selectedAppart: '',
-      visitResponse: {}
+      visitResponse: null,
+      onCreated: false
     }
   },
   async fetch () {
@@ -238,14 +232,11 @@ export default {
   },
   methods: {
     createVisit () {
-      this.open()
+      this.onCreated = true
       this.$api.visitService.create({ variables: { data: this.newVisit } })
         .then(({ data }) => {
           this.visitResponse = data.createVisit
-          this.newVisit = {}
-          this.currentStep = 'congrats'
-          this.isDismissed = true
-          this.currentStep = 'first'
+          this.open()
         })
         .catch((error) => {
           this.errorToshow = error
@@ -261,7 +252,17 @@ export default {
       })
     },
     successHandler (response) {
-      this.$api.visitService.update({ variables: { visitId: this.visitResponse.id, data: { status: 'paid' } } })
+      if (this.visitResponse) {
+        this.$api.visitService.update({ variables: { visitId: this.visitResponse.id, data: { status: 'paid' } } })
+          .then(() => {
+            this.newVisit = {}
+            this.currentStep = 'congrats'
+            this.isDismissed = true
+            this.currentStep = 'first'
+          }).finally(() => {
+            this.onCreated = false
+          })
+      }
     }
   }
 }

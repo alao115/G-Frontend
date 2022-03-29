@@ -54,8 +54,9 @@
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="ceditVisit">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editVisit">
             Enregistrer
+            <loader v-if="onUpdated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
@@ -98,7 +99,8 @@ export default {
       publications: [],
       reservations: [],
       locations: [],
-      selectedAppart: ''
+      selectedAppart: '',
+      onUpdated: false
     }
   },
   async fetch () {
@@ -165,6 +167,7 @@ export default {
   },
   methods: {
     editVisit () {
+      this.onUpdated = true
       this.visitToEdit.appartment = this.visitToEdit.appartment.id
       this.visitToEdit.user = this.visitToEdit.user.id
       this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
@@ -176,6 +179,8 @@ export default {
         })
         .catch((error) => {
           this.errorToshow = error
+        }).finally(() => {
+          this.onUpdated = false
         })
     }
   }

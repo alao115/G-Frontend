@@ -9,11 +9,14 @@
       <p class="text-lg">
         Êtes-vous sûr(e) ?
       </p>
-      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium bg-white hover:bg-gray-100 border-2 border-gray-200" @click.prevent="isClosed = true">
+      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium bg-white hover:bg-gray-100 border-gray-200" @click.prevent="isClosed = true">
         <span>Finalement, non</span>
       </button>
-      <button type="button" class="w-auto border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700 disabled:bg-red-200" :disabled="!isClosed" @click.prevent="deleteCommand">
-        <span>Oui, supprimer</span>
+      <button type="button" class="relative w-40 border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700 disabled:bg-red-200" :disabled="!deletePlaceholder" @click.prevent="deleteCommand">
+        <span class="relative w-8">
+          Oui, supprimer
+        </span>
+        <loader v-if="onDelete" class="absolute top-1/2 right-1 transform -translate-y-1/2" />
       </button>
       <div class="flex flex-col px-2 mx-2 cursor-pointer text-gray-300" @click.prevent="isClosed = true">
         <span class="icon">
@@ -37,18 +40,19 @@ export default {
   data () {
     return {
       isClosed: true,
-      isClicked: false
+      onDelete: false
     }
   },
 
   methods: {
     deleteCommand () {
       if (this.deletePlaceholder) {
-        this.isClicked = true
+        this.onDelete = true
         this.deletePlaceholder()
           .then(() => {
-            this.isClicked = false
             this.isClosed = true
+          }).finally(() => {
+            this.onDelete = false
           })
       }
     }

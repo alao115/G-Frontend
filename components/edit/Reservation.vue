@@ -52,12 +52,13 @@
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editReservation">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editReservation">
             Envoyer
+            <loader v-if="onUpdated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
         </div>
@@ -96,7 +97,8 @@ export default {
       publications: [],
       reservations: [],
       locations: [],
-      selectedAppart: ''
+      selectedAppart: '',
+      onUpdated: false
     }
   },
   async fetch () {
@@ -163,17 +165,20 @@ export default {
   },
   methods: {
     editReservation () {
+      this.onUpdated = true
       this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
       this.reservationToEdit.user = this.reservationToEdit.user.id
       this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
 
-      this.$api.reservationService.update({ variables: { data: this.reservationToEdit } })
+      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
         .then((response) => {
           this.reservationToEdit = {}
           this.currentStep = 'congrats'
         })
         .catch((error) => {
           this.errorToshow = error
+        }).finally(() => {
+          this.onUpdated = false
         })
     }
   }

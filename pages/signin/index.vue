@@ -49,7 +49,7 @@
                   <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
                 </svg>
                 <p class="mx-3">
-                  {{ errorToShow.message }}
+                  {{ errorToShow }}
                 </p>
               </div>
               <button class="p-1 transition-colors duration-200 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none" @click="isDismissed = true">
@@ -89,8 +89,9 @@
                 </NuxtLink>
               </p>
               <div class="rounded-md shadow w-full">
-                <button class="shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10">
+                <button class="relative shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10">
                   Se connecter
+                  <loader v-if="onSignin" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
                 </button>
               </div>
             </form>
@@ -108,18 +109,22 @@
 </template>
 
 <script>
+import loader from '~/components/loader.vue'
 export default {
+  components: { loader },
   middleware: 'isloggedIn',
   data () {
     return {
       user: {},
       isDismissed: true,
       errorToShow: '',
-      notificationToShow: ''
+      notificationToShow: '',
+      onSignin: false
     }
   },
   methods: {
     loginUser () {
+      this.onSignin = true
       this.$auth.loginWith('customStrategy', { data: this.user })
         .then((response) => {
           /* this.notificationToShow = 'Connection réussie' */
@@ -127,9 +132,11 @@ export default {
         })
         .catch((error) => {
           if (error) {
-            this.errorToShow = error
+            this.errorToShow = error?.response?.data.error.message || error.message
             this.isDismissed = false
           }
+        }).finally(() => {
+          this.onSignin = false
         })
     },
     connexionSuccesssfull () {

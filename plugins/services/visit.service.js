@@ -8,7 +8,7 @@ export default ({ apollo, gql }) => class VisitService {
   }
 
   update ({ projections, variables } = { projections: 'id ', variables: {} }) {
-    console.log('variables: ', variables)
+    // console.log('variables: ', variables)
     delete variables?.data.__typename
     delete variables?.data.id
     delete variables?.data?.user?.__typename

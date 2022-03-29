@@ -43,7 +43,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Nouveau type
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajouté avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                ajouté avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -51,8 +53,9 @@
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Annuler</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createAppartType">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newType.label || !newType.description " @click.prevent="createAppartType">
             Enregistrer le type
+            <loader v-if="onCreated" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
@@ -88,7 +91,8 @@ export default {
         { id: 3, label: 'Villa', description: '-' },
         { id: 4, label: 'Duplex', description: '-' }
       ],
-      locations: []
+      locations: [],
+      onCreated: false
     }
   },
   computed: {
@@ -129,10 +133,14 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createAppartType () {
+      this.onCreated = true
       this.$api.appartmentTypeService.create({ variables: { data: this.newType } })
         .then((response) => {
           this.newType = {}
           this.currentStep = 'congrats'
+        })
+        .finally(() => {
+          this.onCreated = false
         })
     }
   }

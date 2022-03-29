@@ -8,10 +8,11 @@ export default ({ apollo, gql }) => class ReservationService {
   }
 
   update ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    // console.log(variables)
     delete variables?.data.__typename
-    delete variables?.data.appartment.__typename
-    delete variables?.data.user.__typename
-    delete variables?.data.id
+    variables?.data?.appartment && delete variables.data.appartment?.__typename
+    variables?.data?.user && delete variables.data.user?.__typename
+    delete variables?.data?.id
     return apollo.mutate({ mutation: gql`mutation updateReservation($data: reservationData, $reservationId: ID!) { updateReservation(reservationId: $reservationId, data: $data) { id } }`, variables })
   }
 

@@ -91,6 +91,7 @@
           </button>
           <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click="createPublication">
             Valider
+            <loader v-if="onCreated" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
@@ -152,6 +153,7 @@ export default {
       reservations: [],
       visits: [],
       accounts: [],
+      onCreated: false,
       publishNow: false
     }
   },
@@ -221,6 +223,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createPublication () {
+      this.onCreated = true
       this.newPublication.date = new Date(this.newPublication.date).valueOf().toString()
       this.$api.publicationService.create({ variables: { data: this.newPublication } })
         .then((response) => {
@@ -229,6 +232,8 @@ export default {
         })
         .catch((error) => {
           this.errorToshow = error
+        }).finally(() => {
+          this.onCreated = false
         })
     }
   }
