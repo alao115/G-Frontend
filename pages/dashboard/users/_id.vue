@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="flex space-x-8 flex-col md:flex-row">
+      <div class="flex space-x-8 flex-col md:flex-col">
         <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
         <div class="grid grid-cols-3 md:grid-cols-2 gap-8">
           <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="">
@@ -38,7 +38,7 @@
           <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="">
         </div>
       </div>
-      <div class="flex lg:space-x-8 flex-col md:flex-row">
+      <div class="flex lg:space-x-8 flex-col md-flex-row">
         <div class="flex flex-col items-start w-full lg:w-3/5">
           <div class="content font-body">
             <!-- <h3 class="block text-3xl font-medium mt-4 text-sky-450">
