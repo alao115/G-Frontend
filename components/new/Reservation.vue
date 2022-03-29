@@ -77,7 +77,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Nouvelle réservation
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajoutée avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                ajoutée avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -85,12 +87,13 @@
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createReservation" :disabled="newReservation.t">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" :disabled="newReservation.t" @click.prevent="createReservation">
             Payer puis Enreg.
+            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
         </div>
@@ -135,8 +138,9 @@ export default {
       newReservation: {
         status: 'New'
       },
-      reservationResponse: {},
-      selectedAppart: ''
+      reservationResponse: null,
+      selectedAppart: '',
+      onCreated: false
     }
   },
   async fetch () {
@@ -213,19 +217,18 @@ export default {
   },
   methods: {
     createReservation () {
-      this.open()
+      this.onCreated = true
       this.$api.reservationService.create({ variables: { data: this.newReservation } })
         .then(({ data }) => {
-          this.reservationResponse = data.createReservation
-          this.newReservation = {}
-          this.currentStep = 'congrats'
+          this.reservationResponse = data.createReservation.id
+          // console.log(this.reservationResponse)
+          this.open()
         })
         .catch((error) => {
           this.errorToshow = error
         })
     },
     open () {
-      // console.log(this.$openKkiapayWidget)
       this.$openKkiapayWidget({
         amount: 2000,
         api_key: 'f8095850886111ec953617ecac48fe09',
@@ -234,7 +237,15 @@ export default {
       })
     },
     successHandler (response) {
-      this.$api.reservationtService.update({ variables: { reservationId: this.reservationtResponse.id, data: { status: 'reserved' } } })
+      if (this.reservationResponse) {
+        this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
+          .then(() => {
+            this.newReservation = {}
+            this.currentStep = 'congrats'
+          }).finally(() => {
+            this.onCreated = false
+          })
+      }
     }
   }
 }

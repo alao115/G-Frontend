@@ -40,8 +40,9 @@
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
             <span>Annuler</span>
           </button>
-          <button type="button" class="w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editAppartType">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editAppartType">
             Enregistrer les modifs.
+            <loader v-if="onUpdated" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
@@ -77,7 +78,8 @@ export default {
         { id: 3, label: 'Villa', description: '-' },
         { id: 4, label: 'Duplex', description: '-' }
       ],
-      locations: []
+      locations: [],
+      onUpdated: false
     }
   },
   computed: {
@@ -119,6 +121,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     editAppartType () {
+      this.onUpdated = true
       this.$api.appartmentTypeService.update({ variables: { appartmentTypeId: this.appartTypeToEdit.id, data: this.appartTypeToEdit } })
         .then((response) => {
           this.appartTypeToEdit = { }
@@ -126,6 +129,8 @@ export default {
         })
         .catch((error) => {
           console.log(error)
+        }).finally(() => {
+          this.onUpdated = false
         })
     }
   }
