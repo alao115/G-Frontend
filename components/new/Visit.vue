@@ -244,6 +244,8 @@ export default {
           this.visitResponse = data.createVisit
           this.newVisit = {}
           this.currentStep = 'congrats'
+          this.isDismissed = true
+          this.currentStep = 'first'
         })
         .catch((error) => {
           this.errorToshow = error

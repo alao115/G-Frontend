@@ -100,7 +100,7 @@ export default {
       this.$router.push({ path: '/signin' })
     },
     createAccount () {
-      this.$api.accountService.signup({ ...this.newAccount, userType: 2 })
+      this.$api.accountService.signup({ ...this.newAccount })
         .then(() => this.$router.push({ name: 'signin' }))
         .catch((error) => {
           if (error) {
