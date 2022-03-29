@@ -26,7 +26,8 @@
     "nuxt": "^2.15.7",
     "nuxt-logrocket": "^1.5.2",
     "sass": "^1.49.9",
-    "vue-apollo": "^3.1.0"
+    "vue-apollo": "^3.1.0",
+    "vue-range-slider": "^0.6.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",

@@ -2,18 +2,18 @@
   <div class="flex flex-col items-center h-full overflow-hidden text-gray-700 rounded border-r-2 border-gray-200 flex-none" :class="isMinified === true ? 'w-16' : 'w-64'">
     <div class="w-full px-2">
       <a class="flex items-center w-full h-16" href="#" @click.prevent="isMinified = !isMinified">
-        <img v-if="isMinified" src="/assets/images/logo.png" alt="" class="logo h-8">
+        <img v-if="isMinified" src="/assets/images/logo.png" alt="" class="logo" style="height: 24px">
         <img v-else src="/assets/images/dark_logo_lg.svg" alt="" class="logo" style="height: 24px">
       </a>
     </div>
     <div class="w-full px-2">
       <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
         <template v-if="connectedUser">
-          <NewPublication v-if="routeName === 'dashboard-publications'" is-minisfied="isMinified" />
-          <NewAppartment v-if="routeName === 'dashboard-appartements'" is-minisfied="isMinified" />
-          <NewAppartmentType v-if="routeName === 'dashboard-types'" is-minisfied="isMinified" />
-          <NewVisit v-if="routeName === 'dashboard-visites'" is-minisfied="isMinified" />
-          <NewReservation v-if="routeName === 'dashboard-reservations'" is-minisfied="isMinified" />
+          <NewPublication v-if="routeName === 'dashboard-publications'" :wis-minified="isMinified" />
+          <NewAppartment v-if="routeName === 'dashboard-appartements'" :is-minified="isMinified" />
+          <NewAppartmentType v-if="routeName === 'dashboard-types'" :is-minified="isMinified" />
+          <NewVisit v-if="routeName === 'dashboard-visites'" :is-minified="isMinified" />
+          <NewReservation v-if="routeName === 'dashboard-reservations'" :is-minified="isMinified" />
         </template>
 
         <template v-if="connectedUser.userType === 0 || connectedUser.userType === 1">

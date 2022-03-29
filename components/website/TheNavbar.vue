@@ -3,7 +3,7 @@
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
-    <div class="space-x-4 hidden lg:block">
+    <div class="space-x-4 hidden lg:flex">
       <NuxtLink to="/" class="text-blue-990 text-lg py-2 mr-4">
         Je cherche
       </NuxtLink>
@@ -17,12 +17,23 @@
         Publier
       </NuxtLink>
       <template v-if="connectedUser">
-        <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
-          Dashboard
-        </NuxtLink>
-        <button v-else class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'" @click.prevent="$auth.logout()">
-          Deconnecter
+        <button class="flex justify-center items-center space-x-2" @click.prevent="authUserDropdownOpened = !authUserDropdownOpened">
+          <span class="icon "><i class="fal fa-user-circle fa-2x"></i></span>
+          <span class="icon"><i class="far fa-caret-down fa-lg"></i></span>
         </button>
+        <div v-if="authUserDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white mt-12 right-36">
+          <div class="flex flex-col space-y-4">
+            <NuxtLink to="#" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
+              Mon profil
+            </NuxtLink>
+            <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
+              Dashboard
+            </NuxtLink>
+            <a v-else class="nuxt-link-active cursor-pointer" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
+              Se déconnecter
+            </a>
+          </div>
+        </div>
       </template>
       <NuxtLink v-else to="/signin" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Se connecter
@@ -86,7 +97,8 @@ export default {
   data () {
     return {
       isMinified: false,
-      menuIsOpen: false
+      menuIsOpen: false,
+      authUserDropdownOpened: false
     }
   },
   computed: {

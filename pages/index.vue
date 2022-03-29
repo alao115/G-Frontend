@@ -1,12 +1,13 @@
 <template>
   <div id="landing-section" class="font-body bg-contain bg-center h-screen w-screen pt-32 overflow-x-hidden flex items-center">
-    <div class="container w-full px-8 2xl:px-16 xl:px-24 flex flex-col mx-auto" style="min-height: 516px">
+    <div class="container w-full px-8 2xl:px-16 xl:px-24 flex flex-col mx-auto pt-24 md:pt-0" style="min-height: 516px">
       <!-- <div class="text-blue-990 xl:w-6/12 mb-16"> -->
-      <div class="text-blue-920 mb-16">
+      <div class="text-blue-920 md:mb-16">
         <h1 class="text-3xl lg:text-3xl xl:text-5xl font-bold">
           <span class=" leading-snug">Trouvez l'appartement <br> de vos rêves !</span>
         </h1>
         <WebsiteMainWidget :appartments="appartments" :appartment-types="appartmentTypes" />
+        <WebsiteMobileWidget :appartments="appartments" :appartment-types="appartmentTypes" />
       </div>
     </div>
   </div>
