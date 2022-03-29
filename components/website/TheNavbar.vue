@@ -3,7 +3,7 @@
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
-    <div class="space-x-4 hidden lg:flex">
+    <div :class="connectedUser ? 'lg:flex' : 'lg:block'" class="space-x-4 hidden">
       <NuxtLink to="/" class="text-blue-990 text-lg py-2 mr-4">
         Je cherche
       </NuxtLink>
