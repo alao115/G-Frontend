@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-sky-450 px-8 xl:px-24 py-8 lg:py-12 items-center text-white font-body">
+  <div id="contact" class="bg-sky-450 px-8 xl:px-24 py-8 lg:py-12 items-center text-white font-body">
     <div class="container text-center xl:p-24 w-full lg:mx-auto">
       <div class="text-white">
         <h1 class="text-3xl xl:text-4xl font-semibold">

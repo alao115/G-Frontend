@@ -64,7 +64,7 @@
                 <NuxtLink to="/location" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
                   Je loue
                 </NuxtLink>
-                <NuxtLink to="#" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <NuxtLink to="#contact" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
                   Nous contacter
                 </NuxtLink>
               </div>
