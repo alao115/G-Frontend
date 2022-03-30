@@ -72,9 +72,17 @@
                 <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Publier
                 </NuxtLink>
-                <NuxtLink v-if="connectedUser" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/dashboard')">
-                  Accéder au Dashboard
-                </NuxtLink>
+                <template v-if="connectedUser">
+                  <NuxtLink to="#" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                    Mon profil
+                  </NuxtLink>
+                  <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                    Dashboard
+                  </NuxtLink>
+                  <a v-else class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
+                    Se déconnecter
+                  </a>
+                </template>
                 <NuxtLink v-else to="/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Se connecter
                 </NuxtLink>
