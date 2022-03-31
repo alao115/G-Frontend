@@ -207,6 +207,7 @@ export default {
         .then(async () => {
           await this.loadVisits()
         })
+        // eslint-disable-next-line no-console
         .catch(err => console.log(err))
     }
   }

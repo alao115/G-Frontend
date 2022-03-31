@@ -40,7 +40,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       this.$api.visitService.delete({ variables: { visitId } })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           return dispatch('loadVisits')
         })
         .then(() => resolve())

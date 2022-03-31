@@ -216,6 +216,7 @@ export default {
         .then(async () => {
           await this.loadPublications()
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }

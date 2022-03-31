@@ -81,7 +81,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Nouvelle publication
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">ajoutée avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                ajoutée avec succès
+              </p>
             </div>
           </div>
         </div>

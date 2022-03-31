@@ -66,7 +66,8 @@
             </span>
           </div>
           <div class="flex flex-col w-56 px-2 mx-2">
-            <p><span>{{ appartmentType(appartment(reserv.appartment).appartmentType).label }}</span> <br> <span class="text-gray-400">{{ appartment(reserv.appartment).bedrooms }} Chambre<span v-if="appartment(reserv.appartment).bedrooms > 1">s</span> - {{ appartment(reserv.appartment).livingrooms }} Salon<span v-if="appartment(reserv.appartment).livingrooms > 1">s</span></span><br>
+            <p>
+              <span>{{ appartmentType(appartment(reserv.appartment).appartmentType).label }}</span> <br> <span class="text-gray-400">{{ appartment(reserv.appartment).bedrooms }} Chambre<span v-if="appartment(reserv.appartment).bedrooms > 1">s</span> - {{ appartment(reserv.appartment).livingrooms }} Salon<span v-if="appartment(reserv.appartment).livingrooms > 1">s</span></span><br>
               <span class="block lg:hidden">{{ reserv.date }}</span>
             </p>
           </div>
@@ -194,6 +195,7 @@ export default {
         .then(async () => {
           await this.loadReservations()
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }

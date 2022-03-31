@@ -129,8 +129,9 @@ export default {
           this.currentStep = 'congrats'
         })
         .then(async () => await this.loadAppartmentTypesFunc())
+        // eslint-disable-next-line node/handle-callback-err
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         }).finally(() => {
           this.onUpdated = false
         })

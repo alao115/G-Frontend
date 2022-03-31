@@ -212,6 +212,7 @@ export default {
         .then(async ({ data }) => {
           await this.loadAppartmentTypes()
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }
