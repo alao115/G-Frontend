@@ -18,8 +18,8 @@
       </NuxtLink>
       <template v-if="connectedUser">
         <button class="flex justify-center items-center space-x-2" @click.prevent="authUserDropdownOpened = !authUserDropdownOpened">
-          <span class="icon "><i class="fal fa-user-circle fa-2x"></i></span>
-          <span class="icon"><i class="far fa-caret-down fa-lg"></i></span>
+          <span class="icon "><i class="fal fa-user-circle fa-2x" /></span>
+          <span class="icon"><i class="far fa-caret-down fa-lg" /></span>
         </button>
         <div v-if="authUserDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white mt-12 right-36">
           <div class="flex flex-col space-y-4">

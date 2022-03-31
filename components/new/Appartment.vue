@@ -6,7 +6,7 @@
       </span>
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
     </a>
-    <a v-else-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-else-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -19,7 +19,7 @@
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full h-full lg:p-8 z-20 relative h-full lg:h-9/12">
+        <div class="text-start w-full h-full lg:p-8 z-20 relative lg:h-9/12">
           <div class="p-4">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouvelle location
@@ -428,6 +428,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     isMinified: {
@@ -441,6 +442,14 @@ export default {
     isDropdown: {
       type: Boolean,
       default: false
+    },
+    loadAppartmentsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -487,14 +496,6 @@ export default {
       loading: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
   computed: {
     publication () {
       return id => this.publications.find(publication => publication.id === id)
@@ -529,7 +530,7 @@ export default {
     }
   },
   mounted () {
-    this.$fetch()
+    // this.$fetch()
   },
   methods: {
     uploadPicture (event, source) {
@@ -580,10 +581,12 @@ export default {
             ImgData.append('file', this.appartImg[key])
             ImgData.append('filePath', `appartments/${data.createAppartment.id}/${key}_${this.appartImg[key].name}`)
             const firestoreResponse = await this.$api.firebaseStorageService.upload(ImgData)
+            // eslint-disable-next-line no-unused-vars
             const updateResponse = await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
-            console.log(updateResponse)
+            // console.log(updateResponse)
           }
         }
+        await this.loadAppartmentsFunc()
         this.newAppartment = {}
         this.currentStep = 'congrats'
         this.loading = false

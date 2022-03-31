@@ -78,7 +78,7 @@ export default {
     },
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     }
   },
   data () {

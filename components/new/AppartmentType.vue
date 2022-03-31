@@ -59,9 +59,9 @@
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <NuxtLink to="/dashboard/types" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
-          </NuxtLink>
+          </button>
         </div>
       </div>
     </div>
@@ -73,11 +73,15 @@ export default {
   props: {
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     },
     isMobile: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadAppartmentTypesFunc: {
+      type: Function,
+      required: true
     }
   },
   data () {
@@ -85,12 +89,6 @@ export default {
       currentStep: 'first',
       isDismissed: true,
       newType: {},
-      appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ],
       locations: [],
       onCreated: false
     }
@@ -135,9 +133,10 @@ export default {
     createAppartType () {
       this.onCreated = true
       this.$api.appartmentTypeService.create({ variables: { data: this.newType } })
-        .then((response) => {
+        .then(async (response) => {
           this.newType = {}
           this.currentStep = 'congrats'
+          await this.loadAppartmentTypesFunc()
         })
         .finally(() => {
           this.onCreated = false

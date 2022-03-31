@@ -109,11 +109,24 @@ export default {
   props: {
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     },
     isMobile: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadPublicationsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentsProp: {
+      type: Array,
+      default: () => ([]),
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -122,59 +135,19 @@ export default {
       currentStep: 'first',
       typeSelectIsOpen: false,
       isDismissed: true,
-      /* publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ], */
-      /* reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ], */
       contracts: [],
       locations: [],
       newPublication: {
         status: 'Scheduled',
         publisher: this.$auth.user._id
       },
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
-      visits: [],
-      accounts: [],
+      appartments: [...this.appartmentsProp],
       onCreated: false,
       publishNow: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
+
   computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
@@ -215,9 +188,7 @@ export default {
       }
     }
   },
-  mounted () {
-    this.$fetch()
-  },
+
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })

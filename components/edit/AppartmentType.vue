@@ -32,7 +32,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Type
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mis à jour avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                mis à jour avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -46,7 +48,7 @@
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
         </div>
@@ -56,6 +58,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     appartmentType: {
@@ -64,7 +67,11 @@ export default {
     },
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadAppartmentTypesFunc: {
+      type: Function,
+      required: true
     }
   },
   data () {
@@ -72,12 +79,6 @@ export default {
       appartTypeToEdit: { ...this.appartmentType },
       currentStep: 'first',
       isDismissed: true,
-      appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ],
       locations: [],
       onUpdated: false
     }
@@ -127,6 +128,7 @@ export default {
           this.appartTypeToEdit = { }
           this.currentStep = 'congrats'
         })
+        .then(async () => await this.loadAppartmentTypesFunc())
         .catch((error) => {
           console.log(error)
         }).finally(() => {

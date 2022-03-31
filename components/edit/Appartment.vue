@@ -397,6 +397,14 @@ export default {
     isMinified: {
       type: Boolean,
       default: false
+    },
+    loadAppartmentsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -452,8 +460,6 @@ export default {
         email: ''
       },
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
       locations: [],
       mainImg: '',
       firstImg: '',
@@ -463,14 +469,6 @@ export default {
       appartImg: null,
       loading: false
     }
-  },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
   },
   computed: {
     computedMainImg () {
@@ -553,6 +551,7 @@ export default {
           }
         }
 
+        await this.loadAppartmentsFunc()
         this.loading = false
         this.currentStep = 'congrats'
       } catch (error) {

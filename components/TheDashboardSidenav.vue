@@ -9,11 +9,17 @@
     <div class="w-full px-2">
       <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
         <template v-if="connectedUser">
-          <NewPublication v-if="routeName === 'dashboard-publications'" :wis-minified="isMinified" />
-          <NewAppartment v-if="routeName === 'dashboard-appartements'" :is-minified="isMinified" />
-          <NewAppartmentType v-if="routeName === 'dashboard-types'" :is-minified="isMinified" />
-          <NewVisit v-if="routeName === 'dashboard-visites'" :is-minified="isMinified" />
-          <NewReservation v-if="routeName === 'dashboard-reservations'" :is-minified="isMinified" />
+          <NewPublication v-if="routeName === 'dashboard-publications'" is-minisfied="isMinified" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
+          <NewAppartment v-if="routeName === 'dashboard-appartements'" is-minisfied="isMinified" :load-appartments-func="loadAppartments" :appartment-types="appartmentTypes" />
+          <NewAppartmentType v-if="routeName === 'dashboard-types'" is-minisfied="isMinified" :load-appartment-types-func="loadAppartmentTypes" />
+          <NewVisit
+            v-if="routeName === 'dashboard-visites'"
+            :appartments-prop="appartments"
+            :appartment-types="appartmentTypes"
+            is-minisfied="isMinified"
+            :load-visits-func="loadVisits"
+          />
+          <NewReservation v-if="routeName === 'dashboard-reservations'" is-minisfied="isMinified" :load-reservations-func="loadReservations" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
         </template>
 
         <template v-if="connectedUser.userType === 0 || connectedUser.userType === 1">
@@ -79,6 +85,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data () {
     return {
@@ -89,6 +97,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      publications: 'publication/publications',
+      reservations: 'reservation/reservations',
+      visits: 'visit/visits',
+      accounts: 'account/accounts'
+    }),
+
     connectedUser () {
       return this.$auth.user
     },
@@ -96,6 +113,16 @@ export default {
     routeName () {
       return this.$nuxt.$route.name
     }
+  },
+  methods: {
+    ...mapActions({
+      loadAppartmentTypes: 'appartmentType/loadAppartmentTypes',
+      loadAppartments: 'appartmentType/loadAppartments',
+      loadReservations: 'reservation/loadReservations',
+      loadVisits: 'visit/loadVisits',
+      loadPublications: 'publication/loadPublications',
+      loadAccounts: 'account/loadAccounts'
+    })
   }
 }
 </script>

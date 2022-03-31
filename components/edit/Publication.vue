@@ -94,7 +94,15 @@ export default {
     },
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadPublicationsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentsProp: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -106,35 +114,13 @@ export default {
       isDismissed: true,
       contracts: [],
       locations: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
-      visits: [],
-      accounts: [],
+      appartments: [...this.appartmentsProp],
       publishNow: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
   computed: {
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
     user () {
       return id => this.users.find(user => user.id === id)
@@ -144,15 +130,6 @@ export default {
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
-    },
-    listOfTypes () {
-      const returnedListOfTypes = []
-      this.appartmentTypes.forEach((type) => {
-        if (this.typeAppartments(type.id).length > 0) {
-          returnedListOfTypes.push(type)
-        }
-      })
-      return returnedListOfTypes
     }
   },
   watch: {
@@ -171,7 +148,7 @@ export default {
     },
     selectedType (value) {
       if (value !== '') {
-        this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
+        this.appartments = this.appartmentsProp.filter(appart => appart.appartmentType === value.id)
       }
     },
     publication (value) {

@@ -1,6 +1,11 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <NewVisit :is-mobile="true" />
+    <NewVisit
+      :is-mobile="true"
+      :appartments-prop="appartments"
+      :appartment-types="appartmentTypes"
+      :load-visits-func="loadVisits"
+    />
     <EditVisit :visit="visitToEdit" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
@@ -128,55 +133,35 @@
 <script>
 /* eslint-disable no-unused-vars */
 // import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+
+  async asyncData ({ $api, store }) {
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['appartmentType/appartmentTypes'].length) {
+      await store.dispatch('appartmentType/loadAppartmentTypes')
+    }
+
+    if (!store.getters['visit/visits'].length) {
+      await store.dispatch('visit/loadVisits')
+    }
 
     return {
-      appartments,
-      appartmentTypes,
-      publications,
-      reservations,
-      visits,
-      accounts
     }
   },
   data () {
     return {
-      title: 'Publications',
+      title: 'Visites',
       visitToEdit: {},
       isListLayout: true,
       isFilterTrayOpened: false,
       selectedVisits: [],
-      publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ],
-      reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
       locations: []
     }
   },
@@ -186,12 +171,12 @@ export default {
     }
   },
   computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      visits: 'visit/visits'
+    }),
+
     visit () {
       return id => this.visits.find(visit => visit.id === id)
     },
@@ -208,38 +193,22 @@ export default {
       return id => this.contracts.find(contract => contract.id === id)
     }
   },
-  /* mounted () {
-    addKkiapayListener('success', this.successHandler)
-  },
-  beforeDestroy () {
-    removeKkiapayListener('success', this.successHandler)
-  }, */
+
   methods: {
-    /* toDetails (appartment) {
-      this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
-    }, */
+    ...mapActions({
+      loadVisits: 'visit/loadVisits'
+    }),
+
     setToEdition (visit) {
       this.visitToEdit = visit
     },
     deleteVisit (visit) {
       return this.$api.visitService.delete({ variables: { visitId: visit.id } })
-        .then(() => this.$api.visitService.getAll())
-        .then(({ data }) => {
-          this.visits = data.visits
+        .then(async () => {
+          await this.loadVisits()
         })
-        .catch(error => console.log(error))
+        .catch(err => console.log(err))
     }
-    /* open () {
-      openKkiapayWidget({
-        amount: 4000,
-        api_key: 'f8095850886111ec953617ecac48fe09',
-        sandbox: true,
-        phone: '97000000'
-      })
-    }, */
-    /* successHandler (response) {
-      onsole.log(response)
-    } */
   }
 }
 </script>
