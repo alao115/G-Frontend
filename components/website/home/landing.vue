@@ -10,7 +10,7 @@
           <span v-if="noWidget">Trouver un locataire le plus simplement possible</span>
           <!-- <span v-else>Trouver un logement le plus simplement possible</span> -->
         </p>
-        <NuxtLink v-if="noWidget" to="/signin" class="btn shadow-btn-shadow w-max border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10">
+        <NuxtLink v-if="noWidget" to="/auth/signin" class="btn shadow-btn-shadow w-max border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10">
           Je crée une publication
         </NuxtLink>
         <WebsiteMainWidget v-else />

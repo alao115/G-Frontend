@@ -8,6 +8,7 @@ import publicationService from './publication.service'
 import reservationService from './reservation.service'
 import visitService from './visit.service'
 import firebaseStorageService from './firebase.storage.service'
+import authService from './auth.service'
 
 export default ({ apollo }, $axios) => ({
   accountService: new (accountService({ apollo, gql }, $axios))(),
@@ -17,5 +18,6 @@ export default ({ apollo }, $axios) => ({
   publicationService: new (publicationService({ apollo, gql }))(),
   reservationService: new (reservationService({ apollo, gql }))(),
   visitService: new (visitService({ apollo, gql }))(),
-  firebaseStorageService: new (firebaseStorageService({ http: $axios, serviceName: 'storage' }))()
+  firebaseStorageService: new (firebaseStorageService({ http: $axios, serviceName: 'storage' }))(),
+  authService: new (authService({ $axios }))()
 })

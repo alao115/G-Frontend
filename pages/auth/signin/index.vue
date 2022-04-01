@@ -97,7 +97,7 @@
             </form>
             <p class="text-sm my-12 text-blue-920">
               Vous n'avez pas encore de compte ?
-              <NuxtLink to="/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
+              <NuxtLink to="/auth/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
                 Inscrivez-vous !
               </NuxtLink>
             </p>
@@ -128,7 +128,14 @@ export default {
       this.$auth.loginWith('customStrategy', { data: this.user })
         .then((response) => {
           /* this.notificationToShow = 'Connection réussie' */
-          this.$router.push({ name: 'dashboard' })
+          switch (this.$auth.user.emailVerified) {
+            case false:
+              this.$auth.logout()
+              this.$router.push({ name: 'auth-signup-request-email-verification', params: { email: this.user.email } })
+              break
+            case true:
+              this.$router.push({ name: 'dashboard' })
+          }
         })
         .catch((error) => {
           if (error) {

@@ -59,7 +59,7 @@
         </form>
         <p class="text-sm my-12 text-blue-920">
           Vous n'avez pas encore de compte ?
-          <NuxtLink to="/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
+          <NuxtLink :to="{ name: 'auth-signup' }" class="text-blue-300 hover:text-blue-920 font-semibold">
             Inscrivez-vous !
           </NuxtLink>
         </p>

@@ -69,7 +69,7 @@
       </form>
       <p class="text-sm my-12 text-blue-920">
         Vous avez pas déjà un compte ?
-        <NuxtLink to="/signin" class="text-blue-300 hover:text-blue-920 font-semibold">
+        <NuxtLink to="/auth/signin" class="text-blue-300 hover:text-blue-920 font-semibold">
           Connectez-vous !
         </NuxtLink>
       </p>
@@ -104,7 +104,10 @@ export default {
     createAccount () {
       this.onSignup = true
       this.$api.accountService.signup({ ...this.newAccount })
-        .then(() => this.$router.push({ name: 'signin' }))
+        .then(({ data }) => {
+          this.$store.commit('customAuth/setSuccessSignup', true)
+          this.$router.push({ name: 'auth-signup-success' })
+        })
         .catch((error) => {
           if (error) {
             this.errorToShow = error?.response?.data.error.message || error.message

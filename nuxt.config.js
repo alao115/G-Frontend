@@ -80,10 +80,10 @@ export default {
       prefix: 'gontche.'
     },
     redirect: {
-      login: '/signin',
-      logout: '/signin',
-      callback: '/signin',
-      home: '/signin'
+      login: '/auth/signin',
+      logout: '/auth/signin',
+      callback: '/auth/signin',
+      home: '/'
     },
     strategies: {
       customStrategy: {

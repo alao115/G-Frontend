@@ -13,7 +13,7 @@
       <NuxtLink to="#" class="text-blue-990 text-lg py-2 mr-4">
         Nous contacter
       </NuxtLink>
-      <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
+      <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/auth/signin" class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Publier
       </NuxtLink>
       <template v-if="connectedUser">
@@ -35,7 +35,7 @@
           </div>
         </div>
       </template>
-      <NuxtLink v-else to="/signin" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
+      <NuxtLink v-else to="/auth/signin" class="btn shadow-btn-shadow w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg px-10'">
         Se connecter
       </NuxtLink>
     </div>
@@ -69,7 +69,7 @@
                 </NuxtLink>
               </div>
               <div class="grid grid-cols-1 space-4 ml-4 py-8">
-                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
+                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/auth/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Publier
                 </NuxtLink>
                 <template v-if="connectedUser">
@@ -83,7 +83,7 @@
                     Se déconnecter
                   </a>
                 </template>
-                <NuxtLink v-else to="/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
+                <NuxtLink v-else to="/auth/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Se connecter
                 </NuxtLink>
               </div>

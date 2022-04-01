@@ -6,7 +6,10 @@
 
 <script>
 export default {
-  layout: 'signup'
+
+  layout: 'signup',
+
+  middleware: 'isSignupSuccessfull'
 }
 </script>
 
