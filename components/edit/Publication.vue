@@ -21,7 +21,7 @@
               <p class="text-base mt-8 text-gray-400">
                 Type
               </p>
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
                 <p v-if="publicationToEdit.appartment" class="leading-none text-left flex flex-col">
                   {{ publicationToEdit.appartment && publicationToEdit.appartment.appartmentType ? appartmentType(publicationToEdit.appartment.appartmentType).label : '' }}
                   <span class="text-sm mt-1 text-gray-400">{{ publicationToEdit.appartment && publicationToEdit.appartment.appartmentType ? appartmentType(publicationToEdit.appartment.appartmentType).description : '' }}</span>
@@ -32,7 +32,7 @@
               Appartement
             </p>
             <div class="relative inline-block w-full text-gray-700">
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
                 <p v-if="publicationToEdit.appartment" class="leading-none text-left flex flex-col">
                   {{ publicationToEdit.appartment && publicationToEdit.appartment.appartmentType ? appartmentType(publicationToEdit.appartment.appartmentType).label : '' }}
                   <span class="text-sm mt-1 text-gray-400">{{ publicationToEdit.appartment.bedrooms + ' Chambres - ' + publicationToEdit.appartment.livingrooms + ' Salons' }}</span>

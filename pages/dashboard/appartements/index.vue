@@ -39,7 +39,7 @@
       </p>
     </div>
     <div v-else>
-      <div v-if="isListLayout" class="flex flex-col w-full table__container w-full">
+      <div v-if="isListLayout" class="flex flex-col table__container w-full">
         <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
           <div class="flex items-center w-min h-10 px-2">
             <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
