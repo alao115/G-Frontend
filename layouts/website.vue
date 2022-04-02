@@ -3,7 +3,7 @@
     <WebsiteTheNavbar />
     <Nuxt />
     <WebsiteHomeAdvantages />
-    <WebsitePublications :in-home-page="false" :in-index="true" />
+    <WebsitePublications :in-home-page="false" :in-index="true" :appartments="appartments" :appartment-types="appartmentTypes" />
     <WebsiteContactSection />
     <WebsiteHomeCookies />
     <WebsiteTheFooter />
@@ -11,7 +11,17 @@
 </template>
 
 <script>
-export default {}
+export default {
+  async asyncData ({ $api }) {
+    const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
+    const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+
+    return {
+      appartments,
+      appartmentTypes
+    }
+  }
+}
 </script>
 
 <style scoped>

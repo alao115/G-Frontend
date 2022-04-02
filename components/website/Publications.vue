@@ -37,6 +37,16 @@
 <script>
 export default {
   props: {
+    appartments: {
+      type: Array,
+      required: true,
+      default: () => ([])
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true,
+      default: () => ([])
+    },
     inIndex: {
       type: Boolean,
       default: false
@@ -52,7 +62,7 @@ export default {
   },
   data () {
     return {
-      publications: [
+      /* publications: [
         { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
         { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
         { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
@@ -302,7 +312,34 @@ export default {
         { id: 3, label: 'Villa' },
         { id: 4, label: 'Duplex' }
       ],
-      locations: []
+      locations: [] */
+    }
+  },
+  computed: {
+    routeName () {
+      return this.$nuxt.$route.name
+    },
+    publication () {
+      return id => this.publications.find(publication => publication.id === id)
+    },
+    appartment () {
+      return id => this.appartments.find(appartment => appartment.id === id)
+    },
+    appartmentType () {
+      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    },
+    typeAppartments () {
+      return id => this.appartments.filter(appartment => appartment.appartmentType === id)
+    },
+    listOfTypes () {
+      const returnedListOfTypes = []
+      this.appartmentTypes.forEach((type) => {
+        // console.log(this.typeAppartments(type.id))
+        if (this.typeAppartments(type.id).length > 0) {
+          returnedListOfTypes.push(type)
+        }
+      })
+      return returnedListOfTypes
     }
   }
 }

@@ -66,7 +66,7 @@
             </span>
             <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Statistiques</span>
           </NuxtLink>
-          <NuxtLink to="/dashboard/utilisateurs" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
+          <NuxtLink to="/dashboard/users" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
             <span class="icon w-6 block">
               <i class="far fa-users mx-auto block" />
             </span>

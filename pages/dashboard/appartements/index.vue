@@ -137,7 +137,7 @@
       </div>
       <div v-else class="grid grid-cols-1 lg:grid-cols-3">
         <div v-for="appartmnt in appartments" :key="appartmnt.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
-          <img :src="appartment.mainImg" alt="">
+          <img :src="appartmnt.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
               {{ appartmnt.type }}

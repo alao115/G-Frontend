@@ -190,6 +190,10 @@ export default {
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
+
+    appartmentType () {
+      return id => this.appartmentTypes.find(type => type.id === id)
+    },
     reservation () {
       return id => this.reservations.find(reservation => reservation.id === id)
     },
