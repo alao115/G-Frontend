@@ -6,7 +6,8 @@
 
 <script>
 export default {
-  layout: 'signup'
+  layout: 'signup',
+  middleware: 'set-new-password-verification'
 }
 </script>
 

@@ -27,7 +27,7 @@
               <p class="text-base mt-8 text-gray-400">
                 Type
               </p>
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+              <button class="items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
                 <span v-if="!selectedType" class="leading-none">
                   Choisissez un type
                 </span>
@@ -67,7 +67,7 @@
               <input type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
             </div>
             <div class="flex space-x-8">
-              <input v-model="newReservation.date" type="date" class="mt-4 h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+              <input v-model="newReservation.date" type="date" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
               <input type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
             </div>
           </div>
@@ -107,16 +107,26 @@ export default {
   props: {
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     },
     isMobile: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadReservationsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentsProp: {
+      type: Array,
+      default: () => ([]),
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      default: () => ([]),
+      required: true
     }
-    /* appartment: {
-      type: Object,
-      default: null
-    } */
   },
   data () {
     return {
@@ -124,16 +134,8 @@ export default {
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
+      appartments: [...this.appartmentsProp],
       locations: [],
       newReservation: {
         status: 'New'
@@ -143,26 +145,9 @@ export default {
       onCreated: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
-    },
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
     },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
@@ -173,14 +158,8 @@ export default {
     user () {
       return id => this.users.find(user => user.id === id)
     },
-    account () {
-      return id => this.accounts.find(account => account.id === id)
-    },
     connectedUser () {
       return this.$auth.user
-    },
-    connectedUserAccount () {
-      return id => this.accounts.find(account => account.userId === this.connectedUser.id)
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
@@ -209,7 +188,6 @@ export default {
     }
   },
   mounted () {
-    this.$fetch()
     this.$addKkiapayListener('success', this.successHandler)
   },
   beforeDestroy () {
@@ -221,7 +199,6 @@ export default {
       this.$api.reservationService.create({ variables: { data: this.newReservation } })
         .then(({ data }) => {
           this.reservationResponse = data.createReservation.id
-          // console.log(this.reservationResponse)
           this.open()
         })
         .catch((error) => {
@@ -239,7 +216,8 @@ export default {
     successHandler (response) {
       if (this.reservationResponse) {
         this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
-          .then(() => {
+          .then(async () => {
+            await this.loadReservationsFunc()
             this.newReservation = {}
             this.currentStep = 'congrats'
           }).finally(() => {

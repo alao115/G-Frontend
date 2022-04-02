@@ -1,7 +1,7 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <NewPublication :is-mobile="true" />
-    <EditPublication :publication="publicationToEdit" />
+    <NewPublication :is-mobile="true" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
+    <EditPublication :publication="publicationToEdit" :load-publications-func="loadPublications" :appartments-prop="appartments" :appartment-types="appartmentTypes" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -129,24 +129,36 @@
 
 <script>
 /* eslint-disable no-unused-vars */
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+  async asyncData ({ $api, store }) {
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['appartmentType/appartmentTypes'].length) {
+      await store.dispatch('appartmentType/loadAppartmentTypes')
+    }
+
+    // if (!store.getters['account/accounts'].length) {
+    //   await store.dispatch('account/loadAccounts')
+    // }
+
+    // if (!store.getters['reservation/reservations'].length) {
+    //   await store.dispatch('reservation/loadReservations')
+    // }
+
+    if (!store.getters['publication/publications'].length) {
+      await store.dispatch('publication/loadPublications')
+    }
+
+    // if (!store.getters['visit/visits'].length) {
+    //   await store.dispatch('visit/loadVisits')
+    // }
 
     return {
-      appartments,
-      appartmentTypes,
-      publications,
-      reservations,
-      visits,
-      accounts
     }
   },
   data () {
@@ -156,18 +168,6 @@ export default {
       isListLayout: true,
       isFilterTrayOpened: false,
       selectedPublications: [],
-      publications: [],
-      reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
       locations: []
     }
@@ -178,6 +178,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      publications: 'publication/publications'
+      // reservations: 'reservation/reservations',
+      // visits: 'visit/visits',
+      // accounts: 'account/accounts'
+    }),
+
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
@@ -187,12 +196,6 @@ export default {
     visit () {
       return id => this.visits.find(visit => visit.id === id)
     },
-    appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
     user () {
       return id => this.users.find(user => user.id === id)
     },
@@ -201,16 +204,19 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loadPublications: 'publication/loadPublications'
+    }),
+
     setToEdition (publication) {
       this.publicationToEdit = publication
     },
     deletePublication (publication) {
       return this.$api.publicationService.delete({ variables: { publicationId: publication.id } })
-        .then(() => this.$api.publicationService.getAll())
-        .then(({ data }) => {
-          // console.log(data)
-          this.publications = data.publications
+        .then(async () => {
+          await this.loadPublications()
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }

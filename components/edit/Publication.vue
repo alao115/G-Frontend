@@ -21,7 +21,7 @@
               <p class="text-base mt-8 text-gray-400">
                 Type
               </p>
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
                 <p v-if="publicationToEdit.appartment" class="leading-none text-left flex flex-col">
                   {{ publicationToEdit.appartment && publicationToEdit.appartment.appartmentType ? appartmentType(publicationToEdit.appartment.appartmentType).label : '' }}
                   <span class="text-sm mt-1 text-gray-400">{{ publicationToEdit.appartment && publicationToEdit.appartment.appartmentType ? appartmentType(publicationToEdit.appartment.appartmentType).description : '' }}</span>
@@ -32,7 +32,7 @@
               Appartement
             </p>
             <div class="relative inline-block w-full text-gray-700">
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
                 <p v-if="publicationToEdit.appartment" class="leading-none text-left flex flex-col">
                   {{ publicationToEdit.appartment && publicationToEdit.appartment.appartmentType ? appartmentType(publicationToEdit.appartment.appartmentType).label : '' }}
                   <span class="text-sm mt-1 text-gray-400">{{ publicationToEdit.appartment.bedrooms + ' Chambres - ' + publicationToEdit.appartment.livingrooms + ' Salons' }}</span>
@@ -63,7 +63,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Publication
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mise à jour avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                mise à jour avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -94,7 +96,15 @@ export default {
     },
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadPublicationsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentsProp: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -106,35 +116,13 @@ export default {
       isDismissed: true,
       contracts: [],
       locations: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
-      visits: [],
-      accounts: [],
+      appartments: [...this.appartmentsProp],
       publishNow: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
   computed: {
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
     user () {
       return id => this.users.find(user => user.id === id)
@@ -144,15 +132,6 @@ export default {
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
-    },
-    listOfTypes () {
-      const returnedListOfTypes = []
-      this.appartmentTypes.forEach((type) => {
-        if (this.typeAppartments(type.id).length > 0) {
-          returnedListOfTypes.push(type)
-        }
-      })
-      return returnedListOfTypes
     }
   },
   watch: {
@@ -171,7 +150,7 @@ export default {
     },
     selectedType (value) {
       if (value !== '') {
-        this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
+        this.appartments = this.appartmentsProp.filter(appart => appart.appartmentType === value.id)
       }
     },
     publication (value) {

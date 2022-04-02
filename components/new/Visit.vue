@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -35,7 +35,7 @@
                 <p class="text-base mt-8 text-gray-400">
                   Type
                 </p>
-                <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+                <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
                   <span v-if="!selectedType" class="leading-none">
                     Choisissez un type
                   </span>
@@ -124,16 +124,26 @@ export default {
   props: {
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     },
     isMobile: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadVisitsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentsProp: {
+      type: Array,
+      required: true,
+      default: () => ([])
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true,
+      default: () => ([])
     }
-    /* appartment: {
-      type: Object,
-      default: null
-    } */
   },
   data () {
     return {
@@ -142,31 +152,16 @@ export default {
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
       locations: [],
       newVisit: {},
+      appartments: [...this.appartmentsProp],
       selectedAppart: '',
       visitResponse: null,
       onCreated: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
+
   computed: {
     routeName () {
       return this.$nuxt.$route.name
@@ -224,7 +219,7 @@ export default {
     }
   },
   mounted () {
-    this.$fetch()
+    // this.$fetch()
     this.$addKkiapayListener('success', this.successHandler)
   },
   beforeDestroy () {
@@ -254,7 +249,8 @@ export default {
     successHandler (response) {
       if (this.visitResponse) {
         this.$api.visitService.update({ variables: { visitId: this.visitResponse.id, data: { status: 'paid' } } })
-          .then(() => {
+          .then(async () => {
+            await this.loadVisitsFunc()
             this.newVisit = {}
             this.currentStep = 'congrats'
             this.isDismissed = true

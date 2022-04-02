@@ -34,7 +34,7 @@
               <input type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
             </div>
             <div class="flex space-x-8">
-              <input v-model="reservationToEdit.date" type="date" class="mt-4 h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+              <input v-model="reservationToEdit.date" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
               <input type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
             </div>
           </div>
@@ -44,7 +44,9 @@
               <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                 Réservation
               </p>
-              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mise à jour avec succès</p>
+              <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                mise à jour avec succès
+              </p>
             </div>
           </div>
         </div>
@@ -76,7 +78,21 @@ export default {
     },
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadReservationsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentsProp: {
+      type: Array,
+      default: () => ([]),
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      default: () => ([]),
+      required: true
     }
   },
   data () {
@@ -86,16 +102,8 @@ export default {
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
+      appartments: [...this.appartmentsProp],
       locations: [],
       selectedAppart: '',
       onUpdated: false
@@ -103,21 +111,10 @@ export default {
   },
   async fetch () {
     this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
   },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
-    },
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
     },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
@@ -171,9 +168,10 @@ export default {
       this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
 
       this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
-        .then((response) => {
+        .then(async (response) => {
           this.reservationToEdit = {}
           this.currentStep = 'congrats'
+          await this.loadReservationsFunc()
         })
         .catch((error) => {
           this.errorToshow = error

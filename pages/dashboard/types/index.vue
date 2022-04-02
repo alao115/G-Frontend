@@ -1,6 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <EditAppartmentType :appartment-type="appartmentTypeToEdit" />
+    <EditAppartmentType :appartment-type="appartmentTypeToEdit" :load-appartment-types-func="loadAppartmentTypes" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -106,24 +106,42 @@
 
 <script>
 /* eslint-disable no-unused-vars */
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
-  async asyncData ({ $api }) {
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+  async asyncData ({ $api, store }) {
+    // await store.dispatch('appartment/loadAppartments')
+    // await store.dispatch('appartmentType/loadAppartmentTypes')
+    // await store.dispatch('account/loadAccounts')
+    // await store.dispatch('reservation/loadReservations')
+    // await store.dispatch('publication/loadPublications')
+    // await store.dispatch('visit/loadVisits')
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['appartmentType/appartmentTypes'].length) {
+      await store.dispatch('appartmentType/loadAppartmentTypes')
+    }
+
+    if (!store.getters['account/accounts'].length) {
+      await store.dispatch('account/loadAccounts')
+    }
+
+    if (!store.getters['reservation/reservations'].length) {
+      await store.dispatch('reservation/loadReservations')
+    }
+
+    if (!store.getters['publication/publications'].length) {
+      await store.dispatch('publication/loadPublications')
+    }
+
+    if (!store.getters['visit/visits'].length) {
+      await store.dispatch('visit/loadVisits')
+    }
 
     return {
-      appartmentTypes,
-      appartments,
-      publications,
-      reservations,
-      visits,
-      accounts
     }
   },
   data () {
@@ -133,11 +151,6 @@ export default {
       isListLayout: true,
       isFilterTrayOpened: false,
       selectedTypes: [],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
       locations: []
     }
@@ -148,6 +161,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      publications: 'publication/publications',
+      reservations: 'reservation/reservations',
+      visits: 'visit/visits',
+      accounts: 'account/accounts'
+    }),
+
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
@@ -174,6 +196,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loadAppartmentTypes: 'appartmentType/loadAppartmentTypes'
+    }),
+
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
@@ -183,10 +209,10 @@ export default {
     deleteAppartmentType (type) {
       return this.$api.appartmentTypeService.delete({ variables: { appartmentTypeId: type.id } })
         .then(() => this.$api.appartmentTypeService.getAll())
-        .then(({ data }) => {
-          // console.log(data)
-          this.appartmentTypes = data.appartmentTypes
+        .then(async ({ data }) => {
+          await this.loadAppartmentTypes()
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }

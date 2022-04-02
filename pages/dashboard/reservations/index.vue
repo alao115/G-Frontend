@@ -1,6 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <EditReservation :reservation="reservationToEdit" />
+    <EditReservation :reservation="reservationToEdit" :load-reservations-func="loadReservations" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -66,7 +66,8 @@
             </span>
           </div>
           <div class="flex flex-col w-56 px-2 mx-2">
-            <p><span>{{ appartmentType(appartment(reserv.appartment).appartmentType).label }}</span> <br> <span class="text-gray-400">{{ appartment(reserv.appartment).bedrooms }} Chambre<span v-if="appartment(reserv.appartment).bedrooms > 1">s</span> - {{ appartment(reserv.appartment).livingrooms }} Salon<span v-if="appartment(reserv.appartment).livingrooms > 1">s</span></span><br>
+            <p>
+              <span>{{ appartmentType(appartment(reserv.appartment).appartmentType).label }}</span> <br> <span class="text-gray-400">{{ appartment(reserv.appartment).bedrooms }} Chambre<span v-if="appartment(reserv.appartment).bedrooms > 1">s</span> - {{ appartment(reserv.appartment).livingrooms }} Salon<span v-if="appartment(reserv.appartment).livingrooms > 1">s</span></span><br>
               <span class="block lg:hidden">{{ reserv.date }}</span>
             </p>
           </div>
@@ -114,23 +115,25 @@
 <script>
 /* eslint-disable no-unused-vars */
 
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   layout: 'dashboard',
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+  async asyncData ({ $api, store }) {
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['reservation/reservations'].length) {
+      await store.dispatch('reservation/loadReservations')
+    }
+
+    if (!store.getters['appartmentType/appartmentTypes'].length) {
+      await store.dispatch('appartmentType/loadAppartmentTypes')
+    }
 
     return {
-      appartments,
-      appartmentTypes,
-      publications,
-      reservations,
-      visits,
-      accounts
+
     }
   },
   data () {
@@ -140,25 +143,6 @@ export default {
       isFilterTrayOpened: false,
       selectedReservations: [],
       reservationToEdit: {},
-      publications: [
-        { id: 1, date: '', appartment: 1, isNew: true, publisher: 1, status: '', views: 0 },
-        { id: 2, date: '', appartment: 2, isNew: true, publisher: 2, status: '', views: 0 },
-        { id: 3, date: '', appartment: 3, isNew: true, publisher: 3, status: '', views: 0 },
-        { id: 4, date: '', appartment: 4, isNew: true, publisher: 4, status: '', views: 0 },
-        { id: 5, date: '', appartment: 5, isNew: true, publisher: 5, status: '', views: 0 },
-        { id: 6, date: '', appartment: 6, isNew: true, publisher: 6, status: '', views: 0 }
-      ],
-      reservations: [
-        { id: 1, date: '', user: 1, appartment: 1, reservationStatus: '' }
-      ],
-      visits: [
-        { id: 1, date: '', user: 1, appartment: 2, visitStatus: '' }
-      ],
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
       locations: []
     }
@@ -169,9 +153,13 @@ export default {
     }
   },
   computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      // publications: 'publication/publications',
+      reservations: 'reservation/reservations'
+    }),
+
     reservation () {
       return id => this.reservations.find(reservation => reservation.id === id)
     },
@@ -192,6 +180,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loadReservations: 'reservation/loadReservations'
+    }),
     /* toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     }, */
@@ -201,10 +192,10 @@ export default {
 
     deleteReservation (reservation) {
       return this.$api.reservationService.delete({ variables: { reservationId: reservation.id } })
-        .then(() => this.$api.reservationService.getAll())
-        .then(({ data }) => {
-          this.reservations = data.reservations
+        .then(async () => {
+          await this.loadReservations()
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }

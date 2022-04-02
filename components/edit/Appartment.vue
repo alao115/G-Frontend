@@ -2,7 +2,7 @@
   <div class="contents">
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full h-full p-4 lg:p-8 z-20 relative h-full lg:h-9/12">
+        <div class="text-start w-full h-full p-4 lg:p-8 z-20 relative lg:h-9/12">
           <div class="p-4">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               <span v-if="currentStep !== 'congrats'">Éditer l'appartement</span>
@@ -22,7 +22,7 @@
               <p class="text-base mt-8 text-gray-400">
                 Type
               </p>
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border -lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
                 <span v-if="!appartToEdit.appartmentType" class="leading-none">
                   Choisissez un type
                 </span>
@@ -51,7 +51,7 @@
             <div class="flex space-x-8">
               <input v-model.number="appartToEdit.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
-                <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
+                <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 text-base border -lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
                   <p v-if="appartToEdit.conditions && appartToEdit.conditions.paymentFrequency" class="leading-none text-left flex flex-col">
                     {{ paymentFrequency(appartToEdit.conditions.paymentFrequency).label }}
                     <span class="text-sm mt-1 text-gray-400">{{ paymentFrequency(appartToEdit.conditions.paymentFrequency).description }}</span>
@@ -93,7 +93,7 @@
             <div class="grid grid-cols-2">
               <div class="w-full pr-4 relative">
                 <input v-model.number="appartToEdit.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-bed-alt fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -102,7 +102,7 @@
               </div>
               <div class="w-full pl-4 relative">
                 <input v-model.number="appartToEdit.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16block">
                   <i class="far fa-couch fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -111,7 +111,7 @@
               </div>
               <div class="w-full pr-4 relative">
                 <input v-model.number="appartToEdit.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-oven fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -120,7 +120,7 @@
               </div>
               <div class="w-full pl-4 relative">
                 <input v-model.number="appartToEdit.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -129,7 +129,7 @@
               </div>
               <div class="w-full pr-4 relative">
                 <input v-model.number="appartToEdit.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-cabinet-filing fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -137,7 +137,7 @@
                 </p>
               </div><div class="w-full pl-4 relative">
                 <input v-model.number="appartToEdit.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-garage-open fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -145,7 +145,7 @@
                 </p>
               </div><div class="w-full pr-4 relative">
                 <input v-model.number="appartToEdit.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-list-ol fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -153,7 +153,7 @@
                 </p>
               </div><div class="w-full pl-4 relative">
                 <input v-model.number="appartToEdit.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                   <i class="far fa-users fa-lg" />
                 </span>
                 <p class="text-base mt-1 mb-4 text-gray-400">
@@ -171,7 +171,7 @@
                 <p class="text-base mt-8 text-gray-400">
                   Civilité
                 </p>
-                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
+                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
                   <span v-if="appartToEdit.ownerInfos.civility === ''" class="leading-none">
                     Choisissez un type
                   </span>
@@ -192,7 +192,7 @@
                 <p class="text-base mt-8 text-gray-400">
                   Est vivant(e)
                 </p>
-                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
+                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
                   <span v-if="ownerInfos && appartToEdit.ownerInfos.isAlive === ''" class="leading-none">
                     -
                   </span>
@@ -397,6 +397,14 @@ export default {
     isMinified: {
       type: Boolean,
       default: false
+    },
+    loadAppartmentsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -452,8 +460,6 @@ export default {
         email: ''
       },
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
       locations: [],
       mainImg: '',
       firstImg: '',
@@ -463,14 +469,6 @@ export default {
       appartImg: null,
       loading: false
     }
-  },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
   },
   computed: {
     computedMainImg () {
@@ -553,6 +551,7 @@ export default {
           }
         }
 
+        await this.loadAppartmentsFunc()
         this.loading = false
         this.currentStep = 'congrats'
       } catch (error) {

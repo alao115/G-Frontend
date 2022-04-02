@@ -31,6 +31,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/api.js',
+    '~/plugins/apollo-overrides.js',
     { src: '~/plugins/kkiapay', ssr: false }
     // '~/plugins/test_plugins.js',
     // '~/plugins/apollo.config.js'
@@ -79,10 +80,10 @@ export default {
       prefix: 'gontche.'
     },
     redirect: {
-      login: '/signin',
-      logout: '/signin',
-      callback: '/signin',
-      home: '/signin'
+      login: '/auth/signin',
+      logout: '/auth/signin',
+      callback: '/auth/signin',
+      home: '/'
     },
     strategies: {
       customStrategy: {

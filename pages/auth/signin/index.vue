@@ -84,12 +84,12 @@
               <input v-model.trim="user.email" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
               <input v-model="user.password" type="password" class="h-12 md:h-16 px-8 mb-4 mt-1 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Mot de passe">
               <p class="text-sm mb-12 text-gray-400">
-                <NuxtLink to="/password-forgotten" class="text-gray-400 hover:text-blue-920 font-semibold">
+                <NuxtLink to="/auth/password-forgotten" class="text-gray-400 hover:text-blue-920 font-semibold">
                   Mot de passe oublié
                 </NuxtLink>
               </p>
               <div class="rounded-md shadow w-full">
-                <button class="relative shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10">
+                <button class="relative shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10" :disabled="onSignin">
                   Se connecter
                   <loader v-if="onSignin" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
                 </button>
@@ -97,7 +97,7 @@
             </form>
             <p class="text-sm my-12 text-blue-920">
               Vous n'avez pas encore de compte ?
-              <NuxtLink to="/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
+              <NuxtLink to="/auth/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
                 Inscrivez-vous !
               </NuxtLink>
             </p>
@@ -109,7 +109,9 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 import loader from '~/components/loader.vue'
+
 export default {
   components: { loader },
   middleware: 'isloggedIn',
@@ -117,31 +119,45 @@ export default {
     return {
       user: {},
       isDismissed: true,
-      errorToShow: '',
-      notificationToShow: '',
-      onSignin: false
+      // errorToShow: '',
+      notificationToShow: ''
     }
   },
+  computed: {
+    ...mapGetters({
+      onSignin: 'customAuth/onSignin',
+      errorToShow: 'customAuth/signinError'
+    })
+  },
   methods: {
+    ...mapMutations({
+      setOnSignin: 'customAuth/setOnSignin',
+      setSigninError: 'customAuth/setSigninError'
+    }),
+
     loginUser () {
-      this.onSignin = true
+      this.setOnSignin(true)
+
       this.$auth.loginWith('customStrategy', { data: this.user })
         .then((response) => {
           /* this.notificationToShow = 'Connection réussie' */
-          this.$router.push({ name: 'dashboard' })
+          switch (this.$auth.user.emailVerified) {
+            case false:
+              this.$auth.logout()
+              this.$router.push({ name: 'auth-signup-request-email-verification', params: { email: this.user.email } })
+              break
+            case true:
+              this.setOnSignin(false)
+              this.$router.push({ name: 'dashboard' })
+              break
+          }
         })
         .catch((error) => {
-          if (error) {
-            this.errorToShow = error?.response?.data.error.message || error.message
-            this.isDismissed = false
-          }
-        }).finally(() => {
-          this.onSignin = false
+          this.setOnSignin(false)
+          const message = error?.response?.data.error.message || error.message
+          this.setSigninError(message)
+          this.isDismissed = false
         })
-    },
-    connexionSuccesssfull () {
-      alert('connection successful')
-      this.$router.push({ path: '/:' + true })
     }
   }
 }

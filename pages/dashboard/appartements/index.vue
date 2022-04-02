@@ -1,7 +1,7 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content w-full">
-    <NewAppartment :is-mobile="true" />
-    <EditAppartment :appartment="appartmentToEdit" />
+    <NewAppartment :is-mobile="true" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
+    <EditAppartment :appartment="appartmentToEdit" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -39,7 +39,7 @@
       </p>
     </div>
     <div v-else>
-      <div v-if="isListLayout" class="flex flex-col w-full table__container w-full">
+      <div v-if="isListLayout" class="flex flex-col table__container w-full">
         <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
           <div class="flex items-center w-min h-10 px-2">
             <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
@@ -136,20 +136,20 @@
         </div>
       </div>
       <div v-else class="grid grid-cols-1 lg:grid-cols-3">
-        <div v-for="appartment in appartments" :key="appartment.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartment)">
+        <div v-for="appartmnt in appartments" :key="appartmnt.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
           <img :src="appartment.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
-              {{ appartment.type }}
+              {{ appartmnt.type }}
             </h4>
             <div class="flex items-center">
               <span class="icon mr-4 text-sky-450">
                 <i class="fas fa-map-marker-alt" />
               </span>
-              <label for="#" class="text-md">{{ appartment.location }}</label>
+              <label for="#" class="text-md">{{ appartmnt.location }}</label>
             </div>
             <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450" href="#">
-              {{ appartment.rent + 'F CFA' }}
+              {{ appartmnt.rent + 'F CFA' }}
             </a>
           </div>
         </div>
@@ -161,26 +161,44 @@
 <script>
 /* eslint-disable no-unused-vars */
 import path from 'path'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
 
   // eslint-disable-next-line require-await
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+  async asyncData ({ $api, store }) {
+    // await store.dispatch('appartment/loadAppartments')
+    // await store.dispatch('appartmentType/loadAppartmentTypes')
+    // await store.dispatch('account/loadAccounts')
+    // await store.dispatch('reservation/loadReservations')
+    // await store.dispatch('publication/loadPublications')
+    // await store.dispatch('visit/loadVisits')
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['appartmentType/appartmentTypes'].length) {
+      await store.dispatch('appartmentType/loadAppartmentTypes')
+    }
+
+    if (!store.getters['account/accounts'].length) {
+      await store.dispatch('account/loadAccounts')
+    }
+
+    if (!store.getters['reservation/reservations'].length) {
+      await store.dispatch('reservation/loadReservations')
+    }
+
+    if (!store.getters['publication/publications'].length) {
+      await store.dispatch('publication/loadPublications')
+    }
+
+    if (!store.getters['visit/visits'].length) {
+      await store.dispatch('visit/loadVisits')
+    }
 
     return {
-      appartments,
-      appartmentTypes,
-      publications,
-      reservations,
-      visits,
-      accounts
     }
   },
 
@@ -192,13 +210,6 @@ export default {
       isFilterTrayOpened: false,
       selectedAppartments: [],
       contracts: [],
-      /*  */
-      appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ],
       locations: []
     }
   },
@@ -208,6 +219,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      publications: 'publication/publications',
+      reservations: 'reservation/reservations',
+      visits: 'visit/visits',
+      accounts: 'account/accounts'
+    }),
+
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
@@ -234,6 +254,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loadAppartments: 'appartment/loadAppartments'
+    }),
+
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
@@ -252,9 +276,11 @@ export default {
             const filePath = `appartments/${appartment.id}/${filename}`
             await this.$api.firebaseStorageService.delete({ filePath })
           }
+
+          await this.loadAppartments()
         }
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     }
   }

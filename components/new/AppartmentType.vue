@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -59,9 +59,9 @@
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <NuxtLink to="/dashboard/types" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
-          </NuxtLink>
+          </button>
         </div>
       </div>
     </div>
@@ -73,11 +73,15 @@ export default {
   props: {
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     },
     isMobile: {
       type: Boolean,
-      defaul: false
+      default: false
+    },
+    loadAppartmentTypesFunc: {
+      type: Function,
+      required: true
     }
   },
   data () {
@@ -85,12 +89,6 @@ export default {
       currentStep: 'first',
       isDismissed: true,
       newType: {},
-      appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ],
       locations: [],
       onCreated: false
     }
@@ -135,9 +133,10 @@ export default {
     createAppartType () {
       this.onCreated = true
       this.$api.appartmentTypeService.create({ variables: { data: this.newType } })
-        .then((response) => {
+        .then(async (response) => {
           this.newType = {}
           this.currentStep = 'congrats'
+          await this.loadAppartmentTypesFunc()
         })
         .finally(() => {
           this.onCreated = false

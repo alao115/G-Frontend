@@ -45,7 +45,9 @@
                 <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                   Appartement
                 </p>
-                <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">mise à jour avec succès</p>
+                <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                  mise à jour avec succès
+                </p>
               </div>
             </div>
           </form>
@@ -78,7 +80,7 @@ export default {
     },
     isMinified: {
       type: Boolean,
-      defaul: false
+      default: false
     }
   },
   data () {

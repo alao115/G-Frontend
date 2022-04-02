@@ -6,7 +6,7 @@
       </span>
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
     </a>
-    <a v-else-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 items-center justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-else-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -19,7 +19,7 @@
     </a>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class=" flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md h-full lg:h-5/6 justify-between relative" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
-        <div class="text-start w-full h-full lg:p-8 z-20 relative h-full lg:h-9/12">
+        <div class="text-start w-full h-full lg:p-8 z-20 relative lg:h-9/12">
           <div class="p-4">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouvelle location
@@ -41,7 +41,7 @@
               <p class="text-base mt-8 text-gray-400">
                 Type
               </p>
-              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
                 <span v-if="!newAppartment.appartmentType" class="leading-none">
                   Choisissez un type
                 </span>
@@ -72,7 +72,7 @@
             <div class="flex space-x-8">
               <input v-model.number="newAppartment.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
-                <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
+                <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
                   <span v-if="selectedPaymentFrequency === ''" class="leading-none">
                     <span class="hidden lg:block">Choisissez une fréquence</span>
                     <span class="block lg:hidden">Fréquence</span>
@@ -119,7 +119,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-bed-alt fa-lg" />
                   </span>
                 </div>
@@ -130,7 +130,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-couch fa-lg" />
                   </span>
                 </div>
@@ -141,7 +141,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-oven fa-lg" />
                   </span>
                 </div>
@@ -152,7 +152,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
                   </span>
                 </div>
@@ -163,7 +163,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-cabinet-filing fa-lg" />
                   </span>
                 </div>
@@ -174,7 +174,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-garage-open fa-lg" />
                   </span>
                 </div>
@@ -185,7 +185,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-list-ol fa-lg" />
                   </span>
                 </div>
@@ -196,7 +196,7 @@
                 </p>
                 <div class="relative">
                   <input v-model.number="newAppartment.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16 block">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
                     <i class="far fa-users fa-lg" />
                   </span>
                 </div>
@@ -212,7 +212,7 @@
                 <p class="text-base mt-8 text-gray-400">
                   Civilité
                 </p>
-                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
+                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
                   <span v-if="selectedCivility === ''" class="leading-none">
                     <span class="hidden lg:block">Choisissez un type</span>
                     <span class="block lg:hidden">Civilité</span>
@@ -234,7 +234,7 @@
                 <p class="text-base mt-8 text-gray-400">
                   Est vivant(e)
                 </p>
-                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
+                <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
                   <span v-if="ownerInfos && ownerInfos.isAlive === ''" class="leading-none">
                     -
                   </span>
@@ -428,6 +428,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     isMinified: {
@@ -441,6 +442,14 @@ export default {
     isDropdown: {
       type: Boolean,
       default: false
+    },
+    loadAppartmentsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -487,14 +496,6 @@ export default {
       loading: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
   computed: {
     publication () {
       return id => this.publications.find(publication => publication.id === id)
@@ -529,7 +530,7 @@ export default {
     }
   },
   mounted () {
-    this.$fetch()
+    // this.$fetch()
   },
   methods: {
     uploadPicture (event, source) {
@@ -580,10 +581,12 @@ export default {
             ImgData.append('file', this.appartImg[key])
             ImgData.append('filePath', `appartments/${data.createAppartment.id}/${key}_${this.appartImg[key].name}`)
             const firestoreResponse = await this.$api.firebaseStorageService.upload(ImgData)
+            // eslint-disable-next-line no-unused-vars
             const updateResponse = await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
-            console.log(updateResponse)
+            // console.log(updateResponse)
           }
         }
+        await this.loadAppartmentsFunc()
         this.newAppartment = {}
         this.currentStep = 'congrats'
         this.loading = false
