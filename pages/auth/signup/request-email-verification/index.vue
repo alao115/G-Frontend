@@ -17,7 +17,24 @@
 <script>
 export default {
   layout: 'signup',
-  middleware: 'request-email-verification'
+  middleware: async ({ params, redirect, $api, store }) => {
+    try {
+      const { email } = params
+
+      console.log('Email: ', email)
+
+      if (!email) { redirect({ name: 'auth-signin' }) }
+
+      await $api.authService.sendVerificationEmail({ email })
+      store.commit('customAuth/setOnSignin', false)
+    } catch (error) {
+      const message = error?.response?.data.error.message || error.message
+      // console.log(message)
+      store.commit('customAuth/setOnSignin', false)
+      store.commit('customAuth/setSigninError', message)
+      redirect({ name: 'auth-signin' })
+    }
+  }
 }
 </script>
 

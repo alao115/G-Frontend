@@ -14,7 +14,9 @@
 <script>
 export default {
   layout: 'signup',
-  middleware: 'is-email-verification-sent'
+  middleware ({ redirect, store }) {
+    if (!store.getters['customAuth/passwordEmailSent']) { redirect({ name: 'auth-signin' }) }
+  }
 }
 </script>
 

@@ -12,14 +12,21 @@
 
 <script>
 export default {
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
-    const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
 
+  data () {
     return {
-      appartments,
-      appartmentTypes
+      appartments: [],
+      appartmentTypes: []
     }
+  },
+
+  async fetch () {
+    this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
+    this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+  },
+
+  mounted () {
+    this.$fetch()
   }
 }
 </script>
