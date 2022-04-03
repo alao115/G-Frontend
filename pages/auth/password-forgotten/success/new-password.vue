@@ -17,7 +17,9 @@
 <script>
 export default {
   layout: 'signup',
-  middleware: 'new-password-set'
+  middleware ({ route, redirect }) {
+    if (!route.params.success) { redirect({ name: 'auth-signin' }) }
+  }
 }
 </script>
 

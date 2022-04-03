@@ -144,6 +144,7 @@ export default {
           switch (this.$auth.user.emailVerified) {
             case false:
               this.$auth.logout()
+              console.log('Redirecting...')
               this.$router.push({ name: 'auth-signup-request-email-verification', params: { email: this.user.email } })
               break
             case true:
