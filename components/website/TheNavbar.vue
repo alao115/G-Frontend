@@ -29,7 +29,8 @@
             <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Dashboard
             </NuxtLink>
-            <a v-else class="nuxt-link-active cursor-pointer" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
+            <hr>
+            <a class="nuxt-link-active cursor-pointer" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
               Se déconnecter
             </a>
           </div>
@@ -79,7 +80,7 @@
                   <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Dashboard
                   </NuxtLink>
-                  <a v-else class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
+                  <a class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
                     Se déconnecter
                   </a>
                 </template>

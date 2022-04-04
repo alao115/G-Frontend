@@ -168,10 +168,10 @@ export default {
   .cover{
     position: absolute;
     width: 100%; height: 100%;
-    opacity: .1; z-index: 0;
-    background-image: url('/assets/images/bg-motif.svg');
-    background-position: center center;
-    background-size: cover;
+    opacity: 1; z-index: 0;
+    background-image: url('/assets/images/bg_icon.svg');
+    background-position: bottom right;
+    background-size: 60%;
     background-repeat: no-repeat;
   }
   .container {

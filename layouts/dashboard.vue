@@ -1,8 +1,8 @@
 <template>
   <div class="flex w-screen max-w-screen h-screen text-gray-700 font-body">
     <TheDashboardSidenav class="hidden lg:block" />
-    <div class="flex flex-col w-full">
-      <div class="flex items-center justify-between h-16 px-8">
+    <div :class="isMinified ? 'ml-16' : 'ml-64'" class="flex flex-col w-full">
+      <div class="fixed flex items-center justify-between h-16 px-8 w-full z-10 bg-white">
         <h1 class="text-lg font-medium text-sky-550">
           {{ pageTitle }}
         </h1>
@@ -15,7 +15,7 @@
           </button>
         </div>
       </div>
-      <Nuxt />
+      <Nuxt class="pt-16"/>
     </div>
     <TheDashboardBottomBar />
     <div class="flex items-center h-16 border border-gray-300 pr-4 w-full max-w-md shadow-lg font-body absolute right-0 lg:right-2 top-0 lg:top-2 z-10 bg-sky-50" :class="isDismissed === true ? 'hidden' : ''">
@@ -52,6 +52,12 @@ export default {
       isDismissed: false,
       addDropdownDismissed: true
     }
+  },
+  created () {
+    this.$nuxt.$on('is-minified', ($value) => {
+      // alert('dans layout dashboard')
+      this.isMinified = $value
+    })
   },
   computed: {
     routeName () {

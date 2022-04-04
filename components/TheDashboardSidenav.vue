@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col items-center h-full overflow-hidden text-gray-700 rounded border-r-2 border-gray-200 flex-none" :class="isMinified === true ? 'w-16' : 'w-64'">
+  <div class="fixed flex flex-col items-center h-full overflow-hidden text-gray-700 rounded border-r-2 border-gray-200 flex-none" :class="isMinified === true ? 'w-16' : 'w-64'">
     <div class="w-full px-2">
-      <a class="flex items-center w-full h-16" href="#" @click.prevent="isMinified = !isMinified">
+      <a class="flex items-center w-full h-16" href="#" @click.prevent="isMinified = !isMinified, $nuxt.$emit('is-minified', isMinified)">
         <img v-if="isMinified" src="/assets/images/logo.png" alt="" class="logo" style="height: 24px">
         <img v-else src="/assets/images/dark_logo_lg.svg" alt="" class="logo" style="height: 24px">
       </a>

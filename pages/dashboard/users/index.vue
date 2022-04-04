@@ -39,6 +39,7 @@
       </p>
     </div>
     <div v-else>
+      {{ connectedUser.email }}
       <div v-if="isListLayout" class="flex flex-col w-full table__container w-full">
         <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
           <div class="flex items-center w-min h-10 px-2">
@@ -85,7 +86,7 @@
               <span>{{ account.userType }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
-              <span />
+              <span v-if="connectedUser.email === account.email ">Connecté</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
               <span />
@@ -192,6 +193,9 @@ export default {
     }
   },
   computed: {
+    connectedUser () {
+      return this.$auth.user
+    },
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
