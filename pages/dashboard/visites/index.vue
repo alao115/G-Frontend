@@ -87,7 +87,7 @@
             <span>{{ appartment(vis.appartment).location }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
-            <span>{{ vis.user }}</span>
+            <span>{{ `${vis.visitorInfos.firstname} ${vis.visitorInfos.lastname }` }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
             <span>{{ vis.date }}</span>
@@ -157,7 +157,7 @@ export default {
   data () {
     return {
       title: 'Visites',
-      visitToEdit: {},
+      visitToEdit: null,
       isListLayout: true,
       isFilterTrayOpened: false,
       selectedVisits: [],

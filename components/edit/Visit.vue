@@ -27,12 +27,12 @@
                 </select>
               </div>
               <div class="flex space-x-8">
-                <input v-model="visitToEdit.user" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-                <input type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+                <input v-model.trim="visitToEdit.visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                <input v-model.trim="visitToEdit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
               </div>
               <div class="flex space-x-8">
-                <input type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                <input type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+                <input v-model.trim="visitToEdit.visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+                <input v-model.trim="visitToEdit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
               </div>
               <div class="flex space-x-8">
                 <input v-model="visitToEdit.date" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
@@ -76,7 +76,8 @@ export default {
   props: {
     visit: {
       type: Object,
-      default: () => ({})
+      required: true
+      // default: () => ({})
     },
     isMinified: {
       type: Boolean,
@@ -86,15 +87,10 @@ export default {
   data () {
     return {
       selectedType: '',
-      visitToEdit: {},
+      visitToEdit: { ...this.visit },
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      users: [
-        { id: 1, name: 'RONY', firstname: 'Monsieur', phone: '+22991234567', email: 'monsieur.rony@gmail.com', user: '1', userType: 'admin', favorites: [], likes: [] },
-        { id: 2, name: 'CHEGUN', firstname: 'Mouss', phone: '+22998765432', email: 'mouss15@gmail.com', user: '2', userType: 'publisher', favorites: [], likes: [] },
-        { id: 2, name: 'ThG', firstname: 'Micrette', phone: '+22965432123', email: 'micress16@gmail.com', user: '3', userType: 'visitor', favorites: [], likes: [] }
-      ],
       contracts: [],
       appartments: [],
       appartmentTypes: [],
@@ -164,15 +160,15 @@ export default {
       }
     }
   },
-  created () {
+  mounted () {
     this.visitToEdit = { ...this.visit }
   },
   methods: {
     editVisit () {
       this.onUpdated = true
       this.visitToEdit.appartment = this.visitToEdit.appartment.id
-      this.visitToEdit.user = this.visitToEdit.user.id
-      this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
+      // this.visitToEdit.user = this.visitToEdit.user.id
+      // this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
 
       this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: this.visitToEdit } })
         .then((response) => {

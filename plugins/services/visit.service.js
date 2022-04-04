@@ -1,5 +1,5 @@
 export default ({ apollo, gql }) => class VisitService {
-  getAll ({ projections, variables } = { projections: 'id appartment user date status', variables: {} }) {
+  getAll ({ projections, variables } = { projections: 'id appartment visitorInfos { firstname lastname phone email } date status', variables: {} }) {
     return apollo.query({ query: gql`query { visits { ${projections} } }`, variables })
   }
 
