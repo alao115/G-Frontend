@@ -107,9 +107,10 @@
               <ToggleSwitch />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
-              <span class="icon cursor:pointer p-2">
+              <!-- <span class="icon cursor:pointer p-2">
                 <i class="far fa-calendar-alt" />
-              </span>
+              </span> -->
+              <NewTimeSlot />
             </div>
             <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
               <span class="icon cursor:pointer p-2">
@@ -218,24 +219,7 @@ export default {
       isFilterTrayOpened: false,
       selectedAppartments: [],
       contracts: [],
-      locations: [],
-      timeSlots: [
-        [
-          'Monday',
-          [
-            { '8h - 9h': false },
-            { '9h - 10h': false },
-            { '10h - 11h': false },
-            { '11h - 12h': false },
-            { '11h - 12h': false },
-            { '11h - 12h': false },
-            { '11h - 12h': false },
-            { '11h - 12h': false },
-            { '11h - 12h': false },
-            { '11h - 12h': false }
-          ]
-        ]
-      ]
+      locations: []
     }
   },
   head () {
