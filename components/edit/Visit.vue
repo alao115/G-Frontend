@@ -7,7 +7,7 @@
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Modifier la demande de visite
             </h4>
-            <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
+            <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="resetVisitorData">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
               </svg>
@@ -27,7 +27,7 @@
                 </select>
               </div>
               <div class="flex space-x-8">
-                <input v-model.trim="visitToEdit.visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                <input type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom" :value="visitToEdit.visitorInfos.firstname" @change="e => visitToEdit.visitorInfos.firstname = e.target.value">
                 <input v-model.trim="visitToEdit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
               </div>
               <div class="flex space-x-8">
@@ -53,7 +53,7 @@
           </form>
         </div>
         <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
+          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="resetVisitorData">
             Annuler
           </button>
           <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editVisit">
@@ -62,7 +62,7 @@
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="resetVisitorData">
             <span>Fermer</span>
           </button>
         </div>
@@ -72,12 +72,12 @@
 </template>
 
 <script>
+
 export default {
   props: {
     visit: {
       type: Object,
       required: true
-      // default: () => ({})
     },
     isMinified: {
       type: Boolean,
@@ -145,9 +145,6 @@ export default {
     }
   },
   watch: {
-    isDismissed (value) {
-      // console.log(value)
-    },
     selectedType (value) {
       if (value !== '') {
         this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
@@ -164,19 +161,25 @@ export default {
     this.visitToEdit = { ...this.visit }
   },
   methods: {
+    resetVisitorData () {
+      this.visitToEdit = { visitorInfos: {} }
+      this.isDismissed = true
+      this.currentStep = 'first'
+    },
+
     editVisit () {
       this.onUpdated = true
       this.visitToEdit.appartment = this.visitToEdit.appartment.id
       // this.visitToEdit.user = this.visitToEdit.user.id
       // this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
 
-      this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: this.visitToEdit } })
+      this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: { ...this.visitToEdit } } })
         .then((response) => {
-          this.visitToEdit = {}
           this.currentStep = 'congrats'
         })
+        .then(async () => await this.$store.dispatch('visit/loadVisits'))
         .catch((error) => {
-          this.errorToshow = error
+          this.errorToshow = error.message
         }).finally(() => {
           this.onUpdated = false
         })

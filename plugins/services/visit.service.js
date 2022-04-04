@@ -11,8 +11,8 @@ export default ({ apollo, gql }) => class VisitService {
     // console.log('variables: ', variables)
     delete variables?.data.__typename
     delete variables?.data.id
-    delete variables?.data?.user?.__typename
-    return apollo.mutate({ mutation: gql`mutation updateVisit($data: visitData, $visitId: ID!) { updateVisit(visitId: $visitId, data: $data) { id } }`, variables })
+    delete variables?.data?.visitorInfos?.__typename
+    return apollo.mutate({ mutation: gql`mutation updateVisit($data: visitData, $visitId: ID!) { updateVisit(visitId: $visitId, data: $data) { appartment } }`, variables })
   }
 
   delete ({ projections, variables } = { projections: 'id ', variables: {} }) {

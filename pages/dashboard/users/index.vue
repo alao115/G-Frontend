@@ -39,8 +39,8 @@
       </p>
     </div>
     <div v-else>
-      {{ connectedUser.email }}
-      <div v-if="isListLayout" class="flex flex-col w-full table__container w-full">
+      <!-- {{ connectedUser.email }} -->
+      <div v-if="isListLayout" class="flex flex-col w-full table__container">
         <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
           <div class="flex items-center w-min h-10 px-2">
             <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
@@ -83,7 +83,7 @@
               <span>{{ account.email }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-32 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
-              <span>{{ account.userType }}</span>
+              <span>{{ account.user.userType }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
               <span v-if="connectedUser.email === account.email ">Connecté</span>
@@ -121,17 +121,17 @@
         </div>
       </div>
       <div v-else class="grid grid-cols-1 lg:grid-cols-3">
-        <div v-for="appartment in appartments" :key="appartment.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartment)">
-          <img :src="appartment.mainImg" alt="">
+        <div v-for="appartmnt in appartments" :key="appartmnt.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
+          <img :src="appartmnt.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
-              {{ appartment.type }}
+              {{ appartmnt.type }}
             </h4>
             <div class="flex items-center">
               <span class="icon mr-4 text-sky-450">
                 <i class="fas fa-map-marker-alt" />
               </span>
-              <label for="#" class="text-md">{{ appartment.location }}</label>
+              <label for="#" class="text-md">{{ appartmnt.location }}</label>
             </div>
             <!-- <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450" href="#">
               {{ appartment.rent + 'F CFA' }}
@@ -146,44 +146,33 @@
 <script>
 /* eslint-disable no-unused-vars */
 import path from 'path'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
 
   // eslint-disable-next-line require-await
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+  async asyncData ({ $api, store }) {
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['account/accounts'].length) {
+      await store.dispatch('account/loadAccounts')
+    }
 
     return {
-      appartments,
-      appartmentTypes,
-      publications,
-      reservations,
-      visits,
-      accounts
     }
   },
 
   data () {
     return {
-      title: 'Publications',
+      title: 'Utilisateurs',
       isListLayout: true,
       appartmentToEdit: {},
       isFilterTrayOpened: false,
       selectedAccounts: [],
       contracts: [],
-      /*  */
-      /* appartmentTypes: [
-        { id: 1, label: 'Studio', description: 'Entrée - coucher; Studios' },
-        { id: 2, label: 'Appartement', description: 'Appartement d\'au moins une chambre et un salon' },
-        { id: 3, label: 'Villa', description: '-' },
-        { id: 4, label: 'Duplex', description: '-' }
-      ], */
       locations: []
     }
   },
@@ -193,6 +182,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      accounts: 'account/accounts',
+      appartments: 'appartment/appartments'
+    }),
+
     connectedUser () {
       return this.$auth.user
     },
@@ -222,6 +216,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loadAccounts: 'account/loadAccounts'
+    }),
+
     toDetails (account) {
       this.$router.push({ path: '/dashboard/accounts/' + account.id })
     },
@@ -241,8 +239,9 @@ export default {
             await this.$api.firebaseStorageService.delete({ filePath })
           }
         }
+        await this.loadAccounts()
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     }
   }
