@@ -76,10 +76,6 @@ export default {
     isMobile: {
       type: Boolean,
       default: false
-    },
-    loadAppartmentTypesFunc: {
-      type: Function,
-      required: true
     }
   },
   data () {
