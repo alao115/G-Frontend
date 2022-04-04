@@ -177,12 +177,6 @@ export default {
 
   // eslint-disable-next-line require-await
   async asyncData ({ $api, store }) {
-    // await store.dispatch('appartment/loadAppartments')
-    // await store.dispatch('appartmentType/loadAppartmentTypes')
-    // await store.dispatch('account/loadAccounts')
-    // await store.dispatch('reservation/loadReservations')
-    // await store.dispatch('publication/loadPublications')
-    // await store.dispatch('visit/loadVisits')
     if (!store.getters['appartment/appartments'].length) {
       await store.dispatch('appartment/loadAppartments')
     }
@@ -191,9 +185,9 @@ export default {
       await store.dispatch('appartmentType/loadAppartmentTypes')
     }
 
-    if (!store.getters['account/accounts'].length) {
-      await store.dispatch('account/loadAccounts')
-    }
+    // if (!store.getters['account/accounts'].length) {
+    //   await store.dispatch('account/loadAccounts')
+    // }
 
     if (!store.getters['reservation/reservations'].length) {
       await store.dispatch('reservation/loadReservations')
@@ -213,7 +207,7 @@ export default {
 
   data () {
     return {
-      title: 'Publications',
+      title: 'Appartements',
       isListLayout: true,
       appartmentToEdit: {},
       isFilterTrayOpened: false,
@@ -233,8 +227,8 @@ export default {
       appartmentTypes: 'appartmentType/appartmentTypes',
       publications: 'publication/publications',
       reservations: 'reservation/reservations',
-      visits: 'visit/visits',
-      accounts: 'account/accounts'
+      visits: 'visit/visits'
+      // accounts: 'account/accounts'
     }),
 
     publication () {

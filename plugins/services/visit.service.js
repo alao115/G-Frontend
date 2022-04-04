@@ -1,5 +1,5 @@
 export default ({ apollo, gql }) => class VisitService {
-  getAll ({ projections, variables } = { projections: 'id appartment user date status', variables: {} }) {
+  getAll ({ projections, variables } = { projections: 'id appartment visitorInfos { firstname lastname phone email } date status', variables: {} }) {
     return apollo.query({ query: gql`query { visits { ${projections} } }`, variables })
   }
 
@@ -11,8 +11,8 @@ export default ({ apollo, gql }) => class VisitService {
     // console.log('variables: ', variables)
     delete variables?.data.__typename
     delete variables?.data.id
-    delete variables?.data?.user?.__typename
-    return apollo.mutate({ mutation: gql`mutation updateVisit($data: visitData, $visitId: ID!) { updateVisit(visitId: $visitId, data: $data) { id } }`, variables })
+    delete variables?.data?.visitorInfos?.__typename
+    return apollo.mutate({ mutation: gql`mutation updateVisit($data: visitData, $visitId: ID!) { updateVisit(visitId: $visitId, data: $data) { appartment } }`, variables })
   }
 
   delete ({ projections, variables } = { projections: 'id ', variables: {} }) {
