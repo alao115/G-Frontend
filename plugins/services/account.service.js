@@ -12,6 +12,10 @@ export default ({ apollo, gql }, $axios) => class AccountService {
     return apollo.mutate({ mutation: gql`mutation deleteAccount($accountId: ID!) { deleteAccount(accountId: $accountId ) { id } }`, variables })
   }
 
+  authUserAccount ({ projections, variables } = { projections: 'id user { userType emailVerified } status firstname lastname civility phone email', variables: {} }) {
+    return apollo.query({ query: gql`query { authUserAccount { ${projections} } }`, variables })
+  }
+
   signup (data) {
     return $axios.post('/auth/signup', data)
   }

@@ -54,12 +54,13 @@ export default {
       this.onRequest = true
       this.$api.authService.resetPassword({ password: this.passwordData.confirmed, email: this.$store.getters['customAuth/passwordEmailVerificationResponse'].email })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           this.onRequest = false
           this.$router.push({ name: 'auth-password-forgotten-success-new-password', params: { success: !!data.success } })
+        // eslint-disable-next-line node/handle-callback-err
         }).catch((error) => {
           this.onRequest = false
-          console.log(error)
+          // console.log(error)
         })
     }
   }

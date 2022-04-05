@@ -69,7 +69,7 @@
               <p class="text-base mt-4 text-gray-400">
                 Qui le visitera ?
               </p>
-              <select name="visitorSelect" id="" v-model="visitorSelected" class="w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
+              <select id="" v-model="visitorSelected" name="visitorSelect" class="w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
                 <option value="Connected user" selected>
                   <span>Moi-même</span>
                 </option>
@@ -91,7 +91,9 @@
                 <!-- <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
                 <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure"> -->
                 <select v-model="newVisit.day" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <option value="default" selected>Choisissez un jour</option>
+                  <option value="default" selected>
+                    Choisissez un jour
+                  </option>
                   <option v-for="day in days" :key="day.id" :value="day.id">
                     {{ day.label }}
                   </option>

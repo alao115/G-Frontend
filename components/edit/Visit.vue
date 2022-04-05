@@ -82,6 +82,15 @@ export default {
     isMinified: {
       type: Boolean,
       default: false
+    },
+    appartmentsProp: {
+      type: Array,
+      // default: () => ([]),
+      required: true
+    },
+    loadVisitsFunc: {
+      type: Function,
+      required: true
     }
   },
   data () {
@@ -93,39 +102,39 @@ export default {
       currentStep: 'first',
       isDismissed: true,
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
+      appartments: [...this.appartmentsProp],
+      // appartmentTypes: [],
+      // publications: [],
+      // reservations: [],
       locations: [],
       selectedAppart: '',
       onUpdated: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
+  // async fetch () {
+  //   // this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
+  //   // this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
+  //   // this.publications = (await this.$api.publicationService.getAll()).data.publications
+  //   // this.reservations = (await this.$api.reservationService.getAll()).data.reservations
+  //   // this.visits = (await this.$api.visitService.getAll()).data.visits
+  //   // this.accounts = (await this.$api.accountService.getAll()).data.accounts
+  // },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
     },
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
+    // publication () {
+    //   return id => this.publications.find(publication => publication.id === id)
+    // },
+    // reservation () {
+    //   return id => this.reservations.find(reservation => reservation.id === id)
+    // },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
+    // appartmentType () {
+    //   return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    // },
     user () {
       return id => this.users.find(user => user.id === id)
     },
@@ -134,16 +143,16 @@ export default {
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
-    },
-    listOfTypes () {
-      const returnedListOfTypes = []
-      this.appartmentTypes.forEach((type) => {
-        if (this.typeAppartments(type.id).length > 0) {
-          returnedListOfTypes.push(type)
-        }
-      })
-      return returnedListOfTypes
     }
+    // listOfTypes () {
+    //   const returnedListOfTypes = []
+    //   this.appartmentTypes.forEach((type) => {
+    //     if (this.typeAppartments(type.id).length > 0) {
+    //       returnedListOfTypes.push(type)
+    //     }
+    //   })
+    //   return returnedListOfTypes
+    // }
   },
   watch: {
     selectedType (value) {
@@ -173,8 +182,6 @@ export default {
     editVisit () {
       this.onUpdated = true
       this.visitToEdit.appartment = this.visitToEdit.appartment.id
-      // this.visitToEdit.user = this.visitToEdit.user.id
-      // this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
 
       this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: { ...this.visitToEdit, visitorInfos: { ...this.visitorInfos } } } })
         .then((response) => {

@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen overflow-x-hidden">
-    <WebsiteTheNavbar />
+    <WebsiteTheNavbar :connected-user="connectedUser" />
     <Nuxt />
     <WebsiteHomeAdvantages />
     <WebsitePublications :in-home-page="false" :in-index="true" :appartments="appartments" :appartment-types="appartmentTypes" />
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
 
   data () {
@@ -20,7 +22,16 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      connectedUser: 'account/authUserAccount'
+    })
+  },
+
+  // eslint-disable-next-line vue/order-in-components
   async fetch () {
+    if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
+
     this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
     this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
   },

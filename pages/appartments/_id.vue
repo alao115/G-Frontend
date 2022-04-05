@@ -4,27 +4,27 @@
     <div class="">
       <div class="flex mb-8">
         <h4 class="text-2xl font-medium mb-2">
-          {{ appartmentType(appartment.appartmentType).label }} <br>
+          {{ appartment && appartmentType(appartment.appartmentType).label }} <br>
           <span class="text-gray-400 text-sm">{{ appartment.bedrooms }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
         </h4>
         <div class="flex flex-col absolute top-24 right-8 items-end">
-          <button class="flex items-center justify-center w-12 h-12 p-4 bg-white block text-center text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
+          <button class="flex items-center justify-center w-12 h-12 p-4 bg-white  text-center text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
             <p class="leading-none text-left flex flex-col">
               <span v-if="contextMenuIsOpen" class="text-sm mt-1 text-gray-400"><i class="far fa-times fa-lg" /></span>
               <span v-else class="text-sm mt-1 text-gray-400"><i class="fas fa-ellipsis-v fa-lg" /></span>
             </p>
           </button>
           <div v-if="contextMenuIsOpen" class="absolute flex flex-col mt-14 lg:mt-20 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-            <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
+            <a class="flex flex-col py-1 px-8 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
               <span class="font-medium">Modifier</span>
             </a>
-            <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
+            <a class="flex flex-col py-1 px-8 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Réserver</span>
             </a>
-            <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
+            <a class="flex flex-col py-1 px-8 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Visiter</span>
             </a>
-            <NuxtLink to="/dashboard/appartements" class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200">
+            <NuxtLink to="/dashboard/appartements" class="flex flex-col px-8 py-4 hover:bg-gray-200">
               <span class="font-medium">Retour</span>
             </NuxtLink>
           </div>
@@ -257,29 +257,39 @@
               Les frais de visites s’élève à 2000 f cfa.
               Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
             </p>
-            <NewVisit :appartment="appartment" />
+            <NewVisit
+              :appartments-prop="appartments"
+              :appartment-types="appartmentTypes"
+              :load-visits-func="() => {}"
+            />
           </div>
         </div>
       </div>
     </div>
-    <WebsitePublications :in-details="true" />
+    <WebsitePublications :in-details="true" :appartments="appartments" :appartment-types="appartmentTypes" />
     <WebsiteTheFooter />
   </div>
 </template>
 
 <script>
 export default {
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+  async asyncData ({ $api }) {
+    const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
+    const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+
+    return {
+      appartments,
+      appartmentTypes
+    }
   },
+
   data () {
     return {
       id: this.$route.params.id,
-      appartments: [],
-      appartmentTypes: []
+      contextMenuIsOpen: false
     }
   },
+
   computed: {
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)

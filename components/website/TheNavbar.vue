@@ -23,16 +23,18 @@
         </button>
         <div v-if="authUserDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white mt-12 right-36">
           <div class="flex flex-col space-y-4">
-            <p class="text-sm text-gray-400">{{ 'Bonjour, ' + connectedUser.firstname }}</p>
+            <p class="text-sm text-gray-400">
+              {{ 'Bonjour, ' + `${connectedUser ? connectedUser.firstname + ' ' + connectedUser.lastname : 'Mr./Mme.'}` }}
+            </p>
             <hr>
             <NuxtLink to="#" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Mon profil
             </NuxtLink>
-            <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
+            <NuxtLink v-if="connectedUser.user.userType === 0 || connectedUser.user.userType === 1" to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Dashboard
             </NuxtLink>
             <hr>
-            <a class="nuxt-link-active cursor-pointer" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
+            <a class="nuxt-link-active cursor-pointer" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="() => $auth.logout().then(() => $store.commit('account/setAuthUserAccount', null)) ">
               Se déconnecter
             </a>
           </div>
@@ -79,10 +81,10 @@
                   <NuxtLink to="#" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Mon profil
                   </NuxtLink>
-                  <NuxtLink v-if="connectedUser.userType === 0 || connectedUser.userType === 1" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                  <NuxtLink v-if="connectedUser.user.userType === 0 || connectedUser.user.userType === 1" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Dashboard
                   </NuxtLink>
-                  <a class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="$auth.logout()">
+                  <a class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="() => $auth.logout().then(() => $store.commit('account/setAuthUserAccount', null))">
                     Se déconnecter
                   </a>
                 </template>
@@ -104,7 +106,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  props: {
+    // connectedUser: {
+    //   type: Object,
+    //   default: () => ({})
+    // }
+  },
   data () {
     return {
       isMinified: false,
@@ -113,9 +123,9 @@ export default {
     }
   },
   computed: {
-    connectedUser () {
-      return this.$auth.user
-    }
+    ...mapGetters({
+      connectedUser: 'account/authUserAccount'
+    })
   },
   beforeMount () {
     window.addEventListener('scroll', this.handleScroll)
@@ -123,6 +133,10 @@ export default {
   beforeDestroy () {
     window.removeEventListener('scroll', this.handleScroll)
   },
+  mounted () {
+    // console.log(this.connectedUser)
+  },
+
   methods: {
     handleScroll () {
       // console.log(window.scrollY)
