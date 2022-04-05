@@ -91,6 +91,10 @@ export default {
     loadVisitsFunc: {
       type: Function,
       required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -132,9 +136,9 @@ export default {
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
-    // appartmentType () {
-    //   return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    // },
+    appartmentType () {
+      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    },
     user () {
       return id => this.users.find(user => user.id === id)
     },

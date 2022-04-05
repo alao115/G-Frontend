@@ -9,6 +9,7 @@
     <EditVisit
       :visit="visitToEdit"
       :appartments-prop="appartments"
+      :appartment-types="appartmentTypes"
       :load-visits-func="loadVisits"
     />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
