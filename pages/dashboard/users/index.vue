@@ -83,10 +83,10 @@
               <span>{{ account.email }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-32 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
-              <span>{{ account.user.userType }}</span>
+              <span v-if="account.user">{{ account.user.userType }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
-              <span v-if="connectedUser.email === account.email ">Connecté</span>
+              <span v-if="account.user && account.user.email === connectedUser.email">Connecté</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
               <span />

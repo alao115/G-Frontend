@@ -66,17 +66,36 @@
                   </option>
                 </select>
               </div>
-              <div class="flex space-x-8">
-                <input v-model.trim="newVisit.visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-                <input v-model.trim="newVisit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+              <p class="text-base mt-4 text-gray-400">
+                Qui le visitera ?
+              </p>
+              <select name="visitorSelect" id="" v-model="visitorSelected" class="w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
+                <option value="Connected user" selected>
+                  <span>Moi-même</span>
+                </option>
+                <option value="Other">
+                  <span>Autre</span>
+                </option>
+              </select>
+              <div v-if="visitorSelected === 'Other'">
+                <div class="flex space-x-8">
+                  <input v-model.trim="newVisit.visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                  <input v-model.trim="newVisit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+                </div>
+                <div class="flex space-x-8">
+                  <input v-model.trim="newVisit.visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+                  <input v-model.trim="newVisit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+                </div>
               </div>
               <div class="flex space-x-8">
-                <input v-model.trim="newVisit.visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                <input v-model.trim="newVisit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
-              </div>
-              <div class="flex space-x-8">
-                <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+                <!-- <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure"> -->
+                <select v-model="newVisit.day" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                  <option value="default" selected>Choisissez un jour</option>
+                  <option v-for="day in days" :key="day.id" :value="day.id">
+                    {{ day.label }}
+                  </option>
+                </select>
               </div>
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
@@ -98,9 +117,13 @@
             </div>
           </form>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer py-4 px-8 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-4">
+        <div v-if="currentStep !== 'congrats'" class="footer py-4 px-8 lg:px-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-4">
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 lg:mt-8" @click.prevent="isDismissed = true">
             Annuler
+          </button>
+          <button type="button" class="relative w-1/3 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="payLater">
+            Enreg.
+            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
           <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Payer puis Enreg.
@@ -147,6 +170,7 @@ export default {
   },
   data () {
     return {
+      visitorSelected: 'Connected user',
       appartmentId: this.$route.params.id,
       selectedType: '',
       typeSelectIsOpen: false,
@@ -154,11 +178,23 @@ export default {
       isDismissed: true,
       contracts: [],
       locations: [],
-      newVisit: { visitorInfos: {} },
+      newVisit: { visitorInfos: {}, day: 'default' },
       appartments: [...this.appartmentsProp],
       selectedAppart: '',
       visitResponse: null,
-      onCreated: false
+      onCreated: false,
+      selectedDay: '',
+      selectedTimeslot: '',
+      days: [
+        { id: 1, label: 'Lundi' },
+        { id: 2, label: 'Mardi' },
+        { id: 3, label: 'Mercredi' },
+        { id: 4, label: 'Jeudi' },
+        { id: 5, label: 'Vendredi' },
+        { id: 6, label: 'Samedi' },
+        { id: 7, label: 'Dimanche' }
+      ],
+      timeSlots: ['8h - 9h', '9h - 10h', '10h - 11h', '11h - 12h', '12h - 13h', '13h - 14h', '14H - 15H', '15h - 16h', '16H - 17H', '17H - 18H']
     }
   },
 
@@ -232,6 +268,16 @@ export default {
         .then(({ data }) => {
           this.visitResponse = data.createVisit
           this.open()
+        })
+        .catch((error) => {
+          this.errorToshow = error
+        })
+    },
+    payLater () {
+      this.onCreated = true
+      this.$api.visitService.create({ variables: { data: this.newVisit } })
+        .then(({ data }) => {
+          this.visitResponse = data.createVisit
         })
         .catch((error) => {
           this.errorToshow = error

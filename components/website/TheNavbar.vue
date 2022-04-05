@@ -23,6 +23,8 @@
         </button>
         <div v-if="authUserDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white mt-12 right-36">
           <div class="flex flex-col space-y-4">
+            <p class="text-sm text-gray-400">{{ 'Bonjour, ' + connectedUser.firstname }}</p>
+            <hr>
             <NuxtLink to="#" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Mon profil
             </NuxtLink>

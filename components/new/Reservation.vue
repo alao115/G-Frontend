@@ -83,11 +83,15 @@
             </div>
           </div>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
+        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-8">
+          <button type="button" class="py-4 text-lg px-4 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" :disabled="newReservation.t" @click.prevent="createReservation">
+          <button type="button" class="relative shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" :disabled="newReservation.t" @click.prevent="payLater">
+            Enreg.
+            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+          </button>
+          <button type="button" class="relative shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" :disabled="newReservation.t" @click.prevent="createReservation">
             Payer puis Enreg.
             <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
@@ -200,6 +204,17 @@ export default {
         .then(({ data }) => {
           this.reservationResponse = data.createReservation.id
           this.open()
+        })
+        .catch((error) => {
+          this.errorToshow = error
+        })
+    },
+
+    payLater () {
+      this.onCreated = true
+      this.$api.reservationService.create({ variables: { data: this.newReservation } })
+        .then(({ data }) => {
+          this.reservationResponse = data.createReservation.id
         })
         .catch((error) => {
           this.errorToshow = error
