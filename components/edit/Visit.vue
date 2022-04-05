@@ -27,12 +27,12 @@
                 </select>
               </div>
               <div class="flex space-x-8">
-                <input type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom" :value="visitToEdit.visitorInfos.firstname" @change="e => visitToEdit.visitorInfos.firstname = e.target.value">
-                <input v-model.trim="visitToEdit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+                <input v-model.trim="visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                <input v-model.trim="visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
               </div>
               <div class="flex space-x-8">
-                <input v-model.trim="visitToEdit.visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                <input v-model.trim="visitToEdit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+                <input v-model.trim="visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+                <input v-model.trim="visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
               </div>
               <div class="flex space-x-8">
                 <input v-model="visitToEdit.date" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
@@ -88,6 +88,7 @@ export default {
     return {
       selectedType: '',
       visitToEdit: { ...this.visit },
+      visitorInfos: { ...this.visit.visitorInfos },
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
@@ -153,12 +154,14 @@ export default {
     visit (value) {
       if (value !== null) {
         this.visitToEdit = { ...value }
+        this.visitorInfos = { ...value.visitorInfos }
         this.isDismissed = false
       }
     }
   },
   mounted () {
     this.visitToEdit = { ...this.visit }
+    this.visitInfos = { ...this.visit.visitorInfos }
   },
   methods: {
     resetVisitorData () {
@@ -173,7 +176,7 @@ export default {
       // this.visitToEdit.user = this.visitToEdit.user.id
       // this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
 
-      this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: { ...this.visitToEdit } } })
+      this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: { ...this.visitToEdit, visitorInfos: { ...this.visitorInfos } } } })
         .then((response) => {
           this.currentStep = 'congrats'
         })
