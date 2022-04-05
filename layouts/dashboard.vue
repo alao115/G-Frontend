@@ -15,7 +15,7 @@
           </button>
         </div>
       </div>
-      <Nuxt class="pt-16"/>
+      <Nuxt class="pt-16" />
     </div>
     <TheDashboardBottomBar />
     <div class="flex items-center h-16 border border-gray-300 pr-4 w-full max-w-md shadow-lg font-body absolute right-0 lg:right-2 top-0 lg:top-2 z-10 bg-sky-50" :class="isDismissed === true ? 'hidden' : ''">
@@ -53,12 +53,6 @@ export default {
       addDropdownDismissed: true
     }
   },
-  created () {
-    this.$nuxt.$on('is-minified', ($value) => {
-      // alert('dans layout dashboard')
-      this.isMinified = $value
-    })
-  },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
@@ -90,6 +84,12 @@ export default {
       }
       return returnableValue
     }
+  },
+  created () {
+    this.$nuxt.$on('is-minified', ($value) => {
+      // alert('dans layout dashboard')
+      this.isMinified = $value
+    })
   },
   methods: {
     logout () {

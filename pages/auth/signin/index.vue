@@ -148,6 +148,7 @@ export default {
               this.$router.push({ name: 'auth-signup-request-email-verification', params: { email: this.user.email } })
               break
             case true:
+              this.$store.dispatch('account/getAuthUserAccount')
               this.setOnSignin(false)
               this.$router.push({ name: 'dashboard' })
               break

@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-x-hidden font-body p-8 lg:px-8">
-    <EditAppartment :appartment="appartmentToEdit" />
+    <EditAppartment :appartment="appartmentToEdit" :load-appartments-func="() => {}" :appartment-types="appartmentTypes" />
     <div class="">
       <div class="flex mb-8">
         <h4 class="text-2xl font-medium mb-2">
@@ -8,23 +8,23 @@
           <span class="text-gray-400 text-sm">{{ appartment.bedrooms }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
         </h4>
         <div class="flex flex-col absolute top-24 right-8 items-end">
-          <button class="flex items-center justify-center w-12 h-12 p-4 bg-white block text-center text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
+          <button class="flex items-center justify-center w-12 h-12 p-4 bg-white text-center text-base border -lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
             <p class="leading-none text-left flex flex-col">
               <span v-if="contextMenuIsOpen" class="text-sm mt-1 text-gray-400"><i class="far fa-times fa-lg" /></span>
               <span v-else class="text-sm mt-1 text-gray-400"><i class="fas fa-ellipsis-v fa-lg" /></span>
             </p>
           </button>
           <div v-if="contextMenuIsOpen" class="absolute flex flex-col mt-14 lg:mt-20 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-            <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
+            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
               <span class="font-medium">Modifier</span>
             </a>
-            <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
+            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Réserver</span>
             </a>
-            <a class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
+            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Visiter</span>
             </a>
-            <NuxtLink to="/dashboard/appartements" class="flex flex-col py-1 px-8 py-4 hover:bg-gray-200">
+            <NuxtLink to="/dashboard/appartements" class="flex flex-col px-8 py-4 hover:bg-gray-200">
               <span class="font-medium">Retour</span>
             </NuxtLink>
           </div>
@@ -257,7 +257,11 @@
               Les frais de visites s’élève à 2000 f cfa.
               Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
             </p>
-            <NewVisit :appartment="appartment" />
+            <NewVisit
+              :appartments-prop="appartments"
+              :appartment-types="appartmentTypes"
+              :load-visits-func="() => {}"
+            />
           </div>
         </div>
       </div>
@@ -266,23 +270,37 @@
 </template>
 
 <script>
+
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   layout: 'dashboard',
-  async asyncData ({ $api }) {
-    const appartments = (await $api.appartmentService.getAll()).data.appartments
-    const appartmentTypes = (await $api.appartmentTypeService.getAll()).data.appartmentTypes
-    const publications = (await $api.publicationService.getAll()).data.publications
-    const reservations = (await $api.reservationService.getAll()).data.reservations
-    const visits = (await $api.visitService.getAll()).data.visits
-    const accounts = (await $api.accountService.getAll()).data.accounts
+  async asyncData ({ $api, store }) {
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['appartmentType/appartmentTypes'].length) {
+      await store.dispatch('appartmentType/loadAppartmentTypes')
+    }
+
+    // if (!store.getters['account/accounts'].length) {
+    //   await store.dispatch('account/loadAccounts')
+    // }
+
+    if (!store.getters['reservation/reservations'].length) {
+      await store.dispatch('reservation/loadReservations')
+    }
+
+    if (!store.getters['publication/publications'].length) {
+      await store.dispatch('publication/loadPublications')
+    }
+
+    if (!store.getters['visit/visits'].length) {
+      await store.dispatch('visit/loadVisits')
+    }
 
     return {
-      appartments,
-      appartmentTypes,
-      publications,
-      reservations,
-      visits,
-      accounts
     }
   },
   data () {
@@ -293,6 +311,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      appartmentTypes: 'appartmentType/appartmentTypes',
+      publications: 'publication/publications',
+      reservations: 'reservation/reservations',
+      visits: 'visit/visits'
+      // accounts: 'account/accounts'
+    }),
+
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
     },
@@ -301,6 +328,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loadAppartments: 'appartment/loadAppartments'
+    }),
+
     setToEdition (appartment) {
       this.appartmentToEdit = appartment
     },
@@ -310,6 +341,7 @@ export default {
         .then(({ data }) => {
           this.appartments = data.appartments
         })
+        // eslint-disable-next-line no-console
         .catch(error => console.log(error))
     }
   }

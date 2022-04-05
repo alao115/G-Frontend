@@ -27,12 +27,12 @@
                 </select>
               </div>
               <div class="flex space-x-8">
-                <input type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom" :value="visitToEdit.visitorInfos.firstname" @change="e => visitToEdit.visitorInfos.firstname = e.target.value">
-                <input v-model.trim="visitToEdit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+                <input v-model.trim="visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                <input v-model.trim="visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
               </div>
               <div class="flex space-x-8">
-                <input v-model.trim="visitToEdit.visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                <input v-model.trim="visitToEdit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+                <input v-model.trim="visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+                <input v-model.trim="visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
               </div>
               <div class="flex space-x-8">
                 <input v-model="visitToEdit.date" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
@@ -82,43 +82,57 @@ export default {
     isMinified: {
       type: Boolean,
       default: false
+    },
+    appartmentsProp: {
+      type: Array,
+      // default: () => ([]),
+      required: true
+    },
+    loadVisitsFunc: {
+      type: Function,
+      required: true
+    },
+    appartmentTypes: {
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
       selectedType: '',
       visitToEdit: { ...this.visit },
+      visitorInfos: { ...this.visit.visitorInfos },
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
       contracts: [],
-      appartments: [],
-      appartmentTypes: [],
-      publications: [],
-      reservations: [],
+      appartments: [...this.appartmentsProp],
+      // appartmentTypes: [],
+      // publications: [],
+      // reservations: [],
       locations: [],
       selectedAppart: '',
       onUpdated: false
     }
   },
-  async fetch () {
-    this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
-    this.publications = (await this.$api.publicationService.getAll()).data.publications
-    this.reservations = (await this.$api.reservationService.getAll()).data.reservations
-    this.visits = (await this.$api.visitService.getAll()).data.visits
-    this.accounts = (await this.$api.accountService.getAll()).data.accounts
-  },
+  // async fetch () {
+  //   // this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
+  //   // this.appartmentTypes = (await this.$api.appartmentTypeService.getAll()).data.appartmentTypes
+  //   // this.publications = (await this.$api.publicationService.getAll()).data.publications
+  //   // this.reservations = (await this.$api.reservationService.getAll()).data.reservations
+  //   // this.visits = (await this.$api.visitService.getAll()).data.visits
+  //   // this.accounts = (await this.$api.accountService.getAll()).data.accounts
+  // },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
     },
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
+    // publication () {
+    //   return id => this.publications.find(publication => publication.id === id)
+    // },
+    // reservation () {
+    //   return id => this.reservations.find(reservation => reservation.id === id)
+    // },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
@@ -133,16 +147,16 @@ export default {
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
-    },
-    listOfTypes () {
-      const returnedListOfTypes = []
-      this.appartmentTypes.forEach((type) => {
-        if (this.typeAppartments(type.id).length > 0) {
-          returnedListOfTypes.push(type)
-        }
-      })
-      return returnedListOfTypes
     }
+    // listOfTypes () {
+    //   const returnedListOfTypes = []
+    //   this.appartmentTypes.forEach((type) => {
+    //     if (this.typeAppartments(type.id).length > 0) {
+    //       returnedListOfTypes.push(type)
+    //     }
+    //   })
+    //   return returnedListOfTypes
+    // }
   },
   watch: {
     selectedType (value) {
@@ -153,12 +167,14 @@ export default {
     visit (value) {
       if (value !== null) {
         this.visitToEdit = { ...value }
+        this.visitorInfos = { ...value.visitorInfos }
         this.isDismissed = false
       }
     }
   },
   mounted () {
     this.visitToEdit = { ...this.visit }
+    this.visitInfos = { ...this.visit.visitorInfos }
   },
   methods: {
     resetVisitorData () {
@@ -170,10 +186,8 @@ export default {
     editVisit () {
       this.onUpdated = true
       this.visitToEdit.appartment = this.visitToEdit.appartment.id
-      // this.visitToEdit.user = this.visitToEdit.user.id
-      // this.visitToEdit.date = new Date(this.visitToEdit.date).valueOf().toString()
 
-      this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: { ...this.visitToEdit } } })
+      this.$api.visitService.update({ variables: { visitId: this.visitToEdit.id, data: { ...this.visitToEdit, visitorInfos: { ...this.visitorInfos } } } })
         .then((response) => {
           this.currentStep = 'congrats'
         })
