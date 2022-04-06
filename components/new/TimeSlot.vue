@@ -44,7 +44,7 @@
               <label v-for="(day, count) in days" :for="day.label" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                 <input
                   v-model="selectedDays"
-                  :value="day.label"
+                  :value="day"
                   type="checkbox"
                   :name="day.label"
                   :id="day.label"
@@ -54,23 +54,31 @@
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="first">
-            <p class="text-base mt-8 mb-4 text-gray-400">
-              Horaires disponibles
-            </p>
-            <div class="grid grid-cols-4 gap-4 mb-4">
-              <label for="#" class="p-2 py-4 bg-sky-50 align-center justify-center col-span-4">
-                <input type="checkbox" name="" id="" class="mr-2">
-                Tous les créneaux
-              </label>
+            {{ newTimeslots }}
+            <div class="tabs flex space-x-8 pt-4">
+              <a v-for="(day, count) in selectedDays" :key="count" href="#" class="tab" @click.prevent="activeDayToPopulate = day">{{ day.label }}</a>
             </div>
-            <p class="text-base my-4 text-gray-400">
-              Faites votre choix
-            </p>
-            <div class="grid grid-cols-4 gap-4">
-              <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                <input type="checkbox" :name="slot" :id="slot" class="mr-2">
-                {{ slot }}
-              </label>
+            <div v-for="(day, count) in selectedDays" :key="count" class="day-slots" :v-model="activeDaySlots[day]">
+              <div v-if="activeDayToPopulate[count] === day">
+                <p class="text-base mt-8 mb-4 text-gray-400">
+                  Horaires disponibles {{ day.label }}
+                </p>
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                  <label for="#" class="p-2 py-4 bg-sky-50 align-center justify-center col-span-4">
+                    <input type="checkbox" name="" id="" class="mr-2">
+                    Tous les créneaux
+                  </label>
+                </div>
+                <p class="text-base my-4 text-gray-400">
+                  Faites votre choix
+                </p>
+                <div class="grid grid-cols-4 gap-4">
+                  <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                    <input type="checkbox" :name="slot" :id="slot" class="mr-2">
+                    {{ slot }}
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
           <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
@@ -91,7 +99,7 @@
             <span v-else>Revenir</span>
           </button>
           <!-- <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newType.label || !newType.description " @click.prevent="createAppartType"> -->
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? currentStep = 'second' : createAppartType">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? [currentStep = 'second', associateDayAndSlot] : createAppartType">
             <span v-if="currentStep === 'second'">
               Enregistrer les horaires
             </span>
@@ -123,6 +131,8 @@ export default {
   },
   data () {
     return {
+      activeDayToPopulate: '',
+      activeDaySlots: [],
       currentStep: 'first',
       isDismissed: true,
       newType: {},
@@ -140,7 +150,18 @@ export default {
         { id: 6, label: 'Samedi' },
         { id: 7, label: 'Dimanche' }
       ],
-      timeSlots: ['8h - 9h', '9h - 10h', '10h - 11h', '11h - 12h', '12h - 13h', '13h - 14h', '14H - 15H', '15h - 16h', '16H - 17H', '17H - 18H']
+      timeSlots: [
+        { '8h - 9h': false },
+        { '9h - 10h': false },
+        { '10h - 11h': false },
+        { '11h - 12h': false },
+        { '12h - 13h': false },
+        { '13h - 14h': false },
+        { '14H - 15H': false },
+        { '15h - 16h': false },
+        { '16H - 17H': false },
+        { '17H - 18H': false }
+      ]
     }
   },
   computed: {
@@ -194,6 +215,12 @@ export default {
       this.isDismissed = true
       this.currentStep = 'first'
       this.selectedDays = []
+    },
+    associateDayAndSlot () {
+      this.selectedDays.forEach((day) => {
+        alert('trying to associate')
+        this.newTimeslots.push({ day: this.timeSlots })
+      })
     },
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
