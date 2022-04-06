@@ -18,6 +18,7 @@
             <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
               <span class="font-medium">Modifier</span>
             </a>
+            <NewTimeSlot :in-detail="true" />
             <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Réserver</span>
             </a>

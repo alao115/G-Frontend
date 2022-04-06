@@ -1,6 +1,9 @@
 <template>
   <div class="contents">
-    <span class="icon cursor:pointer p-2" @click.prevent="isDismissed = false">
+    <a v-if="inDetail" class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="isDismissed = false">
+      <span class="font-medium">Créneaux</span>
+    </a>
+    <span v-else class="icon cursor:pointer p-2" @click.prevent="isDismissed = false">
       <i class="far fa-calendar-alt" />
     </span>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
@@ -54,14 +57,14 @@
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="first">
-            {{ newTimeslots }}
-            <div class="tabs flex space-x-8 pt-4">
+            <!-- {{ newTimeslots }} -->
+            <!-- <div class="tabs flex space-x-8 pt-4">
               <a v-for="(day, count) in selectedDays" :key="count" href="#" class="tab" @click.prevent="activeDayToPopulate = day">{{ day.label }}</a>
-            </div>
-            <div v-for="(day, count) in selectedDays" :key="count" class="day-slots" :v-model="activeDaySlots[day]">
-              <div v-if="activeDayToPopulate[count] === day">
+            </div> -->
+            <div>
+              <div>
                 <p class="text-base mt-8 mb-4 text-gray-400">
-                  Horaires disponibles {{ day.label }}
+                  Horaires disponibles
                 </p>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                   <label for="#" class="p-2 py-4 bg-sky-50 align-center justify-center col-span-4">
@@ -127,6 +130,10 @@ export default {
     isMobile: {
       type: Boolean,
       default: false
+    },
+    inDetail: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -151,16 +158,16 @@ export default {
         { id: 7, label: 'Dimanche' }
       ],
       timeSlots: [
-        { '8h - 9h': false },
-        { '9h - 10h': false },
-        { '10h - 11h': false },
-        { '11h - 12h': false },
-        { '12h - 13h': false },
-        { '13h - 14h': false },
-        { '14H - 15H': false },
-        { '15h - 16h': false },
-        { '16H - 17H': false },
-        { '17H - 18H': false }
+        '8h - 9h',
+        '9h - 10h',
+        '10h - 11h',
+        '11h - 12h',
+        '12h - 13h',
+        '13h - 14h',
+        '14H - 15H',
+        '15h - 16h',
+        '16H - 17H',
+        '17H - 18H'
       ]
     }
   },
