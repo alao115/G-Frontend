@@ -102,7 +102,7 @@
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
                   Les frais de visites s’élèvent à 2000 f cfa.
-                  Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
+                  Vous avez la possibilité de 3 visites. Une équipe est mise à votre disposition pour un service de qualité.
                 </p>
               </div>
             </div>

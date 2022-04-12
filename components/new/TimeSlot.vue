@@ -75,6 +75,30 @@
                 <p class="text-base my-4 text-gray-400">
                   Faites votre choix
                 </p>
+                <!-- {{ selectedDays }} -->
+                <div class="flex border-b border-gray-200 dark:border-gray-700">
+                  <!-- <button v-for="day in selectedDays" :key="day.id" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 border-blue-500 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none">
+                    {{ day.label }}
+                  </button> -->
+                  <button v-if="findDay('Lundi')" :class="mondayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="allTabClosed, mondayTabIsOpen = true">
+                    Lundi
+                  </button>
+                  <button v-if="findDay('Mardi')" :class="tuesdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="allTabClosed, tuesdayTabIsOpen = true">
+                    Mardi
+                  </button>
+                  <button v-if="findDay('Mercredi')" :class="wednesdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="allTabClosed, wednesdayTabIsOpen = true">
+                    Mercredi
+                  </button>
+                  <button v-if="findDay('Jeudi')" :class="thursdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="allTabClosed, thursdayTabIsOpen = true">
+                    Jeudi
+                  </button>
+                  <button v-if="findDay('Vendredi')" :class="fridayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="allTabClosed, fridayTabIsOpen = true">
+                    Vendredi
+                  </button>
+                  <button v-if="findDay('Samedi')" :class="saturdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="allTabClosed, saturdayTabIsOpen = true">
+                    Samedi
+                  </button>
+                </div>
                 <div class="grid grid-cols-4 gap-4">
                   <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                     <input type="checkbox" :name="slot" :id="slot" class="mr-2">
@@ -148,6 +172,12 @@ export default {
       selectedDays: [],
       newTimeslot: {},
       newTimeslots: [],
+      mondayTabIsOpen: true,
+      tuesdayTabIsOpen: false,
+      wednesdayTabIsOpen: false,
+      thursdayTabIsOpen: false,
+      fridayTabIsOpen: false,
+      saturdayTabIsOpen: false,
       days: [
         { id: 1, label: 'Lundi' },
         { id: 2, label: 'Mardi' },
@@ -196,6 +226,9 @@ export default {
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
     },
+    findDay () {
+      return label => this.selectedDays.find(day => day.label === label)
+    },
     selectAllDays: {
       get () {
         return this.days ? this.selectedDays.length === this.days.length : false
@@ -218,6 +251,14 @@ export default {
     }
   },
   methods: {
+    allTabClosed () {
+      this.mondayTabIsOpen = false
+      this.tuesdayTabIsOpen = false
+      this.wednesdayTabIsOpen = false
+      this.thursdayTabIsOpen = false
+      this.fridayTabIsOpen = false
+      this.saturdayTabIsOpen = false
+    },
     toDismiss () {
       this.isDismissed = true
       this.currentStep = 'first'

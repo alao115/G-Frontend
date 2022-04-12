@@ -62,6 +62,9 @@
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>VISITES</span>
           </div>
+          <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
+            <span>PUBLIÉ</span>
+          </div>
         </div>
         <div class="overflow-auto custom__scroll py-4">
           <div v-for="(appart, count) in appartments" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
@@ -94,7 +97,7 @@
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.rent }}</span>
             </div>
-            <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+            <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
@@ -103,8 +106,8 @@
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appartVisits(appart.id).length }}</span>
             </div>
-            <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <ToggleSwitch />
+            <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2">
+              <ToggleSwitch :defaultState="isPublished(appart.id) !== undefined" />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
               <!-- <span class="icon cursor:pointer p-2">
@@ -231,6 +234,9 @@ export default {
       // accounts: 'account/accounts'
     }),
 
+    isPublished () {
+      return id => this.publications.find(publication => publication.appartment.id === id)
+    },
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
