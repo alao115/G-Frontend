@@ -35,6 +35,8 @@
                 <p class="text-base mt-8 text-gray-400">
                   Type
                 </p>
+                {{ appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }}
+                {{ selectedType }}
                 <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
                   <span v-if="!selectedType" class="leading-none">
                     Choisissez un type
@@ -59,6 +61,7 @@
                 Veuillez sélectionner un appartement à réserver
               </p>
               <div class="relative inline-block w-full text-gray-700">
+                {{ appartmentId }}
                 <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
                   <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
                     <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
@@ -101,7 +104,6 @@
                 <div class="grid grid-cols-4 gap-4">
                   <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                     <input
-                      v-model="test"
                       type="checkbox"
                       :name="slot"
                       :id="slot"
@@ -186,6 +188,11 @@ export default {
       required: true,
       default: () => ([])
     }
+    /* appartmentIdProp: {
+      type: String,
+      required: true,
+      default: () => ('')
+    } */
   },
   data () {
     return {
@@ -232,8 +239,12 @@ export default {
       return id => this.visits.find(visit => visit.id === id)
     },
     appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
+      // return id => this.appartments.find(appartment => appartment.id === id)
+      return this.appartments.find(appartment => appartment.id === this.appartmentId)
     },
+    /* appartmentFromProp () {
+      return this.appartments.find(appartment => appartment.id === this.appartmentId)
+    }, */
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
@@ -274,8 +285,15 @@ export default {
     appartmentId (value) {
       if (value) {
         this.newVisit.appartment = this.appartment
+        this.selectedType = this.appartmentType(this.appartment.appartmentType)
       }
-    }
+    }/* ,
+    appartmentIdProp (value) {
+      if (value) {
+        this.newVisit.appartment = this.appartmentFromProp
+        this.selectedType = this.appartmentType(this.appartmentFromProp.appartmentType)
+      }
+    } */
   },
   mounted () {
     // this.$fetch()
