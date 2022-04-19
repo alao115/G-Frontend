@@ -78,7 +78,7 @@
                     <span class="block lg:hidden">Fréquence</span>
                   </span>
                   <p v-else class="leading-none text-left flex flex-col py-8">
-                    {{ selectedPaymentFrequency.label }}
+                    {{ paymentFrequencies.find(frequency => frequency.id === selectedPaymentFrequency).label }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -86,7 +86,7 @@
                 </button>
                 <div v-if="paymentFrequenciesIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
                   <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
-                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedPaymentFrequency = frequency, paymentFrequenciesIsOpen = false">
+                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedPaymentFrequency = frequency.id, paymentFrequenciesIsOpen = false">
                     {{ frequency.label }}
                     <span class="text-gray-400">{{ frequency.description }}</span>
                   </a>
@@ -218,14 +218,14 @@
                     <span class="block lg:hidden">Civilité</span>
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ selectedCivility.value }}
+                    {{ civilities.find(civility => civility.id === selectedCivility).value }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="civilitySelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility, civilitySelectIsOpen = false">
+                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility.id, civilitySelectIsOpen = false">
                     {{ civility.value }}
                   </a>
                 </div>
@@ -480,8 +480,10 @@ export default {
       selectedPaymentFrequency: '',
       newAppartment: {
         conditions: {
-          prepaidRentMonths: 3
-        }
+          prepaidRentMonths: 3,
+          paymentFrequency: ''
+        },
+        ownerInfos: {}
         // files: null
       },
       ownerInfos: {},
@@ -568,8 +570,8 @@ export default {
     async createAppartment () {
       try {
         this.loading = true
-        this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility.value }
-        this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency.id
+        this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility }
+        this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency
 
         const { data, errors } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
 
