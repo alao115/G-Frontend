@@ -39,12 +39,27 @@
       </p>
     </div>
     <div v-else>
+      <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+          <li class="mr-2">
+            <a href="#" class="inline-flex p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
+              <span class="icon mr-2"><i class="far fa-list"></i></span> Tous
+            </a>
+          </li>
+          <li class="mr-2">
+            <a href="#" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+              <span class="icon mr-2"><i class="far fa-heart"></i></span> Favoris
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <div v-if="isListLayout" class="flex flex-col table__container w-full">
         <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
           <div class="flex items-center w-min h-10 px-2">
-            <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+            <input type="checkbox" name="" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center w-64 h-10 px-4 text-xs mr-2 ml-16">
+          <div class="flex items-center w-72 h-10 px-4 text-xs mr-2 ml-16">
             <span>TYPE</span>
           </div>
           <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
@@ -91,6 +106,9 @@
                 {{ appart.rent }} | <span class="text-gray-400">{{ appart.location }}</span>
               </p>
             </div>
+            <div class="hidden lg:flex  flex-col w-8 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+              <span />
+            </div>
             <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.location }}</span>
             </div>
@@ -127,7 +145,7 @@
           <div class="flex items-center w-min h-10 px-2">
             <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center w-64 h-10 px-4 text-xs mr-2 ml-16">
+          <div class="flex items-center w-72 h-10 px-4 text-xs mr-2 ml-16">
             <span>TYPE</span>
           </div>
           <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
