@@ -107,7 +107,10 @@
               </p>
             </div>
             <div class="hidden lg:flex  flex-col w-8 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span />
+              <span class="icon">
+                <!-- <i v-if="appartFavory(apart.id)" class="fas fa-heart"></i>
+                <i v-else class="far fa-heart"></i> -->
+              </span>
             </div>
             <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.location }}</span>
@@ -222,6 +225,10 @@ export default {
       await store.dispatch('visit/loadVisits')
     }
 
+    if (!store.getters['favory/favories'].length) {
+      await store.dispatch('favory/loadFavories')
+    }
+
     return {
     }
   },
@@ -248,9 +255,14 @@ export default {
       appartmentTypes: 'appartmentType/appartmentTypes',
       publications: 'publication/publications',
       reservations: 'reservation/reservations',
-      visits: 'visit/visits'
+      visits: 'visit/visits',
+      favories: 'favory/favories'
       // accounts: 'account/accounts'
     }),
+
+    connectedUser () {
+      return this.$auth.user
+    },
 
     isPublished () {
       return id => this.publications.find(publication => publication.appartment.id === id)
@@ -278,11 +290,18 @@ export default {
     },
     appartVisits () {
       return id => this.visits.filter(visit => visit.appartment === id)
-    }
+    }/* ,
+    appartFavories () {
+      return this.favories.filter(favory => favory.user === this.connectedUser.id)
+    },
+    appartFavory () {
+      return id => this.appartFavories.find(favory => favory.appartment === id)
+    } */
   },
   methods: {
     ...mapActions({
-      loadAppartments: 'appartment/loadAppartments'
+      loadAppartments: 'appartment/loadAppartments',
+      loadFavories: 'appartment/loadFavories'
     }),
 
     toDetails (appartment) {

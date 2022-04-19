@@ -1,6 +1,7 @@
 <template>
-  <div class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartment)">
+  <div class="card relative flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartment)">
     <!-- <div class="h-40 bg-gray-400 rounded-lg"></div> -->
+    <span class="icon h-4 w-4 absolute right-4 top-4 text-white favorite cursor:pointer" @click.prevent="addToFavorite()"><i class="far fa-heart fa-lg"></i></span>
     <img :src="appartment.mainImg" alt="">
     <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
       <h4 class="text-lg font-medium mb-2">
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     appartment: {
@@ -27,9 +29,59 @@ export default {
       default: null
     }
   },
+  async asyncData ({ $api, store }) {
+    if (!store.getters['appartment/appartments'].length) {
+      await store.dispatch('appartment/loadAppartments')
+    }
+
+    if (!store.getters['favory/favories'].length) {
+      await store.dispatch('favory/loadFavories')
+    }
+
+    return {
+    }
+  },
+  data () {
+    return {
+      onCreated: false,
+      newFavory: {
+        user: this.connectedUser,
+        appartment: this.appartment
+      }
+    }
+  },
+  computed: {
+    connectedUser () {
+      return this.$auth.user
+    },
+    ...mapGetters({
+      appartments: 'appartment/appartments',
+      favories: 'favory/favories'
+    })
+  },
   methods: {
+    ...mapActions({
+      loadAppartments: 'appartment/loadAppartments',
+      loadFavories: 'appartment/loadFavories'
+    }),
     toDetails (appartment) {
       this.$router.push({ path: '/appartments/' + appartment.id })
+    },
+    addToFavorite () {
+      if (this.connectedUser) {
+        this.onCreated = true
+        this.$api.favoryService.create({ variables: { data: this.newFavory } })
+          .then(async (response) => {
+            this.newFavory = {}
+            // this.currentStep = 'congrats'
+            await this.loadAppartmentTypesFunc()
+          })
+          .finally(() => {
+            this.onCreated = false
+          })
+      } else {
+        alert('you will be asked to conneect or register')
+      }
     }
   }
 }
@@ -42,4 +94,11 @@ export default {
   .card:nth-child(3n) {
     margin-right: 0 !important;
   }
+  /* .card .favorite {
+    opacity: 0;
+    transition: all .2s;
+  }
+  .card:hover .favorite {
+    opacity: 1;
+  } */
 </style>
