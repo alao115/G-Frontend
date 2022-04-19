@@ -87,7 +87,7 @@
                   <input v-model.trim="newVisit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
                 </div>
               </div>
-              <div class="flex space-x-8">
+              <div class="flex flex-col space-x-8">
                 <!-- <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
                 <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure"> -->
                 <select v-model="newVisit.day" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
@@ -98,6 +98,18 @@
                     {{ day.label }}
                   </option>
                 </select>
+                <div class="grid grid-cols-4 gap-4">
+                  <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                    <input
+                      v-model="test"
+                      type="checkbox"
+                      :name="slot"
+                      :id="slot"
+                      class="mr-2"
+                      :value="slot">
+                    {{ slot }}
+                  </label>
+                </div>
               </div>
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
@@ -168,6 +180,11 @@ export default {
       type: Array,
       required: true,
       default: () => ([])
+    },
+    timeslots: {
+      type: Array,
+      required: true,
+      default: () => ([])
     }
   },
   data () {
@@ -187,6 +204,7 @@ export default {
       onCreated: false,
       selectedDay: '',
       selectedTimeslot: '',
+      selectedVisitDay: '',
       days: [
         { id: 1, label: 'Lundi' },
         { id: 2, label: 'Mardi' },
@@ -230,6 +248,9 @@ export default {
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
+    },
+    timeslot () {
+      return this.timeslots.find(timeslot => timeslot.appart === this.newVisit.appartment.id)
     },
     listOfTypes () {
       const returnedListOfTypes = []

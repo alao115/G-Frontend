@@ -57,7 +57,7 @@
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="first">
-            <!-- {{ newTimeslots }} -->
+            <!-- {{ newTimeslot }} -->
             <!-- <div class="tabs flex space-x-8 pt-4">
               <a v-for="(day, count) in selectedDays" :key="count" href="#" class="tab" @click.prevent="activeDayToPopulate = day">{{ day.label }}</a>
             </div> -->
@@ -100,11 +100,11 @@
                   </button>
                 </div>
                 <div v-if="mondayTabIsOpen">
-                  {{ mondays }}
+                  {{ newTimeslot.mondays }}
                   <div class="grid grid-cols-4 gap-4">
                     <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                       <input
-                        v-model="mondays"
+                        v-model="newTimeslot.mondays"
                         type="checkbox"
                         :name="slot"
                         :id="slot"
@@ -115,11 +115,11 @@
                   </div>
                 </div>
                 <div v-if="tuesdayTabIsOpen">
-                  {{ tuesdays }}
+                  {{ newTimeslot.tuesdays }}
                   <div class="grid grid-cols-4 gap-4">
                     <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                       <input
-                        v-model="tuesdays"
+                        v-model="newTimeslot.tuesdays"
                         type="checkbox"
                         :name="slot"
                         :id="slot"
@@ -133,7 +133,7 @@
                   <div class="grid grid-cols-4 gap-4">
                     <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                       <input
-                        v-model="wednesdays"
+                        v-model="newTimeslot.wednesdays"
                         type="checkbox"
                         :name="slot"
                         :id="slot"
@@ -147,7 +147,7 @@
                   <div class="grid grid-cols-4 gap-4">
                     <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                       <input
-                        v-model="thursdays"
+                        v-model="newTimeslot.thursdays"
                         type="checkbox"
                         :name="slot"
                         :id="slot"
@@ -161,7 +161,7 @@
                   <div class="grid grid-cols-4 gap-4">
                     <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                       <input
-                        v-model="fridays"
+                        v-model="newTimeslot.fridays"
                         type="checkbox"
                         :name="slot"
                         :id="slot"
@@ -175,7 +175,7 @@
                   <div class="grid grid-cols-4 gap-4">
                     <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
                       <input
-                        v-model="saturdays"
+                        v-model="newTimeslot.saturdays"
                         type="checkbox"
                         :name="slot"
                         :id="slot"
@@ -205,8 +205,8 @@
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Revenir</span>
           </button>
-          <!-- <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newType.label || !newType.description " @click.prevent="createAppartType"> -->
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? [currentStep = 'second', associateDayAndSlot] : createAppartType">
+          <!-- <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newType.label || !newType.description " @click.prevent="createTimeslots"> -->
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? [currentStep = 'second', associateDayAndSlot] : createTimeslots">
             <span v-if="currentStep === 'second'">
               Enregistrer les horaires
             </span>
@@ -250,8 +250,14 @@ export default {
       locations: [],
       onCreated: false,
       selectedDays: [],
-      newTimeslot: {},
-      newTimeslots: [],
+      newTimeslot: {
+        mondays: [],
+        tuesdays: [],
+        wednesdays: [],
+        thursdays: [],
+        fridays: [],
+        saturdays: []
+      },
       mondayTabIsOpen: true,
       tuesdayTabIsOpen: false,
       wednesdayTabIsOpen: false,
@@ -267,12 +273,6 @@ export default {
         { id: 6, label: 'Samedi' },
         { id: 7, label: 'Dimanche' }
       ],
-      mondays: [],
-      tuesdays: [],
-      wednesdays: [],
-      thursdays: [],
-      fridays: [],
-      saturdays: [],
       timeSlots: [
         '8h - 9h',
         '9h - 10h',
@@ -378,19 +378,19 @@ export default {
     associateDayAndSlot () {
       this.selectedDays.forEach((day) => {
         alert('trying to associate')
-        this.newTimeslots.push({ day: this.timeSlots })
+        this.newTimeslot.push({ day: this.timeSlots })
       })
     },
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
-    createAppartType () {
+    createTimeslots () {
       this.onCreated = true
-      this.$api.appartmentTypeService.create({ variables: { data: this.newType } })
+      this.$api.timeslotService.create({ variables: { data: this.newTimeslot } })
         .then(async (response) => {
-          this.newType = {}
+          this.newTimeslot = {}
           this.currentStep = 'congrats'
-          await this.loadAppartmentTypesFunc()
+          await this.loadTimeslotFunc()
         })
         .finally(() => {
           this.onCreated = false

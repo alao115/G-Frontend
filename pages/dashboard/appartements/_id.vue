@@ -261,6 +261,7 @@
             <NewVisit
               :appartments-prop="appartments"
               :appartment-types="appartmentTypes"
+              :timeslots="timeslots"
               :load-visits-func="() => {}"
             />
           </div>

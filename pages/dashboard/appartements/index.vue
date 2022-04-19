@@ -204,6 +204,10 @@ export default {
       await store.dispatch('visit/loadVisits')
     }
 
+    if (!store.getters['timeslot/timeslots'].length) {
+      await store.dispatch('timeslot/loadTimeslots')
+    }
+
     return {
     }
   },
@@ -230,6 +234,7 @@ export default {
       appartmentTypes: 'appartmentType/appartmentTypes',
       publications: 'publication/publications',
       reservations: 'reservation/reservations',
+      timeslots: 'timeslot/timeslots',
       visits: 'visit/visits'
       // accounts: 'account/accounts'
     }),
@@ -251,6 +256,12 @@ export default {
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    },
+    timeslot () {
+      return id => this.timeslots.find(timeslot => timeslot.id === id)
+    },
+    appartTimeslot () {
+      return appartment => this.timeslots.find(timeslot => timeslot.appart === appartment.id)
     },
     user () {
       return id => this.users.find(user => user.id === id)
