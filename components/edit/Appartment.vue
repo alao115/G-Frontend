@@ -52,9 +52,9 @@
               <input v-model.number="appartToEdit.rent" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <div class="relative w-2/3">
                 <button class="flex items-center w-full m-h-12 md:h-16 mb-4 p-4 text-base border -lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="paymentFrequenciesIsOpen = !paymentFrequenciesIsOpen">
-                  <p v-if="appartToEdit.conditions && appartToEdit.conditions.paymentFrequency" class="leading-none text-left flex flex-col">
-                    {{ paymentFrequency(appartToEdit.conditions.paymentFrequency).label }}
-                    <span class="text-sm mt-1 text-gray-400">{{ paymentFrequency(appartToEdit.conditions.paymentFrequency).description }}</span>
+                  <p v-if="selectedPaymentFrequency" class="leading-none text-left flex flex-col">
+                    {{ foundPaymentFrequency && foundPaymentFrequency.label }}
+                    <span class="text-sm mt-1 text-gray-400">{{ paymentFrequency(selectedPaymentFrequency).description }}</span>
                   </p>
                   <span v-else class="leading-none">
                     <span class="hidden lg:block">Choisissez une fréquence</span>
@@ -65,7 +65,7 @@
                   </svg>
                 </button>
                 <div v-if="paymentFrequenciesIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.conditions.paymentFrequency = frequency.id, paymentFrequenciesIsOpen = false">
+                  <a v-for="frequency in paymentFrequencies" :key="frequency.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedPaymentFrequency = frequency.id, paymentFrequenciesIsOpen = false">
                     {{ frequency.label }}
                     <span class="text-gray-400">{{ frequency.description }}</span>
                   </a>
@@ -172,18 +172,18 @@
                   Civilité
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="civilitySelectIsOpen = !civilitySelectIsOpen">
-                  <span v-if="appartToEdit.ownerInfos.civility === ''" class="leading-none">
+                  <span v-if="selectedCivility === ''" class="leading-none">
                     Choisissez un type
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ appartToEdit.ownerInfos.value }}
+                    {{ foundCivility && foundCivility.value }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="civilitySelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.ownerInfos.civility = civility.value, civilitySelectIsOpen = false">
+                  <a v-for="civility in civilities" :key="civility.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedCivility = civility.id, civilitySelectIsOpen = false">
                     {{ civility.value }}
                   </a>
                 </div>
@@ -193,21 +193,21 @@
                   Est vivant(e)
                 </p>
                 <button class="flex items-center w-full m-h-12 md:h-16 mt-2 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="livingStatusSelectIsOpen = !livingStatusSelectIsOpen">
-                  <span v-if="ownerInfos && appartToEdit.ownerInfos.isAlive === ''" class="leading-none">
+                  <!-- <span v-if="selectedIsAlive" class="leading-none">
                     -
-                  </span>
-                  <p v-else class="leading-none text-left flex flex-col">
-                    {{ appartToEdit.ownerInfos && appartToEdit.ownerInfos.isAlive && appartToEdit.ownerInfos.isAlive === true ? "Vivant(e)" : 'Décédé(e)' }}
+                  </span> -->
+                  <p class="leading-none text-left flex flex-col">
+                    {{ selectedIsAlive ? "Vivant(e)" : 'Décédé(e)' }}
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
                 </button>
                 <div v-if="livingStatusSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.ownerInfos.isAlive = true, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedIsAlive = true, livingStatusSelectIsOpen = false">
                     Vivant(e)
                   </a>
-                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="appartToEdit.ownerInfos.isAlive = false, livingStatusSelectIsOpen = false">
+                  <a class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedIsAlive = false, livingStatusSelectIsOpen = false">
                     Décédée(e)
                   </a>
                 </div>
@@ -364,7 +364,7 @@
           </div>
         </div>
         <div v-if="currentStep === 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-lg px-8 leading-none hover:border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-lg px-8 leading-none hover:border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Retour</span>
           </button>
         </div>
@@ -423,6 +423,9 @@ export default {
       paymentFrequenciesIsOpen: false,
       selectedType: '',
       details: '',
+      selectedPaymentFrequency: this.appartment.conditions && this.appartment.conditions.paymentFrequency,
+      selectedCivility: this.appartment.ownerInfos && this.appartment.ownerInfos.civility,
+      selectedIsAlive: this.appartment.ownerInfos && this.appartment.ownerInfos.isAlive,
       isFurnished: false,
       advancePayment: 0,
       paymentFrequencies: [
@@ -451,7 +454,6 @@ export default {
         energyCommission: 0,
         prepaidRentMonths: 3
       },
-      selectedPaymentFrequency: '',
       ownerInfos: {
         name: '',
         address: '',
@@ -471,6 +473,12 @@ export default {
     }
   },
   computed: {
+    foundCivility () {
+      return this.civilities.find(civility => civility.id === this.selectedCivility)
+    },
+    foundPaymentFrequency () {
+      return this.paymentFrequency(this.selectedPaymentFrequency)
+    },
     computedMainImg () {
       return this.mainImg ? this.mainImg : this.appartToEdit.mainImg
     },
@@ -520,6 +528,9 @@ export default {
     appartment (value) {
       if (value !== null) {
         this.appartToEdit = { ...value }
+        this.selectedCivility = value.ownerInfos.civility
+        this.selectedIsAlive = value.ownerInfos.isAlive
+        this.selectedPaymentFrequency = value.conditions.paymentFrequency
         this.isDismissed = false
       }
     }
@@ -535,8 +546,9 @@ export default {
     async editAppartment () {
       try {
         this.loading = true
-
-        await this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: { ...this.appartToEdit } } })
+        // this.appartToEdit.ownerInfos.civility = this.selectedCivility
+        // this.appartToEdit.ownerInfos.isAlive = this.selectedIsAlive
+        await this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: { ...this.appartToEdit, conditions: { ...this.appartToEdit.conditions, paymentFrequency: this.selectedPaymentFrequency }, ownerInfos: { ...this.appartToEdit.ownerInfos, civility: this.selectedCivility, isAlive: this.selectedIsAlive } } } })
 
         if (this.appartImg) {
           for (const key of Object.keys(this.appartImg)) {
