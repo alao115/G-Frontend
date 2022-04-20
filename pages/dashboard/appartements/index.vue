@@ -225,9 +225,9 @@ export default {
       await store.dispatch('visit/loadVisits')
     }
 
-    if (!store.getters['favory/favories'].length) {
+    /* if (!store.getters['favory/favories'].length) {
       await store.dispatch('favory/loadFavories')
-    }
+    } */
 
     return {
     }
@@ -255,8 +255,8 @@ export default {
       appartmentTypes: 'appartmentType/appartmentTypes',
       publications: 'publication/publications',
       reservations: 'reservation/reservations',
-      visits: 'visit/visits',
-      favories: 'favory/favories'
+      visits: 'visit/visits'
+      /* favories: 'favory/favories' */
       // accounts: 'account/accounts'
     }),
 
@@ -300,8 +300,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadAppartments: 'appartment/loadAppartments',
-      loadFavories: 'appartment/loadFavories'
+      loadAppartments: 'appartment/loadAppartments'
     }),
 
     toDetails (appartment) {

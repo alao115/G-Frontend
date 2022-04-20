@@ -36,7 +36,6 @@
                   Type
                 </p>
                 {{ appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }}
-                {{ selectedType }}
                 <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
                   <span v-if="!selectedType" class="leading-none">
                     Choisissez un type
@@ -182,12 +181,12 @@ export default {
       type: Array,
       required: true,
       default: () => ([])
-    },
+    }/* ,
     timeslots: {
       type: Array,
       required: true,
       default: () => ([])
-    }
+    } */
     /* appartmentIdProp: {
       type: String,
       required: true,
@@ -239,8 +238,8 @@ export default {
       return id => this.visits.find(visit => visit.id === id)
     },
     appartment () {
-      // return id => this.appartments.find(appartment => appartment.id === id)
-      return this.appartments.find(appartment => appartment.id === this.appartmentId)
+      return id => this.appartments.find(appartment => appartment.id === id)
+      // return this.appartments.find(appartment => appartment.id === this.appartmentId)
     },
     /* appartmentFromProp () {
       return this.appartments.find(appartment => appartment.id === this.appartmentId)
@@ -260,9 +259,9 @@ export default {
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
     },
-    timeslot () {
+    /* timeslot () {
       return this.timeslots.find(timeslot => timeslot.appart === this.newVisit.appartment.id)
-    },
+    }, */
     listOfTypes () {
       const returnedListOfTypes = []
       this.appartmentTypes.forEach((type) => {
