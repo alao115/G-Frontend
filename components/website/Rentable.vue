@@ -1,9 +1,9 @@
 <template>
-  <div class="card relative flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartment)">
+  <div class="card relative flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg">
     {{ favories }}
     <!-- <div class="h-40 bg-gray-400 rounded-lg"></div> -->
     <span v-if="connectedUser" class="icon h-4 w-4 absolute right-4 top-4 text-white favorite cursor:pointer" @click.prevent="addToFavorite()"><i class="far fa-heart fa-lg"></i></span>
-    <img :src="appartment.mainImg" alt="">
+    <img :src="appartment.mainImg" alt=""  @click.prevent="toDetails(appartment)">
     <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
       <h4 class="text-lg font-medium mb-2">
         {{ appartment.type }}
