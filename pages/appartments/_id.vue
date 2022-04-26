@@ -1,11 +1,11 @@
 <template>
-  <div class="w-screen overflow-x-hidden font-body p-8 lg:px-8">
-    <WebsiteTheNavbar />
-    <div class="">
+  <div class="w-screen overflow-x-hidden font-body">
+    <WebsiteTheNavbar :connected-user="connectedUser" />
+    <div class="pt-8 px-8 xl:px-36 max-w-7xl">
       <div class="flex mb-8">
         <h4 class="text-2xl font-medium mb-2">
           {{ appartment && appartmentType(appartment.appartmentType).label }} <br>
-          <span class="text-gray-400 text-sm">{{ appartment.bedrooms }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
+          <span class="text-gray-400 text-sm">{{ appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
         </h4>
         <div class="flex flex-col absolute top-24 right-8 items-end">
           <button class="flex items-center justify-center w-12 h-12 p-4 bg-white  text-center text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
@@ -273,8 +273,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  async asyncData ({ $api }) {
+  /* async asyncData ({ $api }) {
+    if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
     const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
     const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
 
@@ -282,16 +284,27 @@ export default {
       appartments,
       appartmentTypes
     }
-  },
+  }, */
 
   data () {
     return {
       id: this.$route.params.id,
-      contextMenuIsOpen: false
+      contextMenuIsOpen: false,
+      appartments: [],
+      appartmentTypes: []
     }
+  },
+  async fetch () {
+    if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
+
+    this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
+    this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
   },
 
   computed: {
+    ...mapGetters({
+      connectedUser: 'account/authUserAccount'
+    }),
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
     },
