@@ -150,6 +150,9 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
+  middleware: ({ redirect, $auth }) => {
+    if ($auth.user.userType !== 0) { redirect({ name: 'dashboard-appartements' }) }
+  },
 
   // eslint-disable-next-line require-await
   async asyncData ({ $api, store }) {

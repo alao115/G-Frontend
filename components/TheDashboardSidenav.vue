@@ -8,7 +8,7 @@
     </div>
     <div class="w-full px-2">
       <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
-        <template v-if="connectedUser">
+        <template v-if="connectedUser.userType === 0 || connectedUser.userType === 1">
           <NewPublication v-if="routeName === 'dashboard-publications'" is-minisfied="isMinified" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
           <NewAppartment v-if="routeName === 'dashboard-appartements'" is-minisfied="isMinified" :load-appartments-func="loadAppartments" :appartment-types="appartmentTypes" />
           <NewAppartmentType v-if="routeName === 'dashboard-types'" is-minisfied="isMinified" :load-appartment-types-func="loadAppartmentTypes" />
@@ -22,13 +22,13 @@
           <NewReservation v-if="routeName === 'dashboard-reservations'" is-minisfied="isMinified" :load-reservations-func="loadReservations" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
         </template>
 
+        <NuxtLink to="/dashboard/appartements" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
+          <span class="icon w-6 block">
+            <i class="far fa-house mx-auto block" />
+          </span>
+          <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
+        </NuxtLink>
         <template v-if="connectedUser.userType === 0 || connectedUser.userType === 1">
-          <NuxtLink to="/dashboard/appartements" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
-            <span class="icon w-6 block">
-              <i class="far fa-house mx-auto block" />
-            </span>
-            <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
-          </NuxtLink>
           <NuxtLink to="/dashboard/types" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
             <span class="icon w-6 block">
               <i class="far fa-tags mx-auto block" />

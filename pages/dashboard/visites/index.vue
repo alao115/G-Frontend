@@ -142,6 +142,9 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
+  middleware: ({ redirect, $auth }) => {
+    if ($auth.user.userType !== 0) { redirect({ name: 'dashboard-appartements' }) }
+  },
 
   async asyncData ({ $api, store }) {
     if (!store.getters['appartment/appartments'].length) {

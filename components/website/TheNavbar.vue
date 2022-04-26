@@ -30,7 +30,7 @@
             <NuxtLink to="#" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Mon profil
             </NuxtLink>
-            <NuxtLink v-if="connectedUser.user.userType === 0 || connectedUser.user.userType === 1" to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
+            <NuxtLink to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Dashboard
             </NuxtLink>
             <hr>
