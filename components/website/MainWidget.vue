@@ -25,25 +25,30 @@
       </div>
       <form action="#" class="form text-blue-990 border-2 border-gray-200 p-8 rounded-md">
         <div class="flex justify-evenly">
-          <div class="p-2 flex items-center">
-            <span class="icon -ml-4">
-              <i class="fas fa-map-marker-alt" />
-            </span>
-            <label for="#">Localisation</label>
+          <div class="p-2 flex flex-col items-center">
+            <!-- <div class="">
+              <span class="icon -ml-4">
+                <i class="fas fa-map-marker-alt" />
+              </span>
+              <label for="#">Localisation</label>
+            </div> -->
+            <select name="location" id="" v-model="search.type">
+              <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
+            </select>
           </div>
           <hr class="divider-v bg-gray-200 w-0.5 h-16">
           <div class="p-2 flex items-center">
             <span class="icon mr-4">
               <i class="fas fa-home" />
             </span>
-            <label class="mr-4" for="#">Nombre de chambres</label>
-            <a class="border-2 border-blue-990 px-4 py-2 mr-4 text-blue-990 rounded-md" :class="roomsQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" roomsQty > 1 ? roomsQty-- : '' ">
+            <label class="mr-4" for="#">Chambres</label>
+            <a class="border-2 border-blue-990 px-4 py-2 mr-4 text-blue-990 rounded-md" :class="search.roomsQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" search.roomsQty > 1 ? search.roomsQty-- : '' ">
               <span class="icon">
                 <i class="far fa-minus fa-sm" />
               </span>
             </a>
-            <label class="mr-4" for="#">{{ roomsQty }}</label>
-            <a class="border-2 border-blue-990 px-4 py-2 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="roomsQty++">
+            <label class="mr-4" for="#">{{ search.roomsQty }}</label>
+            <a class="border-2 border-blue-990 px-4 py-2 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomsQty++">
               <span class="icon">
                 <i class="far fa-plus fa-sm" />
               </span>
@@ -62,8 +67,8 @@
               <span class="icon mr-4">
                 <i class="fas fa-money-bill-wave-alt" />
               </span>
-              <label v-if="budget">
-                {{ budget }}
+              <label v-if="search.budget">
+                {{ search.budget }}
               </label>
               <label v-else>
                 Votre budget
@@ -71,7 +76,7 @@
             </div>
             <div v-if="budgetDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white">
               <div class="flex justify-between">
-                <a href="#" @click.prevent="budgetMax = 0, budgetMin = 0">Vider les champs</a>
+                <a href="#" @click.prevent="search.budgetMax = 0, search.budgetMin = 0">Vider les champs</a>
                 <span class="icon absolute top-4 right-4" @click.prevent="budgetDropdownOpened = false"><i class="far fa-times fa-lg"></i></span>
               </div>
               <div class="flex space-x-2 mt-4">
@@ -79,13 +84,13 @@
                   <label class=" py-4">
                     Entre
                   </label>
-                  <input v-model.number="budgetMin" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <input v-model.number="search.budgetMin" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 </div>
                 <div>
                   <label class="py-4">
                     Et
                   </label>
-                  <input v-model.number="budgetMax" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <input v-model.number="search.budgetMax" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
                 </div>
               </div>
               <a href="#" class="mt-4 relative shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10" @click.prevent="budgetDropdownOpened = false">
@@ -93,9 +98,9 @@
               </a>
             </div>
           </div>
-          <NuxtLink to="#" class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16">
+          <a class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
             <span>Rechercher</span>
-          </NuxtLink>
+          </a>
         </div>
       </form>
     </div>
@@ -119,13 +124,15 @@ export default {
 
   data () {
     return {
-      roomsQty: 1,
       mobileWidgetIsVisible: false,
       budgetDropdownOpened: false,
-      budget: '',
-      budgetMin: 0,
-      budgetMax: 0,
-      location: '',
+      search: {
+        roomsQty: 1,
+        budget: '',
+        budgetMin: 0,
+        budgetMax: 0,
+        location: ''
+      },
       types: [
         /* { id: 0, label: 'Choisissez un type', descr: '' }, */
         { id: 1, label: 'Chambres', descr: '' },
@@ -162,6 +169,9 @@ export default {
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
     },
+    locationAppatements () {
+      return location => this.appartments.filter(appartment => appartment.location === location)
+    },
     listOfTypes () {
       const returnedListOfTypes = []
       this.appartmentTypes.forEach((type) => {
@@ -171,6 +181,17 @@ export default {
         }
       })
       return returnedListOfTypes
+    },
+    locations () {
+      const locations = []
+      this.appartments.forEach((appartment) => {
+        // if (locations.includes(appartment.location) === -1) {
+        if (this.locationAppatements(appartment.location).length >= 1) {
+          locations.push(appartment.location)
+          // console.log(locations)
+        }
+      })
+      return locations
     }
   },
   watch: {
@@ -211,6 +232,9 @@ export default {
   methods: {
     selectType (type) {
       this.selectedType = type.id
+    },
+    searchResult () {
+      this.$router.push({ path: '/search/', params: { location: this.search.location, roomQty: this.search.roomQty, budgetMin: this.search.budgetMin, budgetMax: this.search.budgetMax } })
     }
   }
 }
