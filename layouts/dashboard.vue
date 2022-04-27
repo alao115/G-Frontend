@@ -6,10 +6,16 @@
         <h1 class="text-lg font-medium text-sky-550">
           {{ pageTitle }}
         </h1>
-        <div class="flex justify-center items-center space-x-2">
-          <button class="btn flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
+        <div class="flex justify-center items-center space-x-4">
+          <button v-if="connectedUser.userType !== 0 && connectedUser.userType !== 1" class="btn flex space-x-4 items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-sky-550 text-white rounded hover:bg-gray-300" @click.prevent="switchAccountType">
+            <span class="hidden lg:block">Publier une annonce</span>
+            <span class="block icon">
+              <i class="far fa-comment-alt-check" />
+            </span>
+          </button>
+          <button class="btn flex space-x-4 items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
             <span class="hidden lg:block">Se déconnecter</span>
-            <span class="block lg:hidden icon">
+            <span class="block icon">
               <i class="far fa-sign-out-alt" />
             </span>
           </button>
@@ -92,6 +98,10 @@ export default {
     })
   },
   methods: {
+    switchAccountType () {
+      /* eslint-disable no-console */
+      console.log('connected user type :=> ' + this.connectedUser.userType)
+    },
     logout () {
       this.$auth.logout()
         .then(() => this.$router.push({ name: 'index' }))

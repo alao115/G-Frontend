@@ -83,7 +83,7 @@ export default {
             this.onCreated = false
           })
       } else {
-        alert('you will be asked to conneect or register')
+        alert('Vous de vez avoir un compte avant de pouvoir ajouter des favoris.')
       }
     }
   }

@@ -32,7 +32,8 @@
               </span>
               <label for="#">Localisation</label>
             </div>
-            <select name="location rounded" id="" v-model="search.type">
+            <select name="location rounded" id="" v-model="search.location">
+              <option v-if="search.location === ''" value="">Choisissez une localité</option>
               <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
             </select>
           </div>
@@ -77,16 +78,16 @@
                   {{ search.budget }}
                 </label>
                 <label v-else>
-                  Votre budget
+                  Votre budget minimum
                 </label>
               </div>
               <div class="flex space-x-2">
                 <div>
-                  <input v-model.number="search.budgetMin" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
+                  <input v-model.number="search.budgetMin" type="number" class="w-48 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
                 </div>
-                <div>
+                <!-- <div>
                   <input v-model.number="search.budgetMax" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Max">
-                </div>
+                </div> -->
               </div>
             </div>
             <!-- <div v-if="budgetDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white">

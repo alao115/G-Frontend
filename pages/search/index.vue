@@ -17,11 +17,9 @@
 <script>
 export default {
   layout: 'website',
-  fetch (params) {
-    this.location = params.location
-    this.roomQty = params.roomQty
-    this.budgetMin = params.budgetMin
-    this.budgetMax = params.budgetMax
+  created () {
+    /* eslint-disable no-console */
+    console.log(this.$route.params)
   },
   data () {
     return {
