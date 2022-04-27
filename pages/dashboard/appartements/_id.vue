@@ -1,4 +1,4 @@
- v-if="connectedUser.userType === 0"<template>
+<template>
   <div class="overflow-x-hidden font-body p-8 lg:px-8">
     <EditAppartment :appartment="appartmentToEdit" :load-appartments-func="() => {}" :appartment-types="appartmentTypes" />
     <div class="">

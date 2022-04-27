@@ -51,7 +51,7 @@
                   <i class="far fa-minus fa-sm" />
                 </span>
               </a>
-              <label class="mr-4" for="#">{{ search.roomsQty }}</label>
+              <label class="mr-4" for="#">{{ search.roomQty }}</label>
               <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomsQty++">
                 <span class="icon">
                   <i class="far fa-plus fa-sm" />
@@ -250,7 +250,7 @@ export default {
       this.selectedType = type.id
     },
     searchResult () {
-      this.$router.push({ path: '/search/', params: { location: this.search.location, roomQty: this.search.roomQty, budgetMin: this.search.budgetMin, budgetMax: this.search.budgetMax } })
+      this.$router.push({ path: '/search/', query: { location: this.search.location, roomQty: this.search.roomQty, budgetMin: this.search.budgetMin, budgetMax: this.search.budgetMax } })
     }
   }
 }
