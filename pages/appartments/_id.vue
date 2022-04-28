@@ -4,8 +4,8 @@
     <div class="pt-8 px-8 xl:px-36 max-w-7xl">
       <div class="flex mb-8">
         <h4 class="text-2xl font-medium mb-2">
-          {{ appartment && appartmentType(appartment.appartmentType).label }} <br>
-          <span class="text-gray-400 text-sm">{{ appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
+          {{ appartment && appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }} <br>
+          <span class="text-gray-400 text-sm">{{ appartment && appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment && appartment.bedrooms > 1">s</span> - {{ appartment && appartment.livingrooms }} Salon<span v-if="appartment && appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment && appartment.location }}</span>
         </h4>
         <div class="flex flex-col absolute top-24 right-8 items-end">
           <button class="flex items-center justify-center w-12 h-12 p-4 bg-white  text-center text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
@@ -31,18 +31,18 @@
         </div>
       </div>
       <div class="flex space-x-8 flex-col md:flex-row">
-        <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
+        <img :src="appartment && appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
         <div class="grid grid-cols-3 md:grid-cols-2 gap-8">
-          <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="">
-          <img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="">
-          <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="">
+          <img :src="appartment && appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="">
+          <img :src="appartment && appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="">
+          <img :src="appartment && appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="">
         </div>
       </div>
       <div class="flex lg:space-x-8 flex-col md:flex-row">
         <div class="flex flex-col items-start w-full lg:w-3/5">
           <div class="content font-body">
             <!-- <h3 class="block text-3xl font-medium mt-4 text-sky-450">
-              <span>{{ appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
+              <span>{{ appartment && appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
             </h3> -->
             <div class="grid grid-cols-2 w-min space-x-16 my-4">
               <span class="icon">
@@ -57,7 +57,7 @@
                 Details
               </h4>
               <p class="font-body text-base mb-8">
-                {{ appartment.details }}
+                {{ appartment && appartment.details }}
               </p>
             </div>
             <div class="rooms w-full pr-4">
@@ -65,133 +65,133 @@
                 Caractéristiques
               </h4>
               <div class="grid grid-cols-3 md:grid-cols-4 mt-2">
-                <div v-if="appartment.bedrooms" class="w-full pr-4">
+                <div v-if="appartment && appartment.bedrooms" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-bed-alt text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.bedrooms }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.bedrooms }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Chambre(s)
                   </p>
                 </div>
-                <div v-if="appartment.livingrooms" class="w-full pr-4">
+                <div v-if="appartment && appartment.livingrooms" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-couch text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.livingrooms }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.livingrooms }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Salon (s)
                   </p>
                 </div>
-                <div v-if="appartment.kitchen" class="w-full pr-4">
+                <div v-if="appartment && appartment.kitchen" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-oven text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.kitchen }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.kitchen }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Cuisine (s)
                   </p>
                 </div>
-                <div v-if="appartment.bathrooms" class="w-full pr-4">
+                <div v-if="appartment && appartment.bathrooms" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.bathrooms }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.bathrooms }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Salle(s) d'eau
                   </p>
                 </div>
-                <div v-if="appartment.storageroom" class="w-full pr-4">
+                <div v-if="appartment && appartment.storageroom" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-cabinet-filing text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.storageroom }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.storageroom }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Débarras
                   </p>
                 </div>
-                <div v-if="appartment.garage" class="w-full pr-4">
+                <div v-if="appartment && appartment.garage" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-garage-open text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.garage }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.garage }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Garage
                   </p>
                 </div>
-                <div v-if="appartment.garden" class="w-full pr-4">
+                <div v-if="appartment && appartment.garden" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-flower-tulip text-sm" /><i class="far fa-flower-daffodil text-sm" /><i class="far fa-flower text-sm" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.garden }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.garden }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Jardin
                   </p>
                 </div>
-                <div v-if="appartment.floor" class="w-full pr-4">
+                <div v-if="appartment && appartment.floor" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-list-ol text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.floor }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.floor }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Niveau
                   </p>
                 </div>
-                <div v-if="appartment.householdsTotal" class="w-full pr-4">
+                <div v-if="appartment && appartment.householdsTotal" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-4">
                       <i class="far fa-users text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.householdsTotal }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.householdsTotal }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Voisins
                   </p>
                 </div>
-                <div v-if="appartment.ac" class="w-full pr-4">
+                <div v-if="appartment && appartment.ac" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-2 lg:mr-4">
                       <i class="far fa-air-conditioner text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.ac === true ? 'Oui' : 'Non' }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.ac === true ? 'Oui' : 'Non' }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Climatiseur
                   </p>
                 </div>
-                <div v-if="appartment.pool" class="w-full pr-4">
+                <div v-if="appartment && appartment.pool" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-2 lg:mr-4">
                       <i class="far fa-swimming-pool text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.pool === true ? 'Oui' : 'Non' }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.pool === true ? 'Oui' : 'Non' }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Piscine
                   </p>
                 </div>
-                <div v-if="appartment.keeper" class="w-full pr-4">
+                <div v-if="appartment && appartment.keeper" class="w-full pr-4">
                   <div class="flex items-center">
                     <span class="icon mr-2 lg:mr-4">
                       <i class="far fa-user-shield text-xl" />
                     </span>
-                    <label for="#" class="text-xl">{{ appartment.keeper === true ? 'Oui' : 'Non' }}</label>
+                    <label for="#" class="text-xl">{{ appartment && appartment.keeper === true ? 'Oui' : 'Non' }}</label>
                   </div>
                   <p class="mb-8 text-gray-400">
                     Gardien
@@ -205,13 +205,13 @@
               Informations sur le propriétaire
             </h4>
             <p class="font-body text-base">
-              Maison appartenant à {{ appartment.ownerInfos.name }} vivant au {{ appartment.ownerInfos.address }}
+              Maison appartenant à {{ appartment && appartment.ownerInfos.name }} vivant au {{ appartment && appartment.ownerInfos.address }}
             </p>
             <p class="font-body text-base">
-              Contact: {{ appartment.ownerInfos.phone }}
+              Contact: {{ appartment && appartment.ownerInfos.phone }}
             </p>
             <p class="font-body text-base">
-              Email: {{ appartment.ownerInfos.email }}
+              Email: {{ appartment && appartment.ownerInfos.email }}
             </p>
           </div>
         </div>
@@ -227,15 +227,15 @@
                     Loyer
                   </p>
                   <div class="flex items-center font">
-                    <label for="#" class="text-xl font-semibold">{{ appartment.rent }}</label>
+                    <label for="#" class="text-xl font-semibold">{{ appartment && appartment.rent }}</label>
                   </div>
                 </div>
                 <div class=" mt-2 lg:mt-0 mb-4">
                   <p class="text-gray-400">
-                    {{ appartment.conditions.prepaidRentMonths }} mois d'avance
+                    {{ appartment && appartment.conditions.prepaidRentMonths }} mois d'avance
                   </p>
                   <div class="flex items-center font">
-                    <label for="#" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
+                    <label for="#" v-if="appartment && appartment.rent" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
                   </div>
                 </div>
               </div>
@@ -244,7 +244,7 @@
                   Commission Eau / Elec
                 </p>
                 <div class="flex items-center font">
-                  <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
+                  <label for="#" class="text-xl font-semibold">{{ appartment && appartment.conditions.energyCommission }}</label>
                 </div>
               </div>
             </div>

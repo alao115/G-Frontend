@@ -38,7 +38,7 @@
         </template>
       </div>
 
-      <template v-if="connectedUser.userType === 0">
+      <template>
         <div class="flex flex-col items-center w-full border-t border-gray-300">
           <NuxtLink to="/dashboard/publications" class="flex items-center relative w-full h-12 px-3 my-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75 active:bg-sky-50">
             <span class="icon w-6 block">
@@ -59,7 +59,7 @@
             <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Visites</span>
           </NuxtLink>
         </div>
-        <div class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
+        <div v-if="connectedUser.userType === 0" class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
           <NuxtLink to="/dashboard" class="flex items-center relative w-full h-12 px-3 mt-2 rounded text-blue-730">
             <span class="icon w-6 block">
               <i class="far fa-chart-bar mx-auto block" />

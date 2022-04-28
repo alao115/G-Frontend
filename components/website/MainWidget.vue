@@ -32,7 +32,8 @@
               </span>
               <label for="#">Localisation</label>
             </div>
-            <select name="location rounded" id="" v-model="search.type">
+            <select name="location rounded" id="" v-model="search.location">
+              <option v-if="search.location === ''" value="">Choisissez une localité</option>
               <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
             </select>
           </div>
@@ -50,7 +51,7 @@
                   <i class="far fa-minus fa-sm" />
                 </span>
               </a>
-              <label class="mr-4" for="#">{{ search.roomsQty }}</label>
+              <label class="mr-4" for="#">{{ search.roomQty }}</label>
               <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomsQty++">
                 <span class="icon">
                   <i class="far fa-plus fa-sm" />
@@ -77,16 +78,16 @@
                   {{ search.budget }}
                 </label>
                 <label v-else>
-                  Votre budget
+                  Votre budget minimum
                 </label>
               </div>
               <div class="flex space-x-2">
                 <div>
-                  <input v-model.number="search.budgetMin" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
+                  <input v-model.number="search.budgetMin" type="number" class="w-48 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
                 </div>
-                <div>
+                <!-- <div>
                   <input v-model.number="search.budgetMax" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Max">
-                </div>
+                </div> -->
               </div>
             </div>
             <!-- <div v-if="budgetDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white">
@@ -249,7 +250,7 @@ export default {
       this.selectedType = type.id
     },
     searchResult () {
-      this.$router.push({ path: '/search/', params: { location: this.search.location, roomQty: this.search.roomQty, budgetMin: this.search.budgetMin, budgetMax: this.search.budgetMax } })
+      this.$router.push({ path: '/search/', query: { location: this.search.location, roomQty: this.search.roomQty, budgetMin: this.search.budgetMin, budgetMax: this.search.budgetMax } })
     }
   }
 }

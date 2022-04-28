@@ -24,7 +24,7 @@
         Autres appartements du même type
       </h1>
     </div>
-    <div class="grid lg:grid-cols-3 mt-8">
+    <div class="grid lg:grid-cols-3 gap-8 mt-8">
       <WebsiteRentable
         v-for="appartment in appartments"
         :key="appartment.id"
