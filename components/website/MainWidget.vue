@@ -1,7 +1,21 @@
 <template>
   <div class="contents">
-    <div class="container bg-white rounded-xl h-auto p-10 font-body shadow-btn-shadow mt-16 -mb-16 bg-opacity-90 hidden lg:block">
-      <div v-if="listOfTypes.length > 0" class="flex w-min mb-8 rounded-md bg-blue-50 list-of-types">
+    <div class="container bg-white rounded-xl h-auto p-10 font-body shadow-btn-shadow mt-16 -mb-16 bg-opacity-90 ">
+      <div class="md:hidden mb-2">
+        <p class="mb-2 text-sm">
+          <span class="icon mr-2">
+            <i class="fas fa-tag" />
+          </span>
+          <label for="#">Type d'appart</label>
+        </p>
+        <select v-if="listOfTypes.length > 0" v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+          <option v-if="selectedType === 0" value="">Choisissez un type</option>
+          <option v-for="type in listOfTypes" :key="type.id" :value="type.id">
+            {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
+          </option>
+        </select>
+      </div>
+      <div v-if="listOfTypes.length > 0" class="flex w-min mb-8 rounded-md bg-blue-50 list-of-type hidden md:block">
         <button
           v-for="type in listOfTypes"
           :key="type.id"
@@ -23,43 +37,43 @@
           {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
         </button>
       </div>
-      <form action="#" class="form text-blue-990 border-2 border-gray-200 p-8 rounded-md">
-        <div class="flex items-center justify-between">
-          <div class="p-2 flex flex-col">
-            <div class="mb-4 text-left">
+      <form action="#" class="form text-blue-990 md:border-2 border-gray-200 md:p-8 rounded-md divide-y space-y-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 items-center justify-between">
+          <div class="p-2 flex flex-col my-4 md=my-0">
+            <div class="mb-2 md:mb-4 text-left">
               <span class="icon mr-4">
                 <i class="fas fa-map-marker-alt" />
               </span>
               <label for="#">Localisation</label>
             </div>
-            <select name="location rounded" id="" v-model="search.location">
+            <select name="location rounded-lg" id="" v-model="search.location" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
               <option v-if="search.location === ''" value="">Choisissez une localité</option>
               <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
             </select>
           </div>
-          <hr class="divider-v bg-gray-200 w-0.5 h-16">
-          <div class="p-2 flex flex-col">
-            <div class="mb-6 text-left -mt-3">
+          <hr class="divider-v bg-gray-200 w-0.5 h-16 hidden md:block">
+          <div class="md:p-2 flex flex-col my-4 md:my-0 hidden md:block">
+            <div class="mb-2 md:mb-6 text-left -mt-3">
               <span class="icon mr-4">
                 <i class="fas fa-home" />
               </span>
-              <label class="mr-4" for="#">Nbre de Chambres</label>
+              <label class="mr-4" for="#">Nbre de Pièces min.</label>
             </div>
-            <div class="relative">
-              <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md" :class="search.roomsQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" search.roomsQty > 1 ? search.roomsQty-- : '' ">
+            <div class="relative flex justify-between items-center">
+              <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md" :class="search.roomQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" search.roomQty > 1 ? search.roomQty-- : '' ">
                 <span class="icon">
                   <i class="far fa-minus fa-sm" />
                 </span>
               </a>
               <label class="mr-4" for="#">{{ search.roomQty }}</label>
-              <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomsQty++">
+              <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomQty++">
                 <span class="icon">
                   <i class="far fa-plus fa-sm" />
                 </span>
               </a>
             </div>
           </div>
-          <hr class="divider-v bg-gray-200 w-0.5 h-16">
+          <hr class="divider-v bg-gray-200 w-0.5 h-16 hidden md:block">
           <!-- <div class="p-2 flex items-center">
             <span class="icon mr-4">
               <i class="fas fa-money-bill-wave-alt" />
@@ -69,7 +83,7 @@
           <div class="flex items-center pr-4">
             <!-- <Slider /> -->
             <!-- <div class="p-2 flex flex-col" @click.prevent="budgetDropdownOpened = !budgetDropdownOpened"> -->
-            <div class="p-2 flex flex-col">
+            <div class="p-2 flex flex-col my-4 md=my-0">
               <div class="mb-4 text-left">
                 <span class="icon mr-4">
                   <i class="fas fa-money-bill-wave-alt" />
@@ -78,12 +92,12 @@
                   {{ search.budget }}
                 </label>
                 <label v-else>
-                  Votre budget minimum
+                  Budget minimum
                 </label>
               </div>
               <div class="flex space-x-2">
                 <div>
-                  <input v-model.number="search.budgetMin" type="number" class="w-48 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
+                  <input v-model.number="search.budgetMin" type="number" class="w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
                 </div>
                 <!-- <div>
                   <input v-model.number="search.budgetMax" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Max">
@@ -143,7 +157,7 @@ export default {
       mobileWidgetIsVisible: false,
       budgetDropdownOpened: false,
       search: {
-        roomsQty: 1,
+        roomQty: 1,
         budget: '',
         budgetMin: 0,
         budgetMax: 0,

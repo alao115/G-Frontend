@@ -1,5 +1,5 @@
 <template>
-  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-8 xl:px-36 justify-between fixed bg-white" :class="isMinified === true ? 'h-16 md:h-20' : 'h-24 md:h-32'">
+  <div id="navbar" class="font-body flex w-full items-center flex-shrink-0 px-8 xl:px-36 justify-between fixed bg-white z-50" :class="isMinified === true ? 'h-16 md:h-20' : 'h-24 md:h-32'">
     <NuxtLink to="/" class="">
       <img src="/assets/images/dark_logo_lg.svg" alt="Logo Long Gontché" class="logo">
     </NuxtLink>
