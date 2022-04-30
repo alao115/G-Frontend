@@ -2,6 +2,7 @@
   <div class="flex-grow px-6 pt-2 main__content w-full">
     <NewAppartment :is-mobile="true" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
     <EditAppartment :appartment="appartmentToEdit" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
+    {{ favories }}
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -258,8 +259,8 @@ export default {
       appartmentTypes: 'appartmentType/appartmentTypes',
       publications: 'publication/publications',
       reservations: 'reservation/reservations',
-      visits: 'visit/visits'
-      /* favories: 'favory/favories' */
+      visits: 'visit/visits',
+      favories: 'favory/favories'
       // accounts: 'account/accounts'
     }),
 
@@ -293,17 +294,18 @@ export default {
     },
     appartVisits () {
       return id => this.visits.filter(visit => visit.appartment === id)
-    }/* ,
+    },
     appartFavories () {
       return this.favories.filter(favory => favory.user === this.connectedUser.id)
     },
     appartFavory () {
       return id => this.appartFavories.find(favory => favory.appartment === id)
-    } */
+    }
   },
   methods: {
     ...mapActions({
-      loadAppartments: 'appartment/loadAppartments'
+      loadAppartments: 'appartment/loadAppartments',
+      loadFavories: 'favory/favories'
     }),
 
     toDetails (appartment) {
