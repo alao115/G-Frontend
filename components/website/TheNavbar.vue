@@ -27,7 +27,7 @@
               {{ 'Bonjour, ' + `${connectedUser ? connectedUser.firstname + ' ' + connectedUser.lastname : 'Mr./Mme.'}` }}
             </p>
             <hr>
-            <NuxtLink to="#" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
+            <NuxtLink to="/profile" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
               Mon profil
             </NuxtLink>
             <NuxtLink to="/dashboard" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">

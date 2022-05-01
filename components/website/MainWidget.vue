@@ -9,7 +9,9 @@
           <label for="#">Type d'appart</label>
         </p>
         <select v-if="listOfTypes.length > 0" v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-          <option v-if="selectedType === 0" value="">Choisissez un type</option>
+          <option v-if="selectedType === 0" value="">
+            Choisissez un type
+          </option>
           <option v-for="type in listOfTypes" :key="type.id" :value="type.id">
             {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
           </option>
@@ -47,9 +49,13 @@
                 </span>
                 <label for="#">Localisation</label>
               </div>
-              <select name="location rounded-lg" id="" v-model="search.location" class="w-full h-12 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
-                <option v-if="search.location === ''" value="">Choisissez une localité</option>
-                <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
+              <select id="" v-model="search.location" name="location rounded-lg" class="w-full h-12 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
+                <option v-if="search.location === ''" value="">
+                  Choisissez une localité
+                </option>
+                <option v-for="(location, count) in locations" :key="count" :value="location">
+                  {{ location }}
+                </option>
               </select>
             </div>
             <div class="md:p-2 flex flex-col my-4 md:my-0 hidden md:block">
@@ -65,7 +71,7 @@
                     <i class="far fa-minus fa-sm" />
                   </span>
                 </a>
-                <input type="number" class="h-12 w-24 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" v-model.number="search.roomQty">
+                <input v-model.number="search.roomQty" type="number" class="h-12 w-24 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
                 <a class="border-2 border-blue-990 h-12 px-4 py-3 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomQty++">
                   <span class="icon">
                     <i class="far fa-plus fa-sm" />
@@ -124,7 +130,7 @@
           </div>
           <div class="md:mt-10">
             <a class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
-              <span class="icon"><i class="fas fa-search fa-lg"></i></span>
+              <span class="icon"><i class="fas fa-search fa-lg" /></span>
             </a>
           </div>
         </div>

@@ -26,7 +26,9 @@ export const actions = {
       } else {
         this.$api.favoryService.authUserFavories()
           .then(({ data }) => {
-            commit('setAppartments', data.authUserFavories.map(d => d.appartment))
+            const appartments = data.authUserFavories.map(d => ({ fID: d.id, ...d.appartment }))
+            commit('setAppartments', appartments)
+            commit('favory/setFavories', appartments, { root: true })
             resolve()
           }).catch((error) => {
             reject(error)

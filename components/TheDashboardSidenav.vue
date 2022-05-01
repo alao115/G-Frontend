@@ -44,7 +44,7 @@
         </template>
       </div>
 
-      <template>
+      <template v-if="1">
         <div class="flex flex-col items-center w-full border-t border-gray-300">
           <NuxtLink to="/dashboard/publications" class="flex items-center relative w-full h-12 px-3 my-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75 active:bg-sky-50">
             <span class="icon w-6 block">

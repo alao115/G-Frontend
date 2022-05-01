@@ -2,7 +2,6 @@
   <div class="flex-grow px-6 pt-2 main__content w-full">
     <NewAppartment :is-mobile="true" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
     <EditAppartment :appartment="appartmentToEdit" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
-    {{ favories }}
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -30,14 +29,26 @@
       </div>
     </div>
     <div v-if="returnedAppartment.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
-      <h1 class="text-3xl font-bold">
-        0 appartement trouvé
-      </h1>
-      <br>
-      <p class="text-gray-400">
-        Cliquez sur le bouton " + Nv. appartement" en haut à gauche pour
-        <span class="font-extrabold">rajouter un appartement</span>.
-      </p>
+      <template v-if="connectedUser.userType !== 2">
+        <h1 class="text-3xl font-bold">
+          0 appartement trouvé
+        </h1>
+        <br>
+        <p class="text-gray-400">
+          Cliquez sur le bouton " + Nv. appartement" en haut à gauche pour
+          <span class="font-extrabold">rajouter un appartement</span>.
+        </p>
+      </template>
+      <template v-else>
+        <h1 class="text-3xl font-bold">
+          0 favoris trouvé
+        </h1>
+        <!-- <br>
+        <p class="text-gray-400">
+          Cliquez sur le bouton " + Nv. appartement" en haut à gauche pour
+          <span class="font-extrabold">rajouter un appartement</span>.
+        </p> -->
+      </template>
     </div>
     <div v-else>
       <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
@@ -183,8 +194,8 @@
         </div>
       </div>
       <div v-else class="grid grid-cols-1 lg:grid-cols-3">
-        <div v-for="appart in appartments" :key="appart.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appart)">
-          <img :src="appart.mainImg" alt="">
+        <div v-for="appartmnt in appartments" :key="appartmnt.fID" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
+          <img :src="appartmnt.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
               {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
@@ -219,9 +230,7 @@ export default {
 
   // eslint-disable-next-line require-await
   async asyncData ({ $api, store, $auth }) {
-    if (!store.getters['appartment/appartments'].length) {
-      await store.dispatch('appartment/loadAppartments')
-    }
+    await store.dispatch('appartment/loadAppartments')
 
     if ($auth.user.userType !== 2) {
       if (!store.getters['appartmentType/appartmentTypes'].length) {

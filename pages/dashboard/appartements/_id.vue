@@ -282,7 +282,7 @@
               :appartments-prop="appartments"
               :appartment-types="appartmentTypes"
               :timeslots="timeslots"
-              :appartmentId-prop="appartment.id"
+              :appartment-id-prop="appartment.id"
               :load-visits-func="() => {}"
             />
           </div>
