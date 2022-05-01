@@ -6,9 +6,9 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  async asyncData ({ $store, $api }) {
-    if (!$store.getters['account/authUserAccount']) {
-      await $store.dispatch('account/getAuthUserAccount')
+  async asyncData ({ store, $api }) {
+    if (!store.getters['account/authUserAccount']) {
+      await store.dispatch('account/getAuthUserAccount')
     }
 
     return {
