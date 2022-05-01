@@ -29,7 +29,7 @@
         </a>
       </div>
     </div>
-    <div v-if="appartments.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
+    <div v-if="returnedAppartment.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
       <h1 class="text-3xl font-bold">
         0 appartement trouvé
       </h1>
@@ -88,7 +88,7 @@
           </div>
         </div>
         <div class="overflow-auto custom__scroll py-4">
-          <div v-for="(appart, count) in appartments" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
+          <div v-for="(appart, count) in returnedAppartment" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
             <div class="flex flex-col w-min px-2">
               <input v-model="selectedAppartments" type="checkbox" :value="appart" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
             </div>
@@ -119,7 +119,7 @@
               </span>
             </div>
             <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span>{{ appart.location }}</span>
+              <span>{{ appart.createdBy }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.rent }}</span>
@@ -187,7 +187,7 @@
           <img :src="appart.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
-              {{ appartmentType(appart.appartmentType).label }} <br>
+              {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
               <span class="text-gray-400">{{ appart.bedrooms }}
                 <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
                 {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
@@ -312,6 +312,16 @@ export default {
     },
     appartFavory () {
       return id => this.appartFavories.find(favory => favory.appartment === id)
+    },
+    publisherAppartments () {
+      return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
+    },
+    returnedAppartment () {
+      if (this.connectedUser.userType === 0) {
+        return this.appartments
+      } else {
+        return this.publisherAppartments
+      }
     }
   },
   methods: {

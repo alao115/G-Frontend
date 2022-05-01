@@ -56,13 +56,15 @@
             <span class="icon w-6 block">
               <i class="far fa-house-user mx-auto block" />
             </span>
-            <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réservations</span>
+            <span v-if="connectedUser.userType === 1" class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Mes réservations</span>
+            <span v-else class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Réservations</span>
           </NuxtLink>
           <NuxtLink to="/dashboard/visites" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
             <span class="icon w-6 block">
               <i class="far fa-calendar-day mx-auto block" />
             </span>
-            <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Visites</span>
+            <span v-if="connectedUser.userType === 1" class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Mes visites</span>
+            <span v-else class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Visites</span>
           </NuxtLink>
         </div>
         <div v-if="connectedUser.userType === 0" class="flex flex-col items-center w-full mt-2 py-2 border-t border-gray-300">
