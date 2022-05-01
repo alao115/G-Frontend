@@ -275,8 +275,8 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  async asyncData ({ $api, $auth, $store }) {
-    if ($auth.loggedIn) { await $store.dispatch('account/getAuthUserAccount') }
+  async asyncData ({ $api, $auth, store }) {
+    if ($auth.loggedIn) { await store.dispatch('account/getAuthUserAccount') }
     const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
     const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
 
