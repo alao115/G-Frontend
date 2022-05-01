@@ -1,13 +1,18 @@
 <template>
   <div class="w-screen overflow-x-hidden font-body">
     <WebsiteTheNavbar :connected-user="connectedUser" />
-    <div class="pt-8 px-8 xl:px-36 max-w-7xl">
+    <div class="pt-8 lg:pt-48 px-8 xl:px-36 max-w-7xl">
       <div class="flex mb-8">
         <h4 class="text-2xl font-medium mb-2">
           {{ appartment && appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }} <br>
           <span class="text-gray-400 text-sm">{{ appartment && appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment && appartment.bedrooms > 1">s</span> - {{ appartment && appartment.livingrooms }} Salon<span v-if="appartment && appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment && appartment.location }}</span>
         </h4>
-        <div class="flex flex-col absolute top-24 right-8 items-end">
+        <button class="flex items-center justify-center w-12 h-12 p-4 bg-white  text-center text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="goBack()">
+          <p class="leading-none text-left flex flex-col">
+            <span class="text-sm mt-1 text-gray-400"><i class="far fa-times fa-lg" /></span>
+          </p>
+        </button>
+        <!-- <div class="flex flex-col absolute top-24 right-8 items-end">
           <button class="flex items-center justify-center w-12 h-12 p-4 bg-white  text-center text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
             <p class="leading-none text-left flex flex-col">
               <span v-if="contextMenuIsOpen" class="text-sm mt-1 text-gray-400"><i class="far fa-times fa-lg" /></span>
@@ -28,7 +33,7 @@
               <span class="font-medium">Retour</span>
             </NuxtLink>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="flex space-x-8 flex-col md:flex-row">
         <img :src="appartment && appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
@@ -310,6 +315,11 @@ export default {
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    }
+  },
+  methods: {
+    goBack () {
+      this.$router.go(-1)
     }
   }
 }

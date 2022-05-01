@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-screen max-w-screen h-screen text-gray-700 font-body">
-    <TheDashboardSidenav class="hidden lg:block" />
+    <TheDashboardSidenav class="hidden lg:flex" />
     <div :class="isMinified ? 'ml-16' : 'lg:ml-64'" class="flex flex-col w-full">
       <div class="flex items-center justify-between h-16 px-8 w-full -z-10 bg-white">
         <h1 class="text-lg font-medium text-sky-550">

@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <div v-if="isClosed" class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="isClosed = false">
+    <div v-if="isClosed" class="lg:flex flex-col cursor-pointer" @click.prevent="isClosed = false">
       <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
         <input type="checkbox" v-model="checkedValue">
         <span :class="isSmall ? 'small' : ''" class="slider round"></span>
@@ -15,7 +15,7 @@
       </button>
       <button type="button" class="relative w-40 border border-transparent py-2 text-sm px-4 leading-none rounded font-medium text-white bg-red-500 hover:bg-red-700 disabled:bg-red-200" :disabled="!deletePlaceholder" @click.prevent="deleteCommand">
         <span class="relative w-8">
-          Oui, supprimer
+          Oui, annuler la publication
         </span>
         <loader v-if="onDelete" class="absolute top-1/2 right-1 transform -translate-y-1/2" />
       </button>
@@ -39,6 +39,10 @@ export default {
       type: Boolean,
       default: false
     },
+    publicationId: {
+      type: String,
+      default: ''
+    },
     deletePlaceholder: {
       type: Function,
       default: null,
@@ -49,11 +53,12 @@ export default {
   data () {
     return {
       isClosed: true,
-      onDelete: false
+      onDelete: false,
+      isSmall: true
     }
   },
 
-  comuted: {
+  computed: {
     checkedValue: {
       get () {
         return this.defaultState
@@ -65,7 +70,7 @@ export default {
   },
   methods: {
     deleteCommand () {
-      if (this.deletePlaceholder) {
+      /* if (this.deletePlaceholder) {
         this.onDelete = true
         this.deletePlaceholder()
           .then(() => {
@@ -73,7 +78,13 @@ export default {
           }).finally(() => {
             this.onDelete = false
           })
-      }
+      } */
+      return this.$api.publicationService.delete({ variables: { publicationId: this.publicationId } })
+        .then(async () => {
+          await this.loadPublications()
+        })
+        // eslint-disable-next-line no-console
+        .catch(error => console.log(error))
     }
   }
 }

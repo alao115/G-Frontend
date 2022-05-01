@@ -15,9 +15,13 @@
     </template>
     <div @click.prevent="toDetails(appartment)">
       <img :src="appartment.mainImg" class="w-full" alt="">
+      <h4 class="text-2xl font-medium mb-2">
+        {{ appartmentType ? appartmentType.label : ''}} <br>
+        <span class="text-gray-400 text-sm">{{ appartment && appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment && appartment.bedrooms > 1">s</span> - {{ appartment && appartment.livingrooms }} Salon<span v-if="appartment && appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment && appartment.location }}</span>
+      </h4>
       <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
         <h4 class="text-lg font-medium mb-2">
-          {{ appartment.type }}
+          {{ appartmentType ? appartmentType.label : '' }}
         </h4>
         <div class="flex items-center">
           <span class="icon mr-4 text-sky-450">
@@ -40,6 +44,10 @@ export default {
   components: { loader },
   props: {
     appartment: {
+      type: Object,
+      default: null
+    },
+    appartmentType: {
       type: Object,
       default: null
     }
