@@ -1,13 +1,6 @@
 <template>
-  <!-- <label for="toggle_button">
-    <span v-if="isActive" class="toggle__label">On</span>
-    <span v-else class="toggle__label">Off</span>
 
-    <input type="checkbox" id="toggle_button" v-model="checkedValue">
-    <span class="toggle__switch"></span>
-  </label> -->
-
-  <label :class="isSmall ? 'small' : ''" class="switch">
+  <label :class="isSmall ? 'small' : ''" class="switch" @click.prevent="checkStatus">
     <input type="checkbox" v-model="checkedValue">
     <span :class="isSmall ? 'small' : ''" class="slider round"></span>
   </label>
@@ -19,6 +12,16 @@ export default {
     defaultState: {
       type: Boolean,
       default: false
+    },
+    appartment: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    },
+    publications: {
+      type: Array,
+      required: false,
+      default: () => ([])
     }
   },
   data () {
@@ -31,6 +34,9 @@ export default {
     isActive () {
       return this.currentState
     },
+    isPublished () {
+      return id => this.publications.find(publication => publication.appartment.id === id)
+    },
     checkedValue: {
       get () {
         return this.defaultState
@@ -39,57 +45,21 @@ export default {
         this.currentState = newValue
       }
     }
+  },
+  methods: {
+
+    checkStatus () {
+      /* if (this.isPublished(this.appartment.id)) {
+        alert('published')
+      } else {
+        alert('not yet published')
+      } */
+    }
   }
 }
 </script>
 
 <style scoped>
-/* .toggle__button {
-  vertical-align: middle;
-  user-select: none;
-  cursor: pointer;
-}
-.toggle__button input[type="checkbox"] {
-  opacity: 0;
-  position: absolute;
-  width: 1px;
-  height: 1px;
-}
-.toggle__button .toggle__switch {
-  display:inline-block;
-  height:12px;
-  border-radius:6px;
-  width:40px;
-  background: #BFCBD9;
-  box-shadow: inset 0 0 1px #BFCBD9;
-  position:relative;
-  margin-left: 10px;
-  transition: all .25s;
-}
-
-.toggle__button .toggle__switch::after,
-.toggle__button .toggle__switch::before {
-  content: "";
-  position: absolute;
-  display: block;
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  left: 0;
-  top: -3px;
-  transform: translateX(0);
-  transition: all .25s cubic-bezier(.5, -.6, .5, 1.6);
-}
-
-.toggle__button .toggle__switch::after {
-  background: #4D4D4D;
-  box-shadow: 0 0 1px #666;
-}
-.toggle__button .toggle__switch::before {
-  background: #4D4D4D;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
-  opacity:0;
-} */
 .switch {
   position: relative;
   display: inline-block;

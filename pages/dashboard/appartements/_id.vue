@@ -2,6 +2,26 @@
   <div class="overflow-x-hidden font-body p-8 lg:px-8">
     <EditAppartment :appartment="appartmentToEdit" :load-appartments-func="() => {}" :appartment-types="appartmentTypes" />
     <div class="">
+      <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+          <!-- <li v-if="connectedUser.userType !== 2" class="mr-2"> -->
+          <li class="mr-2">
+            <a href="#" class="inline-flex p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
+              <span class="icon mr-2"><i class="far fa-info-circle" /></span> Infos
+            </a>
+          </li>
+          <li class="mr-2">
+            <a href="#" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+              <span class="icon mr-2"><i class="far fa-calendar-day" /></span> Visites
+            </a>
+          </li>
+          <li class="mr-2">
+            <a href="#" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+              <span class="icon mr-2"><i class="far fa-house-user" /></span> Réservations
+            </a>
+          </li>
+        </ul>
+      </div>
       <div class="flex mb-8">
         <h4 class="text-2xl font-medium mb-2">
           {{ appartmentType(appartment.appartmentType).label }} <br>
@@ -322,6 +342,10 @@ export default {
       visits: 'visit/visits'
       // accounts: 'account/accounts'
     }),
+
+    connectedUser () {
+      return this.$auth.user
+    },
 
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)

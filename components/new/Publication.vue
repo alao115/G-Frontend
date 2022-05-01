@@ -1,16 +1,22 @@
 <template>
   <div class="contents">
-    <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>
-    </a>
-    <a v-else :class="isMinified ? 'px-2' : 'px-10'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg" href="#" @click.prevent="isDismissed = false">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>
-      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. publication</span>
-    </a>
+    <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
+      <input type="checkbox" v-model="checkedValue">
+      <span :class="isSmall ? 'small' : ''" class="slider round"></span>
+    </label>
+    <div v-else>
+      <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </a>
+      <a v-else :class="isMinified ? 'px-2' : 'px-10'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg" href="#" @click.prevent="isDismissed = false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. publication</span>
+      </a>
+    </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md h-full lg:h-5/6" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
@@ -18,6 +24,9 @@
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouvelle publication
             </h4>
+            <!-- {{ appartmentTypeProp.id }}
+            {{ appartmentProp.id }}
+            {{ selectedType ? selectedType.id : ''}} -->
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -30,16 +39,18 @@
           <div v-if="currentStep === 'first'" class="first">
             <div class="relative">
               <p class="text-base mt-8 text-gray-400">
-                Type
+                CHoississez le type
               </p>
-              <button class="items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
-                <span v-if="!selectedType" class="leading-none">
-                  Choisissez un type
-                </span>
-                <p v-else class="leading-none text-left flex flex-col">
-                  {{ selectedType && selectedType.label }}
-                  <span class="text-sm mt-1 text-gray-400">{{ selectedType && selectedType.description }}</span>
-                </p>
+              <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 block text-base border rounded-lg appearance-none border-gray-320 focus:border-sky-450 focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
+                <div>
+                  <span v-if="!selectedType" class="leading-none">
+                    Choisissez un type
+                  </span>
+                  <p v-else class="leading-none text-left flex flex-col">
+                    {{ selectedType && selectedType.label }}
+                    <span class="text-sm mt-1 text-gray-400">{{ selectedType && selectedType.description }}</span>
+                  </p>
+                </div>
                 <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
@@ -57,7 +68,8 @@
             </p>
             <div class="relative inline-block w-full text-gray-700">
               <select v-model="newPublication.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
+                <option v-if="newPublication.appartment === {}" value="">Sélectionnez un appartment</option>
+                <option v-else v-for="appart in appartments" :key="appart.id" :value="appart.id">
                   <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                   <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
                 </option>
@@ -109,6 +121,14 @@
 <script>
 export default {
   props: {
+    defaultState: {
+      type: Boolean,
+      default: false
+    },
+    inTable: {
+      type: Boolean,
+      default: false
+    },
     isMinified: {
       type: Boolean,
       default: false
@@ -129,10 +149,29 @@ export default {
     appartmentTypes: {
       type: Array,
       required: true
+    },
+    appartmentProp: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    },
+    appartmentTypeProp: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    }
+  },
+
+  created () {
+    if (this.inTable === true) {
+      this.selectedType = this.appartmentTypeProp
+      this.newPublication.appartment = this.appartmentProp.id
     }
   },
   data () {
     return {
+      currentState: this.defaultState,
+      isSmall: true,
       selectedType: '',
       currentStep: 'first',
       typeSelectIsOpen: false,
@@ -140,6 +179,7 @@ export default {
       contracts: [],
       locations: [],
       newPublication: {
+        appartment: {},
         status: 'Scheduled',
         publisher: this.$auth.user._id
       },
@@ -150,6 +190,14 @@ export default {
   },
 
   computed: {
+    checkedValue: {
+      get () {
+        return this.defaultState
+      },
+      set (newValue) {
+        this.currentState = newValue
+      }
+    },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
@@ -212,3 +260,82 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+
+.switch.small {
+  width: 32px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider.small:before {
+  height: 12px;
+  width: 12px;
+}
+
+input:checked + .slider {
+  background-color: #03a8df;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #03a8df;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+input:checked + .slider.small:before {
+  -webkit-transform: translateX(12px);
+  -ms-transform: translateX(12px);
+  transform: translateX(12px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 28px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
