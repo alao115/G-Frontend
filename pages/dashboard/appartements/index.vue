@@ -65,7 +65,7 @@
           <div class="flex items-center w-min h-10 px-2">
             <input type="checkbox" name="" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center w-72 h-10 px-4 text-xs mr-2 ml-16">
+          <div class="flex items-center w-52 h-10 px-4 text-xs mr-2 ml-16">
             <span>TYPE</span>
           </div>
           <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
@@ -100,9 +100,9 @@
             <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
               <span>{{ appart.id }}</span>
             </div> -->
-            <div class="flex flex-col w-60 lg:w-64 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+            <div class="flex flex-col w-60 lg:w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <p>
-                {{ appartmentType(appart.appartmentType).label }} <br>
+                {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : ''}} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
                   <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
                   {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
@@ -134,7 +134,15 @@
               <span>{{ appartVisits(appart.id).length }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2">
-              <ToggleSwitch :default-state="isPublished(appart.id) !== undefined" />
+              <!-- <ToggleSwitch :default-state="isPublished(appart.id) !== undefined" :appartment="appart" :publications="publications"/> -->
+              <NewPublication
+                :load-publications-func="loadPublications"
+                :appartment-types="appartmentTypes"
+                :appartments-prop="appartments"
+                :in-table="true"
+                :appartment-prop="appart"
+                :default-state="isPublished(appart.id) !== undefined"
+                :appartment-type-prop="appartmentType(appart.appartmentType)"/>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
               <!-- <span class="icon cursor:pointer p-2">
@@ -154,7 +162,7 @@
           <div class="flex items-center w-min h-10 px-2">
             <input type="checkbox" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
           </div>
-          <div class="flex items-center w-72 h-10 px-4 text-xs mr-2 ml-16">
+          <div class="flex items-center w-52 h-10 px-4 text-xs mr-2 ml-16">
             <span>TYPE</span>
           </div>
           <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
@@ -175,20 +183,24 @@
         </div>
       </div>
       <div v-else class="grid grid-cols-1 lg:grid-cols-3">
-        <div v-for="appartmnt in appartments" :key="appartmnt.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
-          <img :src="appartmnt.mainImg" alt="">
+        <div v-for="appart in appartments" :key="appart.id" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appart)">
+          <img :src="appart.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
-              {{ appartmnt.type }}
+              {{ appartmentType(appart.appartmentType).label }} <br>
+              <span class="text-gray-400">{{ appart.bedrooms }}
+                <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
+                {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
+              </span>
             </h4>
             <div class="flex items-center">
               <span class="icon mr-4 text-sky-450">
                 <i class="fas fa-map-marker-alt" />
               </span>
-              <label for="#" class="text-md">{{ appartmnt.location }}</label>
+              <label for="#" class="text-md">{{ appart.location }}</label>
             </div>
             <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450" href="#">
-              {{ appartmnt.rent + 'F CFA' }}
+              {{ appart.rent + 'F CFA' }}
             </a>
           </div>
         </div>
@@ -305,6 +317,7 @@ export default {
   methods: {
     ...mapActions({
       loadAppartments: 'appartment/loadAppartments',
+      loadPublications: 'appartment/loadPublications',
       loadFavories: 'favory/favories'
     }),
 

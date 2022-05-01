@@ -1,7 +1,7 @@
 <template>
   <div class="contents">
-    <div class="container bg-white rounded-xl h-auto p-10 font-body shadow-btn-shadow mt-16 -mb-16 bg-opacity-90 ">
-      <div class="md:hidden mb-2">
+    <div class="container max-w-5xl bg-white rounded-xl h-auto p-10 font-body shadow-btn-shadow mt-16 -mb-16 bg-opacity-90 ">
+      <div class="md:hidden">
         <p class="mb-2 text-sm">
           <span class="icon mr-2">
             <i class="fas fa-tag" />
@@ -15,7 +15,7 @@
           </option>
         </select>
       </div>
-      <div v-if="listOfTypes.length > 0" class="flex w-min mb-8 rounded-md bg-blue-50 list-of-type hidden md:block">
+      <div v-if="listOfTypes.length > 0" class="w-min mb-8 rounded-md bg-blue-50 list-of-type hidden md:flex">
         <button
           v-for="type in listOfTypes"
           :key="type.id"
@@ -38,99 +38,95 @@
         </button>
       </div>
       <form action="#" class="form text-blue-990 md:border-2 border-gray-200 md:p-8 rounded-md divide-y space-y-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 items-center justify-between">
-          <div class="p-2 flex flex-col my-4 md=my-0">
-            <div class="mb-2 md:mb-4 text-left">
-              <span class="icon mr-4">
-                <i class="fas fa-map-marker-alt" />
-              </span>
-              <label for="#">Localisation</label>
-            </div>
-            <select name="location rounded-lg" id="" v-model="search.location" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
-              <option v-if="search.location === ''" value="">Choisissez une localité</option>
-              <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
-            </select>
-          </div>
-          <hr class="divider-v bg-gray-200 w-0.5 h-16 hidden md:block">
-          <div class="md:p-2 flex flex-col my-4 md:my-0 hidden md:block">
-            <div class="mb-2 md:mb-6 text-left -mt-3">
-              <span class="icon mr-4">
-                <i class="fas fa-home" />
-              </span>
-              <label class="mr-4" for="#">Nbre de Pièces min.</label>
-            </div>
-            <div class="relative flex justify-between items-center">
-              <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md" :class="search.roomQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" search.roomQty > 1 ? search.roomQty-- : '' ">
-                <span class="icon">
-                  <i class="far fa-minus fa-sm" />
-                </span>
-              </a>
-              <label class="mr-4" for="#">{{ search.roomQty }}</label>
-              <a class="border-2 border-blue-990 px-4 py-3 mr-4 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomQty++">
-                <span class="icon">
-                  <i class="far fa-plus fa-sm" />
-                </span>
-              </a>
-            </div>
-          </div>
-          <hr class="divider-v bg-gray-200 w-0.5 h-16 hidden md:block">
-          <!-- <div class="p-2 flex items-center">
-            <span class="icon mr-4">
-              <i class="fas fa-money-bill-wave-alt" />
-            </span>
-            <label for="#">Votre budget</label>
-          </div> -->
-          <div class="flex items-center pr-4">
-            <!-- <Slider /> -->
-            <!-- <div class="p-2 flex flex-col" @click.prevent="budgetDropdownOpened = !budgetDropdownOpened"> -->
-            <div class="p-2 flex flex-col my-4 md=my-0">
-              <div class="mb-4 text-left">
+        <div class="flex md:justify-between items-center flex-col md:flex-row">
+          <div class="w-full grid grid-cols-1 md:grid-cols-3 items-center md:justify-between lg:justify-start md:divide-x md:space-x-8">
+            <div class="p-2 flex flex-col md:my-0">
+              <div class="mb-2 md:mb-4 text-left">
                 <span class="icon mr-4">
-                  <i class="fas fa-money-bill-wave-alt" />
+                  <i class="fas fa-map-marker-alt" />
                 </span>
-                <label v-if="search.budget">
-                  {{ search.budget }}
-                </label>
-                <label v-else>
-                  Budget minimum
-                </label>
+                <label for="#">Localisation</label>
               </div>
-              <div class="flex space-x-2">
-                <div>
-                  <input v-model.number="search.budgetMin" type="number" class="w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
-                </div>
-                <!-- <div>
-                  <input v-model.number="search.budgetMax" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Max">
-                </div> -->
+              <select name="location rounded-lg" id="" v-model="search.location" class="w-full h-12 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
+                <option v-if="search.location === ''" value="">Choisissez une localité</option>
+                <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
+              </select>
+            </div>
+            <div class="md:p-2 flex flex-col my-4 md:my-0 hidden md:block">
+              <div class="mb-2 md:mb-4 text-left">
+                <span class="icon mr-4">
+                  <i class="fas fa-home" />
+                </span>
+                <label class="mr-4" for="#">Nbre de Pièces min.</label>
+              </div>
+              <div class="relative flex justify-between items-center">
+                <a class="border-2 border-blue-990 px-4 py-3 text-blue-990 rounded-md h-12" :class="search.roomQty > 1 ? 'hover:bg-blue-990 hover:text-white' : 'opacity-20 bg-gray-400'" @click.prevent=" search.roomQty > 1 ? search.roomQty-- : '' ">
+                  <span class="icon">
+                    <i class="far fa-minus fa-sm" />
+                  </span>
+                </a>
+                <input type="number" class="h-12 w-24 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" v-model.number="search.roomQty">
+                <a class="border-2 border-blue-990 h-12 px-4 py-3 text-blue-990 rounded-md hover:bg-blue-990 hover:text-white" @click.prevent="search.roomQty++">
+                  <span class="icon">
+                    <i class="far fa-plus fa-sm" />
+                  </span>
+                </a>
               </div>
             </div>
-            <!-- <div v-if="budgetDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white">
-              <div class="flex justify-between">
-                <a href="#" @click.prevent="search.budgetMax = 0, search.budgetMin = 0">Vider les champs</a>
-                <span class="icon absolute top-4 right-4" @click.prevent="budgetDropdownOpened = false"><i class="far fa-times fa-lg"></i></span>
-              </div>
-              <div class="flex space-x-2 mt-4">
-                <div>
-                  <label class=" py-4">
-                    Entre
+            <div class="flex items-center w-full">
+              <!-- <Slider /> -->
+              <!-- <div class="p-2 flex flex-col" @click.prevent="budgetDropdownOpened = !budgetDropdownOpened"> -->
+              <div class="p-2 flex flex-col my-4 md=my-0">
+                <div class="mb-4 text-left">
+                  <span class="icon mr-4">
+                    <i class="fas fa-money-bill-wave-alt" />
+                  </span>
+                  <label v-if="search.budget">
+                    {{ search.budget }}
                   </label>
-                  <input v-model.number="search.budgetMin" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                </div>
-                <div>
-                  <label class="py-4">
-                    Et
+                  <label v-else>
+                    Budget minimum
                   </label>
-                  <input v-model.number="search.budgetMax" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                </div>
+                <div class="flex space-x-2">
+                  <div>
+                    <input v-model.number="search.budgetMin" type="number" class="w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
+                  </div>
+                  <!-- <div>
+                    <input v-model.number="search.budgetMax" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Max">
+                  </div> -->
                 </div>
               </div>
-              <a href="#" class="mt-4 relative shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10" @click.prevent="budgetDropdownOpened = false">
-                Valider
-              </a>
-            </div> -->
+              <!-- <div v-if="budgetDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white">
+                <div class="flex justify-between">
+                  <a href="#" @click.prevent="search.budgetMax = 0, search.budgetMin = 0">Vider les champs</a>
+                  <span class="icon absolute top-4 right-4" @click.prevent="budgetDropdownOpened = false"><i class="far fa-times fa-lg"></i></span>
+                </div>
+                <div class="flex space-x-2 mt-4">
+                  <div>
+                    <label class=" py-4">
+                      Entre
+                    </label>
+                    <input v-model.number="search.budgetMin" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  </div>
+                  <div>
+                    <label class="py-4">
+                      Et
+                    </label>
+                    <input v-model.number="search.budgetMax" type="number" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  </div>
+                </div>
+                <a href="#" class="mt-4 relative shadow-btn-shadow w-full flex items-center justify-center px-8 h-14 border border-transparent text-base font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 md:py-4 md:text-lg md:px-10" @click.prevent="budgetDropdownOpened = false">
+                  Valider
+                </a>
+              </div> -->
+            </div>
           </div>
-          <a class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
-            <span class="icon"><i class="fas fa-search fa-lg"></i></span>
-          </a>
+          <div class="md:mt-10">
+            <a class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
+              <span class="icon"><i class="fas fa-search fa-lg"></i></span>
+            </a>
+          </div>
         </div>
       </form>
     </div>
@@ -199,7 +195,7 @@ export default {
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
     },
-    locationAppatements () {
+    locationAppartments () {
       return location => this.appartments.filter(appartment => appartment.location === location)
     },
     listOfTypes () {
@@ -216,7 +212,7 @@ export default {
       const locations = []
       this.appartments.forEach((appartment) => {
         // if (locations.includes(appartment.location) === -1) {
-        if (this.locationAppatements(appartment.location).length >= 1) {
+        if (this.locationAppartments(appartment.location).length >= 1) {
           locations.push(appartment.location)
           // console.log(locations)
         }

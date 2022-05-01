@@ -1,5 +1,5 @@
 <template>
-  <div id="landing-section" class="font-body bg-contain bg-center h-screen w-screen pt-32 overflow-x-hidden flex items-center">
+  <div id="landing-section" class="font-body bg-contain bg-center min-h-screen w-screen py-32 overflow-x-hidden flex items-center">
     <div class="container w-full px-8 2xl:px-16 xl:px-24 flex flex-col mx-auto pt-16 md:pt-0" style="min-height: 516px">
       <!-- <div class="text-blue-990 xl:w-6/12 mb-16"> -->
       <div class="text-blue-920 md:mb-16">
