@@ -235,7 +235,7 @@
                     {{ appartment && appartment.conditions.prepaidRentMonths }} mois d'avance
                   </p>
                   <div class="flex items-center font">
-                    <label for="#" v-if="appartment && appartment.rent" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
+                    <label v-if="appartment && appartment.rent" for="#" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
                   </div>
                 </div>
               </div>
@@ -275,8 +275,8 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  /* async asyncData ({ $api }) {
-    if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
+  async asyncData ({ $api, $auth, $store }) {
+    if ($auth.loggedIn) { await $store.dispatch('account/getAuthUserAccount') }
     const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
     const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
 
@@ -284,7 +284,7 @@ export default {
       appartments,
       appartmentTypes
     }
-  }, */
+  },
 
   data () {
     return {
@@ -294,12 +294,12 @@ export default {
       appartmentTypes: []
     }
   },
-  async fetch () {
-    if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
+  // async fetch () {
+  //   if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
 
-    this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
-  },
+  //   this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
+  //   this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+  // },
 
   computed: {
     ...mapGetters({

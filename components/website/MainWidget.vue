@@ -9,7 +9,9 @@
           <label for="#">Type d'appart</label>
         </p>
         <select v-if="listOfTypes.length > 0" v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-          <option v-if="selectedType === 0" value="">Choisissez un type</option>
+          <option v-if="selectedType === 0" value="">
+            Choisissez un type
+          </option>
           <option v-for="type in listOfTypes" :key="type.id" :value="type.id">
             {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
           </option>
@@ -46,9 +48,13 @@
               </span>
               <label for="#">Localisation</label>
             </div>
-            <select name="location rounded-lg" id="" v-model="search.location" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
-              <option v-if="search.location === ''" value="">Choisissez une localité</option>
-              <option v-for="(location, count) in locations" :key="count" :value="location">{{ location }}</option>
+            <select id="" v-model="search.location" name="location rounded-lg" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
+              <option v-if="search.location === ''" value="">
+                Choisissez une localité
+              </option>
+              <option v-for="(location, count) in locations" :key="count" :value="location">
+                {{ location }}
+              </option>
             </select>
           </div>
           <hr class="divider-v bg-gray-200 w-0.5 h-16 hidden md:block">
@@ -129,7 +135,7 @@
             </div> -->
           </div>
           <a class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
-            <span class="icon"><i class="fas fa-search fa-lg"></i></span>
+            <span class="icon"><i class="fas fa-search fa-lg" /></span>
           </a>
         </div>
       </form>

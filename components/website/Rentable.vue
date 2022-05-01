@@ -1,7 +1,18 @@
 <template>
   <div class="card relative flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg">
     <!-- <div class="h-40 bg-gray-400 rounded-lg"></div> -->
-    <span class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer" @click.prevent="addToFavorite()"><i class="far fa-heart fa-lg" /></span>
+    <template v-if="favoryExisted">
+      <span v-if="!onUpdate" class="icon h-8 w-8 absolute right-4 top-4 text-red-400 favorite cursor-pointer flex justify-center items-center" @click.prevent="removeFromFavorite()"><i class="fa fa-heart fa-lg" /></span>
+      <span v-else class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center">
+        <loader />
+      </span>
+    </template>
+    <template v-else>
+      <span v-if="!onCreate" class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center" @click.prevent="addToFavorite()"><i class="far fa-heart fa-lg" /></span>
+      <span v-else class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center">
+        <loader />
+      </span>
+    </template>
     <div @click.prevent="toDetails(appartment)">
       <img :src="appartment.mainImg" alt="">
       <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
@@ -24,71 +35,82 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import loader from '../loader.vue'
 export default {
+  components: { loader },
   props: {
     appartment: {
       type: Object,
       default: null
-    },
-    favories: {
-      type: Array,
-      required: true,
-      default: () => ([])
     }
-  },
-  async asyncData ({ $api, store }) {
-    if (!store.getters['appartment/appartments'].length) {
-      await store.dispatch('appartment/loadAppartments')
-    }
-
-    /* if (!store.getters['favory/favories'].length) {
-      await store.dispatch('favory/loadFavories')
-    } */
-
-    return {
-    }
+    // favories: {
+    //   type: Array,
+    //   // required: true,
+    //   default: () => ([])
+    // }
   },
   data () {
     return {
-      onCreated: false,
+      onCreate: false,
+      onUpdate: false,
       newFavory: {
         user: '',
         appartment: this.appartment.id
       }
     }
   },
+  async fetch () {
+    if (!this.$store.getters['favory/favories'].length) {
+      await this.loadFavories()
+    }
+  },
   computed: {
+    ...mapGetters({
+      favories: 'favory/favories'
+    }),
+    favoryExisted () {
+      return this.favories.find(f => f.id === this.appartment?.id)
+    },
     connectedUser () {
       return this.$auth.user
-    },
-    ...mapGetters({
-      appartments: 'appartment/appartments'
-      // favories: 'favory/favories'
-    })
+    }
+  },
+  created () {
+    this.$fetch()
   },
   methods: {
     ...mapActions({
-      loadAppartments: 'appartment/loadAppartments',
       loadFavories: 'favory/loadFavories'
     }),
     toDetails (appartment) {
       this.$router.push({ path: '/appartments/' + appartment.id })
     },
+    removeFromFavorite () {
+      if (this.connectedUser) {
+        this.onUpdate = true
+        this.$api.favoryService.delete({ variables: { favoryId: this.favoryExisted.fID } })
+          .then(() => this.loadFavories())
+          .then(() => {
+            this.onUpdate = false
+          })
+      } else {
+        this.$router.push({ name: 'auth-signin' })
+      }
+    },
     addToFavorite () {
       if (this.connectedUser) {
-        this.onCreated = true
+        this.onCreate = true
         this.newFavory.user = this.connectedUser.id
         this.$api.favoryService.create({ variables: { data: this.newFavory } })
           .then((response) => {
             this.newFavory = {}
-            // this.currentStep = 'congrats'
-            // await this.loadAppartmentTypesFunc()
+            return this.loadFavories()
           })
           .finally(() => {
-            this.onCreated = false
+            this.onCreate = false
           })
       } else {
-        alert('Vous de vez avoir un compte avant de pouvoir ajouter des favoris.')
+        this.$router.push({ name: 'auth-signin' })
       }
     }
   }

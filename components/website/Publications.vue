@@ -26,9 +26,9 @@
     </div>
     <div class="grid lg:grid-cols-3 gap-8 mt-8">
       <WebsiteRentable
-        v-for="appartment in appartments"
-        :key="appartment.id"
-        :appartment="appartment"
+        v-for="appartmnt in appartments"
+        :key="appartmnt.id"
+        :appartment="appartmnt"
         :favories="favories"
       />
     </div>
@@ -45,7 +45,7 @@ export default {
     },
     favories: {
       type: Array,
-      required: true,
+      // required: true,
       default: () => ([])
     },
     appartmentTypes: {

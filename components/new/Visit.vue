@@ -101,13 +101,14 @@
                   </option>
                 </select>
                 <div class="grid grid-cols-4 gap-4">
-                  <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                  <label v-for="(slot, count) in timeSlots" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
                     <input
+                      :id="slot"
                       type="checkbox"
                       :name="slot"
-                      :id="slot"
                       class="mr-2"
-                      :value="slot">
+                      :value="slot"
+                    >
                     {{ slot }}
                   </label>
                 </div>

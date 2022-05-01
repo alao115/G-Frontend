@@ -5,7 +5,7 @@
         Résultats de la recherche
       </h1>
       <div class="flex">
-        <div class="filters w-1/4 hidden"></div>
+        <div class="filters w-1/4 hidden" />
         <div class="content w-full">
           <div class="grid grid-cols-3 gap-8">
             <WebsiteRentable
@@ -23,10 +23,6 @@
 <script>
 export default {
   layout: 'website',
-  created () {
-    /* eslint-disable no-console */
-    /* console.log(this.$route.query) */
-  },
   data () {
     return {
       location: this.$route.query.location || '',
@@ -68,6 +64,10 @@ export default {
       }
       return appartmentsToFilter
     }
+  },
+  created () {
+    /* eslint-disable no-console */
+    /* console.log(this.$route.query) */
   }
 }
 </script>

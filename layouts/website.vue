@@ -31,10 +31,11 @@ export default {
 
   // eslint-disable-next-line vue/order-in-components
   async fetch () {
+    // console.log(this.$api)
     if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
 
     this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
-    this.favories = (await this.$api.favoryService.getAllFavoryFromREST()).data.favories
+    // this.favories = [] // (await this.$api.favoryService?.getAllFavoryFromREST()).data.favories || []
     this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
   },
 
