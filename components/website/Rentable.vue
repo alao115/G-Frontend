@@ -14,7 +14,7 @@
       </span>
     </template>
     <div @click.prevent="toDetails(appartment)">
-      <img :src="appartment.mainImg" alt="">
+      <img :src="appartment.mainImg" class="w-full" alt="">
       <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
         <h4 class="text-lg font-medium mb-2">
           {{ appartment.type }}
