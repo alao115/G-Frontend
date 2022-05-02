@@ -13,12 +13,33 @@
               <i class="far fa-comment-alt-check" />
             </span>
           </button>
-          <button class="btn flex space-x-4 items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
+          <template v-if="connectedUser">
+            <button class="flex justify-center items-center space-x-2" @click.prevent="authUserDropdownOpened = !authUserDropdownOpened">
+              <span class="icon "><i class="fal fa-user-circle fa-2x" /></span>
+              <span class="icon"><i class="far fa-caret-down fa-lg" /></span>
+            </button>
+            <div v-if="authUserDropdownOpened === true" class="absolute max-w-xs flex flex-col w-full p-8 border border-black shadow-lg z-50 bg-white mt-12 top-2 right-12">
+              <div class="flex flex-col space-y-4">
+                <p class="text-sm text-gray-400">
+                  {{ 'Bonjour, ' + `${connectedUser ? connectedUser.firstname + ' ' + connectedUser.lastname : 'Mr./Mme.'}` }}
+                </p>
+                <hr>
+                <NuxtLink to="/dashboard/profile" class="nuxt-link-active" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                  Mon profil
+                </NuxtLink>
+                <hr>
+                <a class="nuxt-link-active cursor-pointer" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="() => $auth.logout().then(() => $store.commit('account/setAuthUserAccount', null)) ">
+                  Se déconnecter
+                </a>
+              </div>
+            </div>
+          </template>
+          <!-- <button class="btn flex space-x-4 items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300" @click="logout">
             <span class="hidden lg:block">Se déconnecter</span>
             <span class="block icon">
               <i class="far fa-sign-out-alt" />
             </span>
-          </button>
+          </button> -->
         </div>
       </div>
       <Nuxt class="" />
@@ -56,7 +77,8 @@ export default {
       isLoggedUserDropdownnClosed: true,
       isMinified: false,
       isDismissed: false,
-      addDropdownDismissed: true
+      addDropdownDismissed: true,
+      authUserDropdownOpened: false
     }
   },
   computed: {

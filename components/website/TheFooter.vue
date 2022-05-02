@@ -7,7 +7,7 @@
     <p>
       © 2021 Gontché
     </p>
-    <a class="hidden lg:block" href="#">Nous contacter</a>
+    <NuxtLink class="hidden lg:block" to="cgu">CGU</NuxtLink>
     <div class="hidden lg:flex space-x-3">
       <NuxtLink to="#">
         <span class="icon">

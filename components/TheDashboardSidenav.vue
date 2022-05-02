@@ -91,7 +91,7 @@
         </template>
       </div>
     </div>
-    <template v-if="connectedUser">
+    <!-- <template v-if="connectedUser">
       <div class="relative w-full">
         <button class="flex justify-center items-center space-x-2 h-16 border-t" @click.prevent="authUserDropdownOpened = !authUserDropdownOpened">
           <span class="icon "><i class="fal fa-user-circle fa-2x" /></span>
@@ -110,7 +110,7 @@
           </div>
         </div>
       </div>
-    </template>
+    </template> -->
   </div>
 </template>
 
