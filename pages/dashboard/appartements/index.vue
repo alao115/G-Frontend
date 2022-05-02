@@ -113,7 +113,7 @@
             </div> -->
             <div class="flex flex-col w-60 lg:w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <p>
-                {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : ''}} <br>
+                {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
                   <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
                   {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
@@ -151,7 +151,8 @@
                 :in-table="true"
                 :publication-id="isPublished(appart.id).id"
                 :delete-placeholder="() => deletePublication(isPublished(appart.id).id)"
-                :default-state="isPublished(appart.id) !== undefined" />
+                :default-state="isPublished(appart.id) !== undefined"
+              />
               <NewPublication
                 v-else
                 :load-publications-func="loadPublications"
@@ -160,7 +161,8 @@
                 :in-table="true"
                 :appartment-prop="appart"
                 :default-state="isPublished(appart.id) !== undefined"
-                :appartment-type-prop="appartmentType(appart.appartmentType)"/>
+                :appartment-type-prop="appartmentType(appart.appartmentType)"
+              />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
               <!-- <span class="icon cursor:pointer p-2">
