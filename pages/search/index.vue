@@ -4,18 +4,15 @@
       <h1 class="text-2xl font-semibold leading-snug mb-8">
         Résultats de la recherche
       </h1>
-      <div class="flex">
-        <div class="filters w-1/4 hidden" />
-        <div class="content w-full">
-          <div class="grid grid-cols-3 gap-8">
-            <WebsiteRentable
-              v-for="appartment in filteredAppartments"
-              :key="appartment.id"
-              :appartment="appartment"
-            />
-          </div>
+      <div class="w-full">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <WebsiteRentable
+            v-for="appartment in filteredAppartments"
+            :key="appartment.id"
+            :appartment="appartment"
+            :appartment-type="appartmentType(appartment.appartmentType)"
+          />
         </div>
-        <div class="content w-full" />
       </div>
     </div>
   </div>
@@ -64,6 +61,11 @@ export default {
         appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && appartment.rent >= this.budgetMin && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
       }
       return appartmentsToFilter
+    },
+    computed: {
+      appartmentType () {
+        return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+      }
     }
   },
   created () {

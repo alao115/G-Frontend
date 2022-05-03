@@ -58,7 +58,7 @@
                 </option>
               </select>
             </div>
-            <div class="md:p-2 flex flex-col my-4 md:my-0 hidden md:block">
+            <div class="md:p-2 flex-col my-4 md:my-0 hidden md:block">
               <div class="mb-2 md:mb-4 text-left">
                 <span class="icon mr-4">
                   <i class="fas fa-home" />

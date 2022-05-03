@@ -8,7 +8,6 @@ export default ({ http, serviceName }) => class storageService {
   }
 
   delete (data) {
-    console.log(data)
     return http.post(`/${serviceName}/delete`, data)
   }
 }

@@ -113,7 +113,7 @@
             </div> -->
             <div class="flex flex-col w-60 lg:w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <p>
-                {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : ''}} <br>
+                {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
                   <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
                   {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
@@ -146,14 +146,23 @@
             </div>
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2">
               <!-- <ToggleSwitch :default-state="isPublished(appart.id) !== undefined" :appartment="appart" :publications="publications"/> -->
+              <DeleteUnpublishPrompt
+                v-if="isPublished(appart.id) !== undefined"
+                :in-table="true"
+                :publication-id="isPublished(appart.id).id"
+                :delete-placeholder="() => deletePublication(isPublished(appart.id).id)"
+                :default-state="isPublished(appart.id) !== undefined"
+              />
               <NewPublication
+                v-else
                 :load-publications-func="loadPublications"
                 :appartment-types="appartmentTypes"
                 :appartments-prop="appartments"
                 :in-table="true"
                 :appartment-prop="appart"
                 :default-state="isPublished(appart.id) !== undefined"
-                :appartment-type-prop="appartmentType(appart.appartmentType)"/>
+                :appartment-type-prop="appartmentType(appart.appartmentType)"
+              />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
               <!-- <span class="icon cursor:pointer p-2">
@@ -198,20 +207,20 @@
           <img :src="appartmnt.mainImg" alt="">
           <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
             <h4 class="text-lg font-medium mb-2">
-              {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
-              <span class="text-gray-400">{{ appart.bedrooms }}
-                <span class="hidden lg:contents">Chambre<span v-if="appart.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
-                {{ appart.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appart.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
+              {{ appartmentType(appartmnt.appartmentType) ? appartmentType(appartmnt.appartmentType).label : '' }} <br>
+              <span class="text-gray-400">{{ appartmnt.bedrooms }}
+                <span class="hidden lg:contents">Chambre<span v-if="appartmnt.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
+                {{ appartmnt.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appartmnt.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
               </span>
             </h4>
             <div class="flex items-center">
               <span class="icon mr-4 text-sky-450">
                 <i class="fas fa-map-marker-alt" />
               </span>
-              <label for="#" class="text-md">{{ appart.location }}</label>
+              <label for="#" class="text-md">{{ appartmnt.location }}</label>
             </div>
             <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450" href="#">
-              {{ appart.rent + 'F CFA' }}
+              {{ appartmnt.rent + 'F CFA' }}
             </a>
           </div>
         </div>
@@ -248,10 +257,6 @@ export default {
       if (!store.getters['visit/visits'].length) {
         await store.dispatch('visit/loadVisits')
       }
-
-      /* if (!store.getters['favory/favories'].length) {
-      await store.dispatch('favory/loadFavories')
-      } */
     }
 
     return {
@@ -282,7 +287,6 @@ export default {
       reservations: 'reservation/reservations',
       visits: 'visit/visits',
       favories: 'favory/favories'
-      // accounts: 'account/accounts'
     }),
 
     connectedUser () {
@@ -326,18 +330,27 @@ export default {
       return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
     },
     returnedAppartment () {
-      if (this.connectedUser.userType === 0) {
-        return this.appartments
-      } else {
-        return this.publisherAppartments
-      }
+      return this.appartments
+      // if (this.connectedUser.userType === 1) {
+      //   return this.publisherAppartments
+      // } else {
+      //   return this.appartments
+      // }
     }
   },
   methods: {
     ...mapActions({
       loadAppartments: 'appartment/loadAppartments',
       loadPublications: 'appartment/loadPublications',
-      loadFavories: 'favory/favories'
+      loadFavories: 'favory/favories',
+      deletePublication (publication) {
+        return this.$api.publicationService.delete({ variables: { publicationId: publication.id } })
+          .then(async () => {
+            await this.loadPublications()
+          })
+          // eslint-disable-next-line no-console
+          .catch(error => console.log(error))
+      }
     }),
 
     toDetails (appartment) {
