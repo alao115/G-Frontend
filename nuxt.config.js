@@ -120,5 +120,9 @@ export default {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
     }
+  },
+
+  server: {
+    port: process.env.PORT || 3000
   }
 }

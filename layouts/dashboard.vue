@@ -86,6 +86,10 @@ export default {
       authUserDropdownOpened: false
     }
   },
+
+  async fetch () {
+    await this.$store.dispatch('account/getAuthUserAccount')
+  },
   computed: {
     ...mapGetters({
       connectedUser: 'account/authUserAccount'
@@ -124,6 +128,7 @@ export default {
     }
   },
   created () {
+    this.$fetch()
     this.$nuxt.$on('is-minified', ($value) => {
       // alert('dans layout dashboard')
       this.isMinified = $value
