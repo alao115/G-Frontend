@@ -7,7 +7,7 @@
           {{ pageTitle }}
         </h1>
         <div class="flex justify-center items-center space-x-4">
-          <button v-if="connectedUser.user.userType !== 0 && connectedUser.user.userType !== 1" class="btn flex space-x-4 items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-sky-550 text-white rounded hover:bg-gray-300" @click.prevent="switchAccountType">
+          <button v-if="connectedUser && (connectedUser.user.userType !== 0 && connectedUser.user.userType !== 1)" class="btn flex space-x-4 items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-sky-550 text-white rounded hover:bg-gray-300" @click.prevent="switchAccountType">
             <span class="hidden lg:block">Publier une annonce</span>
             <span class="block icon">
               <i class="far fa-comment-alt-check" />
