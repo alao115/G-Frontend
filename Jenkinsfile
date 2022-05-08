@@ -9,21 +9,27 @@ pipeline {
         CI = 'true'
     }
     stages {
-        stage('Build') {
+        stage('Install') {
             steps {
                 sh 'npm install'
             }
         }
-        stage('Test') {
+        stage('Build') {
             steps {
-                sh './jenkins/scripts/test.sh'
+              sh 'npm run build'
             }
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
-                input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
+              sh 'cp -r ${WORKSPACE}/.* /home/app/frontend'
+            }
+        }
+
+        stage('Run') {
+            steps {
+              sh 'pm2 stop gontche_frontend_prod'
+              sh 'pm2 start gontche_frontend_prod'
+              sh 'pm2 save'
             }
         }
     }
