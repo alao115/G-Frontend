@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'node:lts-buster-slim'
-            args '-p 3000:3000'
+            args '-p 3000:3000 -v /home/app/frontend:/home/app/frontend:rw -u root'
         }
     }
     environment {
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'npm -g install yarn'
+                sh 'npm install yarn'
                 sh 'yarn install'
             }
         }
@@ -20,17 +20,14 @@ pipeline {
               sh 'npm run build'
             }
         }
-        stage('Deliver') {
-            steps {
-              sh 'cp -r ${WORKSPACE}/.* /home/app/frontend'
-            }
-        }
-
         stage('Run') {
             steps {
-              sh 'pm2 stop gontche_frontend_prod'
-              sh 'pm2 start gontche_frontend_prod'
-              sh 'pm2 save'
+              sh 'npm run start'
+            }
+        }
+        stage('Deliver') {
+            steps {
+              sh 'cp -r ${WORKSPACE}/nuxt-dist/.* /home/app/frontend/nuxt-dist/'
             }
         }
     }
