@@ -22,12 +22,12 @@ pipeline {
         }
         stage('Run') {
             steps {
-              sh 'npm run start'
+              echo "Running ..."
             }
         }
         stage('Deliver') {
             steps {
-              sh 'cp -r ${WORKSPACE}/nuxt-dist/.* /home/app/frontend/nuxt-dist/'
+              sh 'cp -r ${WORKSPACE}/nuxt-dist/* /home/app/frontend/nuxt-dist/'
             }
         }
     }
