@@ -122,6 +122,8 @@ export default {
     }
   },
 
+  buildDir: 'nuxt-dist',
+
   server: {
     port: process.env.PORT || 3000
   }
