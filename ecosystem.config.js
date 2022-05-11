@@ -3,12 +3,12 @@ module.exports = {
     {
       name: 'gontche_frontend_prod',
       script: 'npm run start',
-      watch: ['nuxt-dist']
+      watch: true
     },
     {
       name: 'gontche_frontend_dev',
       script: 'npm run dev',
-      watch: ['nuxt-dist']
+      watch: true
     }
   ]
 }
