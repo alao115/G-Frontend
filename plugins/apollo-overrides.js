@@ -1,7 +1,7 @@
 import https from 'https'
 
 export default ({ app }) => {
-  // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   app.apolloProvider.defaultClient.defaultOptions = {
     httpLinkOptions: {
       credentials: 'same-origin',
