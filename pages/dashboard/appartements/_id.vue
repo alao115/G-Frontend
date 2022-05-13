@@ -6,7 +6,7 @@
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
           <!-- <li v-if="connectedUser.userType !== 2" class="mr-2"> -->
           <li class="mr-2">
-            <a href="#" :class="activeTab === 'infos' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''"  class="inline-flex p-4 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-current="page" @click.prevent="activeTab = 'infos'">
+            <a href="#" :class="activeTab === 'infos' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-current="page" @click.prevent="activeTab = 'infos'">
               <span class="icon mr-2"><i class="far fa-info-circle" /></span> Infos
             </a>
           </li>

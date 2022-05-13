@@ -120,5 +120,11 @@ export default {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
     }
+  },
+
+  buildDir: 'nuxt-dist',
+
+  server: {
+    port: process.env.PORT || 3000
   }
 }
