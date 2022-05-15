@@ -68,7 +68,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: process.env.GRAPHQL_URL || 'http://localhost:7500/graphql'
+        httpEndpoint: process.env.GRAPHQL_URL || 'https://gontche.com/graphql'
       }
     },
     authenticationType: 'Bearer',
@@ -109,7 +109,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:7500/api'
+    baseURL: process.env.BASE_URL || 'https://gontche.com/api'
     // credentials: true,
   },
 
@@ -126,5 +126,10 @@ export default {
 
   server: {
     port: process.env.PORT || 3000
-  }
+  },
+  generate: {
+    dir: '/home/anonymous/Documents/coding/Node/gontche_backend/dist/public'
+  },
+  target: 'static',
+  ssr: false
 }
