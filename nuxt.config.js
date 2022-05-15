@@ -126,5 +126,10 @@ export default {
 
   server: {
     port: process.env.PORT || 3000
-  }
+  },
+  generate: {
+    dir: '/home/anonymous/Documents/coding/Node/gontche_backend/dist/public'
+  },
+  target: 'static',
+  ssr: false
 }
