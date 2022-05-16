@@ -8,11 +8,9 @@
           </span>
           <label for="#">Type d'appart</label>
         </p>
-        <select v-if="listOfTypes.length > 0" v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-          <option v-if="selectedType === 0" value="">
-            Choisissez un type
-          </option>
-          <option v-for="type in listOfTypes" :key="type.id" :value="type.id">
+        <select v-model="selectedType" class="w-full h-12 md:h-16 mb-4 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+          <!-- <option v-for="type in listOfTypes" :key="type.id" :value="type.id"> -->
+          <option v-for="type in appartmentTypes" :key="type.id" :value="type.id">
             {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
           </option>
         </select>
@@ -28,7 +26,7 @@
           {{ type.label + ' (' + typeAppartments(type.id).length + ')' }}
         </button>
       </div>
-      <div v-else class="flex w-min mb-8 rounded-md bg-blue-50 list-of-types">
+      <div v-else class="hidden md:flex w-min mb-8 rounded-md bg-blue-50 list-of-types">
         <button
           v-for="type in types"
           :key="type.id"
@@ -42,7 +40,7 @@
       <form action="#" class="form text-blue-990 md:border-2 border-gray-200 md:p-8 rounded-md divide-y space-y-8">
         <div class="flex md:justify-between items-center flex-col md:flex-row">
           <div class="w-full grid grid-cols-1 md:grid-cols-3 items-center md:justify-between lg:justify-start md:divide-x md:space-x-8">
-            <div class="p-2 flex flex-col md:my-0">
+            <div class="flex flex-col md:my-0">
               <div class="mb-2 md:mb-4 text-left">
                 <span class="icon mr-4">
                   <i class="fas fa-map-marker-alt" />
@@ -82,7 +80,7 @@
             <div class="flex items-center w-full">
               <!-- <Slider /> -->
               <!-- <div class="p-2 flex flex-col" @click.prevent="budgetDropdownOpened = !budgetDropdownOpened"> -->
-              <div class="p-2 flex flex-col my-4 md=my-0">
+              <div class="flex flex-col my-4 md=my-0">
                 <div class="mb-4 text-left">
                   <span class="icon mr-4">
                     <i class="fas fa-money-bill-wave-alt" />
@@ -172,7 +170,7 @@ export default {
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
       // selectedType: 1,
-      selectedType: 0
+      selectedType: 'Sélectionnez un type'
       // appartments: [],
       // appartmentTypes: []
       // publications: []

@@ -63,13 +63,13 @@
                 Menu
               </h4>
               <div class="grid grid-cols-1 space-y-4 ml-4 py-8">
-                <NuxtLink to="/" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <NuxtLink to="/" class="text-gray-400 text-lg py-2" @click.prevent="menuIsOpen = false">
                   Je cherche
                 </NuxtLink>
-                <NuxtLink to="/location" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <NuxtLink to="/location" class="text-gray-400 text-lg py-2" @click.prevent="menuIsOpen = false">
                   Je loue
                 </NuxtLink>
-                <NuxtLink to="#contact" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <NuxtLink to="#contact" class="text-gray-400 text-lg py-2" @click.prevent="menuIsOpen = false">
                   Nous contacter
                 </NuxtLink>
               </div>

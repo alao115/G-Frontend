@@ -3,10 +3,10 @@
     <div class="container text-center md:text-left xl:p-24 w-full lg:mx-auto">
       <div class="text-white lg:flex md:space-x-24">
         <div class="text w-full md:w-1/3">
-          <h1 class="text-3xl xl:text-4xl font-semibold">
+          <h1 class="text-3xl xl:text-4xl font-semibold mb-8 md:mb-0">
             N'hésitez pas à nous contacter !
           </h1>
-          <p class="text-xl my-6">
+          <p class="text-xl my-6 hidden md:flex">
             Une équipe dynamique et prête à vous accompagner dans la bonne gestion de vos biens immobiliers.
           </p>
         </div>

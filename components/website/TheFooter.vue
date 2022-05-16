@@ -2,7 +2,7 @@
   <div class="bg-blue-990 flex justify-evenly px-8 lg:px-16 xl:px-24 h-24 lg:h-48 items-center lg:space-x-16 text-white font-body text-sm flex-col lg:flex-row">
     <GontcheLogoWhite class="hidden lg:block" />
     <p class="w-full lg:w-4/12 hidden lg:block">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Site exploité par Gankeke SARL
     </p>
     <p>
       © 2021 Gontché

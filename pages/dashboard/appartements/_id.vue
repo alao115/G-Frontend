@@ -3,6 +3,7 @@
     <EditAppartment :appartment="appartmentToEdit" :load-appartments-func="() => {}" :appartment-types="appartmentTypes" />
     <div class="">
       <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+        {{ publication }}
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
           <!-- <li v-if="connectedUser.userType !== 2" class="mr-2"> -->
           <li class="mr-2">
@@ -10,12 +11,12 @@
               <span class="icon mr-2"><i class="far fa-info-circle" /></span> Infos
             </a>
           </li>
-          <li class="mr-2">
+          <li v-if="connectedUser.id === this.publicationpublisherd" class="mr-2">
             <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
               <span class="icon mr-2"><i class="far fa-calendar-day" /></span> Visites
             </a>
           </li>
-          <li class="mr-2">
+          <li v-if="connectedUser.id === this.publication.publisher" class="mr-2">
             <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
               <span class="icon mr-2"><i class="far fa-house-user" /></span> Réservations
             </a>
@@ -525,6 +526,9 @@ export default {
       return this.$auth.user
     },
 
+    publication () {
+      return this.publications.find(publication => publication.appartment === this.id)
+    },
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
     },
