@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'node:lts-buster-slim'
-            args '-p 3000:3000 -v /home/app/frontend:/home/app/frontend:rw -u root'
+            args '-p 3000:3000 -v /home:/home:rw,z'
         }
     }
     environment {
