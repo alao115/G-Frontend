@@ -28,6 +28,18 @@ export default {
     '~/static/assets/css/all.min.css'
   ],
 
+  loading: {
+    height: '5px',
+    color: '#0A3DAB'
+  },
+
+  loadingIndicator: {
+    name: 'circle',
+    height: '5px',
+    color: '#0A3DAB',
+    background: 'white'
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/api.js',
@@ -68,7 +80,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: process.env.GRAPHQL_URL || 'https://gontche.com/graphql'
+        httpEndpoint: process.env.GRAPHQL_URL || 'http://localhost:7500/graphql'
       }
     },
     authenticationType: 'Bearer',
@@ -109,7 +121,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL || 'https://gontche.com/api'
+    baseURL: process.env.BASE_URL || 'http://localhost:7500/api'
     // credentials: true,
   },
 
