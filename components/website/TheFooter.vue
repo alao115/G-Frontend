@@ -9,26 +9,26 @@
     </p>
     <NuxtLink class="hidden lg:block" to="cgu">CGU</NuxtLink>
     <div class="hidden lg:flex space-x-3">
-      <NuxtLink to="#">
+      <a href="https://facebook.com/GontcheBj/" tagrt="_blank">
         <span class="icon">
           <i class="la la-facebook-f text-xl" />
         </span>
-      </NuxtLink>
-      <NuxtLink to="#">
+      </a>
+      <a href="https://twitter.com/gontche/" tagrt="_blank">
         <span class="icon">
           <i class="la la-twitter text-2xl" />
         </span>
-      </NuxtLink>
-      <NuxtLink to="#">
+      </a>
+      <a href="https://instagram.com/gontche_bj" tagrt="_blank">
         <span class="icon">
           <i class="la la-instagram text-2xl" />
         </span>
-      </NuxtLink>
-      <NuxtLink to="#">
+      </a>
+      <a href="#">
         <span class="icon">
           <i class="la la-linkedin-square text-2xl" />
         </span>
-      </NuxtLink>
+      </a>
     </div>
   </div>
 </template>

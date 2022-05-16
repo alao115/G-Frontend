@@ -10,14 +10,16 @@
               <span class="icon mr-2"><i class="far fa-info-circle" /></span> Infos
             </a>
           </li>
-          <!-- <li v-if="connectedUser.id === publication.publisher.id" class="mr-2"> -->
-          <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2">
+          <li v-if="connectedUser.userType === 0" class="mr-2">
+          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
+          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
             <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
               <span class="icon mr-2"><i class="far fa-calendar-day" /></span> Visites
             </a>
           </li>
-          <!-- <li v-if="connectedUser.id === publication.publisher.id" class="mr-2"> -->
-          <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2">
+          <li v-if="connectedUser.userType === 0" class="mr-2">
+          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
+          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
             <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
               <span class="icon mr-2"><i class="far fa-house-user" /></span> Réservations
             </a>
@@ -389,7 +391,7 @@
         </div>
       </div>
       <div v-if="activeTab === 'reservations'">
-        <div v-if="reservations.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
+        <div v-if="appartmentReservations.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
           <h1 class="text-3xl font-bold">
             0 réservation trouvée
           </h1>
