@@ -1,14 +1,11 @@
 pipeline {
-    agent {
-        node { label 'node-lts' }
-    }
+    agent any
     environment {
         CI = 'true'
     }
     stages {
         stage('Install') {
             steps {
-                sh 'npm install yarn'
                 sh 'yarn install'
             }
         }
