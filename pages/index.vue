@@ -3,7 +3,6 @@
     <div class="container w-full px-8 2xl:px-16 xl:px-24 flex flex-col mx-auto pt-16 md:pt-0" style="min-height: 516px">
       <!-- <div class="text-blue-990 xl:w-6/12 mb-16"> -->
       <div class="text-blue-920 md:mb-16">
-        <h1>testing purpose v1</h1>
         <h1 class="text-2xl lg:text-3xl xl:text-5xl font-bold">
           <span class=" leading-snug">Trouvez l'appartement <br> de vos rêves !</span>
         </h1>
