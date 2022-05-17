@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-              sh 'cp -vR ${WORKSPACE}/nuxt-dist/* /home/app/frontend/nuxt-dist/'
+              sh 'cp -vR ${WORKSPACE}/nuxt-dist/* /home/gontche/app/frontend/nuxt-dist/'
             }
         }
     }
