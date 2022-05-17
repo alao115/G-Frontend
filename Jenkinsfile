@@ -4,6 +4,11 @@ pipeline {
         CI = 'true'
     }
     stages {
+        stage('Setup environmnet') {
+            steps {
+                sh 'cp /home/app/frontend/.env ${WORKSPACE}'
+            }
+        }
         stage('Install') {
             steps {
                 sh 'yarn install'
