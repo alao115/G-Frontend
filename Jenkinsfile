@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'node:lts-buster-slim'
+            label 'node-container'
             args '-p 3000:3000 -v /home:/home:rw,z'
         }
     }
