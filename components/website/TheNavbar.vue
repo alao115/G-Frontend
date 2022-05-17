@@ -7,7 +7,7 @@
       <NuxtLink to="/" class="text-blue-990 text-lg py-2 mr-4">
         Je cherche
       </NuxtLink>
-      <NuxtLink to="/location" class="text-blue-990 text-lg py-2 mr-4">
+      <NuxtLink to="/location" class="text-blue-990 text-lg py-2 mr-4"> 
         Je loue
       </NuxtLink>
       <NuxtLink to="#" class="text-blue-990 text-lg py-2 mr-4">
