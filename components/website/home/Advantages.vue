@@ -24,7 +24,7 @@
             <span class="icon">
               <i class="las la-shield-alt text-3xl mb-5 text-sky-450" />
             </span>
-            <p class="xl:text-2xl text-left">Frais de visite de plusieurs logements à <span class="text-sky-450">2000 F CFA</span></p>
+            <p class="xl:text-2xl text-left">Frais de visite de plusieurs logements à <span class="text-sky-450">1500 F CFA</span></p>
           </div>
         </div>
       </div>
