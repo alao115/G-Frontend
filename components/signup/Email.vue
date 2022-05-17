@@ -68,12 +68,15 @@
         </div>
       </form>
       <p class="text-sm my-12 text-blue-920">
-        Vous avez pas déjà un compte ?
+        Vous avez pas déjà un compte ? <br class="md:hidden">
         <NuxtLink to="/auth/signin" class="text-blue-300 hover:text-blue-920 font-semibold">
           Connectez-vous !
         </NuxtLink>
       </p>
     </div>
+    <NuxtLink to="/" class="text-gray-300 underline decoration-2 underline-offset-8">
+      Retour à l'accueil
+    </NuxtLink>
   </div>
 </template>
 

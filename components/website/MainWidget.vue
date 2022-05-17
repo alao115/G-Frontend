@@ -47,14 +47,15 @@
                 </span>
                 <label for="#">Localisation</label>
               </div>
-              <select id="" v-model="search.location" name="location rounded-lg" class="w-full h-12 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
+              <input v-model="search.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="placeholder-gray-400 focus:placeholder-blue-380 w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative">
+              <!-- <select id="" v-model="search.location" name="location rounded-lg" class="w-full h-12 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
                 <option v-if="search.location === ''" value="">
                   Choisissez une localité
                 </option>
                 <option v-for="(location, count) in locations" :key="count" :value="location">
                   {{ location }}
                 </option>
-              </select>
+              </select> -->
             </div>
             <div class="md:p-2 flex-col my-4 md:my-0 hidden md:block">
               <div class="mb-2 md:mb-4 text-left">
@@ -94,7 +95,7 @@
                 </div>
                 <div class="flex space-x-2">
                   <div>
-                    <input v-model.number="search.budgetMin" type="number" class="w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Min">
+                    <input v-model.number="search.budgetMin" type="number" class="placeholder-gray-400 focus:placeholder-blue-380 w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative" placeholder="Min">
                   </div>
                   <!-- <div>
                     <input v-model.number="search.budgetMax" type="number" class="w-24 h-12 md:h-12 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Max">
@@ -152,6 +153,25 @@ export default {
     }
   },
 
+  mounted () {
+    const google = window.google
+    const defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-33.8902, 151.1759),
+      new google.maps.LatLng(-33.8474, 151.2631)
+    )
+    // const input = document.getElementById('searchTextField')
+    const input = this.$refs.searchTextField
+    console.log('input => ', input)
+    console.log('dollar el ', this.$el)
+    const options = {
+      bounds: defaultBounds,
+      types: ['establishment']
+    }
+    this.autocomplete = new google.maps.places.Autocomplete(
+      input, options
+    )
+  },
+
   data () {
     return {
       mobileWidgetIsVisible: false,
@@ -169,6 +189,7 @@ export default {
         { id: 2, label: 'Maison', descr: '' },
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
+      searchedLocation: '',
       // selectedType: 1,
       selectedType: 'Sélectionnez un type'
       // appartments: [],

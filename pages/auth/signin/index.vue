@@ -76,7 +76,7 @@
               </button>
             </div>
           </div>
-          <div class="w-full px-8 lg:px-16">
+          <div class="w-full px-8 lg:px-16 text-center md:text-left">
             <p class="title font-semibold text-3xl mt-32 mb-6 text-sky-450">
               Connexion
             </p>
@@ -97,10 +97,13 @@
             </form>
             <p class="text-sm my-12 text-blue-920">
               Vous n'avez pas encore de compte ?
-              <NuxtLink to="/auth/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
+              <NuxtLink to="/auth/signup" class="text-blue-300 hover:text-blue-920 font-semibold"> <br class="md:hidden">
                 Inscrivez-vous !
               </NuxtLink>
             </p>
+            <NuxtLink to="/" class="text-gray-300 underline decoration-2 underline-offset-8">
+              Retour à l'accueil
+            </NuxtLink>
           </div>
         </div>
       </div>

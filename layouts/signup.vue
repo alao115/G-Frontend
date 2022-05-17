@@ -4,9 +4,9 @@
     <div class="container w-full mx-auto text-center">
       <div class="flex space-x-8 justify-center">
         <div class="container flex flex-col justify-between" style="min-height: 516px">
-          <SignupGontcheLogo class="" />
+          <SignupGontcheLogo class="hidden md:flex" />
           <Nuxt />
-          <div class="copyright mt-12">
+          <div class="copyright mt-12 hidden md:flex">
             <div class="flex space-x-3 text-gray-300 align-center justify-center">
               <span class="mr-12">© 2021 Gontché</span>
               <NuxtLink to="#">
