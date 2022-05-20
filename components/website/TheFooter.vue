@@ -7,7 +7,7 @@
     <p>
       © 2021 Gontché
     </p>
-    <NuxtLink class="hidden lg:block" to="cgu">CGU</NuxtLink>
+    <NuxtLink class="hidden lg:block" to="/cgu">CGU</NuxtLink>
     <div class="hidden lg:flex space-x-3">
       <a href="https://facebook.com/GontcheBj/" tagrt="_blank">
         <span class="icon">
