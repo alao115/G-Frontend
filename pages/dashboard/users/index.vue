@@ -83,7 +83,7 @@
               <span>{{ account.email }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-32 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
-              <span v-if="account.user">{{ account.user.userType }}</span>
+              <span v-if="account.user">{{ userType(account.user.userType) }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(account)">
               <span v-if="account.user && account.user.email === connectedUser.email">Connecté</span>
@@ -189,6 +189,10 @@ export default {
       accounts: 'account/accounts',
       appartments: 'appartment/appartments'
     }),
+
+    userType () {
+      return userID => userID === 0 ? 'Admin' : userID === 1 ? 'Publisher' : 'Regular user'
+    },
 
     connectedUser () {
       return this.$auth.user
