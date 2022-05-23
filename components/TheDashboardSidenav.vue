@@ -35,7 +35,7 @@
             </span>
             <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Favoris</span>
           </a> -->
-          <template v-if="connectedUser.userType === 0 || connectedUser.userType === 1">
+          <template v-if="connectedUser.userType === 0">
             <NuxtLink to="/dashboard/types" class="flex items-center relative w-full h-12 px-3 mt-2 rounded hover:bg-gray-200 text-blue-730 bg-blue-75">
               <span class="icon w-6 block">
                 <i class="far fa-tags mx-auto block" />

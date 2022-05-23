@@ -38,6 +38,49 @@
           </div>
           <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 p-4">
             <div class="relative">
+              <label for="toggleA" class="flex items-center cursor-pointer mt-8">
+                <!-- toggle -->
+                <div class="relative">
+                  <!-- input -->
+                  <input
+                    type="checkbox"
+                    v-model="newAppartment.forShortStay"
+                    slot=""
+                    id="toggleA"
+                    class="sr-only checkbox"
+                    value="true">
+                  <!-- line -->
+                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <!-- dot -->
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+                <!-- label -->
+                <div class="ml-3 text-gray-700 font-medium">
+                  Court séjour ? <span class="text-sky-550">{{ newAppartment.forShortStay === true ? 'Oui' : 'Non' }}</span>
+                </div>
+              </label>
+              <label for="toggleB" class="flex items-center cursor-pointer mt-8">
+                            <!-- toggle -->
+                <div class="relative">
+                  <!-- input -->
+                  <input
+                    type="checkbox"
+                    v-model="newAppartment.isFurnished"
+                    id="toggleB"
+                    class="sr-only checkbox"
+                    value="true">
+                  <!-- line -->
+                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <!-- dot -->
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+                <!-- label -->
+                <div class="ml-3 text-gray-700 font-medium">
+                  Meublé ?  <span class="text-sky-550">{{ newAppartment.isFurnished === true ? 'Oui' : 'Non meublé' }}</span>
+                </div>
+              </label>
+            </div>
+            <div class="relative">
               <p class="text-base mt-8 text-gray-400">
                 Type
               </p>
@@ -105,9 +148,9 @@
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
-              {{ newAppartment.location }}
+              {{ newLocation.city }}
               <!-- <input v-model="newAppartment.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative"> -->
-              <input v-model="newAppartment.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
+              <input v-model="newLocation" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
@@ -473,6 +516,7 @@ export default {
     this.autocomplete = new google.maps.places.Autocomplete(
       input, options
     )
+    console.log('autocomplete', this.autocomplete.getPlace())
   },
 
   data () {
@@ -491,6 +535,7 @@ export default {
         { id: 2, value: 'Mme' },
         { id: 3, value: 'Autre' }
       ],
+      newLocation: {},
       selectedCivility: '',
       isFurnished: false,
       advancePayment: 0,
@@ -622,3 +667,16 @@ export default {
   }
 }
 </script>
+<style>
+  /* Toggle */
+  input.checkbox ~.line {
+    background-color: #ccc;
+  }
+  input.checkbox:checked ~ .dot {
+    transform: translateX(100%);
+  }
+
+  input.checkbox:checked ~ .line {
+    background-color: #03a8df;
+  }
+  </style>

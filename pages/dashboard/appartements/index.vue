@@ -130,7 +130,7 @@
               </span>
             </div>
             <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span>{{ appart.createdBy }}</span>
+              <span>{{ appart.location }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.rent }}</span>

@@ -18,6 +18,50 @@
             </p>
           </div>
           <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 p-4">
+
+            <div class="relative">
+              <label for="toggleC" class="flex items-center cursor-pointer mt-8">
+                <!-- toggle -->
+                <div class="relative">
+                  <!-- input -->
+                  <input
+                    type="checkbox"
+                    v-model="appartToEdit.forShortStay"
+                    slot=""
+                    id="toggleC"
+                    class="sr-only checkbox"
+                    value="true">
+                  <!-- line -->
+                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <!-- dot -->
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+                <!-- label -->
+                <div class="ml-3 text-gray-700 font-medium">
+                  Court séjour ? <span class="text-sky-550">{{ appartToEdit.forShortStay === true ? 'Oui' : 'Non' }}</span>
+                </div>
+              </label>
+              <label for="toggleD" class="flex items-center cursor-pointer mt-8">
+                            <!-- toggle -->
+                <div class="relative">
+                  <!-- input -->
+                  <input
+                    type="checkbox"
+                    v-model="appartToEdit.isFurnished"
+                    id="toggleD"
+                    class="sr-only checkbox"
+                    value="true">
+                  <!-- line -->
+                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <!-- dot -->
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                </div>
+                <!-- label -->
+                <div class="ml-3 text-gray-700 font-medium">
+                  Meublé ?  <span class="text-sky-550">{{ appartToEdit.isFurnished === true ? 'Oui' : 'Non meublé' }}</span>
+                </div>
+              </label>
+            </div>
             <div class="relative">
               <p class="text-base mt-8 text-gray-400">
                 Type

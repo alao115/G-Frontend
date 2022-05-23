@@ -161,11 +161,11 @@ export default {
     )
     // const input = document.getElementById('searchTextField')
     const input = this.$refs.searchTextField
-    console.log('input => ', input)
-    console.log('dollar el ', this.$el)
+    /* console.log('input => ', input)
+    console.log('dollar el ', this.$el) */
     const options = {
       bounds: defaultBounds,
-      types: ['establishment']
+      types: []
     }
     this.autocomplete = new google.maps.places.Autocomplete(
       input, options
