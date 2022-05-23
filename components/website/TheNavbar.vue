@@ -7,7 +7,7 @@
       <NuxtLink to="/" class="text-blue-990 text-lg py-2 mr-4">
         Je cherche
       </NuxtLink>
-      <NuxtLink to="/location" class="text-blue-990 text-lg py-2 mr-4"> 
+      <NuxtLink to="/location" class="text-blue-990 text-lg py-2 mr-4">
         Je loue
       </NuxtLink>
       <NuxtLink to="#" class="text-blue-990 text-lg py-2 mr-4">
@@ -58,46 +58,76 @@
                 <span class="icon"><i class="fas fa-times fa-lg" /></span>
               </button>
             </div>
-            <div class="grid grid-cols-1 divide-y items-center">
+            <div class="grid grid-cols-1 items-center text-center">
               <h4 class="text-4xl font-medium text-blue-990 mb-8 ml-4">
                 Menu
               </h4>
               <div class="grid grid-cols-1 space-y-4 ml-4 py-8">
-                <a href="/" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <a href="/" class="text-gray-400 text-lg" @click="menuIsOpen = false">
                   Je cherche
                 </a>
-                <a href="/location" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <a href="/location" class="text-gray-400 text-lg" @click="menuIsOpen = false">
                   Je loue
                 </a>
-                <a href="#contact" class="text-gray-400 text-lg py-2" @click="menuIsOpen = false">
+                <a href="#contact" class="text-gray-400 text-lg" @click="menuIsOpen = false">
                   Nous contacter
                 </a>
               </div>
               <div class="grid grid-cols-1 space-4 ml-4 py-8">
-                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/auth/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
+                <NuxtLink v-if="$nuxt.$route.name === 'location'" to="/auth/signin" class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'py-3 px-6 text-base' : 'py-4 text-lg lg:px-10'" @click.prevent="goToPage('/signin')">
                   Publier
                 </NuxtLink>
                 <template v-if="connectedUser">
-                  <NuxtLink to="#" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                  <NuxtLink to="#" class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Mon profil
                   </NuxtLink>
-                  <NuxtLink v-if="connectedUser.user.userType === 0 || connectedUser.user.userType === 1" to="/dashboard" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                  <NuxtLink v-if="connectedUser.user.userType === 0 || connectedUser.user.userType === 1" to="/dashboard" class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Dashboard
                   </NuxtLink>
-                  <a class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="() => $auth.logout().then(() => $store.commit('account/setAuthUserAccount', null))">
+                  <a class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="() => $auth.logout().then(() => $store.commit('account/setAuthUserAccount', null))">
                     Se déconnecter
                   </a>
                 </template>
-                <NuxtLink v-else to="/auth/signin" class="text-gray-400 text-lg py-2 mr-4 px-0" :class="isMinified === true ? 'py-3 px-0 text-base' : 'py-4 text-lg lg:px-0'" @click.prevent="goToPage('/signin')">
+                <NuxtLink v-else to="/auth/signin" class="text-gray-400 text-lg px-0 border" :class="isMinified === true ? 'py-3 px-0 text-base' : 'py-4 text-lg lg:px-0'" @click.prevent="goToPage('/signin')">
                   Se connecter
                 </NuxtLink>
               </div>
+              <div class="grid grid-cols-1 space-y-4 ml-4 py-2">
+                <a href="/cgu" class="text-gray-400 text-sm py-1" @click="menuIsOpen = false">
+                  À propos
+                </a>
+                <a href="/cgu" class="text-gray-400 text-sm py-1" @click="menuIsOpen = false">
+                  CGU
+                </a>
+              </div>
+              <div class="grid grid-cols-1 space-y-4 ml-4 py-8">
+                <div class="flex space-x-3 mx-auto">
+                  <a href="https://facebook.com/GontcheBj/" tagrt="_blank">
+                    <span class="icon">
+                      <i class="la la-facebook-f text-xl" />
+                    </span>
+                  </a>
+                  <a href="https://twitter.com/gontche/" tagrt="_blank">
+                    <span class="icon">
+                      <i class="la la-twitter text-2xl" />
+                    </span>
+                  </a>
+                  <a href="https://instagram.com/gontche_bj" tagrt="_blank">
+                    <span class="icon">
+                      <i class="la la-instagram text-2xl" />
+                    </span>
+                  </a>
+                  <a href="#">
+                    <span class="icon">
+                      <i class="la la-linkedin-square text-2xl" />
+                    </span>
+                  </a>
+                </div>
+                <p class="text-gray-300">
+                  © 2021 Gontché
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="footer p-8 flex justify-center absolute w-full bg-white z-20 bottom-0">
-            <p class="text-gray-300">
-              © 2021 Gontché
-            </p>
           </div>
         </div>
       </div>
