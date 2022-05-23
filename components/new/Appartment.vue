@@ -148,9 +148,9 @@
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
-              {{ newLocation.city }}
+              <!-- {{ newLocation.city }} -->
               <!-- <input v-model="newAppartment.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative"> -->
-              <input v-model="newLocation" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
+              <input v-model="newAppartment.location"  type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
