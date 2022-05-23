@@ -83,7 +83,8 @@
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
-              <input v-model="appartToEdit.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
+              <!-- <input v-model="appartToEdit.location" ref="searchTextField" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat."> -->
+              <input v-model="appartToEdit.location"  type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Ex: Cotonou">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
@@ -407,6 +408,26 @@ export default {
       required: true
     }
   },
+
+  mounted () {
+    const google = window.google
+    const defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-33.8902, 151.1759),
+      new google.maps.LatLng(-33.8474, 151.2631)
+    )
+    // const input = document.getElementById('searchTextField')
+    const input = this.$refs.searchTextField
+    /* console.log('input => ', input)
+    console.log('dollar el ', this.$el) */
+    const options = {
+      bounds: defaultBounds,
+      types: ['establishment']
+    }
+    this.autocomplete = new google.maps.places.Autocomplete(
+      input, options
+    )
+  },
+
   data () {
     return {
       appartToEdit: { ...this.appartment },

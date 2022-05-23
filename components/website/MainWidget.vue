@@ -189,7 +189,6 @@ export default {
         { id: 2, label: 'Maison', descr: '' },
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
-      searchedLocation: '',
       // selectedType: 1,
       selectedType: 'Sélectionnez un type'
       // appartments: [],

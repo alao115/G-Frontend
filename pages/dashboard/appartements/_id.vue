@@ -7,21 +7,21 @@
           <!-- <li v-if="connectedUser.userType !== 2" class="mr-2"> -->
           <li class="mr-2">
             <a href="#" :class="activeTab === 'infos' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-current="page" @click.prevent="activeTab = 'infos'">
-              <span class="icon mr-2"><i class="far fa-info-circle" /></span> Infos
+              <span class="icon mr-2"><i class="far fa-info-circle" /></span> <span class="hidden lg:block">Infos</span>
             </a>
           </li>
           <li v-if="connectedUser.userType === 0" class="mr-2">
           <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
           <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
             <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
-              <span class="icon mr-2"><i class="far fa-calendar-day" /></span> Visites
+              <span class="icon mr-2"><i class="far fa-calendar-day" /></span> <span class="hidden lg:block">Visites</span>
             </a>
           </li>
           <li v-if="connectedUser.userType === 0" class="mr-2">
           <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
           <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
             <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
-              <span class="icon mr-2"><i class="far fa-house-user" /></span> Réservations
+              <span class="icon mr-2"><i class="far fa-house-user" /></span> <span class="hidden lg:block">Réservations</span>
             </a>
           </li>
         </ul>

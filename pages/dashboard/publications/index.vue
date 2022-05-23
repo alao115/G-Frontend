@@ -1,6 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <NewPublication :is-mobile="true" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
+    <NewPublication :is-mobile="true" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments"  class="lg:hidden"/>
     <EditPublication :publication="publicationToEdit" :load-publications-func="loadPublications" :appartments-prop="appartments" :appartment-types="appartmentTypes" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">

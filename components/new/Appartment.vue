@@ -6,7 +6,7 @@
       </span>
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
     </a>
-    <a v-else-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-else-if="isMobile && connectedUser && (connectedUser.user.userType === 0 || connectedUser.user.userType === 1)" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -105,7 +105,9 @@
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
-              <input v-model="newAppartment.location" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat.">
+              {{ newAppartment.location }}
+              <!-- <input v-model="newAppartment.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative"> -->
+              <input v-model="newAppartment.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
@@ -428,6 +430,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -452,6 +455,26 @@ export default {
       required: true
     }
   },
+
+  mounted () {
+    const google = window.google
+    const defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-33.8902, 151.1759),
+      new google.maps.LatLng(-33.8474, 151.2631)
+    )
+    // const input = document.getElementById('searchTextField')
+    const input = this.$refs.searchTextField
+    /* console.log('input => ', input) */
+    /* console.log('dollar el ', this.$el) */
+    const options = {
+      bounds: defaultBounds,
+      types: []
+    }
+    this.autocomplete = new google.maps.places.Autocomplete(
+      input, options
+    )
+  },
+
   data () {
     return {
       currentStep: 'first',
@@ -488,7 +511,6 @@ export default {
       },
       ownerInfos: {},
       contracts: [],
-      locations: [],
       mainImg: '',
       firstImg: '',
       secondImg: '',
@@ -499,6 +521,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      connectedUser: 'account/authUserAccount'
+    }),
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
@@ -530,9 +555,6 @@ export default {
         this.advancePayment = value.rent * value.prepaidRentMonths
       }
     }
-  },
-  mounted () {
-    // this.$fetch()
   },
   methods: {
     uploadPicture (event, source) {
