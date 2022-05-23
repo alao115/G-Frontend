@@ -19,9 +19,10 @@ pipeline {
               sh 'npm run build'
             }
         }
-        stage('Run') {
+        stage('Cleaning previous build') {
             steps {
-              echo "Running ..."
+              // echo "Running ..."
+              sh "rm -r /home/app/backend/dist/public"
             }
         }
         stage('Deliver') {
