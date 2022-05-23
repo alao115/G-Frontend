@@ -22,7 +22,7 @@ pipeline {
         stage('Cleaning previous build') {
             steps {
               // echo "Running ..."
-              sh "rm -r /home/app/backend/dist/public"
+              sh "rm -r /home/app/backend/dist/public/*"
             }
         }
         stage('Deliver') {
