@@ -45,7 +45,8 @@ export default {
   plugins: [
     '~/plugins/api.js',
     '~/plugins/apollo-overrides.js',
-    { src: '~/plugins/kkiapay', ssr: false }
+    { src: '~/plugins/kkiapay', ssr: false },
+    { src: '~/plugins/googleAutoComplete' }
     // '~/plugins/test_plugins.js',
     // '~/plugins/apollo.config.js'
   ],

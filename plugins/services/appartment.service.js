@@ -26,4 +26,8 @@ export default ({ apollo, gql, $axios }) => class AppartmentService {
   async getAllAppartmentTypeFromREST () {
     return await $axios.$get('/appartments/appartmenttypes')
   }
+
+  async searchAppartmentFromREST (searchOpts) {
+    return await $axios.$post('/appartments/search', searchOpts)
+  }
 }

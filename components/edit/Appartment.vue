@@ -18,23 +18,23 @@
             </p>
           </div>
           <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 p-4">
-
             <div class="relative">
               <label for="toggleC" class="flex items-center cursor-pointer mt-8">
                 <!-- toggle -->
                 <div class="relative">
                   <!-- input -->
                   <input
-                    type="checkbox"
-                    v-model="appartToEdit.forShortStay"
-                    slot=""
                     id="toggleC"
+                    slot=""
+                    v-model="appartToEdit.forShortStay"
+                    type="checkbox"
                     class="sr-only checkbox"
-                    value="true">
+                    value="true"
+                  >
                   <!-- line -->
-                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <div class="block line w-10 h-6 rounded-full" />
                   <!-- dot -->
-                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition" />
                 </div>
                 <!-- label -->
                 <div class="ml-3 text-gray-700 font-medium">
@@ -42,19 +42,20 @@
                 </div>
               </label>
               <label for="toggleD" class="flex items-center cursor-pointer mt-8">
-                            <!-- toggle -->
+                <!-- toggle -->
                 <div class="relative">
                   <!-- input -->
                   <input
-                    type="checkbox"
-                    v-model="appartToEdit.isFurnished"
                     id="toggleD"
+                    v-model="appartToEdit.isFurnished"
+                    type="checkbox"
                     class="sr-only checkbox"
-                    value="true">
+                    value="true"
+                  >
                   <!-- line -->
-                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <div class="block line w-10 h-6 rounded-full" />
                   <!-- dot -->
-                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition" />
                 </div>
                 <!-- label -->
                 <div class="ml-3 text-gray-700 font-medium">
@@ -128,7 +129,7 @@
                 Localisation
               </p>
               <!-- <input v-model="appartToEdit.location" ref="searchTextField" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Long, Lat."> -->
-              <input v-model="appartToEdit.location"  type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Ex: Cotonou">
+              <input ref="searchTextField" type="text" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Ex: Cotonou" :value="appartToEdit.location">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
@@ -453,25 +454,6 @@ export default {
     }
   },
 
-  mounted () {
-    const google = window.google
-    const defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-33.8902, 151.1759),
-      new google.maps.LatLng(-33.8474, 151.2631)
-    )
-    // const input = document.getElementById('searchTextField')
-    const input = this.$refs.searchTextField
-    /* console.log('input => ', input)
-    console.log('dollar el ', this.$el) */
-    const options = {
-      bounds: defaultBounds,
-      types: ['establishment']
-    }
-    this.autocomplete = new google.maps.places.Autocomplete(
-      input, options
-    )
-  },
-
   data () {
     return {
       appartToEdit: { ...this.appartment },
@@ -600,6 +582,25 @@ export default {
       }
     }
   },
+
+  mounted () {
+    const input = this.$refs.searchTextField
+
+    const autocomplete = this.$googleAutoComplete(input)
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace()
+      const geometry = {
+        type: 'Point',
+        coordinates: [
+          place.geometry.location.lng(),
+          place.geometry.location.lat()
+        ]
+      }
+      this.appartToEdit.geometry = geometry
+      this.appartToEdit.location = `${place.formatted_address}, ${place.name}`
+    })
+  },
   created () {
     this.appartToEdit = { ...this.appartment }
   },
@@ -611,8 +612,7 @@ export default {
     async editAppartment () {
       try {
         this.loading = true
-        // this.appartToEdit.ownerInfos.civility = this.selectedCivility
-        // this.appartToEdit.ownerInfos.isAlive = this.selectedIsAlive
+        delete this.appartToEdit.createdBy
         await this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: { ...this.appartToEdit, conditions: { ...this.appartToEdit.conditions, paymentFrequency: this.selectedPaymentFrequency }, ownerInfos: { ...this.appartToEdit.ownerInfos, civility: this.selectedCivility, isAlive: this.selectedIsAlive } } } })
 
         if (this.appartImg) {

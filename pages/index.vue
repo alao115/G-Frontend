@@ -19,7 +19,6 @@
 export default {
   layout: 'website',
   async asyncData ({ $api, store, $auth }) {
-    // console.log('Auth: ', $auth.loggedIn)
     if ($auth.loggedIn) { await store.dispatch('account/getAuthUserAccount') }
 
     const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments

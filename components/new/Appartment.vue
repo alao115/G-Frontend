@@ -43,16 +43,17 @@
                 <div class="relative">
                   <!-- input -->
                   <input
-                    type="checkbox"
-                    v-model="newAppartment.forShortStay"
-                    slot=""
                     id="toggleA"
+                    slot=""
+                    v-model="newAppartment.forShortStay"
+                    type="checkbox"
                     class="sr-only checkbox"
-                    value="true">
+                    value="true"
+                  >
                   <!-- line -->
-                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <div class="block line w-10 h-6 rounded-full" />
                   <!-- dot -->
-                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition" />
                 </div>
                 <!-- label -->
                 <div class="ml-3 text-gray-700 font-medium">
@@ -60,19 +61,20 @@
                 </div>
               </label>
               <label for="toggleB" class="flex items-center cursor-pointer mt-8">
-                            <!-- toggle -->
+                <!-- toggle -->
                 <div class="relative">
                   <!-- input -->
                   <input
-                    type="checkbox"
-                    v-model="newAppartment.isFurnished"
                     id="toggleB"
+                    v-model="newAppartment.isFurnished"
+                    type="checkbox"
                     class="sr-only checkbox"
-                    value="true">
+                    value="true"
+                  >
                   <!-- line -->
-                  <div class="block line w-10 h-6 rounded-full"></div>
+                  <div class="block line w-10 h-6 rounded-full" />
                   <!-- dot -->
-                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                  <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition" />
                 </div>
                 <!-- label -->
                 <div class="ml-3 text-gray-700 font-medium">
@@ -148,9 +150,7 @@
               <p class="text-base mt-1 text-gray-400">
                 Localisation
               </p>
-              <!-- {{ newLocation.city }} -->
-              <!-- <input v-model="newAppartment.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative"> -->
-              <input v-model="newAppartment.location"  type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
+              <input ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="w-full h-12 md:h-16 px-4 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative">
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="second overflow-scroll h-4/5 pb-16 p-4">
@@ -499,26 +499,6 @@ export default {
     }
   },
 
-  mounted () {
-    const google = window.google
-    const defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-33.8902, 151.1759),
-      new google.maps.LatLng(-33.8474, 151.2631)
-    )
-    // const input = document.getElementById('searchTextField')
-    const input = this.$refs.searchTextField
-    /* console.log('input => ', input) */
-    /* console.log('dollar el ', this.$el) */
-    const options = {
-      bounds: defaultBounds,
-      types: []
-    }
-    this.autocomplete = new google.maps.places.Autocomplete(
-      input, options
-    )
-    console.log('autocomplete', this.autocomplete.getPlace())
-  },
-
   data () {
     return {
       currentStep: 'first',
@@ -551,7 +531,9 @@ export default {
           prepaidRentMonths: 3,
           paymentFrequency: ''
         },
-        ownerInfos: {}
+        ownerInfos: {},
+        location: '',
+        geometry: {}
         // files: null
       },
       ownerInfos: {},
@@ -565,6 +547,7 @@ export default {
       loading: false
     }
   },
+
   computed: {
     ...mapGetters({
       connectedUser: 'account/authUserAccount'
@@ -600,6 +583,23 @@ export default {
         this.advancePayment = value.rent * value.prepaidRentMonths
       }
     }
+  },
+  mounted () {
+    const input = this.$refs.searchTextField
+
+    const autocomplete = this.$googleAutoComplete(input)
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace()
+      const geometry = {
+        coordinates: [
+          place.geometry.location.lng(),
+          place.geometry.location.lat()
+        ]
+      }
+      this.newAppartment.geometry = geometry
+      this.newAppartment.location = `${place.formatted_address}, ${place.name}`
+    })
   },
   methods: {
     uploadPicture (event, source) {
@@ -639,7 +639,7 @@ export default {
         this.loading = true
         this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility }
         this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency
-
+        // console.log(this.newAppartment)
         const { data, errors } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
 
         if (errors) { this.errorToshow = errors[1]?.message }
@@ -650,14 +650,13 @@ export default {
             ImgData.append('file', this.appartImg[key])
             ImgData.append('filePath', `appartments/${data.createAppartment.id}/${key}_${this.appartImg[key].name}`)
             const firestoreResponse = await this.$api.firebaseStorageService.upload(ImgData)
-            // eslint-disable-next-line no-unused-vars
-            const updateResponse = await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
+            await this.$api.appartmentService.update({ variables: { appartmentId: data.createAppartment.id, data: { [`${key}Img`]: firestoreResponse.data.data.fileInfo } } })
             // console.log(updateResponse)
           }
         }
         await this.loadAppartmentsFunc()
-        this.newAppartment = {}
-        this.currentStep = 'congrats'
+        // this.newAppartment = {}
+        // this.currentStep = 'congrats'
         this.loading = false
       } catch (error) {
         this.errorToshow = error

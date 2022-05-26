@@ -51,11 +51,6 @@ export default {
       type: Object,
       default: null
     }
-    // favories: {
-    //   type: Array,
-    //   // required: true,
-    //   default: () => ([])
-    // }
   },
   data () {
     return {
