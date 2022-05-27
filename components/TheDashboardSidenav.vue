@@ -149,7 +149,7 @@ export default {
   methods: {
     ...mapActions({
       loadAppartmentTypes: 'appartmentType/loadAppartmentTypes',
-      loadAppartments: 'appartmentType/loadAppartments',
+      loadAppartments: 'appartment/loadAppartments',
       loadReservations: 'reservation/loadReservations',
       loadVisits: 'visit/loadVisits',
       loadPublications: 'publication/loadPublications',

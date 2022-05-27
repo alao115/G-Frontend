@@ -13,22 +13,18 @@ export const mutations = {
 export const actions = {
   loadFavories ({ commit, getters }) {
     return new Promise((resolve, reject) => {
-      this.$api.favoryService.authUserFavories()
-        .then(({ data }) => {
-          const appartments = data.authUserFavories.map(d => ({ fID: d.id, ...d.appartment }))
-          commit('setFavories', appartments)
-          resolve()
-        }).catch((error) => {
-          reject(error)
-        })
-      // this.$api.favoryService.getAll()
-      //   .then(({ data }) => {
-      //     commit('setFavories', data.favories)
-      //     resolve()
-      //   }).catch((error) => {
-      //     // const message = error?.response?.data.error.message ? error.response.data.error.message : 'Une erreur s\'est produite. Veillez rééssayer plus tard'
-      //     reject(error)
-      //   })
+      if (this.$auth.loggedIn) {
+        this.$api.favoryService.authUserFavories()
+          .then(({ data }) => {
+            const appartments = data.authUserFavories.map(d => ({ fID: d.id, ...d.appartment }))
+            commit('setFavories', appartments)
+            resolve()
+          }).catch((error) => {
+            reject(error)
+          })
+      } else {
+        commit('setFavories', [])
+      }
     })
   },
 

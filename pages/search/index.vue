@@ -20,57 +20,64 @@
 
 <script>
 export default {
+  beforeRouteEnter (to, from, next) {
+    if (!to.params.searchOpts) { next({ name: 'index' }) }
+    next()
+  },
   layout: 'website',
-  data () {
+  async asyncData ({ params, $api }) {
+    const { searchOpts } = params
+    const { appartments } = (await $api.appartmentService.searchAppartmentFromREST(searchOpts)).data
+
     return {
-      location: this.$route.query.location || '',
-      roomQty: this.$route.query.roomQty || 1,
-      budgetMin: this.$route.query.budgetMin || 0,
-      budgetMax: this.$route.query.budgetMax,
-      appartments: [],
-      appartmentTypes: []
+      appartments
     }
   },
-  async fetch () {
-    if (this.$auth.loggedIn) { await this.$store.dispatch('account/getAuthUserAccount') }
-    this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
-    this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+  data () {
+    return {
+      location: '',
+      roomQty: 1,
+      budgetMin: 0,
+      budgetMax: 0,
+      // appartments: [],
+      appartmentTypes: [],
+      searchOpts: this.$route.params.searchOpts || {}
+    }
   },
   computed: {
     filteredAppartments () {
-      let appartmentsToFilter = this.appartments
-      if (this.location !== '' && this.budgetMin === 0 && this.roomQty === 1) {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location)
-      }
-      if (this.budgetMin !== 0 && this.location === '' && this.roomQty === 1) {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.rent >= this.budgetMin)
-      }
-      if (this.roomQty >= 1 && this.budgetMin === 0 && this.location === '') {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
-      }
-      if (this.location !== '' && this.budgetMin !== 0 && this.roomQty === 1) {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && appartment.rent >= this.budgetMin)
-      }
-      if (this.location !== '' && this.budgetMin === 0 && this.roomQty >= 1) {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
-      }
-      if (this.location === '' && this.budgetMin !== 0 && this.roomQty >= 1) {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.rent >= this.budgetMin && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
-      }
-      if (this.location !== '' && this.budgetMin !== 0 && this.roomQty >= 1) {
-        appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && appartment.rent >= this.budgetMin && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
-      }
+      const appartmentsToFilter = this.appartments
+      // if (this.location !== '' && this.budgetMin === 0 && this.roomQty === 1) {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location)
+      // }
+      // if (this.budgetMin !== 0 && this.location === '' && this.roomQty === 1) {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.rent >= this.budgetMin)
+      // }
+      // if (this.roomQty >= 1 && this.budgetMin === 0 && this.location === '') {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
+      // }
+      // if (this.location !== '' && this.budgetMin !== 0 && this.roomQty === 1) {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && appartment.rent >= this.budgetMin)
+      // }
+      // if (this.location !== '' && this.budgetMin === 0 && this.roomQty >= 1) {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
+      // }
+      // if (this.location === '' && this.budgetMin !== 0 && this.roomQty >= 1) {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.rent >= this.budgetMin && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
+      // }
+      // if (this.location !== '' && this.budgetMin !== 0 && this.roomQty >= 1) {
+      //   appartmentsToFilter = appartmentsToFilter.filter(appartment => appartment.location === this.location && appartment.rent >= this.budgetMin && (appartment.bedrooms + appartment.livingrooms) >= this.roomQty)
+      // }
       return appartmentsToFilter
     },
-    computed: {
-      appartmentType () {
-        return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-      }
+    appartmentType () {
+      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     }
+
+  },
+  mounted () {
   },
   created () {
-    /* eslint-disable no-console */
-    /* console.log(this.$route.query) */
   }
 }
 </script>

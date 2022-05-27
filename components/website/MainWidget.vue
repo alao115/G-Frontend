@@ -47,15 +47,12 @@
                 </span>
                 <label for="#">Localisation</label>
               </div>
-              <input v-model="search.location" ref="searchTextField" type="text" placeholder="Ex: Cotonou" class="placeholder-gray-400 focus:placeholder-blue-380 w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative">
-              <!-- <select id="" v-model="search.location" name="location rounded-lg" class="w-full h-12 pl-3 pr-6 text-base placeholder-gray-600 rounded-lg appearance-none focus:shadow-outline">
-                <option v-if="search.location === ''" value="">
-                  Choisissez une localité
-                </option>
-                <option v-for="(location, count) in locations" :key="count" :value="location">
-                  {{ location }}
-                </option>
-              </select> -->
+              <input
+                ref="searchTextField"
+                type="text"
+                placeholder="Ex: Cotonou"
+                class="placeholder-gray-400 focus:placeholder-blue-380 w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative"
+              >
             </div>
             <div class="md:p-2 flex-col my-4 md:my-0 hidden md:block">
               <div class="mb-2 md:mb-4 text-left">
@@ -153,25 +150,6 @@ export default {
     }
   },
 
-  mounted () {
-    const google = window.google
-    const defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-33.8902, 151.1759),
-      new google.maps.LatLng(-33.8474, 151.2631)
-    )
-    // const input = document.getElementById('searchTextField')
-    const input = this.$refs.searchTextField
-    /* console.log('input => ', input)
-    console.log('dollar el ', this.$el) */
-    const options = {
-      bounds: defaultBounds,
-      types: []
-    }
-    this.autocomplete = new google.maps.places.Autocomplete(
-      input, options
-    )
-  },
-
   data () {
     return {
       mobileWidgetIsVisible: false,
@@ -184,32 +162,17 @@ export default {
         location: ''
       },
       types: [
-        /* { id: 0, label: 'Choisissez un type', descr: '' }, */
         { id: 1, label: 'Chambres', descr: '' },
         { id: 2, label: 'Maison', descr: '' },
         { id: 3, label: 'Appartements meublés', descr: '' }
       ],
-      // selectedType: 1,
       selectedType: 'Sélectionnez un type'
-      // appartments: [],
-      // appartmentTypes: []
-      // publications: []
     }
   },
-  // async fetch () {
-  //   this.appartments = (await this.$api.appartmentService.getAllAppartmentFromREST()).data.appartments
-  //   // console.log(this.appartments)
-  //   this.appartmentTypes = (await this.$api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
-  //   // console.log(this.appartmentTypes)
-  //   // this.publications = (await this.$api.publicationService.getAll()).data.publications
-  // },
   computed: {
     routeName () {
       return this.$nuxt.$route.name
     },
-    // publication () {
-    //   return id => this.publications.find(publication => publication.id === id)
-    // },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
     },
@@ -225,28 +188,15 @@ export default {
     listOfTypes () {
       const returnedListOfTypes = []
       this.appartmentTypes.forEach((type) => {
-        // console.log(this.typeAppartments(type.id))
         if (this.typeAppartments(type.id).length > 0) {
           returnedListOfTypes.push(type)
         }
       })
       return returnedListOfTypes
-    },
-    locations () {
-      const locations = []
-      this.appartments.forEach((appartment) => {
-        // if (locations.includes(appartment.location) === -1) {
-        if (this.locationAppartments(appartment.location).length >= 1) {
-          locations.push(appartment.location)
-          // console.log(locations)
-        }
-      })
-      return locations
     }
   },
   watch: {
     isDismissed (value) {
-      // console.log(value)
     },
     listOfTypes (value) {
       if (value.length > 0) {
@@ -273,18 +223,28 @@ export default {
         }
       }
     }
-    /* selectedType (value) {
-      if (value !== '') {
-        this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
+  },
+
+  mounted () {
+    const input = this.$refs.searchTextField
+    const autocomplete = this.$googleAutoComplete(input)
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace()
+      const geolocation = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
       }
-    } */
+      this.search.location = geolocation
+    })
   },
   methods: {
     selectType (type) {
       this.selectedType = type.id
     },
     searchResult () {
-      this.$router.push({ path: '/search/', query: { location: this.search.location, roomQty: this.search.roomQty, budgetMin: this.search.budgetMin, budgetMax: this.search.budgetMax } })
+      // console.log(this.search)
+      this.$router.push({ name: 'search', params: { searchOpts: this.search } })
     }
   }
 }
