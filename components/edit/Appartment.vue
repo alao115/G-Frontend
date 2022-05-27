@@ -598,7 +598,7 @@ export default {
         ]
       }
       this.appartToEdit.geometry = geometry
-      this.appartToEdit.location = `${place.formatted_address}, ${place.name}`
+      this.appartToEdit.location = `${(place.formatted_address.split(','))[1]}, ${place.name}`
     })
   },
   created () {
@@ -613,6 +613,7 @@ export default {
       try {
         this.loading = true
         delete this.appartToEdit.createdBy
+        this.appartToEdit.rooms = this.appartToEdit.livingrooms + this.appartToEdit.bathrooms + this.appartToEdit.bedrooms + this.appartToEdit.storageroom + this.appartToEdit.kitchen
         await this.$api.appartmentService.update({ variables: { appartmentId: this.appartToEdit.id, data: { ...this.appartToEdit, conditions: { ...this.appartToEdit.conditions, paymentFrequency: this.selectedPaymentFrequency }, ownerInfos: { ...this.appartToEdit.ownerInfos, civility: this.selectedCivility, isAlive: this.selectedIsAlive } } } })
 
         if (this.appartImg) {
