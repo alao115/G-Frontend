@@ -39,7 +39,7 @@
       </div>
       <form action="#" class="form text-blue-990 md:border-2 border-gray-200 md:p-8 rounded-md divide-y space-y-8">
         <div class="flex md:justify-between items-center flex-col md:flex-row">
-          <div class="w-full grid grid-cols-1 md:grid-cols-3 items-center md:justify-between lg:justify-start md:divide-x md:space-x-8">
+          <div class="w-full grid grid-cols-1 md:grid-cols-3 items-center md:justify-between gap-8">
             <div class="flex flex-col md:my-0">
               <div class="mb-2 md:mb-4 text-left">
                 <span class="icon mr-4">
@@ -51,7 +51,7 @@
                 ref="searchTextField"
                 type="text"
                 placeholder="Ex: Cotonou"
-                class="placeholder-gray-400 focus:placeholder-blue-380 w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative"
+                class="placeholder-gray-400 focus:placeholder-blue-380 w-full h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative"
               >
             </div>
             <div class="md:p-2 flex-col my-4 md:my-0 hidden md:block">
