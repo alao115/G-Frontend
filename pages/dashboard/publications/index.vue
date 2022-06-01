@@ -72,7 +72,7 @@
           </div>
           <div class="flex flex-col w-64 px-2 mx-2">
             <p>
-              {{ appartmentType(pub.appartment.appartmentType).label }}  <br> <span class="text-gray-400">{{ pub.appartment.bedrooms }} Chambre<span v-if="pub.appartment.bedrooms > 1">s</span> - {{ pub.appartment.livingrooms }} Salon<span v-if="pub.appartment.livingrooms > 1">s</span></span>
+              {{ pub.appartment.appartmentType && appartmentType(pub.appartment.appartmentType).label }}  <br> <span class="text-gray-400">{{ pub.appartment.bedrooms }} Chambre<span v-if="pub.appartment.bedrooms > 1">s</span> - {{ pub.appartment.livingrooms }} Salon<span v-if="pub.appartment.livingrooms > 1">s</span></span>
               <br>
               <span class="block lg:hidden">{{ pub.date }}</span>
             </p>

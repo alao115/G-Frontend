@@ -235,7 +235,7 @@
                     <label for="#" class="text-xl font-semibold">{{ appartment && appartment.rent }}</label>
                   </div>
                 </div>
-                <div class=" mt-2 lg:mt-0 mb-4">
+                <div v-if="appartment.forShortStay === false" class=" mt-2 lg:mt-0 mb-4">
                   <p class="text-gray-400">
                     {{ appartment && appartment.conditions.prepaidRentMonths }} mois d'avance
                   </p>
@@ -259,7 +259,7 @@
           </div>
           <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
             <p class="mb-4">
-              Les frais de visites s’élève à 2000 f cfa.
+              Les frais de visites s’élève à 1500 f cfa par visite.
               Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
             </p>
             <NewVisit

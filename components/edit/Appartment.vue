@@ -25,7 +25,6 @@
                   <!-- input -->
                   <input
                     id="toggleC"
-                    slot=""
                     v-model="appartToEdit.forShortStay"
                     type="checkbox"
                     class="sr-only checkbox"
@@ -117,12 +116,19 @@
                 </div>
               </div>
             </div>
-            <p class="text-base mt-4 text-gray-400">
+            <p v-if="appartToEdit.forShortStay !== true" class="text-base mt-4 text-gray-400">
               Caution Loyer
             </p>
-            <div v-if="appartToEdit.conditions && appartToEdit.conditions.prepaidRentMonths" class="flex space-x-8">
+            <div v-if="appartToEdit.conditions && appartToEdit.conditions.prepaidRentMonths && appartToEdit.forShortStay !== true" class="flex space-x-8">
               <input v-model.number="appartToEdit.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <input :value="appartToEdit.conditions.prepaidRentMonths * appartToEdit.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+            </div>
+            <p  class="text-base mt-4 text-gray-400">
+              Caution eau / electricité
+            </p>
+
+            <div v-if="appartToEdit.conditions" class="flex space-x-8">
+              <input v-model.number="appartToEdit.conditions.energyCommission" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
             </div>
             <div class="relative col-span-2 mb-16 lg:mb-8">
               <p class="text-base mt-4 text-gray-400">

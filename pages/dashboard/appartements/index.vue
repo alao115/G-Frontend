@@ -28,7 +28,7 @@
         </a>
       </div>
     </div>
-    <div v-if="returnedAppartment.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
+    <div v-if="returnedAppartments.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
       <template v-if="connectedUser.userType !== 2">
         <h1 class="text-3xl font-bold">
           0 appartement trouvé
@@ -94,7 +94,7 @@
           </div>
         </div>
         <div class="overflow-auto custom__scroll py-4">
-          <div v-for="(appart, count) in returnedAppartment" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
+          <div v-for="(appart, count) in returnedAppartments" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
             <div class="flex flex-col w-min px-2">
               <input v-model="selectedAppartments" type="checkbox" :value="appart" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
             </div>
@@ -324,8 +324,12 @@ export default {
     publisherAppartments () {
       return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
     },
-    returnedAppartment () {
-      return this.appartments
+    returnedAppartments () {
+      if (this.connectedUser.userType === 0) {
+        return this.appartments
+      } else {
+        return this.publisherAppartments
+      }
     }
   },
   methods: {

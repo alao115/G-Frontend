@@ -115,7 +115,7 @@
               </div>
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
-                  Les frais de visites s’élèvent à 2000 f cfa.
+                  Les frais de visites s’élèvent à 1500 f cfa par visite.
                   Vous avez la possibilité de 3 visites. Une équipe est mise à votre disposition pour un service de qualité.
                 </p>
               </div>
@@ -327,7 +327,7 @@ export default {
     open () {
       // console.log(this.$openKkiapayWidget)
       this.$openKkiapayWidget({
-        amount: 2000,
+        amount: 1500,
         api_key: 'f8095850886111ec953617ecac48fe09',
         sandbox: true,
         phone: ''

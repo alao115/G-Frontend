@@ -138,13 +138,20 @@
                 </div>
               </div>
             </div>
-            <p class="text-base mt-4 text-gray-400">
+            <p v-if="newAppartment.forShortStay === false" class="text-base mt-4 text-gray-400">
               Caution Loyer
             </p>
 
-            <div class="flex space-x-8">
+            <div v-if="newAppartment.forShortStay === false" class="flex space-x-8">
               <input v-model.number="newAppartment.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <input :value="newAppartment.conditions.prepaidRentMonths * newAppartment.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+            </div>
+            <p  class="text-base mt-4 text-gray-400">
+              Caution eau / electricité
+            </p>
+
+            <div class="flex space-x-8">
+              <input v-model.number="newAppartment.conditions.energyCommission" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
             </div>
             <div class="relative col-span-2 mb-16 lg:mb-8">
               <p class="text-base mt-4 text-gray-400">
@@ -531,6 +538,7 @@ export default {
           prepaidRentMonths: 3,
           paymentFrequency: ''
         },
+        forShortStay: false,
         ownerInfos: {},
         location: '',
         geometry: {}
