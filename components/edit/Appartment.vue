@@ -123,7 +123,7 @@
               <input v-model.number="appartToEdit.conditions.prepaidRentMonths" type="number" class="w-1/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
               <input :value="appartToEdit.conditions.prepaidRentMonths * appartToEdit.rent" type="number" class="w-2/3 h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
             </div>
-            <p  class="text-base mt-4 text-gray-400">
+            <p class="text-base mt-4 text-gray-400">
               Caution eau / electricité
             </p>
 
@@ -462,7 +462,7 @@ export default {
 
   data () {
     return {
-      appartToEdit: { ...this.appartment },
+      appartToEdit: { ...this.appartment, ownerInfos: { ...this.appartment.ownerInfos }, conditions: { ...this.appartment.conditions } },
       currentStep: 'first',
       isDismissed: true,
       typeSelectIsOpen: false,
@@ -580,7 +580,7 @@ export default {
     },
     appartment (value) {
       if (value !== null) {
-        this.appartToEdit = { ...value }
+        this.appartToEdit = { ...value, ownerInfos: { ...value.ownerInfos }, conditions: { ...value.conditions } }
         this.selectedCivility = value.ownerInfos.civility
         this.selectedIsAlive = value.ownerInfos.isAlive
         this.selectedPaymentFrequency = value.conditions.paymentFrequency
@@ -608,7 +608,7 @@ export default {
     })
   },
   created () {
-    this.appartToEdit = { ...this.appartment }
+    this.appartToEdit = { ...this.appartment, ownerInfos: { ...this.appartment.ownerInfos }, conditions: { ...this.appartment.conditions } }
   },
   methods: {
     toDetails (appartment) {
