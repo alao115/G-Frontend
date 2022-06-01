@@ -74,14 +74,14 @@
           <div class="flex items-center w-52 h-10 px-4 text-xs mr-2 ml-16">
             <span>TYPE</span>
           </div>
-          <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
+          <div class="hidden lg:flex items-center w-40 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>LOCALISATION</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>LOYER</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>ETAT</span>
+            <span>COURT S. ?</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>STATUS</span>
@@ -106,7 +106,7 @@
             <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
               <span>{{ appart.id }}</span>
             </div> -->
-            <div class="flex flex-col w-60 lg:w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+            <div class="flex flex-col w-60 lg:w-52 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <p>
                 {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
@@ -118,12 +118,6 @@
                 {{ appart.rent }} | <span class="text-gray-400">{{ appart.location }}</span>
               </p>
             </div>
-            <div class="hidden lg:flex  flex-col w-8 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span class="icon">
-                <!-- <i v-if="appartFavory(apart.id)" class="fas fa-heart"></i>
-                <i v-else class="far fa-heart"></i> -->
-              </span>
-            </div>
             <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.location }}</span>
             </div>
@@ -131,7 +125,7 @@
               <span>{{ appart.rent }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span />
+              <span>{{ appart.forShortStay ? 'Oui': 'Non' }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span />
@@ -187,7 +181,7 @@
             <span>LOYER</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>ETAT</span>
+            <span>COURT S. ?</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>STATUS</span>

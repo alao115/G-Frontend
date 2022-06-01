@@ -89,8 +89,11 @@
                 <h4 class="text-sky-450 text-xl mt-8">
                   Details
                 </h4>
-                <p class="font-body text-base mb-8">
+                <p class="font-body text-base" :class="appartment.forShortStay ? '' : 'mb-8'">
                   {{ appartment.details }}
+                </p>
+                <p class="font-body text-base mb-8 font-bold">
+                  {{ appartment.forShortStay ? 'Court séjour' : '' }}
                 </p>
               </div>
               <div class="rooms w-full pr-4">
@@ -271,13 +274,13 @@
                       <label for="#" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
                     </div>
                   </div>
-                </div>
-                <div class=" mt-2 lg:mt-0 mb-4">
-                  <p class="text-gray-400">
-                    Commission Eau / Elec
-                  </p>
-                  <div class="flex items-center font">
-                    <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
+                  <div class=" mt-2 lg:mt-0 mb-4">
+                    <p class="text-gray-400">
+                      Commission Eau / Elec
+                    </p>
+                    <div class="flex items-center font">
+                      <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
+                    </div>
                   </div>
                 </div>
               </div>
