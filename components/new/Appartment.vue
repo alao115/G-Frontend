@@ -598,7 +598,7 @@ export default {
         ]
       }
       this.newAppartment.geometry = geometry
-      this.newAppartment.location = `${place.formatted_address}, ${place.name}`
+      this.newAppartment.location = `${(place.formatted_address.split(','))[1]}, ${place.name}`
     })
   },
   methods: {
@@ -639,6 +639,7 @@ export default {
         this.loading = true
         this.newAppartment.ownerInfos = { ...this.ownerInfos, civility: this.selectedCivility }
         this.newAppartment.conditions.paymentFrequency = this.selectedPaymentFrequency
+        this.newAppartment.rooms = this.newAppartment.livingrooms + this.newAppartment.bathrooms + this.newAppartment.bedrooms + this.newAppartment.storageroom + this.newAppartment.kitchen
         // console.log(this.newAppartment)
         const { data, errors } = await this.$api.appartmentService.create({ variables: { data: this.newAppartment } })
 
