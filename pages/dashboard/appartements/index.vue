@@ -84,9 +84,6 @@
             <span>COURT S. ?</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>STATUS</span>
-          </div>
-          <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>VISITES</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
@@ -126,9 +123,6 @@
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.forShortStay ? 'Oui': 'Non' }}</span>
-            </div>
-            <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appartVisits(appart.id).length }}</span>
@@ -182,9 +176,6 @@
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>COURT S. ?</span>
-          </div>
-          <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>STATUS</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>VISITES</span>
