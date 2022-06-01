@@ -1,14 +1,19 @@
 <template>
   <div class="contents">
-    <a v-if="routeName === 'dashboard-reservations'" :class="isMinified ? 'px-2' : 'px-10'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg" href="#" @click.prevent="isDismissed = false">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-      </svg>
-      <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. Réservation</span>
+    <a v-if="from === 'appartMenu'" class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="isDismissed = false">
+      <span class="font-medium">Réserver</span>
     </a>
-    <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10" @click.prevent="isDismissed = false">
-      Réserver
-    </button>
+    <div v-else class="contents">
+      <a v-if="routeName === 'dashboard-reservations'" :class="isMinified ? 'px-2' : 'px-10'" class="flex items-center w-full border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-4 text-lg" href="#" @click.prevent="isDismissed = false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. Réservation</span>
+      </a>
+      <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10" @click.prevent="isDismissed = false">
+        Réserver
+      </button>
+    </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
@@ -148,6 +153,18 @@ export default {
       type: Array,
       default: () => ([]),
       required: true
+    },
+    from: {
+      type: String,
+      default: ''
+    },
+    appartmentToReserv: {
+      type: Object,
+      default: () => ({})
+    },
+    appartmentTypeForReserv: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
@@ -211,6 +228,12 @@ export default {
   },
   mounted () {
     this.$addKkiapayListener('success', this.successHandler)
+    if (this.appartmentTypeForReserv !== {}) {
+      this.selectedType = this.appartmentTypeForReserv
+    }
+    if (this.appartmentToReserv !== {}) {
+      this.newReservation.appartment = this.appartmentToReserv
+    }
   },
   beforeDestroy () {
     this.$removeKkiapayListener('success', this.successHandler)

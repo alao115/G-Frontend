@@ -43,9 +43,16 @@
               <span class="font-medium">Modifier</span>
             </a>
             <NewTimeSlot :in-detail="true" />
-            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
+            <NewReservation
+              :load-reservations-func="loadReservations"
+              :appartment-types="appartmentTypes"
+              :appartments-prop="appartments"
+              :from="'appartMenu'"
+              :appartment-to-reserv="appartment"
+              :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"/>
+            <!-- <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Réserver</span>
-            </a>
+            </a> -->
             <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Visiter</span>
             </a>
@@ -551,7 +558,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadAppartments: 'appartment/loadAppartments'
+      loadAppartments: 'appartment/loadAppartments',
+      loadReservations: 'reservation/loadReservations'
     }),
 
     setToEdition (appartment) {
