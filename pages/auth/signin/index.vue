@@ -97,7 +97,8 @@
             </form>
             <p class="text-sm my-12 text-blue-920">
               Vous n'avez pas encore de compte ?
-              <NuxtLink to="/auth/signup" class="text-blue-300 hover:text-blue-920 font-semibold"> <br class="md:hidden">
+              <NuxtLink to="/auth/signup" class="text-blue-300 hover:text-blue-920 font-semibold">
+                <br class="md:hidden">
                 Inscrivez-vous !
               </NuxtLink>
             </p>

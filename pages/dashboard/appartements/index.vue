@@ -163,7 +163,7 @@
               <!-- <span class="icon cursor:pointer p-2">
                 <i class="far fa-calendar-alt" />
               </span> -->
-              <NewTimeSlot />
+              <NewTimeSlot :appartment="appart" :load-appartments-func="loadAppartments" />
             </div>
             <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
               <span class="icon cursor:pointer p-2">
@@ -351,7 +351,6 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     setToEdition (appartment) {
-      console.log(appartment)
       this.appartmentToEdit = appartment
     },
     async deleteAppartment (appartment) {
