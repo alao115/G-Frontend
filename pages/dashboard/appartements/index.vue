@@ -74,17 +74,14 @@
           <div class="flex items-center w-52 h-10 px-4 text-xs mr-2 ml-16">
             <span>TYPE</span>
           </div>
-          <div class="hidden lg:flex items-center w-40 h-10 px-4 text-xs mx-1 lg:mx-2">
+          <div class="hidden lg:flex items-center w-40 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>LOCALISATION</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>LOYER</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>ETAT</span>
-          </div>
-          <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>STATUS</span>
+            <span>COURT S. ?</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>VISITES</span>
@@ -106,7 +103,9 @@
             <!-- <div class="flex flex-col w-12 h-10 px-2 mx-1">
               <span>{{ appart.id }}</span>
             </div> -->
-            <div class="flex flex-col w-60 lg:w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+            <div class="flex flex-col w-60 lg:w-52 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
+              <div v-if="appart.forShortStay" class="md:hidden tag absolute text-xs right-2 px-2 py-1 rounded-xl bg-blue-990 text-white">{{ appart.forShortStay ? 'CS ': '' }}</div>
+              <div :class="isPublished(appart.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="md:hidden tag absolute text-xs right-10 px-2 py-1 rounded-xl">{{ isPublished(appart.id) ? 'Publié ': 'Non publié' }}</div>
               <p>
                 {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
@@ -118,12 +117,6 @@
                 {{ appart.rent }} | <span class="text-gray-400">{{ appart.location }}</span>
               </p>
             </div>
-            <div class="hidden lg:flex  flex-col w-8 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span class="icon">
-                <!-- <i v-if="appartFavory(apart.id)" class="fas fa-heart"></i>
-                <i v-else class="far fa-heart"></i> -->
-              </span>
-            </div>
             <div class="hidden lg:flex  flex-col w-40 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appart.location }}</span>
             </div>
@@ -131,10 +124,7 @@
               <span>{{ appart.rent }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span />
-            </div>
-            <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <span />
+              <span>{{ appart.forShortStay ? 'Oui': 'Non' }}</span>
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appartVisits(appart.id).length }}</span>
@@ -187,10 +177,7 @@
             <span>LOYER</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>ETAT</span>
-          </div>
-          <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
-            <span>STATUS</span>
+            <span>COURT S. ?</span>
           </div>
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>VISITES</span>
@@ -325,7 +312,7 @@ export default {
       return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
     },
     returnedAppartments () {
-      if (this.connectedUser.userType === 0) {
+      if (this.connectedUser.userType === 0 || this.connectedUser.userType === 2) {
         return this.appartments
       } else {
         return this.publisherAppartments

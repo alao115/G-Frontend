@@ -259,8 +259,7 @@
           </div>
           <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
             <p class="mb-4">
-              Les frais de visites s’élève à 1500 f cfa par visite.
-              Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
+              Les frais de visites s’élève à 1500 f cfa par visite. Une équipe est mise à votre disposition pour un service de qualité.
             </p>
             <NewVisit
               :appartments-prop="appartments"

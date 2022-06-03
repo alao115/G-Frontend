@@ -142,75 +142,146 @@
             <p class="text-2xl mt-12 mb-4 text-gray-400 font-normal">
               Caratéristiques
             </p>
-            <div class="grid grid-cols-2">
-              <div class="w-full pr-4 relative">
-                <input v-model.number="appartToEdit.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-bed-alt fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+            <div class="grid grid-cols-2 mb-8 lg:mb-0 gap-4">
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
                   Chambre(s)
                 </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.bedrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-bed-alt fa-lg" />
+                  </span>
+                </div>
               </div>
-              <div class="w-full pl-4 relative">
-                <input v-model.number="appartToEdit.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16block">
-                  <i class="far fa-couch fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
                   Salon(s)
                 </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.livingrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-couch fa-lg" />
+                  </span>
+                </div>
               </div>
-              <div class="w-full pr-4 relative">
-                <input v-model.number="appartToEdit.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-oven fa-lg" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
                   Cuisine(s)
                 </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.kitchen" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-oven fa-lg" />
+                  </span>
+                </div>
               </div>
-              <div class="w-full pl-4 relative">
-                <input v-model.number="appartToEdit.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
-                </span>
-                <p class="text-base mt-1 mb-4 text-gray-400">
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
                   Salle(s) d'eau
                 </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.bathrooms" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
+                  </span>
+                </div>
               </div>
-              <div class="w-full pr-4 relative">
-                <input v-model.number="appartToEdit.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-cabinet-filing fa-lg" />
-                </span>
+              <div class="w-full relative">
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Débarras
                 </p>
-              </div><div class="w-full pl-4 relative">
-                <input v-model.number="appartToEdit.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-garage-open fa-lg" />
-                </span>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.storageroom" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-cabinet-filing fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Garage
                 </p>
-              </div><div class="w-full pr-4 relative">
-                <input v-model.number="appartToEdit.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-list-ol fa-lg" />
-                </span>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.garage" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-garage-open fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
+                  Balcon / Terrasse
+                </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.terrace" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-garage-open fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
+                  Gardien
+                </p>
+                <div class="relative">
+                  <select v-model="appartToEdit.keeper" class="w-full mt-1 h-12 md:h-16 pl-16 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                    <option v-for="(choice, count) in keeperSelect" :key="count" :value="choice.value">
+                      <span class="">{{ choice.label }}</span>
+                    </option>
+                  </select>
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-user-shield fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
+                  Jardin
+                </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.garden" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-flower-daffodil fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
+                <p class="text-base mt-1 text-gray-400">
+                  Piscine
+                </p>
+                <div class="relative">
+                  <select v-model="appartToEdit.pool" class="w-full mt-1 h-12 md:h-16 pl-16 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                    <option v-for="(choice, count) in poolSelect" :key="count" :value="choice.value">
+                      <span class="">{{ choice.label }}</span>
+                    </option>
+                  </select>
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-swimming-pool fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Niveau
                 </p>
-              </div><div class="w-full pl-4 relative">
-                <input v-model.number="appartToEdit.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
-                <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
-                  <i class="far fa-users fa-lg" />
-                </span>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.groundLevel" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-list-ol fa-lg" />
+                  </span>
+                </div>
+              </div>
+              <div class="w-full relative">
                 <p class="text-base mt-1 mb-4 text-gray-400">
                   Voisinage
                 </p>
+                <div class="relative">
+                  <input v-model.number="appartToEdit.householdsTotal" type="number" class="w-full h-12 md:h-16 pr-4 pl-16 mt-1 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="0">
+                  <span class="flex justify-center items-center absolute icon top-0 mt-1 lg:mt-3 h-12 w-16">
+                    <i class="far fa-users fa-lg" />
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -462,6 +533,18 @@ export default {
 
   data () {
     return {
+      keeperSelect: [
+        { value: true, label: 'Oui' },
+        { value: false, label: 'Non' }
+      ],
+      poolSelect: [
+        { value: true, label: 'Oui' },
+        { value: false, label: 'Non' }
+      ],
+      acSelect: [
+        { value: true, label: 'Oui' },
+        { value: false, label: 'Non' }
+      ],
       appartToEdit: { ...this.appartment, ownerInfos: { ...this.appartment.ownerInfos }, conditions: { ...this.appartment.conditions } },
       currentStep: 'first',
       isDismissed: true,

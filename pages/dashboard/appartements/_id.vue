@@ -43,9 +43,16 @@
               <span class="font-medium">Modifier</span>
             </a>
             <NewTimeSlot :in-detail="true" />
-            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
+            <NewReservation
+              :load-reservations-func="loadReservations"
+              :appartment-types="appartmentTypes"
+              :appartments-prop="appartments"
+              :from="'appartMenu'"
+              :appartment-to-reserv="appartment"
+              :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"/>
+            <!-- <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Réserver</span>
-            </a>
+            </a> -->
             <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Visiter</span>
             </a>
@@ -82,8 +89,11 @@
                 <h4 class="text-sky-450 text-xl mt-8">
                   Details
                 </h4>
-                <p class="font-body text-base mb-8">
+                <p class="font-body text-base" :class="appartment.forShortStay ? '' : 'mb-8'">
                   {{ appartment.details }}
+                </p>
+                <p class="font-body text-base mb-8 font-bold">
+                  {{ appartment.forShortStay ? 'Court séjour' : '' }}
                 </p>
               </div>
               <div class="rooms w-full pr-4">
@@ -264,13 +274,13 @@
                       <label for="#" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
                     </div>
                   </div>
-                </div>
-                <div class=" mt-2 lg:mt-0 mb-4">
-                  <p class="text-gray-400">
-                    Commission Eau / Elec
-                  </p>
-                  <div class="flex items-center font">
-                    <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
+                  <div class=" mt-2 lg:mt-0 mb-4">
+                    <p class="text-gray-400">
+                      Commission Eau / Elec
+                    </p>
+                    <div class="flex items-center font">
+                      <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -280,8 +290,7 @@
             </div>
             <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
               <p class="mb-4">
-                Les frais de visites s’élève à 1500 f cfa par visite.
-                Vous avez la possibilité de 3 visites. Une équipe ets mise à votre disposition pour un service de qualité.
+                Les frais de visites s’élève à 1500 f cfa par visite. Une équipe est mise à votre disposition pour un service de qualité.
               </p>
               <NewVisit
                 :appartments-prop="appartments"
@@ -551,7 +560,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadAppartments: 'appartment/loadAppartments'
+      loadAppartments: 'appartment/loadAppartments',
+      loadReservations: 'reservation/loadReservations'
     }),
 
     setToEdition (appartment) {
