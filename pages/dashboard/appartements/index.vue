@@ -104,8 +104,12 @@
               <span>{{ appart.id }}</span>
             </div> -->
             <div class="flex flex-col w-60 lg:w-52 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
-              <div v-if="appart.forShortStay" class="md:hidden tag absolute text-xs right-2 px-2 py-1 rounded-xl bg-blue-990 text-white">{{ appart.forShortStay ? 'CS ': '' }}</div>
-              <div :class="isPublished(appart.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="md:hidden tag absolute text-xs right-10 px-2 py-1 rounded-xl">{{ isPublished(appart.id) ? 'Publié ': 'Non publié' }}</div>
+              <div v-if="appart.forShortStay" class="md:hidden tag absolute text-xs right-2 px-2 py-1 rounded-xl bg-blue-990 text-white">
+                {{ appart.forShortStay ? 'CS ': '' }}
+              </div>
+              <div :class="isPublished(appart.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="md:hidden tag absolute text-xs right-10 px-2 py-1 rounded-xl">
+                {{ isPublished(appart.id) ? 'Publié ': 'Non publié' }}
+              </div>
               <p>
                 {{ appartmentType(appart.appartmentType) ? appartmentType(appart.appartmentType).label : '' }} <br>
                 <span class="text-gray-400">{{ appart.bedrooms }}
