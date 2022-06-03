@@ -206,7 +206,7 @@ export default {
     }
   },
   created () {
-    if (this.appartment.timeSlots) {
+    if (this.appartment && this.appartment.timeSlots) {
       // const timeSlots = []
       this.appartment.timeSlots.forEach((item) => {
         const foundDate = this.days.find(day => day.day === item.day)

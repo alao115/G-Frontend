@@ -65,7 +65,6 @@
           </li>
         </ul>
       </div>
-
       <div v-if="isListLayout" class="flex flex-col table__container w-full">
         <div class="flex flex-shrink-0 bg-blue-75 py-1 font-medium bg-gray-100">
           <div class="flex items-center w-min h-10 px-2">
@@ -243,6 +242,10 @@ export default {
 
     return {
     }
+  },
+  mounted () {
+    console.log(this.appartments[1])
+    console.log(this.connectedUser.id)
   },
 
   data () {

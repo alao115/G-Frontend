@@ -88,6 +88,9 @@
                   <input v-model.trim="newVisit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
                 </div>
               </div>
+              <p class="text-base mt-4 text-gray-400">
+                Jour de la visite
+              </p>
               <div class="flex flex-col space-x-8">
                 <select v-model="newVisit.date" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
                   <option selected>
@@ -182,6 +185,11 @@ export default {
       type: Array,
       required: true,
       default: () => ([])
+    },
+    appartmentIdProp: {
+      type: String,
+      required: false,
+      default: () => ('')
     }
   },
   data () {
@@ -265,17 +273,15 @@ export default {
       if (value !== '') {
         this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
       }
-    },
-    appartmentId (value) {
-      if (value) {
-        this.newVisit.appartment = this.appartment
-        this.selectedType = this.appartmentType(this.appartment.appartmentType)
-      }
     }
   },
   mounted () {
     // this.$fetch()
     this.$addKkiapayListener('success', this.successHandler)
+    if (this.appartmentIdProp) {
+      this.newVisit.appartment = this.appartmentIdProp
+      this.selectedType = this.appartmentType(this.appartment(this.appartmentIdProp).appartmentType)
+    }
   },
   beforeDestroy () {
     this.$removeKkiapayListener('success', this.successHandler)

@@ -27,6 +27,7 @@
         </ul>
       </div>
       <div class="flex mb-8">
+        <!-- {{ appartment.timeSlots }} <br> -->
         <h4 class="text-2xl font-medium mb-2">
           {{ appartmentType(appartment.appartmentType).label }} <br>
           <span class="text-gray-400 text-sm">{{ appartment.bedrooms }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
@@ -42,7 +43,7 @@
             <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
               <span class="font-medium">Modifier</span>
             </a>
-            <NewTimeSlot :in-detail="true" />
+            <NewTimeSlot :in-detail="true" :appartment="appartment"/>
             <NewReservation
               :load-reservations-func="loadReservations"
               :appartment-types="appartmentTypes"
@@ -295,7 +296,6 @@
               <NewVisit
                 :appartments-prop="appartments"
                 :appartment-types="appartmentTypes"
-                :timeslots="timeslots"
                 :appartment-id-prop="appartment.id"
                 :load-visits-func="() => {}"
               />
