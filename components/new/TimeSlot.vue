@@ -23,20 +23,12 @@
             Choisissez un jour et cliquez sur les créneaux horaires désirés
           </p>
           <div v-if="currentStep === 'first'" class="first">
-            <!-- <p class="text-base mt-8 mb-4 text-gray-400">
-              Jour de la semaine
-            </p>
-            <select v-model="newTimeslot.day" type="text" class="w-full h-12 md:h-16 pr-4 pl-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380 relative" placeholder="Libellé">
-              <option v-for="day in days" :key="day.id" :value="day.id">
-                  <span>{{ day.label }}</span>
-                </option>
-            </select> -->
             <p class="text-base mt-8 mb-4 text-gray-400">
               Jours de la semaine
             </p>
             <div class="grid grid-cols-4 gap-4 mb-4">
-              <label for="#" class="p-2 py-4 bg-sky-50 align-center justify-center col-span-4" @click="selectAllDays">
-                <input id="" type="checkbox" name="" class="mr-2">
+              <label for="selectAll" class="p-2 py-4 bg-sky-50 align-center justify-center col-span-4">
+                <input id="selectAll" v-model="selectAllDays" type="checkbox" name="" class="mr-2">
                 Tous les jours
               </label>
             </div>
@@ -44,23 +36,20 @@
               Faites votre choix
             </p>
             <div class="grid grid-cols-4 gap-4">
-              <label v-for="(day, count) in days" :for="day.label" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
+              <label v-for="(day, count) in days" :key="count" :for="day.label" class="p-2 py-4 bg-sky-50 align-center justify-center">
                 <input
+                  :id="day.day"
                   v-model="selectedDays"
                   :value="day"
                   type="checkbox"
                   :name="day.label"
-                  :id="day.label"
-                  class="mr-2">
-                {{ day.label }}
+                  class="mr-2"
+                >
+                {{ day.day }}
               </label>
             </div>
           </div>
           <div v-if="currentStep === 'second'" class="first">
-            <!-- {{ newTimeslot }} -->
-            <!-- <div class="tabs flex space-x-8 pt-4">
-              <a v-for="(day, count) in selectedDays" :key="count" href="#" class="tab" @click.prevent="activeDayToPopulate = day">{{ day.label }}</a>
-            </div> -->
             <div>
               <div>
                 <p class="text-base mt-8 mb-4 text-gray-400">
@@ -68,7 +57,7 @@
                 </p>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                   <label for="#" class="p-2 py-4 bg-sky-50 align-center justify-center col-span-4">
-                    <input type="checkbox" name="" id="" class="mr-2">
+                    <input id="" type="checkbox" name="" class="mr-2">
                     Tous les créneaux
                   </label>
                 </div>
@@ -77,114 +66,27 @@
                 </p>
                 <!-- {{ selectedDays }} -->
                 <div class="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-                  <!-- <button v-for="day in selectedDays" :key="day.id" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 border-blue-500 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none">
-                    {{ day.label }}
-                  </button> -->
-                  <button v-if="findDay('Lundi')" :class="mondayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab('Lundi')">
-                    Lundi
-                  </button>
-                  <button v-if="findDay('Mardi')" :class="tuesdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab('Mardi')">
-                    Mardi
-                  </button>
-                  <button v-if="findDay('Mercredi')" :class="wednesdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab('Mercredi')">
-                    Mercredi
-                  </button>
-                  <button v-if="findDay('Jeudi')" :class="thursdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab('Jeudi')">
-                    Jeudi
-                  </button>
-                  <button v-if="findDay('Vendredi')" :class="fridayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab('Vendredi')">
-                    Vendredi
-                  </button>
-                  <button v-if="findDay('Samedi')" :class="saturdayTabIsOpen ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab('Samedi')">
-                    Samedi
+                  <button v-for="slotData in selectedDays" :key="slotData.day" :class=" slotData.isSelected ? 'border-blue-500' : 'border-transparent'" class="h-10 px-4 py-2 -mb-px text-sm text-center text-blue-600 bg-transparent border-b-2 sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none" @click.prevent="changeTab(slotData)">
+                    {{ slotData.day }}
                   </button>
                 </div>
-                <div v-if="mondayTabIsOpen">
-                  {{ newTimeslot.mondays }}
-                  <div class="grid grid-cols-4 gap-4">
-                    <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        v-model="newTimeslot.mondays"
-                        type="checkbox"
-                        :name="slot"
-                        :id="slot"
-                        class="mr-2"
-                        :value="slot">
-                      {{ slot }}
-                    </label>
+                <template v-for="(slotData, index) in selectedDays">
+                  <div v-if="slotData.isSelected" :key="index">
+                    <div class="grid grid-cols-4 gap-4">
+                      <label v-for="(slot, count) in timeSlots" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                        <input
+                          :id="slot"
+                          v-model="slotData.selectedTimes"
+                          type="checkbox"
+                          :name="slot"
+                          class="mr-2"
+                          :value="slot"
+                        >
+                        {{ slot }}
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div v-if="tuesdayTabIsOpen">
-                  {{ newTimeslot.tuesdays }}
-                  <div class="grid grid-cols-4 gap-4">
-                    <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        v-model="newTimeslot.tuesdays"
-                        type="checkbox"
-                        :name="slot"
-                        :id="slot"
-                        class="mr-2"
-                        :value="slot">
-                      {{ slot }}
-                    </label>
-                  </div>
-                </div>
-                <div v-if="wednesdayTabIsOpen">
-                  <div class="grid grid-cols-4 gap-4">
-                    <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        v-model="newTimeslot.wednesdays"
-                        type="checkbox"
-                        :name="slot"
-                        :id="slot"
-                        class="mr-2"
-                        :value="slot">
-                      {{ slot }}
-                    </label>
-                  </div>
-                </div>
-                <div v-if="thursdayTabIsOpen">
-                  <div class="grid grid-cols-4 gap-4">
-                    <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        v-model="newTimeslot.thursdays"
-                        type="checkbox"
-                        :name="slot"
-                        :id="slot"
-                        class="mr-2"
-                        :value="slot">
-                      {{ slot }}
-                    </label>
-                  </div>
-                </div>
-                <div v-if="fridayTabIsOpen">
-                  <div class="grid grid-cols-4 gap-4">
-                    <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        v-model="newTimeslot.fridays"
-                        type="checkbox"
-                        :name="slot"
-                        :id="slot"
-                        class="mr-2"
-                        :value="slot">
-                      {{ slot }}
-                    </label>
-                  </div>
-                </div>
-                <div v-if="saturdayTabIsOpen">
-                  <div class="grid grid-cols-4 gap-4">
-                    <label v-for="(slot, count) in timeSlots" :for="slot" :key="count" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        v-model="newTimeslot.saturdays"
-                        type="checkbox"
-                        :name="slot"
-                        :id="slot"
-                        class="mr-2"
-                        :value="slot">
-                      {{ slot }}
-                    </label>
-                  </div>
-                </div>
+                </template>
               </div>
             </div>
           </div>
@@ -206,7 +108,7 @@
             <span v-else>Revenir</span>
           </button>
           <!-- <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newType.label || !newType.description " @click.prevent="createTimeslots"> -->
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="currentStep === 'first' ? [currentStep = 'second', associateDayAndSlot] : createTimeslots">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'first' && selectedDays.length) ? [currentStep = 'second', selectedDays[0].isSelected = true] : !selectedDays.length ? false : createTimeslots()">
             <span v-if="currentStep === 'second'">
               Enregistrer les horaires
             </span>
@@ -238,6 +140,14 @@ export default {
     inDetail: {
       type: Boolean,
       default: false
+    },
+    appartment: {
+      type: Object,
+      required: true
+    },
+    loadAppartmentsFunc: {
+      type: Function,
+      default: () => {}
     }
   },
   data () {
@@ -247,23 +157,8 @@ export default {
       currentStep: 'first',
       isDismissed: true,
       newType: {},
-      locations: [],
       onCreated: false,
       selectedDays: [],
-      newTimeslot: {
-        mondays: [],
-        tuesdays: [],
-        wednesdays: [],
-        thursdays: [],
-        fridays: [],
-        saturdays: []
-      },
-      mondayTabIsOpen: true,
-      tuesdayTabIsOpen: false,
-      wednesdayTabIsOpen: false,
-      thursdayTabIsOpen: false,
-      fridayTabIsOpen: false,
-      saturdayTabIsOpen: false,
       days: [
         { id: 1, label: 'Lundi' },
         { id: 2, label: 'Mardi' },
@@ -272,7 +167,7 @@ export default {
         { id: 5, label: 'Vendredi' },
         { id: 6, label: 'Samedi' },
         { id: 7, label: 'Dimanche' }
-      ],
+      ].map(item => ({ day: item.label, selectedTimes: [], isSelected: false })),
       timeSlots: [
         '8h - 9h',
         '9h - 10h',
@@ -288,43 +183,17 @@ export default {
     }
   },
   computed: {
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
-    appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    paymentFrequency () {
-      return id => this.paymentFrequencies.find(payment => payment.id === id)
-    },
-    user () {
-      return id => this.users.find(user => user.id === id)
-    },
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
-    },
-    findDay () {
-      return label => this.selectedDays.find(day => day.label === label)
-    },
     selectAllDays: {
       get () {
-        return this.days ? this.selectedDays.length === this.days.length : false
+        return this.selectedDays.length === this.days.length
       },
       set (value) {
-        // const selected = []
         if (value) {
           this.days.forEach((day) => {
-            this.selectedDays.push(day.id)
+            this.selectedDays.push(day)
           })
+        } else {
+          this.selectedDays = []
         }
       }
     }
@@ -336,65 +205,46 @@ export default {
       }
     }
   },
+  created () {
+    if (this.appartment.timeSlots) {
+      // const timeSlots = []
+      this.appartment.timeSlots.forEach((item) => {
+        const foundDate = this.days.find(day => day.day === item.day)
+        foundDate.selectedTimes = item.selectedTimes
+        this.selectedDays.push(foundDate)
+      })
+    }
+  },
   methods: {
-    changeTab (day) {
+    changeTab (slot) {
       this.allTabClosed()
-      switch (day) {
-        case 'Lundi':
-          this.mondayTabIsOpen = true
-          break
-        case 'Mardi':
-          this.tuesdayTabIsOpen = true
-          break
-        case 'Mercredi':
-          this.wednesdayTabIsOpen = true
-          break
-        case 'Jeudi':
-          this.thursdayTabIsOpen = true
-          break
-        case 'Vendrdedi':
-          this.fridayTabIsOpen = true
-          break
-        case 'Samedi':
-          this.saturdayTabIsOpen = true
-          break
-        default:
-          break
-      }
+      slot.isSelected = true
     },
     allTabClosed () {
-      this.mondayTabIsOpen = false
-      this.tuesdayTabIsOpen = false
-      this.wednesdayTabIsOpen = false
-      this.thursdayTabIsOpen = false
-      this.fridayTabIsOpen = false
-      this.saturdayTabIsOpen = false
+      this.selectedDays.forEach((item) => { item.isSelected = false })
     },
     toDismiss () {
       this.isDismissed = true
       this.currentStep = 'first'
       this.selectedDays = []
     },
-    associateDayAndSlot () {
-      this.selectedDays.forEach((day) => {
-        alert('trying to associate')
-        this.newTimeslot.push({ day: this.timeSlots })
-      })
-    },
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
     },
     createTimeslots () {
-      this.onCreated = true
-      this.$api.timeslotService.create({ variables: { data: this.newTimeslot } })
-        .then(async (response) => {
-          this.newTimeslot = {}
-          this.currentStep = 'congrats'
-          await this.loadTimeslotFunc()
-        })
-        .finally(() => {
-          this.onCreated = false
-        })
+      const areTimeSlotSelected = this.selectedDays.every(item => item.selectedTimes.length !== 0)
+      if (areTimeSlotSelected) {
+        this.onCreated = true
+        this.$api.appartmentService.update({ variables: { appartmentId: this.appartment.id, data: { timeSlots: this.selectedDays.map(item => ({ day: item.day, selectedTimes: item.selectedTimes })) } } })
+          .then(response => this.loadAppartmentsFunc())
+          .then(() => {
+            // this.selectedDays = []
+            this.currentStep = 'congrats'
+          })
+          .finally(() => {
+            this.onCreated = false
+          })
+      }
     }
   }
 }

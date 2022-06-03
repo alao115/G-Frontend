@@ -60,7 +60,6 @@
                 Veuillez sélectionner un appartement à réserver
               </p>
               <div class="relative inline-block w-full text-gray-700">
-                {{ appartmentId }}
                 <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
                   <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
                     <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
@@ -90,27 +89,29 @@
                 </div>
               </div>
               <div class="flex flex-col space-x-8">
-                <!-- <input v-model="newVisit.date" type="date" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input type="time" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure"> -->
-                <select v-model="newVisit.day" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <option value="default" selected>
+                <select v-model="newVisit.date" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                  <option selected>
                     Choisissez un jour
                   </option>
-                  <option v-for="day in days" :key="day.id" :value="day.id">
-                    {{ day.label }}
-                  </option>
+                  <template v-if="selectedAppart">
+                    <option v-for="day in selectedAppart.timeSlots" :key="day.day" :value="day.day">
+                      {{ day.day }}
+                    </option>
+                  </template>
                 </select>
                 <div class="grid grid-cols-4 gap-4">
-                  <label v-for="(slot, count) in timeSlots" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                    <input
-                      :id="slot"
-                      type="checkbox"
-                      :name="slot"
-                      class="mr-2"
-                      :value="slot"
-                    >
-                    {{ slot }}
-                  </label>
+                  <template v-if="selectedDate">
+                    <label v-for="(slot, count) in selectedDate.selectedTimes" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                      <input
+                        :id="slot"
+                        type="checkbox"
+                        :name="slot"
+                        class="mr-2"
+                        :value="slot"
+                      >
+                      {{ slot }}
+                    </label>
+                  </template>
                 </div>
               </div>
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
@@ -157,7 +158,6 @@
 </template>
 
 <script>
-/* import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay' */
 
 export default {
   props: {
@@ -182,17 +182,7 @@ export default {
       type: Array,
       required: true,
       default: () => ([])
-    }/* ,
-    timeslots: {
-      type: Array,
-      required: true,
-      default: () => ([])
-    } */
-    /* appartmentIdProp: {
-      type: String,
-      required: true,
-      default: () => ('')
-    } */
+    }
   },
   data () {
     return {
@@ -206,10 +196,8 @@ export default {
       locations: [],
       newVisit: { visitorInfos: {}, day: 'default' },
       appartments: [...this.appartmentsProp],
-      selectedAppart: '',
       visitResponse: null,
       onCreated: false,
-      selectedDay: '',
       selectedTimeslot: '',
       selectedVisitDay: '',
       days: [
@@ -240,11 +228,7 @@ export default {
     },
     appartment () {
       return id => this.appartments.find(appartment => appartment.id === id)
-      // return this.appartments.find(appartment => appartment.id === this.appartmentId)
     },
-    /* appartmentFromProp () {
-      return this.appartments.find(appartment => appartment.id === this.appartmentId)
-    }, */
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
@@ -254,15 +238,15 @@ export default {
     account () {
       return id => this.accounts.find(account => account.id === id)
     },
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
+    selectedAppart () {
+      return this.appartmentsProp.find(app => app.id === this.newVisit.appartment)
+    },
+    selectedDate () {
+      return this.selectedAppart?.timeSlots.find(item => item.day === this.newVisit.date)
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
     },
-    /* timeslot () {
-      return this.timeslots.find(timeslot => timeslot.appart === this.newVisit.appartment.id)
-    }, */
     listOfTypes () {
       const returnedListOfTypes = []
       this.appartmentTypes.forEach((type) => {
@@ -287,13 +271,7 @@ export default {
         this.newVisit.appartment = this.appartment
         this.selectedType = this.appartmentType(this.appartment.appartmentType)
       }
-    }/* ,
-    appartmentIdProp (value) {
-      if (value) {
-        this.newVisit.appartment = this.appartmentFromProp
-        this.selectedType = this.appartmentType(this.appartmentFromProp.appartmentType)
-      }
-    } */
+    }
   },
   mounted () {
     // this.$fetch()
