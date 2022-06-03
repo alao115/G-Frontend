@@ -57,7 +57,7 @@
                 </div>
                 <!-- label -->
                 <div class="ml-3 text-gray-700 font-medium">
-                  Court séjour ? <span class="text-sky-550">{{ newAppartment.forShortStay === true ? 'Oui' : 'Non' }}</span>
+                  Court séjour ? <span class="text-sky-550">{{ newAppartment.forShortStay === true ? 'Oui' : 'Non' }} {{ newAppartment.forShortStay }}</span>
                 </div>
               </label>
               <label for="toggleB" class="flex items-center cursor-pointer mt-8">

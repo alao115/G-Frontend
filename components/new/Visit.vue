@@ -174,7 +174,8 @@ export default {
     },
     loadVisitsFunc: {
       type: Function,
-      required: true
+      default: () => {}
+      // required: true
     },
     appartmentsProp: {
       type: Array,

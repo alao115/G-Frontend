@@ -11,15 +11,15 @@
             </a>
           </li>
           <li v-if="connectedUser.userType === 0" class="mr-2">
-          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
-          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
+            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
+            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
             <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
               <span class="icon mr-2"><i class="far fa-calendar-day" /></span> <span class="hidden lg:block">Visites</span>
             </a>
           </li>
           <li v-if="connectedUser.userType === 0" class="mr-2">
-          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
-          <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
+            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
+            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
             <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
               <span class="icon mr-2"><i class="far fa-house-user" /></span> <span class="hidden lg:block">Réservations</span>
             </a>
@@ -50,7 +50,8 @@
               :appartments-prop="appartments"
               :from="'appartMenu'"
               :appartment-to-reserv="appartment"
-              :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"/>
+              :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
+            />
             <!-- <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
               <span class="font-medium">Réserver</span>
             </a> -->
