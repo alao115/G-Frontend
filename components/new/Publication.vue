@@ -261,7 +261,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .switch {
   position: relative;
   display: inline-block;
