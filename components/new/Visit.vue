@@ -64,6 +64,7 @@
                   <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
                     <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                     <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
+                    <span class="text-gray-400">{{ isPublished(appart.id) }}</span>
                   </option>
                 </select>
               </div>
@@ -92,7 +93,8 @@
                 Jour de la visite
               </p>
               <div class="flex flex-col space-x-8">
-                <select v-model="newVisit.date" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
+                <input v-model.trim="selectedDateFromCalandar" type="date" class="h-12 md:h-16 px-8 mt-1 my-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+                <!-- <select v-model="newVisit.date" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
                   <option selected>
                     Choisissez un jour
                   </option>
@@ -101,26 +103,29 @@
                       {{ day.day }}
                     </option>
                   </template>
-                </select>
-                <div class="grid grid-cols-4 gap-4">
-                  <template v-if="selectedDate">
-                    <label v-for="(slot, count) in selectedDate.selectedTimes" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                      <input
-                        :id="slot"
-                        type="checkbox"
-                        :name="slot"
-                        class="mr-2"
-                        :value="slot"
-                      >
-                      {{ slot }}
-                    </label>
-                  </template>
-                </div>
+                </select> -->
+              </div>
+              <p class="text-base mt-4 text-gray-400">
+                Horaires disponibles le {{ selectedCalendarDay }}
+              </p>
+              <div class="grid grid-col-2 lg:grid-cols-3 gap-4">
+                <template v-if="selectedDate">
+                  <label v-for="(slot, count) in selectedDate.selectedTimes" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                    <input
+                      :id="slot"
+                      type="checkbox"
+                      :name="slot"
+                      class="mr-2"
+                      :value="slot"
+                    >
+                    {{ slot }}
+                  </label>
+                </template>
+                <p v-else class="col-span-4">Aucun horaire de disponible ce <b>{{ selectedCalendarDay + ' ' + selectedDateFromCalandar }}</b></p>
               </div>
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
-                  Les frais de visites s’élèvent à 1500 f cfa par visite.
-                  Vous avez la possibilité de 3 visites. Une équipe est mise à votre disposition pour un service de qualité.
+                  Les frais de visites s’élèvent à 1500 f cfa par visite. Une équipe est mise à votre disposition pour un service de qualité.
                 </p>
               </div>
             </div>
@@ -191,6 +196,11 @@ export default {
       type: String,
       required: false,
       default: () => ('')
+    },
+    publicationsProp: {
+      type: Array,
+      required: false,
+      default: () => ([])
     }
   },
   data () {
@@ -198,6 +208,7 @@ export default {
       visitorSelected: 'Connected user',
       appartmentId: this.$route.params.id,
       selectedType: '',
+      selectedDateFromCalandar: '',
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
@@ -205,10 +216,12 @@ export default {
       locations: [],
       newVisit: { visitorInfos: {}, day: 'default' },
       appartments: [...this.appartmentsProp],
+      publications: [...this.publicationsProp],
       visitResponse: null,
       onCreated: false,
       selectedTimeslot: '',
-      selectedVisitDay: '',
+      selectedCalendarDay: '',
+      selectedSlot: '',
       days: [
         { id: 1, label: 'Lundi' },
         { id: 2, label: 'Mardi' },
@@ -251,7 +264,11 @@ export default {
       return this.appartmentsProp.find(app => app.id === this.newVisit.appartment)
     },
     selectedDate () {
-      return this.selectedAppart?.timeSlots.find(item => item.day === this.newVisit.date)
+      // return this.selectedAppart?.timeSlots.find(item => item.day === this.newVisit.date)
+      return this.selectedAppart?.timeSlots.find(item => item.day === this.selectedCalendarDay)
+    },
+    vistiDate () {
+      return new Date()
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
@@ -264,6 +281,12 @@ export default {
         }
       })
       return returnedListOfTypes
+    },
+    isPublished () {
+      return id => this.publications.find(publication => publication.appartment.id === id)
+    },
+    returnedAppartments () {
+      return this.appartments.filter(appartment => this.isPublished(appartment.id) === true)
     }
   },
   watch: {
@@ -272,8 +295,51 @@ export default {
     },
     selectedType (value) {
       if (value !== '') {
-        this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
+        this.returnedAppartments = this.returnedAppartments.filter(appart => appart.appartmentType === value.id)
       }
+    },
+    visitorSelected (value) {
+      if (value === 'Connected user') {
+        this.newVisit.visitorInfos.lastname = this.connectedUser.lastname
+        this.newVisit.visitorInfos.firstname = this.connectedUser.firstname
+        this.newVisit.visitorInfos.email = this.connectedUser.email
+      }
+    },
+    selectedDateFromCalandar (value) {
+      if (value) {
+        switch (new Date(value).getDay()) {
+          case 0:
+            this.selectedCalendarDay = 'Dimanche'
+            break
+          case 1:
+            this.selectedCalendarDay = 'Lundi'
+            break
+          case 2:
+            this.selectedCalendarDay = 'Mardi'
+            break
+          case 3:
+            this.selectedCalendarDay = 'Mercredi'
+            break
+          case 4:
+            this.selectedCalendarDay = 'Jeudi'
+            break
+          case 5:
+            this.selectedCalendarDay = 'Vendredi'
+            break
+          case 6:
+            this.selectedCalendarDay = 'Samedi'
+            break
+          default:
+            this.selectedCalendarDay = ''
+            break
+        }
+      }
+    },
+    selectedSlot (value) {
+      console.log('slot => ', value)
+      /* if (value) {
+        this.newVisit.date = this.selectedDateFromCalandar + value.split('-')[0] + ':00'
+      } */
     }
   },
   mounted () {

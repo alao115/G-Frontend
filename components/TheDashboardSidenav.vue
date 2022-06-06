@@ -16,6 +16,7 @@
             <NewVisit
               v-if="routeName === 'dashboard-visites'"
               :appartments-prop="appartments"
+              :publications-prop="publications"
               :appartment-types="appartmentTypes"
               is-minisfied="isMinified"
               :load-visits-func="loadVisits"

@@ -188,25 +188,33 @@
         </div>
       </div>
       <div v-else class="grid grid-cols-1 lg:grid-cols-3">
-        <div v-for="appartmnt in appartments" :key="appartmnt.fID" class="card flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
+        <div v-for="appartmnt in returnedAppartments" :key="appartmnt.fID" class="card flex flex-col bg-transparent rounded-lg pb-3 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
           <img :src="appartmnt.mainImg" alt="">
-          <div class="flex flex-col items-start mt-4 px-8 justify-center lg:justify-start">
-            <h4 class="text-lg font-medium mb-2">
-              {{ appartmentType(appartmnt.appartmentType) ? appartmentType(appartmnt.appartmentType).label : '' }} <br>
-              <span class="text-gray-400">{{ appartmnt.bedrooms }}
-                <span class="hidden lg:contents">Chambre<span v-if="appartmnt.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
-                {{ appartmnt.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appartmnt.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
-              </span>
-            </h4>
-            <div class="flex items-center">
-              <span class="icon mr-4 text-sky-450">
-                <i class="fas fa-map-marker-alt" />
-              </span>
-              <label for="#" class="text-md">{{ appartmnt.location }}</label>
+          <div class="relative">
+            <div v-if="appartmnt.forShortStay" class="tag absolute text-xs right-4 px-2 py-1 rounded-xl bg-blue-990 text-white -mt-72 top-4">
+              {{ appartmnt.forShortStay ? 'CS ': '' }}
             </div>
-            <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450" href="#">
-              {{ appartmnt.rent + 'F CFA' }}
-            </a>
+            <div :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="tag absolute text-xs right-14 px-2 py-1 rounded-xl -mt-72 top-4">
+              {{ isPublished(appartmnt.id) ? 'Publié ': 'Non publié' }}
+            </div>
+            <div class="flex flex-col items-start mt-4 px-4 justify-center lg:justify-start">
+              <h4 class="text-lg font-medium mb-2">
+                {{ appartmentType(appartmnt.appartmentType) ? appartmentType(appartmnt.appartmentType).label : '' }} <br>
+                <span class="text-gray-400">{{ appartmnt.bedrooms }}
+                  <span class="hidden lg:contents">Chambre<span v-if="appartmnt.bedrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-bed-alt" /> --> Ch. </span> -
+                  {{ appartmnt.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appartmnt.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
+                </span>
+              </h4>
+              <div class="flex items-center">
+                <span class="icon mr-4 text-sky-450">
+                  <i class="fas fa-map-marker-alt" />
+                </span>
+                <label for="#" class="text-md">{{ appartmnt.location }}</label>
+              </div>
+              <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450 hover:bg-blue-990 hover:text-white" href="#">
+                {{ appartmnt.rent + 'F CFA' }}
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -316,7 +324,7 @@ export default {
       return id => this.appartFavories.find(favory => favory.appartment === id)
     },
     publisherAppartments () {
-      return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
+      return this.appartments.filter(appartment => appartment.createdBy.user.id === this.connectedUser.id)
     },
     returnedAppartments () {
       if (this.connectedUser.userType === 0 || this.connectedUser.userType === 2) {

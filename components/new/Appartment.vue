@@ -44,7 +44,6 @@
                   <!-- input -->
                   <input
                     id="toggleA"
-                    slot=""
                     v-model="newAppartment.forShortStay"
                     type="checkbox"
                     class="sr-only checkbox"
@@ -57,7 +56,7 @@
                 </div>
                 <!-- label -->
                 <div class="ml-3 text-gray-700 font-medium">
-                  Court séjour ? <span class="text-sky-550">{{ newAppartment.forShortStay === true ? 'Oui' : 'Non' }} {{ newAppartment.forShortStay }}</span>
+                  Court séjour ? <span class="text-sky-550">{{ newAppartment.forShortStay === true ? 'Oui' : 'Non' }}</span>
                 </div>
               </label>
               <label for="toggleB" class="flex items-center cursor-pointer mt-8">
@@ -742,16 +741,3 @@ export default {
   }
 }
 </script>
-<style>
-  /* Toggle */
-  input.checkbox ~.line {
-    background-color: #ccc;
-  }
-  input.checkbox:checked ~ .dot {
-    transform: translateX(100%);
-  }
-
-  input.checkbox:checked ~ .line {
-    background-color: #03a8df;
-  }
-  </style>

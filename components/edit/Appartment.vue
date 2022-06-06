@@ -757,3 +757,16 @@ export default {
   }
 }
 </script>
+<style>
+  /* Toggle */
+  input.checkbox ~.line {
+    background-color: #ccc;
+  }
+  input.checkbox:checked ~ .dot {
+    transform: translateX(100%);
+  }
+
+  input.checkbox:checked ~ .line {
+    background-color: #03a8df;
+  }
+</style>
