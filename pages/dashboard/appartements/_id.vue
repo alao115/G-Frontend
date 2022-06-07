@@ -43,7 +43,7 @@
             <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
               <span class="font-medium">Modifier</span>
             </a>
-            <NewTimeSlot :in-detail="true" :appartment="appartment"/>
+            <NewTimeSlot :in-detail="true" :appartment="appartment" />
             <NewReservation
               :load-reservations-func="loadReservations"
               :appartment-types="appartmentTypes"

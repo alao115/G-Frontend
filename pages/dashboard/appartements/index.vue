@@ -255,10 +255,6 @@ export default {
     return {
     }
   },
-  mounted () {
-    console.log(this.appartments[1])
-    console.log(this.connectedUser.id)
-  },
 
   data () {
     return {
