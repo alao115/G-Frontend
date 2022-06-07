@@ -61,7 +61,7 @@
               </p>
               <div class="relative inline-block w-full text-gray-700">
                 <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
+                  <option v-for="appart in returnedAppartments" :key="appart.id" :value="appart.id">
                     <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                     <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
                     <span class="text-gray-400">{{ isPublished(appart.id) }}</span>
@@ -72,7 +72,10 @@
                 Qui le visitera ?
               </p>
               <select id="" v-model="visitorSelected" name="visitorSelect" class="w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
-                <option value="Connected user" selected>
+                <option value="" selected>
+                  Selectionner celui qui visitera l'appartment
+                </option>
+                <option value="Connected user">
                   <span>Moi-même</span>
                 </option>
                 <option value="Other">
@@ -113,6 +116,7 @@
                   <label v-for="(slot, count) in selectedDate.selectedTimes" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
                     <input
                       :id="slot"
+                      v-model="selectedSlot"
                       type="checkbox"
                       :name="slot"
                       class="mr-2"
@@ -121,7 +125,9 @@
                     {{ slot }}
                   </label>
                 </template>
-                <p v-else class="col-span-4">Aucun horaire de disponible ce <b>{{ selectedCalendarDay + ' ' + selectedDateFromCalandar }}</b></p>
+                <p v-else class="col-span-4">
+                  Aucun horaire de disponible ce <b>{{ selectedCalendarDay + ' ' + selectedDateFromCalandar }}</b>
+                </p>
               </div>
               <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
                 <p>
@@ -148,7 +154,7 @@
           </button>
           <button type="button" class="relative w-1/3 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="payLater">
             Enreg.
-            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+            <loader v-if="onSaved" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
           <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Payer puis Enreg.
@@ -166,6 +172,8 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -205,37 +213,32 @@ export default {
   },
   data () {
     return {
-      visitorSelected: 'Connected user',
+      visitorSelected: '',
       appartmentId: this.$route.params.id,
-      selectedType: '',
+      selectedType: {},
       selectedDateFromCalandar: '',
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
       contracts: [],
       locations: [],
-      newVisit: { visitorInfos: {}, day: 'default' },
+      newVisit: { visitorInfos: {}, date: '' },
       appartments: [...this.appartmentsProp],
       publications: [...this.publicationsProp],
       visitResponse: null,
       onCreated: false,
+      onSaved: false,
       selectedTimeslot: '',
       selectedCalendarDay: '',
-      selectedSlot: '',
-      days: [
-        { id: 1, label: 'Lundi' },
-        { id: 2, label: 'Mardi' },
-        { id: 3, label: 'Mercredi' },
-        { id: 4, label: 'Jeudi' },
-        { id: 5, label: 'Vendredi' },
-        { id: 6, label: 'Samedi' },
-        { id: 7, label: 'Dimanche' }
-      ],
+      selectedSlot: [],
       timeSlots: ['8h - 9h', '9h - 10h', '10h - 11h', '11h - 12h', '12h - 13h', '13h - 14h', '14H - 15H', '15h - 16h', '16H - 17H', '17H - 18H']
     }
   },
 
   computed: {
+    ...mapGetters({
+      authUserAccount: 'account/authUserAccount'
+    }),
     routeName () {
       return this.$nuxt.$route.name
     },
@@ -264,11 +267,7 @@ export default {
       return this.appartmentsProp.find(app => app.id === this.newVisit.appartment)
     },
     selectedDate () {
-      // return this.selectedAppart?.timeSlots.find(item => item.day === this.newVisit.date)
       return this.selectedAppart?.timeSlots.find(item => item.day === this.selectedCalendarDay)
-    },
-    vistiDate () {
-      return new Date()
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
@@ -286,18 +285,13 @@ export default {
       return id => this.publications.find(publication => publication.appartment.id === id)
     },
     returnedAppartments () {
-      return this.appartments.filter(appartment => this.isPublished(appartment.id) === true)
+      return this.appartments.filter(appartment => appartment.appartmentType === this.selectedType?.id)
+    },
+    connectedUser () {
+      return this.authUserAccount
     }
   },
   watch: {
-    isDismissed (value) {
-      // console.log(value)
-    },
-    selectedType (value) {
-      if (value !== '') {
-        this.returnedAppartments = this.returnedAppartments.filter(appart => appart.appartmentType === value.id)
-      }
-    },
     visitorSelected (value) {
       if (value === 'Connected user') {
         this.newVisit.visitorInfos.lastname = this.connectedUser.lastname
@@ -336,10 +330,10 @@ export default {
       }
     },
     selectedSlot (value) {
-      console.log('slot => ', value)
-      /* if (value) {
-        this.newVisit.date = this.selectedDateFromCalandar + value.split('-')[0] + ':00'
-      } */
+      // console.log('slot => ', value)
+      if (value) {
+        this.newVisit.date = `${this.selectedDateFromCalandar} ${value[0].split('-')[0].replace('H', '').trim()}:00`
+      }
     }
   },
   mounted () {
@@ -359,6 +353,7 @@ export default {
       this.$api.visitService.create({ variables: { data: this.newVisit } })
         .then(({ data }) => {
           this.visitResponse = data.createVisit
+          this.onCreated = false
           this.open()
         })
         .catch((error) => {
@@ -366,10 +361,17 @@ export default {
         })
     },
     payLater () {
-      this.onCreated = true
+      this.onSaved = true
       this.$api.visitService.create({ variables: { data: this.newVisit } })
         .then(({ data }) => {
           this.visitResponse = data.createVisit
+        }).then(() => this.loadVisitsFunc())
+        .then(() => {
+          this.onSaved = false
+          this.newVisit = { visitorInfos: {} }
+          this.currentStep = 'congrats'
+          this.isDismissed = true
+          this.currentStep = 'first'
         })
         .catch((error) => {
           this.errorToshow = error
