@@ -23,6 +23,7 @@
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Demande de visite
             </h4>
+            <span class="hidden">{{ publications }}</span>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -61,10 +62,14 @@
               </p>
               <div class="relative inline-block w-full text-gray-700">
                 <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <option v-for="appart in returnedAppartments" :key="appart.id" :value="appart.id">
+                  <!-- <option v-for="appart in returnedAppartments" :key="appart.id" :value="appart.id">
                     <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                     <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
-                    <span class="text-gray-400">{{ isPublished(appart.id) }}</span>
+                  </option> -->
+                  <option v-for="pub in publications" :key="pub.id" :value="pub.appartment.id">
+                    <span>{{ appartmentType(pub.appartment.appartmentType) && appartmentType(pub.appartment.appartmentType).label }}</span>
+                    <span class="text-gray-400">{{ pub.appartment.bedrooms + ' Chambres - ' + pub.appartment.livingrooms + ' Salons' }}</span>
+                    <!-- <span class="text-gray-400">{{ isPublished(pub.appartment.id) }}</span> -->
                   </option>
                 </select>
               </div>
