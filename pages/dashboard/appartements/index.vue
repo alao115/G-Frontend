@@ -135,15 +135,14 @@
             <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2">
               <!-- <ToggleSwitch :default-state="isPublished(appart.id) !== undefined" :appartment="appart" :publications="publications"/> -->
               <DeleteUnpublishPrompt
-                v-if="isPublished(appart.id) !== undefined"
+                v-if="isPublished(appart.id)"
                 :in-table="true"
-                :publication-id="isPublished(appart.id).id"
                 :delete-placeholder="() => deletePublication(isPublished(appart.id).id)"
                 :default-state="isPublished(appart.id) !== undefined"
               />
               <NewPublication
                 v-else
-                :load-publications-func="loadPublications"
+                :load-publications-func="() => loadAppartments()"
                 :appartment-types="appartmentTypes"
                 :appartments-prop="appartments"
                 :in-table="true"
@@ -153,9 +152,6 @@
               />
             </div>
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
-              <!-- <span class="icon cursor:pointer p-2">
-                <i class="far fa-calendar-alt" />
-              </span> -->
               <NewTimeSlot :appartment="appart" :load-appartments-func="loadAppartments" />
             </div>
             <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
@@ -331,19 +327,20 @@ export default {
     }
   },
   methods: {
+
     ...mapActions({
       loadAppartments: 'appartment/loadAppartments',
-      loadPublications: 'appartment/loadPublications',
-      loadFavories: 'favory/favories',
-      deletePublication (publication) {
-        return this.$api.publicationService.delete({ variables: { publicationId: publication.id } })
-          .then(async () => {
-            await this.loadPublications()
-          })
-          // eslint-disable-next-line no-console
-          .catch(error => console.log(error))
-      }
+      loadPublications: 'publication/loadPublications',
+      loadFavories: 'favory/favories'
     }),
+
+    deletePublication (publicationID) {
+      return this.$api.publicationService.delete({ variables: { publicationId: publicationID } })
+        .then(() => this.loadAppartments())
+        .then(() => this.loadPublications())
+        // eslint-disable-next-line no-console
+        .catch(error => console.log(error))
+    },
 
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
