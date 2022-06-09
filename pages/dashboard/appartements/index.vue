@@ -142,7 +142,7 @@
               />
               <NewPublication
                 v-else
-                :load-publications-func="() => loadAppartments()"
+                :load-publications-func="() => loadPublications()"
                 :appartment-types="appartmentTypes"
                 :appartments-prop="appartments"
                 :in-table="true"

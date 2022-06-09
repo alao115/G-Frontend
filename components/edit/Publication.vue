@@ -105,6 +105,10 @@ export default {
     appartmentsProp: {
       type: Array,
       required: true
+    },
+    appartmentsTypesProp: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -130,6 +134,15 @@ export default {
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
     },
+
+    appartmentTypes () {
+      return this.appartmentsTypesProp
+    },
+
+    appartmentType () {
+      return id => this.appartmentTypes.find(type => type.id === id)
+    },
+
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
     }

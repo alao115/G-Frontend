@@ -1,7 +1,7 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <NewPublication :is-mobile="true" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments"  class="lg:hidden"/>
-    <EditPublication :publication="publicationToEdit" :load-publications-func="loadPublications" :appartments-prop="appartments" :appartment-types="appartmentTypes" />
+    <NewPublication :is-mobile="true" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments" class="lg:hidden" />
+    <EditPublication :publication="publicationToEdit" :load-publications-func="loadPublications" :appartments-prop="appartments" :appartments-types-prop="appartmentTypes" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -216,7 +216,8 @@ export default {
     }),
 
     setToEdition (publication) {
-      this.publicationToEdit = publication
+      // console.log(publication)
+      this.publicationToEdit = { ...publication }
     },
     deletePublication (publication) {
       return this.$api.publicationService.delete({ variables: { publicationId: publication.id } })
