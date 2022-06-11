@@ -244,6 +244,10 @@ export default {
     ...mapGetters({
       authUserAccount: 'account/authUserAccount'
     }),
+    slotsToSHow () {
+      let returnedSlots = this.selectedDate.selectedTimes
+      return returnedSlots
+    },
     routeName () {
       return this.$nuxt.$route.name
     },
