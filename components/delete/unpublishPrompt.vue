@@ -2,8 +2,8 @@
   <div class="contents">
     <div v-if="isClosed" class="lg:flex flex-col cursor-pointer" @click.prevent="isClosed = false">
       <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
-        <input type="checkbox" v-model="checkedValue">
-        <span :class="isSmall ? 'small' : ''" class="slider round"></span>
+        <input v-model="checkedValue" type="checkbox">
+        <span :class="isSmall ? 'small' : ''" class="slider round" />
       </label>
     </div>
     <div v-else class="flex border-2 border-gray-200 w-auto absolute bg-white items-center space-x-8 p-2 right-0 pl-8">
@@ -39,10 +39,6 @@ export default {
       type: Boolean,
       default: false
     },
-    publicationId: {
-      type: String,
-      default: ''
-    },
     deletePlaceholder: {
       type: Function,
       default: null,
@@ -70,7 +66,7 @@ export default {
   },
   methods: {
     deleteCommand () {
-      /* if (this.deletePlaceholder) {
+      if (this.deletePlaceholder) {
         this.onDelete = true
         this.deletePlaceholder()
           .then(() => {
@@ -78,13 +74,7 @@ export default {
           }).finally(() => {
             this.onDelete = false
           })
-      } */
-      return this.$api.publicationService.delete({ variables: { publicationId: this.publicationId } })
-        .then(async () => {
-          await this.loadPublications()
-        })
-        // eslint-disable-next-line no-console
-        .catch(error => console.log(error))
+      }
     }
   }
 }

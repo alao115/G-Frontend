@@ -1,8 +1,8 @@
 <template>
   <div class="contents">
     <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
-      <input type="checkbox" v-model="checkedValue">
-      <span :class="isSmall ? 'small' : ''" class="slider round"></span>
+      <input v-model="checkedValue" type="checkbox">
+      <span :class="isSmall ? 'small' : ''" class="slider round" />
     </label>
     <div v-else>
       <a v-if="isMobile" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
@@ -24,9 +24,6 @@
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Nouvelle publication
             </h4>
-            <!-- {{ appartmentTypeProp.id }}
-            {{ appartmentProp.id }}
-            {{ selectedType ? selectedType.id : ''}} -->
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -68,8 +65,10 @@
             </p>
             <div class="relative inline-block w-full text-gray-700">
               <select v-model="newPublication.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                <option v-if="newPublication.appartment === {}" value="">Sélectionnez un appartment</option>
-                <option v-else v-for="appart in appartments" :key="appart.id" :value="appart.id">
+                <option v-if="newPublication.appartment === {}" value="">
+                  Sélectionnez un appartment
+                </option>
+                <option v-for="appart in appartments" v-else :key="appart.id" :value="appart.id">
                   <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
                   <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
                 </option>
@@ -109,7 +108,7 @@
           </button>
         </div>
         <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true, currentStep = 'first'">
             Fermer
           </button>
         </div>
@@ -159,13 +158,6 @@ export default {
       type: Object,
       required: false,
       default: () => ({})
-    }
-  },
-
-  created () {
-    if (this.inTable === true) {
-      this.selectedType = this.appartmentTypeProp
-      this.newPublication.appartment = this.appartmentProp.id
     }
   },
   data () {
@@ -239,6 +231,13 @@ export default {
     }
   },
 
+  created () {
+    if (this.inTable === true) {
+      this.selectedType = this.appartmentTypeProp
+      this.newPublication.appartment = this.appartmentProp.id
+    }
+  },
+
   methods: {
     toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })
@@ -247,7 +246,8 @@ export default {
       this.onCreated = true
       this.newPublication.date = new Date(this.newPublication.date).valueOf().toString()
       this.$api.publicationService.create({ variables: { data: this.newPublication } })
-        .then((response) => {
+        .then(response => this.loadPublicationsFunc())
+        .then(() => {
           this.newPublication = {}
           this.currentStep = 'congrats'
         })
