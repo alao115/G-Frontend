@@ -1,6 +1,12 @@
 <template>
   <div class="overflow-x-hidden font-body p-8 lg:px-8">
     <EditAppartment :appartment="appartmentToEdit" :load-appartments-func="() => {}" :appartment-types="appartmentTypes" />
+    <EditVisit
+      :visit="visitToEdit"
+      :appartments-prop="appartments"
+      :appartment-types="appartmentTypes"
+      :load-visits-func="loadVisits"
+    />
     <div class="">
       <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
@@ -46,6 +52,7 @@
             <NewTimeSlot :in-detail="true" :appartment="appartment" />
             <NewReservation
               :load-reservations-func="loadReservations"
+              :publications-prop="publications"
               :appartment-types="appartmentTypes"
               :appartments-prop="appartments"
               :from="'appartMenu'"
@@ -298,6 +305,7 @@
                 :appartments-prop="appartments"
                 :appartment-types="appartmentTypes"
                 :appartment-id-prop="appartment.id"
+                :publications-prop="publications"
                 :load-visits-func="() => {}"
               />
             </div>
@@ -367,7 +375,7 @@
               <div class="hidden lg:flex flex-col w-20 px-2 mx-2">
                 <span>{{ vis.status }}</span>
               </div>
-              <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition({ ...vis })">
+              <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setVisitToEdition({ ...vis })">
                 <span class="icon">
                   <i class="far fa-edit" />
                 </span>
@@ -522,7 +530,9 @@ export default {
       id: this.$route.params.id,
       contextMenuIsOpen: false,
       appartmentToEdit: {},
-      activeTab: 'infos'
+      visitToEdit: {},
+      activeTab: 'infos',
+      selectedVisits: []
     }
   },
   computed: {
@@ -562,11 +572,16 @@ export default {
   methods: {
     ...mapActions({
       loadAppartments: 'appartment/loadAppartments',
-      loadReservations: 'reservation/loadReservations'
+      loadReservations: 'reservation/loadReservations',
+      loadVisits: 'visit/loadVisits'
     }),
 
     setToEdition (appartment) {
       this.appartmentToEdit = appartment
+    },
+
+    setVisitToEdition (visit) {
+      this.visitToEdit = visit
     },
     deleteAppartment (appartment) {
       return this.$api.appartmentService.delete({ variables: { appartmentId: appartment.id } })

@@ -31,7 +31,7 @@
             </button>
           </div>
           <form action="#" class="pt-0 grid grid-cols-1 divide-y divide-gray-300">
-            <div v-if="currentStep === 'first'" class="overflow-scroll h-4/5 pb-16 p-4">
+            <div v-if="currentStep === 'first'" class="overflow-scroll h-4/5 p-4 pb-48">
               <div class="relative">
                 <p class="text-base mt-8 text-gray-400">
                   Type
@@ -69,7 +69,6 @@
                   <option v-for="pub in publications" :key="pub.id" :value="pub.appartment.id">
                     <span>{{ appartmentType(pub.appartment.appartmentType) && appartmentType(pub.appartment.appartmentType).label }}</span>
                     <span class="text-gray-400">{{ pub.appartment.bedrooms + ' Chambres - ' + pub.appartment.livingrooms + ' Salons' }}</span>
-                    <!-- <span class="text-gray-400">{{ isPublished(pub.appartment.id) }}</span> -->
                   </option>
                 </select>
               </div>
@@ -154,14 +153,14 @@
           </form>
         </div>
         <div v-if="currentStep !== 'congrats'" class="footer py-4 px-8 lg:px-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-4">
-          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 lg:mt-8" @click.prevent="isDismissed = true">
+          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="relative w-1/3 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="payLater">
+          <button type="button" class="relative w-1/3 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="payLater">
             Enreg.
             <loader v-if="onSaved" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
             Payer puis Enreg.
             <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
@@ -221,13 +220,14 @@ export default {
       visitorSelected: '',
       appartmentId: this.$route.params.id,
       selectedType: {},
+      selectedAppartment: '',
       selectedDateFromCalandar: '',
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
       contracts: [],
       locations: [],
-      newVisit: { visitorInfos: {}, date: '' },
+      newVisit: { visitorInfos: {}, date: '', appartment: '' },
       appartments: [...this.appartmentsProp],
       publications: [...this.publicationsProp],
       visitResponse: null,
@@ -245,7 +245,7 @@ export default {
       authUserAccount: 'account/authUserAccount'
     }),
     slotsToSHow () {
-      let returnedSlots = this.selectedDate.selectedTimes
+      const returnedSlots = this.selectedDate.selectedTimes
       return returnedSlots
     },
     routeName () {
@@ -348,13 +348,16 @@ export default {
   mounted () {
     // this.$fetch()
     this.$addKkiapayListener('success', this.successHandler)
+  },
+  beforeDestroy () {
+    this.$removeKkiapayListener('success', this.successHandler)
+  },
+
+  created () {
     if (this.appartmentIdProp) {
       this.newVisit.appartment = this.appartmentIdProp
       this.selectedType = this.appartmentType(this.appartment(this.appartmentIdProp).appartmentType)
     }
-  },
-  beforeDestroy () {
-    this.$removeKkiapayListener('success', this.successHandler)
   },
   methods: {
     createVisit () {
