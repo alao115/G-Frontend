@@ -10,7 +10,7 @@
         </svg>
         <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. Réservation</span>
       </a>
-      <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-4 text-lg px-10" @click.prevent="isDismissed = false">
+      <button v-else class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="isDismissed = false">
         Réserver
       </button>
     </div>
@@ -19,7 +19,7 @@
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
-              Réserver un appartement {{ connectedUser }}
+              Réserver un appartement
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -263,8 +263,8 @@ export default {
     },
     userSelected (value) {
       if (value === 'Connected user') {
-        console.log(this.connectedUser)
-        // this.newReservation.user = this.connectedUser.user.id
+        // console.log(this.connectedUser)
+        this.newReservation.user = this.connectedUser.id
         /* this.newReservation.user.lastname = this.connectedUser.lastname
         this.newReservation.user.firstname = this.connectedUser.firstname
         this.newReservation.user.email = this.connectedUser.email */

@@ -59,12 +59,14 @@
               :appartment-to-reserv="appartment"
               :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
             />
-            <!-- <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
-              <span class="font-medium">Réserver</span>
-            </a> -->
-            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false">
-              <span class="font-medium">Visiter</span>
-            </a>
+            <NewVisit
+              :appartments-prop="appartments"
+              :from="'appartMenu'"
+              :appartment-types="appartmentTypes"
+              :appartment-id-prop="appartment.id"
+              :publications-prop="publications"
+              :load-visits-func="() => {}"
+            />
             <NuxtLink to="/dashboard/appartements" class="flex flex-col px-8 py-4 hover:bg-gray-200">
               <span class="font-medium">Retour</span>
             </NuxtLink>
@@ -293,9 +295,14 @@
                   </div>
                 </div>
               </div>
-              <button class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12">
-                Réserver
-              </button>
+              <NewReservation
+                :load-reservations-func="loadReservations"
+                :publications-prop="publications"
+                :appartment-types="appartmentTypes"
+                :appartments-prop="appartments"
+                :appartment-to-reserv="appartment"
+                :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
+              />
             </div>
             <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
               <p class="mb-4">
