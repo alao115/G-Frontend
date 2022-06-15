@@ -38,7 +38,7 @@
                     Choisissez un type
                   </span>
                   <p v-else class="leading-none text-left flex flex-col">
-                    {{ selectedType && selectedType.label  }}
+                    {{ selectedType && selectedType.label }}
                     <span class="text-sm mt-1 text-gray-400">{{ selectedType && selectedType.description }}</span>
                   </p>
                   <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

@@ -187,10 +187,10 @@
         <div v-for="appartmnt in returnedAppartments" :key="appartmnt.fID" class="card flex flex-col bg-transparent rounded-lg pb-3 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
           <img :src="appartmnt.mainImg" alt="">
           <div class="relative">
-            <div v-if="appartmnt.forShortStay" class="tag absolute text-xs right-4 px-2 py-1 rounded-xl bg-blue-990 text-white -mt-72 top-4">
+            <div v-if="connectedUser.userType === 0 && appartmnt.forShortStay" class="tag absolute text-xs right-4 px-2 py-1 rounded-xl bg-blue-990 text-white -mt-72 top-4">
               {{ appartmnt.forShortStay ? 'CS ': '' }}
             </div>
-            <div :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="tag absolute text-xs right-14 px-2 py-1 rounded-xl -mt-72 top-4">
+            <div v-if="connectedUser.userType === 0" :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="tag absolute text-xs right-14 px-2 py-1 rounded-xl -mt-72 top-4">
               {{ isPublished(appartmnt.id) ? 'Publié ': 'Non publié' }}
             </div>
             <div class="flex flex-col items-start mt-4 px-4 justify-center lg:justify-start">

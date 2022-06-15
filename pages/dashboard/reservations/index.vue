@@ -83,6 +83,21 @@
           <div class="hidden lg:flex flex-col w-36 px-2 mx-2">
             <span />
           </div>
+          <EditReservation
+            v-if="reserv.status === 'Pending'"
+            :load-reservations-func="() => loadReservations()"
+            :in-table="true"
+            :reservation="reserv"
+            :appartments-prop="appartments"
+            :appartment-types="appartmentTypes"
+            :default-state="reserv.status !== 'Pending'"
+          />
+          <DeleteCancelReservationPrompt
+            v-else
+            :in-table="true"
+            :delete-placeholder="() => deleteReservation(reserv.id)"
+            :default-state="reserv.status !== undefined"
+          />
           <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(reserv)">
             <span class="icon">
               <i class="far fa-edit" />

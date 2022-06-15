@@ -30,7 +30,7 @@
       </div>
       <div class="hidden md:flex img-container xl:w-5/12 justify-center item-center pr-16 pt-16">
         <div class="w-full to-shadow">
-          <img src="/assets/images/advantages.jpg" alt="" class="w-full -ml-16 border-tr-lg">
+          <img src="/assets/images/advantages.jpg" alt="" class="w-full -ml-16" style="border-top-right-radius: 4rem">
         </div>
       </div>
     </div>
@@ -60,6 +60,6 @@
   }
   .img-container {
     background: linear-gradient(180deg, rgba(0, 191, 255, 0.5) 0%, rgba(163, 223, 243, 0.5) 100%);
-    border-radius: 108px 0px 0px 0px;
+    border-radius: 0px 108px 0px 0px;
   }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div class="contents">
-    <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen absolute top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
+    <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
+      <input v-model="checkedValue" type="checkbox">
+      <span :class="isSmall ? 'small' : ''" class="slider round" />
+    </label>
+    <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
@@ -52,9 +56,13 @@
         </div>
         <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
-            Annuler
+            Rejeter
           </button>
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editReservation">
+          <button v-if="reservationToEdit.status === 'Pending'" type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="acceptReservation">
+            Accepter
+            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+          </button>
+          <button v-else type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editReservation">
             Envoyer
             <loader v-if="onUpdated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
@@ -72,6 +80,14 @@
 <script>
 export default {
   props: {
+    defaultState: {
+      type: Boolean,
+      default: false
+    },
+    inTable: {
+      type: Boolean,
+      default: false
+    },
     reservation: {
       type: Object,
       default: () => ({})
@@ -98,6 +114,7 @@ export default {
   data () {
     return {
       selectedType: '',
+      isSmall: true,
       reservationToEdit: { ...this.reservation },
       typeSelectIsOpen: false,
       currentStep: 'first',
@@ -113,6 +130,14 @@ export default {
     this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
   },
   computed: {
+    checkedValue: {
+      get () {
+        return this.defaultState
+      },
+      set (newValue) {
+        this.currentState = newValue
+      }
+    },
     routeName () {
       return this.$nuxt.$route.name
     },
@@ -142,6 +167,14 @@ export default {
     }
   },
   watch: {
+    reservNow (value) {
+      if (value === true) {
+        // this.newReservation.date = new Date()
+        this.newReservation.status = 'Reserved'
+      } else {
+        this.newReservation.status = 'Scheduled'
+      }
+    },
     isDismissed (value) {
       // console.log(value)
     },
@@ -158,7 +191,7 @@ export default {
     }
   },
   created () {
-    this.reserrvationToEdit = { ...this.reservation }
+    this.reservationToEdit = { ...this.reservation }
   },
   methods: {
     editReservation () {

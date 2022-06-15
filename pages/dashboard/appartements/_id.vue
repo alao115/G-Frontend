@@ -34,10 +34,6 @@
       </div>
       <div class="flex mb-8">
         <!-- {{ appartment.timeSlots }} <br> -->
-        <h4 class="text-2xl font-medium mb-2">
-          {{ appartmentType(appartment.appartmentType).label }} <br>
-          <span class="text-gray-400 text-sm">{{ appartment.bedrooms }} Chambre<span v-if="appartment.bedrooms > 1">s</span> - {{ appartment.livingrooms }} Salon<span v-if="appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment.location }}</span>
-        </h4>
         <div class="flex flex-col absolute top-24 right-8 items-end">
           <button class="flex items-center justify-center w-12 h-12 p-4 bg-white text-center text-base border -lg appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="contextMenuIsOpen = !contextMenuIsOpen">
             <p class="leading-none text-left flex flex-col">
@@ -542,6 +538,9 @@ export default {
       selectedVisits: []
     }
   },
+  created () {
+    console.log(this.accounts)
+  },
   computed: {
     ...mapGetters({
       appartments: 'appartment/appartments',
@@ -557,11 +556,11 @@ export default {
     },
 
     connectedAccount () {
-      return this.accounts.find(account => account.user.id === this.connecteduser.id)
+      return this.accounts.find(account => account.user.id === this.connectedUser.id)
     },
 
     publication () {
-      return this.publications.find(publication => publication.appartment.id === this.id)
+      return this.publications.find(publication => publication.appartment === this.id)
     },
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.id)
@@ -579,6 +578,9 @@ export default {
   methods: {
     ...mapActions({
       loadAppartments: 'appartment/loadAppartments',
+      loadAppartmentTypes: 'appartmentType/loadAppartmentTypes',
+      loadAccounts: 'account/loadAccounts',
+      loadPublications: 'publication/loadPublications',
       loadReservations: 'reservation/loadReservations',
       loadVisits: 'visit/loadVisits'
     }),
