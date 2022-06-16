@@ -538,9 +538,6 @@ export default {
       selectedVisits: []
     }
   },
-  created () {
-    console.log(this.accounts)
-  },
   computed: {
     ...mapGetters({
       appartments: 'appartment/appartments',
