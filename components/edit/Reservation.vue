@@ -4,6 +4,9 @@
       <input v-model="checkedValue" type="checkbox">
       <span :class="isSmall ? 'small' : ''" class="slider round" />
     </label>
+    <button v-else class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="payReservation">
+      Payer ({{ amount }})
+    </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
@@ -30,12 +33,12 @@
               </select>
             </div>
             <div class="flex space-x-8">
-              <input v-model="reservationToEdit.user" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-              <input type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
+              <input v-model="account.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
+              <input v-model="account.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Firstname">
             </div>
             <div class="flex space-x-8">
-              <input type="text" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-              <input type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+              <input v-model="account.phone" type="text" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
+              <input v-model="account.email" type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
             </div>
             <div class="flex space-x-8">
               <input v-model="reservationToEdit.date" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
@@ -80,6 +83,10 @@
 <script>
 export default {
   props: {
+    step: {
+      type: String,
+      default: ''
+    },
     defaultState: {
       type: Boolean,
       default: false
@@ -105,10 +112,18 @@ export default {
       default: () => ([]),
       required: true
     },
+    accountProp: {
+      type: Object,
+      default: () => ({})
+    },
     appartmentTypes: {
       type: Array,
       default: () => ([]),
       required: true
+    },
+    amount: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -121,9 +136,12 @@ export default {
       isDismissed: true,
       contracts: [],
       appartments: [...this.appartmentsProp],
+      // accounts: [...this.accountsProp],
+      account: { ...this.accountProp },
       locations: [],
       selectedAppart: '',
-      onUpdated: false
+      onUpdated: false,
+      reservationResponse: null
     }
   },
   async fetch () {
@@ -147,9 +165,12 @@ export default {
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
-    user () {
+    /* user () {
       return id => this.users.find(user => user.id === id)
-    },
+    }, */
+    /* account () {
+      return this.accounts.find(account => account.id === this.reservationToEdit.user)
+    }, */
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
     },
@@ -188,10 +209,22 @@ export default {
         this.reservationToEdit = { ...value }
         this.isDismissed = false
       }
+    },
+    accountProp (value) {
+      if (value !== undefined) {
+        this.account = value
+      }
     }
   },
   created () {
     this.reservationToEdit = { ...this.reservation }
+    this.account = { ...this.accountProp }
+  },
+  mounted () {
+    this.$addKkiapayListener('success', this.successHandler)
+  },
+  beforeDestroy () {
+    this.$removeKkiapayListener('success', this.successHandler)
   },
   methods: {
     editReservation () {
@@ -211,7 +244,70 @@ export default {
         }).finally(() => {
           this.onUpdated = false
         })
-    }
+    },
+    acceptReservation () {
+      this.onUpdated = true
+      this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
+      this.reservationToEdit.status = this.reservationToEdit.status = 'Waiting for Payment'
+      this.reservationToEdit.user = this.reservationToEdit.user.id
+      this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
+
+      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
+        .then(async (response) => {
+          this.reservationToEdit = {}
+          this.currentStep = 'congrats'
+          await this.loadReservationsFunc()
+        })
+        .catch((error) => {
+          this.errorToshow = error
+        }).finally(() => {
+          this.onUpdated = false
+        })
+    },
+    open () {
+      this.$openKkiapayWidget({
+        amount: this.amount,
+        api_key: 'f8095850886111ec953617ecac48fe09',
+        sandbox: true,
+        phone: ''
+      })
+    },
+    payReservation () {
+      this.onUpdated = true
+      this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
+      this.reservationToEdit.status = this.reservationToEdit.status = 'Reserved'
+      this.reservationToEdit.user = this.reservationToEdit.user.id
+      this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
+
+      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
+        .then(({ data }) => {
+          this.reservationResponse = this.reservationToEdit.id
+          this.open()
+        })
+        .then(() => {
+          this.onSaved = false
+          this.reservationToEdit = { status: 'Pending' }
+          this.currentStep = 'congrats'
+          this.isDismissed = true
+          this.currentStep = 'first'
+        })
+        .catch((error) => {
+          this.errorToshow = error
+        })
+    },
+    successHandler (response) {
+      if (this.reservationResponse) {
+        this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
+          .then(async () => {
+            await this.loadReservationsFunc()
+            this.newReservation = {}
+            this.currentStep = 'congrats'
+          }).finally(() => {
+            this.onCreated = false
+          })
+      }
+    },
+    onCreated () {}
   }
 }
 </script>

@@ -275,7 +275,8 @@ export default {
       publications: 'publication/publications',
       reservations: 'reservation/reservations',
       visits: 'visit/visits',
-      favories: 'favory/favories'
+      favories: 'favory/favories',
+      accounts: 'account/accounts'
     }),
 
     connectedUser () {
@@ -331,7 +332,8 @@ export default {
     ...mapActions({
       loadAppartments: 'appartment/loadAppartments',
       loadPublications: 'publication/loadPublications',
-      loadFavories: 'favory/favories'
+      loadFavories: 'favory/favories',
+      loadAccounts: 'account/loadAccounts'
     }),
 
     deletePublication (publicationID) {

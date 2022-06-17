@@ -1,6 +1,11 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <EditReservation :reservation="reservationToEdit" :load-reservations-func="loadReservations" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
+    <EditReservation
+      :load-reservations-func="() => loadReservations()"
+      :account-prop="account(reservationToEdit.user)"
+      :reservation="reservationToEdit"
+      :appartments-prop="appartments"
+      :appartment-types="appartmentTypes" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
         <input id="" type="text" class="h-12 px-10 mt-1 mb-4 block w-full border-gray-200 focus:border-blue-75 bg-gray-100 focus:bg-blue-75 focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" :class="isFilterTrayOpened === true ? 'rounded-t-md' : 'rounded-md'" placeholder="Recherche">
@@ -87,6 +92,7 @@
             v-if="reserv.status === 'Pending'"
             :load-reservations-func="() => loadReservations()"
             :in-table="true"
+            :account-prop="account(reserv.user)"
             :reservation="reserv"
             :appartments-prop="appartments"
             :appartment-types="appartmentTypes"
@@ -150,6 +156,10 @@ export default {
       await store.dispatch('appartmentType/loadAppartmentTypes')
     }
 
+    if (!store.getters['account/accounts'].length) {
+      await store.dispatch('account/loadAccounts')
+    }
+
     return {
 
     }
@@ -175,7 +185,8 @@ export default {
       appartments: 'appartment/appartments',
       appartmentTypes: 'appartmentType/appartmentTypes',
       // publications: 'publication/publications',
-      reservations: 'reservation/reservations'
+      reservations: 'reservation/reservations',
+      accounts: 'account/accounts'
     }),
 
     reservation () {
@@ -190,8 +201,8 @@ export default {
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
-    user () {
-      return id => this.users.find(user => user.id === id)
+    account () {
+      return id => this.accounts.find(account => account.user.id === id)
     },
     contract () {
       return id => this.contracts.find(contract => contract.id === id)
@@ -199,7 +210,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadReservations: 'reservation/loadReservations'
+      loadReservations: 'reservation/loadReservations',
+      loadAccounts: 'account/loadAccounts'
     }),
     /* toDetails (appartment) {
       this.$router.push({ path: '/dashboard/appartements/' + appartment.id })

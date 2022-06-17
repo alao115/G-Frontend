@@ -260,10 +260,11 @@
           </div>
           <div class="w-full lg:w-2/5">
             <div class="others p-8 mt-4 lg:mt-8 w-full rounded-md border border-gray-400">
-              <div class="">
+              <div class="relative">
                 <h4 class="text-sky-450 text-xl mb-4">
                   Conditions
                 </h4>
+                <span v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Reserved'" class="absolute py-2 px-4 bg-blue-990 text-white top-0 -mt-4 right-0 -mr-2">Réservé</span>
                 <div class="grid md:grid-cols-1 lg:grid-cols-2">
                   <div class="w-auto mb-4">
                     <p class="text-gray-400">
@@ -291,7 +292,20 @@
                   </div>
                 </div>
               </div>
+              <p v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Waiting for Payment'" class="my-4"><b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b></p>
+              <EditReservation
+                v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Waiting for Payment'"
+                :load-reservations-func="() => loadReservations()"
+                :account-prop="connectedAccount"
+                :reservation="appartReservation(id)"
+                :appartments-prop="appartments"
+                :appartment-types="appartmentTypes"
+                :default-state="appartReservation(id).status !== 'Pending'"
+                :amount="toPay"
+                :step="'Payment'"
+              />
               <NewReservation
+                v-if="!appartReservation(id)"
                 :load-reservations-func="loadReservations"
                 :publications-prop="publications"
                 :appartment-types="appartmentTypes"
@@ -565,11 +579,24 @@ export default {
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
+    appartReservation () {
+      return id => this.reservations.find(reserv => reserv.appartment === id)
+    },
+    appartmentIsReservedByUser () {
+      return this.appartReservation(this.id) && this.appartReservation(this.id).user === this.connectedUser.id
+    },
     appartmentVisits () {
       return this.visits.filter(visit => visit.appartment === this.id)
     },
     appartmentReservations () {
       return this.reservations.filter(reservation => reservation.appartment === this.id)
+    },
+    toPay () {
+      let reservationFee = this.appartment.rent + this.appartment.conditions.energyCommission + 300
+      if (this.appartment.forShortStay) {
+        reservationFee += 3 * this.appartment.rent
+      }
+      return reservationFee
     }
   },
   methods: {

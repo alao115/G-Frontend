@@ -1,6 +1,6 @@
 
 export default ({ apollo, gql }, $axios) => class AccountService {
-  getAll ({ projections, variables } = { projections: 'id user { userType emailVerified } status firstname lastname civility phone email', variables: {} }) {
+  getAll ({ projections, variables } = { projections: 'id user { id userType emailVerified } status firstname lastname civility phone email', variables: {} }) {
     return apollo.query({ query: gql`query { accounts { ${projections} } }`, variables })
   }
 
