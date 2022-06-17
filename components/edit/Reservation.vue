@@ -4,7 +4,7 @@
       <input v-model="checkedValue" type="checkbox">
       <span :class="isSmall ? 'small' : ''" class="slider round" />
     </label>
-    <button v-else class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="payReservation">
+    <button v-if="amount !== 0" class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="payReservation">
       Payer ({{ amount }})
     </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">

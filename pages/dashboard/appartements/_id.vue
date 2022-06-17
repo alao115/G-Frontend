@@ -293,6 +293,7 @@
                 </div>
               </div>
               <p v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Waiting for Payment'" class="my-4"><b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b></p>
+              <p v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Pending'" class="my-4"><b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b></p>
               <EditReservation
                 v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Waiting for Payment'"
                 :load-reservations-func="() => loadReservations()"

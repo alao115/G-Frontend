@@ -295,8 +295,8 @@ export default {
           this.onSaved = false
           this.newReservation = { status: 'Pending' }
           this.currentStep = 'congrats'
-          this.isDismissed = true
-          this.currentStep = 'first'
+          // this.isDismissed = true
+          // this.currentStep = 'first'
         })
         .catch((error) => {
           this.errorToshow = error
