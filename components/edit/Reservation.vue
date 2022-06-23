@@ -24,19 +24,17 @@
             </button>
           </div>
           <div v-if="currentStep === 'first'" class="relative">
-            <p class="text-base mt-4 text-gray-400">
-              Veuillez sélectionner un appartement à réserver
+            <p class="text-base mt-4 text-gray-400 mb-2">
+              Appartment
             </p>
-            <div class="relative inline-block w-full text-gray-700">
-              <select v-model="reservationToEdit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                <option v-for="appart in appartments" :key="appart.id" :value="appart.id">
-                  <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
-                  <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
-                </option>
-              </select>
-            </div>
-            <div class="mb-8">
-              <p class="texte-xl text-gray-300 mb-0">Locataire</p>
+            <label class="text-base">
+              <span class="texte-lg">{{ appartment(reservationToEdit.appartment) && appartmentType(appartment(reservationToEdit.appartment).appartmentType) && appartmentType(appartment(reservationToEdit.appartment).appartmentType).label }}</span> <br>
+              <span class="text-blue-990">{{ appartment(reservationToEdit.appartment) && appartment(reservationToEdit.appartment).bedrooms + ' Chambres - ' + appartment(reservationToEdit.appartment).livingrooms + ' Salons' }}</span>
+              <!-- <span>{{ appartmentType(appartment(reservationToEdit.appartment).appartmentType) && appartmentType(appartment(reservationToEdit.appartment).appartmentType).label }}</span>
+              <span class="text-gray-400">{{ appartment(reservationToEdit.appartment).bedrooms + ' Chambres - ' + appartment(reservationToEdit.appartment).livingrooms + ' Salons' }}</span> -->
+            </label>
+            <div class="mt-4">
+              <p class="texte-xl text-gray-400 mb-2">Locataire</p>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p class="text-gray-400">
@@ -72,16 +70,16 @@
                 </div>
               </div>
             </div>
-            <p class="texte-xl text-gray-300 mb-0">Arrivée</p>
+            <p class="texte-xl text-gray-400 mt-4">Arrivée</p>
             <div class="flex space-x-8">
-              <input v-model="reservationToEdit.reservationDateStart" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-              <input v-model="reservationToEdit.reservationTimeStart" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+              <input v-model="reservationToEdit.reservationDateStart" type="date" class="mt-2 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+              <input v-model="reservationToEdit.reservationTimeStart" type="time" class="h-12 md:h-16 px-8 mt-2 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
             </div>
             <div v-if="reservationToEdit.appartment && appartment(reservationToEdit.appartment).forShortStay === true">
-              <p class="texte-xl text-gray-300 mb-0">Départ</p>
+              <p class="texte-xl text-gray-400 mb-0">Départ</p>
               <div class="flex space-x-8">
-                <input v-model="reservationToEdit.reservationDateEnd" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input v-model="reservationToEdit.reservationTimeEnd" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+                <input v-model="reservationToEdit.reservationDateEnd" type="date" class="mt-2 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <input v-model="reservationToEdit.reservationTimeEnd" type="time" class="h-12 md:h-16 px-8 mt-2 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
               </div>
             </div>
           </div>
