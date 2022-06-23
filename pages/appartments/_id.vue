@@ -253,7 +253,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12">
+            <button class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click="bookAppartment">
               Réserver
             </button>
           </div>
@@ -316,6 +316,10 @@ export default {
     }
   },
   methods: {
+    bookAppartment () {
+      if (!this.connectedUser) { this.$router.push({ name: 'auth-signin' }) }
+      console.log(this.connectedUser)
+    },
     goBack () {
       this.$router.go(-1)
     }

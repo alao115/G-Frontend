@@ -581,6 +581,7 @@ export default {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
     appartReservation () {
+      console.log(this.reservations)
       return id => this.reservations.find(reserv => reserv.appartment === id)
     },
     appartmentIsReservedByUser () {
