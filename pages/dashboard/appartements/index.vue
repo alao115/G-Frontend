@@ -85,8 +85,14 @@
           <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>VISITES</span>
           </div>
-          <div class="hidden lg:flex items-center w-20 h-10 px-2 text-xs mx-1 lg:mx-2">
+          <div class="hidden lg:flex items-center w-14 h-10 px-2 text-xs mx-1 lg:mx-2">
             <span>PUBLIÉ</span>
+          </div>
+          <div class="hidden lg:flex items-center w-8 h-10 px-2 text-xs mx-1 lg:mx-2">
+            <span class="icon"><i class="far fa-calendar-alt" /></span>
+          </div>
+          <div class="hidden lg:flex items-center w-14 h-10 px-2 text-xs mx-1 lg:mx-2">
+            <span>RÉSERV.</span>
           </div>
         </div>
         <div class="overflow-auto custom__scroll py-4">
@@ -132,7 +138,7 @@
             <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2" @click.prevent="toDetails(appart)">
               <span>{{ appartVisits(appart.id).length }}</span>
             </div>
-            <div class="hidden lg:flex  flex-col w-24 px-2 mx-1 lg:mx-2">
+            <div class="hidden lg:flex  flex-col w-10 px-2 mx-1 lg:mx-2">
               <!-- <ToggleSwitch :default-state="isPublished(appart.id) !== undefined" :appartment="appart" :publications="publications"/> -->
               <DeleteUnpublishPrompt
                 v-if="isPublished(appart.id)"
@@ -151,8 +157,12 @@
                 :appartment-type-prop="appartmentType(appart.appartmentType)"
               />
             </div>
-            <div class="hidden lg:flex  flex-col w-20 px-2 mx-1 lg:mx-2">
+            <div class="hidden lg:flex  flex-col w-8 px-2 mx-1 lg:mx-2">
               <NewTimeSlot :appartment="appart" :load-appartments-func="loadAppartments" />
+            </div>
+            <div class="hidden lg:flex flex-col w-20 px-2 mx-1 lg:mx-2 text-center">
+              <span v-if="reservation(isReserved(appart.id)) && reservation(isReserved(appart.id)).status === 'Reserved'" class="icon text-blue-990"><i class="far fa-check-circle" /></span>
+              <span v-else class="icon"><i class="far fa-circle" /></span>
             </div>
             <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
               <span class="icon cursor:pointer p-2">
@@ -285,6 +295,9 @@ export default {
 
     isPublished () {
       return id => this.publications.find(publication => publication.appartment.id === id)
+    },
+    isReserved () {
+      return id => this.reservations.find(reservation => reservation.appartment === id)
     },
     publication () {
       return id => this.publications.find(publication => publication.id === id)

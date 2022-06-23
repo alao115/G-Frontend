@@ -54,7 +54,10 @@
           <span>LOCALISATION</span>
         </div>
         <div class="hidden lg:flex items-center w-40 h-10 px-2 text-xs mx-2">
-          <span>DATE</span>
+          <span>ARRIV. / DÉBUT</span>
+        </div>
+        <div class="hidden lg:flex items-center w-40 h-10 px-2 text-xs mx-2">
+          <span>DÉPART</span>
         </div>
         <div class="hidden lg:flex items-center w-36 h-10 px-2 text-xs mx-2">
           <span>STATUS</span>
@@ -79,31 +82,34 @@
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
             <span>{{ appartment(reserv.appartment).location }}</span>
           </div>
-          <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
-            <span>{{ reserv.date }}</span>
+          <div :class="reserv.status === 'Reserved' ? 'w-40' : 'w-36'" class="hidden lg:flex flex-col px-2 mx-2">
+            <span>{{ reserv.reservationDateStart }}</span>
           </div>
-          <div class="hidden lg:flex flex-col w-24 px-2 mx-2">
-            <span>{{ reserv.status }}</span>
+          <div :class="reserv.status === 'Reserved' ? 'w-40' : 'w-36'" class="hidden lg:flex flex-col px-2 mx-2">
+            <span>{{ reserv.reservationDateEnd }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-36 px-2 mx-2">
-            <span />
+            <EditReservation
+              v-if="reserv.status === 'Pending'"
+              :load-reservations-func="() => loadReservations()"
+              :in-table="true"
+              :account-prop="account(reserv.user)"
+              :reservation="reserv"
+              :appartments-prop="appartments"
+              :appartment-types="appartmentTypes"
+              :default-state="reserv.status !== 'Pending'"
+            />
+            <span v-else>
+              <span v-if="reserv.status === 'Reserved'" class="px-2 py-1 bg-blue-990 text-white text-xs rounded-full">Réservé</span>
+              <span v-else>{{ reserv.status }}</span>
+            </span>
           </div>
-          <EditReservation
-            v-if="reserv.status === 'Pending'"
-            :load-reservations-func="() => loadReservations()"
-            :in-table="true"
-            :account-prop="account(reserv.user)"
-            :reservation="reserv"
-            :appartments-prop="appartments"
-            :appartment-types="appartmentTypes"
-            :default-state="reserv.status !== 'Pending'"
-          />
-          <DeleteCancelReservationPrompt
-            v-else
+          <!-- <DeleteCancelReservationPrompt
+            v-if="reserv.status === 'Reserved'"
             :in-table="true"
             :delete-placeholder="() => deleteReservation(reserv.id)"
             :default-state="reserv.status !== undefined"
-          />
+          /> -->
           <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(reserv)">
             <span class="icon">
               <i class="far fa-edit" />
