@@ -3,7 +3,7 @@
     <a v-if="inDetail" class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="isDismissed = false">
       <span class="font-medium">Créneaux</span>
     </a>
-    <span v-else class="icon cursor:pointer p-2" @click.prevent="isDismissed = false">
+    <span v-else class="icon cursor:pointer p-2 text-gray-400 hover:text-blue-990" @click.prevent="isDismissed = false">
       <i class="far fa-calendar-alt" />
     </span>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">

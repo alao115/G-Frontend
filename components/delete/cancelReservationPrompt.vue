@@ -1,10 +1,13 @@
 <template>
   <div class="contents">
     <div v-if="isClosed" class="lg:flex flex-col cursor-pointer" @click.prevent="isClosed = false">
-      <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
+      <!-- <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
         <input v-model="checkedValue" type="checkbox">
         <span :class="isSmall ? 'small' : ''" class="slider round" />
-      </label>
+      </label> -->
+      <button v-if="inTable" class="btn shadow-btn-shadow border border-transparent w-36 font-medium rounded-md text-white bg-red-500 hover:bg-blue-920 py-0 text-xs h-6" @click.prevent="isDismissed = false">
+        Annuler
+      </button>
     </div>
     <div v-else class="flex border-2 border-gray-200 w-auto absolute bg-white items-center space-x-8 p-2 right-0 pl-8">
       <p class="text-lg">

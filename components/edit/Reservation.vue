@@ -1,9 +1,12 @@
 <template>
   <div class="contents">
-    <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
+    <!-- <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
       <input v-model="checkedValue" type="checkbox">
       <span :class="isSmall ? 'small' : ''" class="slider round" />
-    </label>
+    </label> -->
+    <button v-if="inTable" class="btn shadow-btn-shadow border border-transparent w-36 font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-0 text-xs h-6" @click.prevent="isDismissed = false">
+      Valider / Rejeter
+    </button>
     <button v-if="amount !== 0" class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="payReservation">
       Payer ({{ amount }})
     </button>
@@ -32,17 +35,54 @@
                 </option>
               </select>
             </div>
-            <div class="flex space-x-8">
-              <input v-model="account.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-              <input v-model="account.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Firstname">
+            <div class="mb-8">
+              <p class="texte-xl text-gray-300 mb-0">Locataire</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-gray-400">
+                    Nom
+                  </p>
+                  <div class="flex items-center font">
+                    <label for="#" class="text-base">{{ account.lastname ? account.lastname : '' }}</label>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-gray-400">
+                    Prénom
+                  </p>
+                  <div class="flex items-center font">
+                    <label for="#" class="text-base">{{ account.firstname ? account.firstname : '' }}</label>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-gray-400">
+                    Email
+                  </p>
+                  <div class="flex items-center font">
+                    <label for="#" class="text-base">{{ account.email ? account.email : '' }}</label>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-gray-400">
+                    Téléphone
+                  </p>
+                  <div class="flex items-center font">
+                    <label for="#" class="text-base">{{ account.phone ? account.phone : ''}}</label>
+                  </div>
+                </div>
+              </div>
             </div>
+            <p class="texte-xl text-gray-300 mb-0">Arrivée</p>
             <div class="flex space-x-8">
-              <input v-model="account.phone" type="text" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-              <input v-model="account.email" type="email" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
+              <input v-model="reservationToEdit.reservationDateStart" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+              <input v-model="reservationToEdit.reservationTimeStart" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
             </div>
-            <div class="flex space-x-8">
-              <input v-model="reservationToEdit.date" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-              <input type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+            <div v-if="reservationToEdit.appartment && appartment(reservationToEdit.appartment).forShortStay === true">
+              <p class="texte-xl text-gray-300 mb-0">Départ</p>
+              <div class="flex space-x-8">
+                <input v-model="reservationToEdit.reservationDateEnd" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <input v-model="reservationToEdit.reservationTimeEnd" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+              </div>
             </div>
           </div>
           <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
