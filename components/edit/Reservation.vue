@@ -1,21 +1,17 @@
 <template>
   <div class="contents">
-    <!-- <label v-if="inTable" :class="isSmall ? 'small' : ''" class="switch" @click.prevent="isDismissed = false">
-      <input v-model="checkedValue" type="checkbox">
-      <span :class="isSmall ? 'small' : ''" class="slider round" />
-    </label> -->
     <button v-if="inTable" class="btn shadow-btn-shadow border border-transparent w-36 font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-0 text-xs h-6" @click.prevent="isDismissed = false">
       Valider / Rejeter
     </button>
-    <button v-if="amount !== 0" class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="payReservation">
+    <button v-if="amount" class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="() => openKkiapayWidget()">
       Payer ({{ amount }})
     </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md shadow-btn-shadow mx-auto h-full lg:h-5/6" style="width: 584px">
-        <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
+      <div class="relative bg-white dark:bg-gray-800 overflow-hidden flex flex-col rounded-md shadow-btn-shadow mx-auto h-auto lg:h-auto" style="width: 584px">
+        <div class="text-start w-full p-4 pb-0 sm:px-6 lg:p-8 lg:pb-0 z-20 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
-              Modifier une réservation
+              Valider une réservation
             </h4>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -30,11 +26,11 @@
             <label class="text-base">
               <span class="texte-lg">{{ appartment(reservationToEdit.appartment) && appartmentType(appartment(reservationToEdit.appartment).appartmentType) && appartmentType(appartment(reservationToEdit.appartment).appartmentType).label }}</span> <br>
               <span class="text-blue-990">{{ appartment(reservationToEdit.appartment) && appartment(reservationToEdit.appartment).bedrooms + ' Chambres - ' + appartment(reservationToEdit.appartment).livingrooms + ' Salons' }}</span>
-              <!-- <span>{{ appartmentType(appartment(reservationToEdit.appartment).appartmentType) && appartmentType(appartment(reservationToEdit.appartment).appartmentType).label }}</span>
-              <span class="text-gray-400">{{ appartment(reservationToEdit.appartment).bedrooms + ' Chambres - ' + appartment(reservationToEdit.appartment).livingrooms + ' Salons' }}</span> -->
             </label>
             <div class="mt-4">
-              <p class="texte-xl text-gray-400 mb-2">Locataire</p>
+              <p class="texte-xl text-gray-400 mb-2">
+                Locataire
+              </p>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p class="text-gray-400">
@@ -65,21 +61,32 @@
                     Téléphone
                   </p>
                   <div class="flex items-center font">
-                    <label for="#" class="text-base">{{ account.phone ? account.phone : ''}}</label>
+                    <label for="#" class="text-base">{{ account.phone ? account.phone : '' }}</label>
                   </div>
                 </div>
               </div>
             </div>
-            <p class="texte-xl text-gray-400 mt-4">Arrivée</p>
-            <div class="flex space-x-8">
-              <input v-model="reservationToEdit.reservationDateStart" type="date" class="mt-2 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-              <input v-model="reservationToEdit.reservationTimeStart" type="time" class="h-12 md:h-16 px-8 mt-2 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
-            </div>
-            <div v-if="reservationToEdit.appartment && appartment(reservationToEdit.appartment).forShortStay === true">
-              <p class="texte-xl text-gray-400 mb-0">Départ</p>
-              <div class="flex space-x-8">
-                <input v-model="reservationToEdit.reservationDateEnd" type="date" class="mt-2 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input v-model="reservationToEdit.reservationTimeEnd" type="time" class="h-12 md:h-16 px-8 mt-2 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+            <div class="mt-4">
+              <!-- <p class="texte-xl text-gray-400 mb-2">
+                Horaires
+              </p> -->
+              <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+                <div>
+                  <p class="text-gray-400">
+                    Date de prise de possession de l'appartement
+                  </p>
+                  <div class="flex items-center font">
+                    <span class="text-base">{{ reservationToEdit.startDate }}</span>
+                  </div>
+                </div>
+                <div v-if="reservationToEdit.appartment && appartment(reservationToEdit.appartment).forShortStay === true">
+                  <p class="text-gray-400">
+                    Date de libération de l'appartement
+                  </p>
+                  <div class="flex items-center font">
+                    <span class="text-base">{{ reservationToEdit.endDate }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -95,20 +102,27 @@
             </div>
           </div>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
-          <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="isDismissed = true">
+        <div v-if="currentStep !== 'congrats'" class="footer p-8 pt-0 flex justify-between w-full bg-white">
+          <template v-if="reservationToEdit.status === reservationStatus.PENDING">
+            <button type="button" class="relative w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="validateReservation(reservationStatus.REJECTED)">
+              Rejeter
+              <loader v-if="onValidating" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+            </button>
+            <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="validateReservation(reservationStatus.WAITING_FOR_PAYMENT)">
+              Accepter
+              <loader v-if="onValidating" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+            </button>
+          </template>
+          <button v-else-if="reservationToEdit.status === reservationStatus.WAITING_FOR_PAYMENT" type="button" class="relative w-full py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4 mt-8" @click.prevent="validateReservation(reservationStatus.REJECTED)">
             Rejeter
+            <loader v-if="onValidating" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
-          <button v-if="reservationToEdit.status === 'Pending'" type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="acceptReservation">
-            Accepter
-            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
-          </button>
-          <button v-else type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="editReservation">
-            Envoyer
-            <loader v-if="onUpdated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+          <button v-else-if="(reservationToEdit.status === reservationStatus.RESERVED || reservationToEdit.status === reservationStatus.REJECTED) && !reservationToEdit.archive" type="button" class="relative w-full shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="archivedReservation">
+            Archiver
+            <loader v-if="onArchiving" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
-        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-else class="footer p-8 pt-0 flex justify-between w-full bg-white">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
@@ -119,6 +133,7 @@
 </template>
 
 <script>
+import { reservationStatus } from '~/helpers/constants'
 export default {
   props: {
     step: {
@@ -172,13 +187,11 @@ export default {
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      contracts: [],
       appartments: [...this.appartmentsProp],
-      // accounts: [...this.accountsProp],
       account: { ...this.accountProp },
-      locations: [],
-      selectedAppart: '',
-      onUpdated: false,
+      onValidating: false,
+      onPaying: false,
+      onArchiving: false,
       reservationResponse: null
     }
   },
@@ -186,14 +199,8 @@ export default {
     this.appartments = (await this.$api.appartmentService.getAll()).data.appartments
   },
   computed: {
-    checkedValue: {
-      get () {
-        return this.defaultState
-      },
-      set (newValue) {
-        this.currentState = newValue
-      }
-    },
+    reservationStatus: () => reservationStatus,
+
     routeName () {
       return this.$nuxt.$route.name
     },
@@ -202,15 +209,6 @@ export default {
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    /* user () {
-      return id => this.users.find(user => user.id === id)
-    }, */
-    /* account () {
-      return this.accounts.find(account => account.id === this.reservationToEdit.user)
-    }, */
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
     },
     typeAppartments () {
       return id => this.appartments.filter(appartment => appartment.appartmentType === id)
@@ -226,14 +224,6 @@ export default {
     }
   },
   watch: {
-    reservNow (value) {
-      if (value === true) {
-        // this.newReservation.date = new Date()
-        this.newReservation.status = 'Reserved'
-      } else {
-        this.newReservation.status = 'Scheduled'
-      }
-    },
     isDismissed (value) {
       // console.log(value)
     },
@@ -265,13 +255,24 @@ export default {
     this.$removeKkiapayListener('success', this.successHandler)
   },
   methods: {
-    editReservation () {
-      this.onUpdated = true
-      this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
-      this.reservationToEdit.user = this.reservationToEdit.user.id
-      this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
+    archivedReservation () {
+      this.onArchiving = true
 
-      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
+      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: { ...this.reservationToEdit, archive: true } } })
+        .then(async (response) => {
+          this.currentStep = 'congrats'
+          await this.loadReservationsFunc()
+        })
+        .catch((error) => {
+          this.errorToshow = error
+        }).finally(() => {
+          this.onArchiving = false
+        })
+    },
+    validateReservation (status) {
+      this.onValidating = true
+
+      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: { ...this.reservationToEdit, status } } })
         .then(async (response) => {
           this.reservationToEdit = {}
           this.currentStep = 'congrats'
@@ -280,29 +281,10 @@ export default {
         .catch((error) => {
           this.errorToshow = error
         }).finally(() => {
-          this.onUpdated = false
+          this.onValidating = false
         })
     },
-    acceptReservation () {
-      this.onUpdated = true
-      this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
-      this.reservationToEdit.status = this.reservationToEdit.status = 'Waiting for Payment'
-      this.reservationToEdit.user = this.reservationToEdit.user.id
-      this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
-
-      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
-        .then(async (response) => {
-          this.reservationToEdit = {}
-          this.currentStep = 'congrats'
-          await this.loadReservationsFunc()
-        })
-        .catch((error) => {
-          this.errorToshow = error
-        }).finally(() => {
-          this.onUpdated = false
-        })
-    },
-    open () {
+    openKkiapayWidget () {
       this.$openKkiapayWidget({
         amount: this.amount,
         api_key: 'f8095850886111ec953617ecac48fe09',
@@ -310,40 +292,36 @@ export default {
         phone: ''
       })
     },
-    payReservation () {
-      this.onUpdated = true
-      this.reservationToEdit.appartment = this.reservationToEdit.appartment.id
-      this.reservationToEdit.status = this.reservationToEdit.status = 'Reserved'
-      this.reservationToEdit.user = this.reservationToEdit.user.id
-      this.reservationToEdit.date = new Date(this.reservationToEdit.date).valueOf().toString()
+    bookReservation (status) {
+      this.onPaying = true
 
-      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: this.reservationToEdit } })
-        .then(({ data }) => {
-          this.reservationResponse = this.reservationToEdit.id
-          this.open()
-        })
+      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: { ...this.reservationToEdit, status } } })
+        .then(() => this.loadReservationsFunc())
         .then(() => {
-          this.onSaved = false
-          this.reservationToEdit = { status: 'Pending' }
+          this.reservationToEdit = { status }
           this.currentStep = 'congrats'
           this.isDismissed = true
           this.currentStep = 'first'
         })
         .catch((error) => {
           this.errorToshow = error
+        }).finally(() => {
+          this.onPaying = false
         })
     },
+
     successHandler (response) {
-      if (this.reservationResponse) {
-        this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
-          .then(async () => {
-            await this.loadReservationsFunc()
-            this.newReservation = {}
-            this.currentStep = 'congrats'
-          }).finally(() => {
-            this.onCreated = false
-          })
-      }
+      this.bookReservation(reservationStatus.RESERVED)
+      // if (this.reservationResponse) {
+      //   this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
+      //     .then(async () => {
+      //       await this.loadReservationsFunc()
+      //       this.newReservation = {}
+      //       this.currentStep = 'congrats'
+      //     }).finally(() => {
+      //       this.onCreated = false
+      //     })
+      // }
     },
     onCreated () {}
   }

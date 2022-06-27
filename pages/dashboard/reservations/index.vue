@@ -83,27 +83,28 @@
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
             <span>{{ appartment(reserv.appartment).location }}</span>
           </div>
-          <div :class="reserv.status === 'Reserved' ? 'w-40' : 'w-36'" class="hidden lg:flex flex-col px-2 mx-2">
-            <span>{{ reserv.reservationDateStart }}</span>
+          <div class="hidden w-40 lg:flex flex-col px-2 mx-2">
+            <span>{{ reserv.startDate }}</span>
           </div>
-          <div :class="reserv.status === 'Reserved' ? 'w-40' : 'w-36'" class="hidden lg:flex flex-col px-2 mx-2">
-            <span>{{ reserv.reservationDateEnd }}</span>
+          <div class="hidden w-40 lg:flex flex-col px-2 mx-2">
+            <span>{{ reserv.endDate }}</span>
           </div>
-          <div class="hidden lg:flex flex-col w-36 px-2 mx-2">
+          <div class="hidden lg:flex flex-col w-36 px-2 mx-2 text-center">
             <EditReservation
-              v-if="reserv.status === 'Pending'"
+              v-if="reserv.status === reservationStatus.PENDING"
               :load-reservations-func="() => loadReservations()"
               :in-table="true"
               :account-prop="account(reserv.user)"
               :reservation="reserv"
               :appartments-prop="appartments"
               :appartment-types="appartmentTypes"
-              :default-state="reserv.status !== 'Pending'"
+              :default-state="reserv.status !== reservationStatus.PENDING"
             />
-            <span v-else>
-              <span v-if="reserv.status === 'Reserved'" class="px-2 py-1 bg-blue-990 text-white text-xs rounded-full">Réservé</span>
-              <span v-else>{{ reserv.status }}</span>
-            </span>
+            <template v-else>
+              <span :class="reserv.archive ? 'bg-red-600' : 'bg-blue-990'" class="px-2 py-1 text-white text-xs rounded-full">{{ displayReservationStatus[Number(reserv.status)] }}<span v-if="reserv.archive">, archivé</span> </span>
+              <!-- <span v-if="reserv.status === reservationStatus.RESERVED" :class="reserv.archive ? 'bg-red-600' : 'bg-blue-990'" class="px-2 py-1 text-white text-xs rounded-full">Réservé<span v-if="reserv.archive">, archive</span> </span> -->
+              <!-- <span v-else class="px-2 py-1 bg-blue-990 text-white text-xs rounded-full">{{ displayReservationStatus[Number(reserv.status)] }}</span> -->
+            </template>
           </div>
           <!-- <DeleteCancelReservationPrompt
             v-if="reserv.status === 'Reserved'"
@@ -144,6 +145,7 @@
 /* eslint-disable no-unused-vars */
 
 import { mapGetters, mapActions } from 'vuex'
+import { reservationStatus } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
@@ -195,6 +197,18 @@ export default {
       reservations: 'reservation/reservations',
       accounts: 'account/accounts'
     }),
+
+    reservationStatus: () => reservationStatus,
+
+    displayReservationStatus () {
+      return {
+        0: 'Non reservé',
+        1: 'En attente de traitement',
+        2: 'En attente de paiement',
+        3: 'Reservé',
+        4: 'Rejecté'
+      }
+    },
 
     reservation () {
       return id => this.reservations.find(reservation => reservation.id === id)
