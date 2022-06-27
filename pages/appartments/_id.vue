@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen overflow-x-hidden font-body">
     <WebsiteTheNavbar :connected-user="connectedUser" />
-    <div class="pt-8 lg:pt-48 px-8 xl:px-36 max-w-7xl">
+    <div class="pt-8 lg:pt-48 px-8 xl:px-36 w-full">
       <div class="flex justify-between mb-8">
         <h4 class="text-2xl font-medium mb-2">
           {{ appartment && appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }} <br>
