@@ -10,22 +10,17 @@
     <div class="">
       <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-          <!-- <li v-if="connectedUser.userType !== 2" class="mr-2"> -->
           <li class="mr-2">
             <a href="#" :class="activeTab === 'infos' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-current="page" @click.prevent="activeTab = 'infos'">
               <span class="icon mr-2"><i class="far fa-info-circle" /></span> <span class="hidden lg:block">Infos</span>
             </a>
           </li>
-          <li v-if="connectedUser.userType === 0" class="mr-2">
-            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
-            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
+          <li v-if="connectedUser && connectedUser.user.userType === 0" class="mr-2">
             <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
               <span class="icon mr-2"><i class="far fa-calendar-day" /></span> <span class="hidden lg:block">Visites</span>
             </a>
           </li>
-          <li v-if="connectedUser.userType === 0" class="mr-2">
-            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.id === publication.publisher.user.id" class="mr-2"> -->
-            <!-- <li v-if="connectedUser.userType === 0 || connectedUser.userType === 1" class="mr-2"> -->
+          <li v-if="connectedUser && connectedUser.user.userType === 0" class="mr-2">
             <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
               <span class="icon mr-2"><i class="far fa-house-user" /></span> <span class="hidden lg:block">Réservations</span>
             </a>
@@ -264,7 +259,7 @@
                 <h4 class="text-sky-450 text-xl mb-4">
                   Conditions
                 </h4>
-                <span v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Reserved'" class="absolute py-2 px-4 bg-blue-990 text-white top-0 -mt-4 right-0 -mr-2">Réservé</span>
+                <span v-if="appartmentIsReservedByMe" class="absolute py-2 px-4 bg-blue-990 text-white top-0 -mt-4 right-0 -mr-2">Réservé</span>
                 <div class="grid md:grid-cols-1 lg:grid-cols-2">
                   <div class="w-auto mb-4">
                     <p class="text-gray-400">
@@ -292,28 +287,49 @@
                   </div>
                 </div>
               </div>
-              <p v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Waiting for Payment'" class="my-4"><b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b></p>
-              <p v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Pending'" class="my-4"><b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b></p>
-              <EditReservation
-                v-if="appartmentIsReservedByUser && appartReservation(id).status === 'Waiting for Payment'"
-                :load-reservations-func="() => loadReservations()"
-                :account-prop="connectedAccount"
-                :reservation="appartReservation(id)"
-                :appartments-prop="appartments"
-                :appartment-types="appartmentTypes"
-                :default-state="appartReservation(id).status !== 'Pending'"
-                :amount="toPay"
-                :step="'Payment'"
-              />
+
               <NewReservation
-                v-if="!appartReservation(id)"
-                :load-reservations-func="loadReservations"
-                :publications-prop="publications"
+                v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
                 :appartment-types="appartmentTypes"
                 :appartments-prop="appartments"
+                :load-reservations-func="() => loadReservations()"
                 :appartment-to-reserv="appartment"
-                :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
               />
+              <p v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.PENDING && !appartmentIsReservedByOther " class="my-4">
+                <b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
+              </p>
+              <template v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.WAITING_FOR_PAYMENT && !appartmentIsReservedByOther">
+                <p class="my-4">
+                  <b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
+                </p>
+                <EditReservation
+                  :load-reservations-func="() => loadReservations()"
+                  :account-prop="connectedUser"
+                  :reservation="appartmentIsRequestedByMe"
+                  :appartments-prop="appartments"
+                  :appartment-types="appartmentTypes"
+                  :amount="300"
+                  :step="'Payment'"
+                />
+              </template>
+              <p v-else-if="appartmentIsReservedByMe" class="my-4">
+                <b class="text-sky-550">Cet appartment est reservé en votre nom</b> <br>
+                <span v-if="appartmentIsReservedByMe && appartmentIsReservedByMe.endDate">
+                  Jusqu'au :<b> {{ appartmentIsReservedByMe.endDate }} </b>
+                </span>
+              </p>
+              <p v-else-if="appartmentIsReservedByOther" class="my-4">
+                <b class="text-sky-550">Appartment déjà réservé.</b><br>
+                <span v-if="appartmentIsReservedByOther && appartmentIsReservedByOther.endDate">
+                  Mais sera disponible pour une nouvelle réservation à partir du :<b> {{ appartmentIsReservedByOther.endDate }} </b>
+                </span>
+              </p>
+              <p v-else-if="appartmentRequestByMeIsRejected && (appartmentIsRequestedByOthers.length || appartmentIsReservedByOther)" class="my-4">
+                <b class="text-red-500">Votre demande de réservation a été rejeté</b> <br>
+                <span>
+                  Veuillez rééssayer ultérieurement
+                </span>
+              </p>
             </div>
             <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
               <p class="mb-4">
@@ -513,6 +529,8 @@
 
 import { mapGetters, mapActions } from 'vuex'
 
+import { reservationStatus } from '~/helpers/constants'
+
 export default {
   layout: 'dashboard',
   async asyncData ({ $api, store }) {
@@ -545,7 +563,7 @@ export default {
   },
   data () {
     return {
-      id: this.$route.params.id,
+      appartID: this.$route.params.id,
       contextMenuIsOpen: false,
       appartmentToEdit: {},
       visitToEdit: {},
@@ -558,40 +576,60 @@ export default {
       appartments: 'appartment/appartments',
       appartmentTypes: 'appartmentType/appartmentTypes',
       publications: 'publication/publications',
+      connectedUser: 'account/authUserAccount',
       reservations: 'reservation/reservations',
       visits: 'visit/visits',
       accounts: 'account/accounts'
     }),
 
-    connectedUser () {
-      return this.$auth.user
-    },
+    reservationStatus: () => reservationStatus,
 
     connectedAccount () {
-      return this.accounts.find(account => account.user.id === this.connectedUser.id)
+      return this.connectedUser ? this.accounts.find(account => account.user.id === this.connectedUser.user.id) : {}
     },
 
     publication () {
-      return this.publications.find(publication => publication.appartment === this.id)
+      return this.publications.find(publication => publication.appartment === this.appartID)
     },
     appartment () {
-      return this.appartments.find(appartment => appartment.id === this.id)
+      return this.appartments.find(appartment => appartment.id === this.appartID)
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
     appartReservation () {
-      return id => this.reservations.find(reserv => reserv.appartment === id)
+      return id => this.reservations.find(reserv => reserv.appartment === id && reserv.status !== reservationStatus.REJECTED)
     },
-    appartmentIsReservedByUser () {
-      return this.appartReservation(this.id) && this.appartReservation(this.id).user === this.connectedUser.id
+    myReservations () {
+      return this.connectedUser ? this.reservations.filter(reserv => (reserv.user === this.connectedUser.user.id && reserv.appartment === this.appartID) && (reserv.status !== reservationStatus.REJECTED && !reserv.archive)) : []
     },
-    appartmentVisits () {
-      return this.visits.filter(visit => visit.appartment === this.id)
+    appartmentRequestByMeIsRejected () {
+      return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.status === reservationStatus.REJECTED && reserv.user === this.connectedUser.user.id && !reserv.archive) : []
     },
-    appartmentReservations () {
-      return this.reservations.filter(reservation => reservation.appartment === this.id)
+    appartmentIsRequestedByMe () {
+      return this.myReservations.find(reserv => reserv.status === reservationStatus.PENDING || reserv.status === reservationStatus.WAITING_FOR_PAYMENT)
     },
+    appartmentIsReservedByMe () {
+      return this.myReservations.find(reserv => reserv.status === reservationStatus.RESERVED && !reserv.archive)
+    },
+    appartmentIsRequestedByOthers () {
+      return this.connectedUser ? this.reservations.filter(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && (reserv.status === reservationStatus.PENDING || reserv.status === reservationStatus.WAITING_FOR_PAYMENT) && !reserv.archive) : []
+    },
+    appartmentIsReservedByOther () {
+      return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && reserv.status === reservationStatus.RESERVED && !reserv.archive) : []
+    },
+    // consoleProp () {
+    //   console.log('RequestByMe:  ', this.appartmentIsRequestedByMe)
+    //   console.log('ReservedByMe', this.appartmentIsReservedByMe)
+    //   console.log('Reserved by others: ', this.appartmentIsReservedByOther)
+    //   console.log('ReservedByOther', this.appartmentIsReservedByOther)
+    //   console.log('Requested by Others', this.appartmentIsRequestedByOthers)
+    //   console.log('RejectedRequest: ', this.appartmentRequestByMeIsRejected)
+    //   console.log('Reservations: ', this.reservations)
+    //   console.log('My Reservations: ', this.myReservations)
+    //   console.log('Connected User', this.connectedUser)
+    //   return 1 // console.log('Inside consoleProp')
+    // },
     toPay () {
       let reservationFee = this.appartment.rent + this.appartment.conditions.energyCommission + 300
       if (this.appartment.forShortStay) {

@@ -234,7 +234,7 @@ export default {
   created () {
     if (this.inTable === true) {
       this.selectedType = this.appartmentTypeProp
-      this.newPublication.appartment = this.appartmentProp.id
+      this.newPublication.appartment = this.appartmentProp?.id
     }
   },
 

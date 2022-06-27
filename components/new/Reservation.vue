@@ -10,13 +10,13 @@
         </svg>
         <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. Réservation</span>
       </a>
-      <button v-else class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="isDismissed = false">
+      <button v-else class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="bookAppartment">
         Réserver
       </button>
     </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md mx-auto h-full lg:h-5/6" style="width: 584px">
-        <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
+      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md mx-auto h-auto flex flex-col" style="width: 584px">
+        <div class="text-start w-full p-4 sm:px-6 lg:p-8 lg:pb-0 pb-0 z-20 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
               Réserver un appartement
@@ -28,36 +28,31 @@
             </button>
           </div>
           <form action="#" class="pt-0 grid grid-cols-1 divide-y divide-gray-300">
-            <div v-if="currentStep === 'first'" class="overflow-scroll h-4/5 p-4 pb-24">
-              <!-- <div class="relative">
-                <p class="text-base mt-8 text-gray-400">
-                  Type
-                </p>
-                <label for="#" class="text-base">{{ selectedType.label }}</label>
-              </div> -->
-              <p class="text-base text-gray-400">
-                Appartment
+            <div v-if="currentStep === 'first'" class="p-0">
+              <p class="text-base font-medium text-gray-600">
+                <!-- Appartment -->
+                Veuillez selectionner les dates d'entrée en possession et de disposition de l'appartement
               </p>
-              <label class="text-base">
+              <!-- <label class="text-base">
                 <span>{{ appartment(newReservation.appartment) && appartmentType(appartment(newReservation.appartment).appartmentType) && appartmentType(appartment(newReservation.appartment).appartmentType).label }}</span>
                 <span class="text-gray-400">{{ appartment(newReservation.appartment) && appartment(newReservation.appartment).bedrooms + ' Chambres - ' + appartment(newReservation.appartment).livingrooms + ' Salons' }}</span>
-              </label>
-              <p class="texte-xl text-gray-400 mt-8">Arrivée / Début du contrat</p>
+              </label> -->
+              <p class="texte-xl text-gray-400 mt-4">
+                Arrivée / Début du contrat
+              </p>
               <div class="flex space-x-8">
-                <input v-model="newReservation.reservationDateStart" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input v-model="newReservation.reservationTimeStart" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+                <input v-model="newReservation.startDate" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                <!-- <input v-model="newReservation.startTime" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure"> -->
               </div>
-              <div v-if="appartment(newReservation.appartment) && appartment(newReservation.appartment).forShortStay === true" class="flex space-x-8">
-                <p class="texte-xl text-gray-300 mb-0">Départ</p>
-                <div class="flex space-x-8">
-                  <input v-model="newReservation.reservationDateEnd" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                  <input v-model="newReservation.reservationTimeEnd" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
+              <div v-if="appartment(newReservation.appartment) && appartment(newReservation.appartment).forShortStay" class="flex flex-col">
+                <p class="texte-xl text-gray-400 mb-0">
+                  Départ / Fin du contrat
+                </p>
+                <div class="flex space-x-8 ml-0">
+                  <input v-model="newReservation.endDate" type="date" class="mt-4 h-12 md:h-16 px-8 mb-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
+                  <!-- <input v-model="newReservation.endTime" type="time" class="h-12 md:h-16 px-8 mt-4 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure"> -->
                 </div>
               </div>
-              <!-- <div v-else class="flex space-x-8">
-                <input v-model="newReservation.date" type="date" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Date">
-                <input type="time" class="h-12 md:h-16 px-8 mt-1 mb-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Heure">
-              </div> -->
             </div>
             <div v-if="currentStep === 'congrats'" class="congrats h-4/5 flex justify-center items-center">
               <div class="w-full px-16">
@@ -65,21 +60,21 @@
                 <p class="text-lg lg:text-3xl -mt-8 lg:mt-12 text-blue-920 text-center">
                   Nouvelle réservation
                 </p>
-                <p class="lg:text-xl mt-2 lg:mt-4 text-blue-920 text-center">
+                <p class="lg:text-xl text-blue-920 text-center">
                   en cours de validation
                 </p>
-                <p class="text-sm">
+                <p class="text-sm text-center text-gray-500 -mb-12 mt-5">
                   Notre équipe se chargera de vérifier la disponibilité de l'appartement. Nous vous reviendrons très vite.
                 </p>
               </div>
             </div>
           </form>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-8">
+        <div v-if="currentStep !== 'congrats'" class="footer p-8 pt-0 flex justify-between w-full bg-white">
           <button type="button" class="py-4 text-lg px-4 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mt-8" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="relative shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="payLater">
+          <button type="button" class="relative shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" :disabled="!newReservation.startDate || ( appartment(newReservation.appartment) && appartment(newReservation.appartment).forShortStay && !newReservation.endDate)" @click.prevent="payLater">
             Soumettre
             <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
@@ -88,7 +83,7 @@
             <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button> -->
         </div>
-        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-else class="footer p-8 flex justify-between w-full bg-white">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
@@ -99,6 +94,7 @@
 </template>
 
 <script>
+import { reservationStatus } from '~/helpers/constants'
 export default {
   props: {
     isMinified: {
@@ -108,10 +104,6 @@ export default {
     isMobile: {
       type: Boolean,
       default: false
-    },
-    loadReservationsFunc: {
-      type: Function,
-      required: true
     },
     appartmentsProp: {
       type: Array,
@@ -131,14 +123,9 @@ export default {
       type: Object,
       default: () => ({})
     },
-    appartmentTypeForReserv: {
-      type: Object,
-      default: () => ({})
-    },
-    publicationsProp: {
-      type: Array,
-      required: false,
-      default: () => ([])
+    loadReservationsFunc: {
+      type: Function,
+      default: () => {}
     }
   },
   data () {
@@ -148,15 +135,14 @@ export default {
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      contracts: [],
       appartments: [...this.appartmentsProp],
-      publications: [...this.publicationsProp],
       locations: [],
       newReservation: {
-        status: 'Pending'
+        status: reservationStatus.PENDING,
+        appartment: this.appartmentToReserv?.id,
+        user: this.$auth.user?.id
       },
       reservationResponse: null,
-      selectedAppart: '',
       onCreated: false
     }
   },
@@ -175,21 +161,6 @@ export default {
     },
     connectedUser () {
       return this.$auth.user
-    },
-    contract () {
-      return id => this.contracts.find(contract => contract.id === id)
-    },
-    typeAppartments () {
-      return id => this.appartments.filter(appartment => appartment.appartmentType === id)
-    },
-    listOfTypes () {
-      const returnedListOfTypes = []
-      this.appartmentTypes.forEach((type) => {
-        if (this.typeAppartments(type.id).length > 0) {
-          returnedListOfTypes.push(type)
-        }
-      })
-      return returnedListOfTypes
     }
   },
   watch: {
@@ -200,54 +171,53 @@ export default {
       if (value !== '') {
         this.appartments = this.appartments.filter(appart => appart.appartmentType === value.id)
       }
-    },
-    userSelected (value) {
-      if (value === 'Connected user') {
-        // console.log(this.connectedUser)
-        this.newReservation.user = this.connectedUser.id
-        /* this.newReservation.user.lastname = this.connectedUser.lastname
-        this.newReservation.user.firstname = this.connectedUser.firstname
-        this.newReservation.user.email = this.connectedUser.email */
-      }
     }
   },
   mounted () {
     this.$addKkiapayListener('success', this.successHandler)
-    if (this.appartmentTypeForReserv !== {}) {
-      this.selectedType = this.appartmentTypeForReserv
-    }
-    if (this.appartmentToReserv !== {}) {
-      this.newReservation.appartment = this.appartmentToReserv.id
-    }
   },
   beforeDestroy () {
     this.$removeKkiapayListener('success', this.successHandler)
   },
   methods: {
+    bookAppartment () {
+      if (!this.connectedUser) { this.$router.push({ name: 'auth-signin' }) }
+      // console.log(this.connectedUser)
+      this.isDismissed = false
+    },
     createReservation () {
       this.onCreated = true
-      this.$api.reservationService.create({ variables: { data: this.newReservation } })
-        .then(({ data }) => {
-          this.reservationResponse = data.createReservation.id
-          this.open()
-        })
-        .then(() => {
-          this.onSaved = false
-          this.newReservation = { status: 'Pending' }
-          this.currentStep = 'congrats'
-          // this.isDismissed = true
-          // this.currentStep = 'first'
-        })
-        .catch((error) => {
-          this.errorToshow = error
-        })
+      console.log(this.newReservation)
+      // this.$api.reservationService.create({ variables: { data: this.newReservation } })
+      //   .then(({ data }) => {
+      //     this.reservationResponse = data.createReservation.id
+      //     this.open()
+      //   })
+      //   .then(() => {
+      //     this.onSaved = false
+      //     this.newReservation = { status: 'Pending' }
+      //     this.currentStep = 'congrats'
+      //     // this.isDismissed = true
+      //     // this.currentStep = 'first'
+      //   })
+      //   .catch((error) => {
+      //     this.errorToshow = error
+      //   })
     },
 
     payLater () {
       this.onCreated = true
+      // console.log(this.newReservation)
       this.$api.reservationService.create({ variables: { data: this.newReservation } })
-        .then(({ data }) => {
-          this.reservationResponse = data.createReservation.id
+        .then(() => this.loadReservationsFunc())
+        .then(() => {
+          this.onCreated = false
+          this.newReservation = {
+            status: reservationStatus.PENDING,
+            appartment: this.appartmentToReserv?.id,
+            user: this.$auth.user?.id
+          }
+          this.currentStep = 'congrats'
         })
         .catch((error) => {
           this.errorToshow = error
@@ -264,8 +234,8 @@ export default {
     successHandler (response) {
       if (this.reservationResponse) {
         this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
-          .then(async () => {
-            await this.loadReservationsFunc()
+          .then(() => {
+            // await this.loadReservationsFunc()
             this.newReservation = {}
             this.currentStep = 'congrats'
           }).finally(() => {

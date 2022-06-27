@@ -1,8 +1,8 @@
 <template>
   <div class="w-screen overflow-x-hidden font-body">
     <WebsiteTheNavbar :connected-user="connectedUser" />
-    <div class="pt-8 lg:pt-48 px-8 xl:px-36 max-w-7xl">
-      <div class="flex mb-8">
+    <div class="pt-8 lg:pt-48 px-8 xl:px-36 w-full">
+      <div class="flex justify-between mb-8">
         <h4 class="text-2xl font-medium mb-2">
           {{ appartment && appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }} <br>
           <span class="text-gray-400 text-sm">{{ appartment && appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment && appartment.bedrooms > 1">s</span> - {{ appartment && appartment.livingrooms }} Salon<span v-if="appartment && appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment && appartment.location }}</span>
@@ -222,7 +222,7 @@
         </div>
         <div class="w-full lg:w-2/5">
           <div class="others p-8 mt-4 lg:mt-8 w-full rounded-md border border-gray-400">
-            <div class="">
+            <div class="relative">
               <h4 class="text-sky-450 text-xl mb-4">
                 Conditions
               </h4>
@@ -253,9 +253,49 @@
                 </div>
               </div>
             </div>
-            <button class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12">
-              Réserver
-            </button>
+            <!-- {{ consoleProp }} -->
+            <NewReservation
+              v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
+              :appartment-types="appartmentTypes"
+              :appartments-prop="appartments"
+              :load-reservations-func="() => loadReservations()"
+              :appartment-to-reserv="appartment"
+            />
+            <p v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.PENDING && !appartmentIsReservedByOther" class="my-4">
+              <b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
+            </p>
+            <template v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.WAITING_FOR_PAYMENT && !appartmentIsReservedByOther">
+              <p class="my-4">
+                <b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
+              </p>
+              <EditReservation
+                :load-reservations-func="() => loadReservations()"
+                :account-prop="connectedUser"
+                :reservation="appartmentIsRequestedByMe"
+                :appartments-prop="appartments"
+                :appartment-types="appartmentTypes"
+                :amount="300"
+                :step="'Payment'"
+              />
+            </template>
+            <p v-else-if="appartmentIsReservedByMe" class="my-4">
+              <b class="text-sky-550">Cet appartment est reservé en votre nom</b> <br>
+              <span v-if="appartmentIsReservedByMe && appartmentIsReservedByMe.endDate">
+                Jusqu'au :<b> {{ appartmentIsReservedByMe.endDate }} </b>
+              </span>
+            </p>
+            <p v-else-if="appartmentIsReservedByOther" class="my-4">
+              <b class="text-sky-550">Appartment déjà réservé.</b><br>
+              <span v-if="appartmentIsReservedByOther && appartmentIsReservedByOther.endDate">
+                Mais sera disponible pour une nouvelle réservation à partir du :<b> {{ appartmentIsReservedByOther.endDate }} </b>
+              </span>
+            </p>
+            <p v-else-if="appartmentRequestByMeIsRejected && (appartmentIsRequestedByOthers.length || appartmentIsReservedByOther)" class="my-4">
+              <b class="text-red-500">Votre demande de réservation a été rejeté</b> <br>
+              <span>
+                Veuillez rééssayer ultérieurement
+              </span>
+            </p>
           </div>
           <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
             <p class="mb-4">
@@ -276,10 +316,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import { reservationStatus } from '~/helpers/constants'
+
 export default {
   async asyncData ({ $api, $auth, store }) {
-    if ($auth.loggedIn) { await store.dispatch('account/getAuthUserAccount') }
+    if ($auth.loggedIn) {
+      await store.dispatch('account/getAuthUserAccount')
+
+      if (!store.getters['reservation/reservations'].length) {
+        await store.dispatch('reservation/loadReservations')
+      }
+    }
     const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
     const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
 
@@ -291,7 +339,7 @@ export default {
 
   data () {
     return {
-      id: this.$route.params.id,
+      appartID: this.$route.params.id,
       contextMenuIsOpen: false,
       appartments: [],
       appartmentTypes: []
@@ -306,16 +354,53 @@ export default {
 
   computed: {
     ...mapGetters({
-      connectedUser: 'account/authUserAccount'
+      connectedUser: 'account/authUserAccount',
+      reservations: 'reservation/reservations'
     }),
+    reservationStatus: () => reservationStatus,
     appartment () {
-      return this.appartments.find(appartment => appartment.id === this.id)
+      return this.appartments.find(appartment => appartment.id === this.appartID)
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
+    },
+    appartReservation () {
+      return id => this.reservations.find(reserv => reserv.appartment === id && reserv.status !== reservationStatus.REJECTED)
+    },
+    myReservations () {
+      return this.connectedUser ? this.reservations.filter(reserv => (reserv.user === this.connectedUser.user.id && reserv.appartment === this.appartID) && (reserv.status !== reservationStatus.REJECTED && !reserv.archive)) : []
+    },
+    appartmentRequestByMeIsRejected () {
+      return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.status === reservationStatus.REJECTED && reserv.user === this.connectedUser.user.id && !reserv.archive) : []
+    },
+    appartmentIsRequestedByMe () {
+      return this.myReservations.find(reserv => reserv.status === reservationStatus.PENDING || reserv.status === reservationStatus.WAITING_FOR_PAYMENT)
+    },
+    appartmentIsReservedByMe () {
+      return this.myReservations.find(reserv => reserv.status === reservationStatus.RESERVED && !reserv.archive)
+    },
+    appartmentIsRequestedByOthers () {
+      return this.connectedUser ? this.reservations.filter(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && (reserv.status === reservationStatus.PENDING || reserv.status === reservationStatus.WAITING_FOR_PAYMENT) && !reserv.archive) : []
+    },
+    appartmentIsReservedByOther () {
+      return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && reserv.status === reservationStatus.RESERVED && !reserv.archive) : []
     }
+    // consoleProp () {
+    //   console.log('RequestByMe:  ', this.appartmentIsRequestedByMe)
+    //   console.log('ReservedByMe', this.appartmentIsReservedByMe)
+    //   console.log('Reserved by others: ', this.appartmentIsReservedByOther)
+    //   console.log('ReservedByOther', this.appartmentIsReservedByOther)
+    //   console.log('Requested by Others', this.appartmentIsRequestedByOthers)
+    //   console.log('RejectedRequest: ', this.appartmentRequestByMeIsRejected)
+    //   console.log('Connected User', this.connectedUser)
+    //   return 1 // console.log('Inside consoleProp')
+    // }
   },
   methods: {
+    ...mapActions({
+      loadReservations: 'reservation/loadReservations'
+    }),
+
     goBack () {
       this.$router.go(-1)
     }

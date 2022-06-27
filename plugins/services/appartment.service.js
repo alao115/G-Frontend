@@ -8,6 +8,9 @@ export default ({ apollo, gql, $axios }) => class AppartmentService {
   }
 
   update ({ projections, variables } = { projections: 'id ', variables: {} }) {
+    variables?.data?.timeSlots && variables?.data.timeSlots.forEach((time) => {
+      delete time.__typename
+    })
     variables?.data?.conditions && delete variables?.data.conditions?.__typename
     variables?.data?.ownerInfos && delete variables?.data.ownerInfos?.__typename
     variables?.data?.__typename && delete variables?.data?.__typename

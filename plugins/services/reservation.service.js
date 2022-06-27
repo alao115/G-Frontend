@@ -1,5 +1,5 @@
 export default ({ apollo, gql }) => class ReservationService {
-  getAll ({ projections, variables } = { projections: 'id appartment user status date', variables: {} }) {
+  getAll ({ projections, variables } = { projections: 'id appartment archive user status startDate startTime endDate endTime', variables: {} }) {
     return apollo.query({ query: gql`query { reservations { ${projections} } }`, variables })
   }
 
