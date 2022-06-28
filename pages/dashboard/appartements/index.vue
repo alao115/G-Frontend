@@ -335,7 +335,7 @@ export default {
       return this.appartments.filter(appartment => appartment.createdBy.user.id === this.connectedUser.id)
     },
     returnedAppartments () {
-      if (this.connectedUser.userType === userRole.ADMIN || this.connectedUser.userType === userRole.PUBLISHER) {
+      if (this.connectedUser.userType === userRole.ADMIN || this.connectedUser.userType === userRole.REGULAR_USER) {
         return this.appartments
       } else {
         return this.publisherAppartments
