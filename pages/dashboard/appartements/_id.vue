@@ -15,16 +15,18 @@
               <span class="icon mr-2"><i class="far fa-info-circle" /></span> <span class="hidden lg:block">Infos</span>
             </a>
           </li>
-          <li v-if="connectedUser && connectedUser.user.userType === userRole.ADMIN" class="mr-2">
-            <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
-              <span class="icon mr-2"><i class="far fa-calendar-day" /></span> <span class="hidden lg:block">Visites</span>
-            </a>
-          </li>
-          <li v-if="connectedUser && connectedUser.user.userType === userRole.ADMIN" class="mr-2">
-            <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
-              <span class="icon mr-2"><i class="far fa-house-user" /></span> <span class="hidden lg:block">Réservations</span>
-            </a>
-          </li>
+          <template v-if="connectedUser && connectedUser.user.userType === userRole.ADMIN">
+            <li class="mr-2">
+              <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
+                <span class="icon mr-2"><i class="far fa-calendar-day" /></span> <span class="hidden lg:block">Visites</span>
+              </a>
+            </li>
+            <li class="mr-2">
+              <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
+                <span class="icon mr-2"><i class="far fa-house-user" /></span> <span class="hidden lg:block">Réservations</span>
+              </a>
+            </li>
+          </template>
         </ul>
       </div>
       <div class="flex mb-8">
@@ -37,27 +39,31 @@
             </p>
           </button>
           <div v-if="contextMenuIsOpen" class="absolute flex flex-col mt-14 lg:mt-20 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-            <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
-              <span class="font-medium">Modifier</span>
-            </a>
-            <NewTimeSlot :in-detail="true" :appartment="appartment" />
-            <NewReservation
-              :load-reservations-func="loadReservations"
-              :publications-prop="publications"
-              :appartment-types="appartmentTypes"
-              :appartments-prop="appartments"
-              :from="'appartMenu'"
-              :appartment-to-reserv="appartment"
-              :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
-            />
-            <NewVisit
-              :appartments-prop="appartments"
-              :from="'appartMenu'"
-              :appartment-types="appartmentTypes"
-              :appartment-id-prop="appartment.id"
-              :publications-prop="publications"
-              :load-visits-func="() => {}"
-            />
+            <template v-if="connectedUser.user.userType !== userRole.REGULAR_USER">
+              <a class="flex flex-col px-8 py-4 hover:bg-gray-200" href="#" @click.prevent="contextMenuIsOpen = false, setToEdition(appartment)">
+                <span class="font-medium">Modifier</span>
+              </a>
+              <NewTimeSlot :in-detail="true" :appartment="appartment" />
+            </template>
+            <template v-if="connectedUser.user.userType === userRole.REGULAR_USER">
+              <NewReservation
+                :load-reservations-func="loadReservations"
+                :publications-prop="publications"
+                :appartment-types="appartmentTypes"
+                :appartments-prop="appartments"
+                :from="'appartMenu'"
+                :appartment-to-reserv="appartment"
+                :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
+              />
+              <NewVisit
+                :appartments-prop="appartments"
+                :from="'appartMenu'"
+                :appartment-types="appartmentTypes"
+                :appartment-id-prop="appartment.id"
+                :publications-prop="publications"
+                :load-visits-func="() => {}"
+              />
+            </template>
             <NuxtLink to="/dashboard/appartements" class="flex flex-col px-8 py-4 hover:bg-gray-200">
               <span class="font-medium">Retour</span>
             </NuxtLink>
@@ -288,13 +294,29 @@
                 </div>
               </div>
 
-              <NewReservation
+              <!-- <NewReservation
                 v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
                 :appartment-types="appartmentTypes"
                 :appartments-prop="appartments"
                 :load-reservations-func="() => loadReservations()"
                 :appartment-to-reserv="appartment"
-              />
+              /> -->
+
+              <template
+                v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
+              >
+                <p v-if="connectedUser.user.userType !== userRole.REGULAR_USER" class="my-4">
+                  <b class="text-sky-550">Vous etes {{ connectedUser.user.userType === userRole.ADMIN ? "l'administrateur" : "le publicateur" }}</b> <br>
+                  Vous n'avez pas le droit de faire des réservations
+                </p>
+                <NewReservation
+                  v-else
+                  :appartment-types="appartmentTypes"
+                  :appartments-prop="appartments"
+                  :load-reservations-func="() => loadReservations()"
+                  :appartment-to-reserv="appartment"
+                />
+              </template>
               <p v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.PENDING && !appartmentIsReservedByOther " class="my-4">
                 <b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
               </p>
@@ -486,7 +508,7 @@
                 <span>{{ appartment.location }}</span>
               </div>
               <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
-                <span>{{ reserv.date }}</span>
+                <span>{{ formatDate(reserv.createdAt) }}</span>
               </div>
               <div class="hidden lg:flex flex-col w-24 px-2 mx-2">
                 <span>{{ displayReservationStatus[Number(reserv.status)] }}</span>
@@ -528,6 +550,7 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
+import moment from 'moment'
 
 import { reservationStatus, userRole } from '~/helpers/constants'
 
@@ -679,6 +702,9 @@ export default {
         })
         // eslint-disable-next-line no-console
         .catch(error => console.log(error))
+    },
+    formatDate (date) {
+      return moment.unix(date).format('DD-MM-YYYY')
     }
   }
 }

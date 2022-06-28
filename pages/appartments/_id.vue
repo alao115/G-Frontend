@@ -257,8 +257,8 @@
             <template
               v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
             >
-              <p v-if="connectedUser.user.userType === userRole.ADMIN" class="my-4">
-                <b class="text-sky-550">Vous l'administrateur</b> <br>
+              <p v-if="connectedUser.user.userType !== userRole.REGULAR_USER" class="my-4">
+                <b class="text-sky-550">Vous etes {{ connectedUser.user.userType === userRole.ADMIN ? "l'administrateur" : "le publicateur" }}</b> <br>
                 Vous n'avez pas le droit de faire des réservations
               </p>
               <NewReservation
