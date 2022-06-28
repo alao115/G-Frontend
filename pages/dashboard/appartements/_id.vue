@@ -101,7 +101,7 @@
                   {{ appartment.details }}
                 </p>
                 <p class="font-body text-base mb-8 font-bold">
-                  {{ appartment.forShortStay ? 'Court séjour' : '' }}
+                  {{ appartment.forShortStay === true ? 'Court séjour' : '' }}
                 </p>
               </div>
               <div class="rooms w-full pr-4">
@@ -337,14 +337,16 @@
                         <p>Caution eau + electricité</p>
                         <p class="text-gray-400">{{ appartment.conditions.energyCommission }}</p>
                       </div>
-                      <div class="flex justify-between mb-2">
-                        <p>Caution sur le loyer (3 mois)</p>
-                        <p class="text-gray-400">{{ 3 * appartment.rent }}</p>
-                      </div>
-                      <div class="flex justify-between mb-2">
-                        <p>Démarcheur</p>
-                        <p class="text-gray-400">{{ appartment.rent }}</p>
-                      </div>
+                      <template v-if="!appartment.forShortStay">
+                        <div class="flex justify-between mb-2">
+                          <p>Caution sur le loyer (3 mois)</p>
+                          <p class="text-gray-400">{{ 3 * appartment.rent }}</p>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                          <p>Démarcheur</p>
+                          <p class="text-gray-400">{{ appartment.rent }}</p>
+                        </div>
+                      </template>
                       <div class="flex justify-between mb-2">
                         <p>Frais Gontché</p>
                         <p class="text-gray-400">300</p>
