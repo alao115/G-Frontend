@@ -96,8 +96,6 @@
           </div>
         </div>
         <div class="overflow-auto custom__scroll py-4">
-          {{ favories }}
-          {{ connectedUser }}
           <div v-for="(appart, count) in returnedAppartments" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
             <div class="flex flex-col w-min px-2">
               <input v-model="selectedAppartments" type="checkbox" :value="appart" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
