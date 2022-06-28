@@ -2,18 +2,15 @@
   <div class="card relative flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg">
     <!-- <div class="h-40 bg-gray-400 rounded-lg"></div> -->
     <span class="opacity-50 bg-gray-400 rounded-full blur-lg h-8 w-8 absolute right-4 top-4" />
-    <template v-if="favoryExisted">
-      <span v-if="!onUpdate" class="icon h-8 w-8 absolute right-4 top-4 text-red-400 favorite cursor-pointer flex justify-center items-center" @click.prevent="removeFromFavorite()"><i class="fa fa-heart fa-lg" /></span>
-      <span v-else class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center">
-        <loader />
-      </span>
-    </template>
-    <template v-else>
-      <span v-if="!onCreate" class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center" @click.prevent="addToFavorite()"><i class="far fa-heart fa-lg" /></span>
-      <span v-else class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center">
-        <loader />
-      </span>
-    </template>
+    <span v-if="favoryExisted" class="icon h-8 w-8 absolute right-4 top-4 text-red-400 favorite cursor-pointer flex justify-center items-center" @click.prevent="removeFromFavorite()">
+      <i v-if="!onUpdate" class="fa fa-heart fa-lg" />
+      <loader v-else />
+    </span>
+
+    <span v-else class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center" @click.prevent="addToFavorite()">
+      <i v-if="!onCreate" class="far fa-heart fa-lg" />
+      <loader v-else />
+    </span>
     <div @click.prevent="toDetails(appartment)">
       <img :src="appartment.mainImg" class="w-full h-auto object-cover" alt="">
       <h4 class="text-2xl font-medium mb-2 px-4">
@@ -107,7 +104,7 @@ export default {
         this.newFavory.user = this.connectedUser.id
         this.$api.favoryService.create({ variables: { data: this.newFavory } })
           .then((response) => {
-            this.newFavory = {}
+            this.newFavory = { appartment: this.appartment.id }
             return this.loadFavories()
           })
           .finally(() => {

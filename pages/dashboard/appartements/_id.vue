@@ -73,7 +73,7 @@
       <div v-if="activeTab === 'infos'">
         <div class="flex space-x-8 flex-col md:flex-row">
           <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
-          <div class="grid grid-cols-3 md:grid-cols-2 md:grid-rows-2 gap-8 justify-items-stretch place-content-stretch">
+          <div class="w-full md:w-1/2 grid grid-cols-3 md:grid-cols-2 md:grid-rows-2 gap-8 justify-items-stretch place-content-stretch">
             <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="object-cover h-full">
             <img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="object-cover h-full">
             <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="object-cover h-full">
