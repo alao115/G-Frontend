@@ -260,7 +260,7 @@
             </div>
           </div>
           <div class="w-full lg:w-2/5">
-            <div class="others p-8 mt-4 lg:mt-8 w-full rounded-md border border-gray-400">
+            <div class="others p-8 mt-4 lg:mt-8 w-full rounded-md border border-gray-400 relative">
               <div class="relative">
                 <h4 class="text-sky-450 text-xl mb-4">
                   Conditions
@@ -324,15 +324,47 @@
                 <p class="my-4">
                   <b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
                 </p>
-                <EditReservation
-                  :load-reservations-func="() => loadReservations()"
-                  :account-prop="connectedUser"
-                  :reservation="appartmentIsRequestedByMe"
-                  :appartments-prop="appartments"
-                  :appartment-types="appartmentTypes"
-                  :amount="300"
-                  :step="'Payment'"
-                />
+                <div class="flex">
+                  <div class="contents">
+                    <button type="button" class="btn shadow-btn-shadow border border-blue-990 w-12 font-medium rounded-md text-blue-990 hover:bg-blue-920 hover:text-white nuxt-link-active py-2 mr-8 text-lg px-4 h-12" @click.prevent="advanceDetailsPromptIsOpen = !advanceDetailsPromptIsOpen">
+                      <span class="icon"><i class="far fa-file-invoice"></i></span>
+                    </button>
+                    <div :class="advanceDetailsPromptIsOpen ? '' : 'hidden'" class="absolute bg-white p-4 w-80 left-24 shadow-btn-shadow -mt-8 rounded-lg">
+                      <h4 class="text-sky-450 text-xl mb-4">
+                        Détails
+                      </h4>
+                      <div class="flex justify-between mb-2">
+                        <p>Caution eau + electricité</p>
+                        <p class="text-gray-400">{{ appartment.conditions.energyCommission }}</p>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <p>Caution sur le loyer (3 mois)</p>
+                        <p class="text-gray-400">{{ 3 * appartment.rent }}</p>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <p>Démarcheur</p>
+                        <p class="text-gray-400">{{ appartment.rent }}</p>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <p>Frais Gontché</p>
+                        <p class="text-gray-400">300</p>
+                      </div>
+                      <div class="flex justify-between border-t border-gray-100 pt-2">
+                        <p>TOTAL</p>
+                        <p class="text-blue-990">{{ totalCautionToPay }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <EditReservation
+                    :load-reservations-func="() => loadReservations()"
+                    :account-prop="connectedUser"
+                    :reservation="appartmentIsRequestedByMe"
+                    :appartments-prop="appartments"
+                    :appartment-types="appartmentTypes"
+                    :amount="totalCautionToPay"
+                    :step="'Payment'"
+                  />
+                </div>
               </template>
               <p v-else-if="appartmentIsReservedByMe" class="my-4">
                 <b class="text-sky-550">Cet appartment est reservé en votre nom</b> <br>
@@ -588,6 +620,7 @@ export default {
     return {
       appartID: this.$route.params.id,
       contextMenuIsOpen: false,
+      advanceDetailsPromptIsOpen: false,
       appartmentToEdit: {},
       visitToEdit: {},
       activeTab: 'infos',
@@ -605,6 +638,14 @@ export default {
       visits: 'visit/visits',
       accounts: 'account/accounts'
     }),
+
+    totalCautionToPay () {
+      let caution = this.appartment.conditions.energyCommission + 300
+      if (this.appartment.forShortStay !== true) {
+        caution = caution + 4 * this.appartment.rent
+      }
+      return caution
+    },
 
     displayReservationStatus () {
       return {
