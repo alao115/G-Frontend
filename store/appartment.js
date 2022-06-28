@@ -1,3 +1,4 @@
+import { userRole } from '~/helpers/constants'
 export const state = () => ({
   appartments: []
 })
@@ -14,7 +15,7 @@ export const actions = {
   loadAppartments ({ commit, getters }) {
     return new Promise((resolve, reject) => {
       // console.log(this.$auth.user)
-      if (this.$auth.user.userType !== 2) {
+      if (this.$auth.user.userType !== userRole.REGULAR_USER) {
         this.$api.appartmentService.getAll()
           .then(({ data }) => {
             commit('setAppartments', data.appartments)

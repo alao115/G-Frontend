@@ -147,11 +147,12 @@
 /* eslint-disable no-unused-vars */
 import path from 'path'
 import { mapGetters, mapActions } from 'vuex'
+import { userRole } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
   middleware: ({ redirect, $auth }) => {
-    if ($auth.user.userType !== 0) { redirect({ name: 'dashboard-appartements' }) }
+    if ($auth.user.userType !== userRole.ADMIN) { redirect({ name: 'dashboard-appartements' }) }
   },
 
   // eslint-disable-next-line require-await
@@ -190,8 +191,10 @@ export default {
       appartments: 'appartment/appartments'
     }),
 
+    userRole: () => userRole,
+
     userType () {
-      return userID => userID === 0 ? 'Admin' : userID === 1 ? 'Publisher' : 'Regular user'
+      return userID => userID === this.userRole.ADMIN ? 'Admin' : userID === this.userRole.PUBLISHER ? 'Publisher' : 'Regular user'
     },
 
     connectedUser () {

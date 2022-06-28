@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen overflow-x-hidden">
-    <WebsiteTheNavbar :connected-user="connectedUser" />
+    <WebsiteTheNavbar />
     <Nuxt />
     <WebsiteContactSection />
     <WebsiteHomeCookies />

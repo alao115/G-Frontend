@@ -139,11 +139,12 @@
 /* eslint-disable no-unused-vars */
 // import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay'
 import { mapGetters, mapActions } from 'vuex'
+import { userRole } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
   middleware: ({ redirect, $auth }) => {
-    if ($auth.user.userType !== 0) { redirect({ name: 'dashboard-appartements' }) }
+    if ($auth.user.userType !== userRole.ADMIN) { redirect({ name: 'dashboard-appartements' }) }
   },
 
   async asyncData ({ $api, store }) {
@@ -184,6 +185,8 @@ export default {
       appartmentTypes: 'appartmentType/appartmentTypes',
       visits: 'visit/visits'
     }),
+
+    userRole: () => userRole,
 
     visit () {
       return id => this.visits.find(visit => visit.id === id)
