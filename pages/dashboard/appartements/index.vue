@@ -1,6 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content w-full">
-    <NewAppartment :is-mobile="true" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" class="lg:hidden" />
+    <NewAppartment :is-mobile="true" :isMinified="false" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" class="lg:hidden" />
     <EditAppartment v-if="appartmentToEdit" :appartment="appartmentToEdit" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
@@ -161,7 +161,7 @@
               <NewTimeSlot :appartment="appart" :load-appartments-func="loadAppartments" />
             </div>
             <div class="hidden lg:flex flex-col w-20 px-2 mx-1 lg:mx-2 text-center">
-              <span v-if="reservation(isReserved(appart.id)) && reservation(isReserved(appart.id)).status === 'Reserved'" class="icon text-blue-990"><i class="far fa-check-circle" /></span>
+              <span v-if="isReserved(appart.id)" class="icon text-blue-990"><i class="far fa-check-circle" /></span>
               <span v-else class="icon"><i class="far fa-circle" /></span>
             </div>
             <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
@@ -197,10 +197,10 @@
         <div v-for="appartmnt in returnedAppartments" :key="appartmnt.fID" class="card flex flex-col bg-transparent rounded-lg pb-3 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
           <img :src="appartmnt.mainImg" alt="">
           <div class="relative">
-            <div v-if="connectedUser.userType === 0 && appartmnt.forShortStay" class="tag absolute text-xs right-4 px-2 py-1 rounded-xl bg-blue-990 text-white -mt-72 top-4">
+            <div v-if="connectedUser.userType === userRole.ADMIN && appartmnt.forShortStay" class="tag absolute text-xs right-4 px-2 py-1 rounded-xl bg-blue-990 text-white -mt-72 top-4">
               {{ appartmnt.forShortStay ? 'CS ': '' }}
             </div>
-            <div v-if="connectedUser.userType === 0" :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="tag absolute text-xs right-14 px-2 py-1 rounded-xl -mt-72 top-4">
+            <div v-if="connectedUser.userType === userRole.ADMIN" :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="tag absolute text-xs right-14 px-2 py-1 rounded-xl -mt-72 top-4">
               {{ isPublished(appartmnt.id) ? 'Publié ': 'Non publié' }}
             </div>
             <div class="flex flex-col items-start mt-4 px-4 justify-center lg:justify-start">
@@ -232,6 +232,7 @@
 /* eslint-disable no-unused-vars */
 import path from 'path'
 import { mapGetters, mapActions } from 'vuex'
+import { reservationStatus, userRole } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
@@ -293,17 +294,18 @@ export default {
       return this.$auth.user
     },
 
+    userRole: () => userRole,
+
+    reservationStatus: () => reservationStatus,
+
     isPublished () {
       return id => this.publications.find(publication => publication.appartment.id === id)
     },
     isReserved () {
-      return id => this.reservations.find(reservation => reservation.appartment === id)
+      return id => this.reservations.find(reserv => reserv.appartment === id && (reserv.status === reservationStatus.RESERVED && !reserv.archive))
     },
     publication () {
       return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
     },
     visit () {
       return id => this.visits.find(visit => visit.id === id)
@@ -333,7 +335,7 @@ export default {
       return this.appartments.filter(appartment => appartment.createdBy.user.id === this.connectedUser.id)
     },
     returnedAppartments () {
-      if (this.connectedUser.userType === 0 || this.connectedUser.userType === 2) {
+      if (this.connectedUser.userType === userRole.ADMIN || this.connectedUser.userType === userRole.PUBLISHER) {
         return this.appartments
       } else {
         return this.publisherAppartments

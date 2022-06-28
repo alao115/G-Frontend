@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-full p-8 xl:p-24 pb-8 xl:pb-12 flex flex-col justify-center mx-auto h-1/2 font-body xl:pt-32" style="min-height: 516px">
+  <div class="md:container w-full p-8 pb-8 lg:py-36 lg:px-0 2xl:p-36 xl:pb-12 xl:pt-32 flex flex-col justify-center md:mx-auto h-1/2 font-body" style="min-height: 516px">
     <form v-if="inHomePage" action="#" class="form text-blue-990 bg-sky-10 p-4 rounded-md">
       <div class="flex divide-x divide-gray-320 justify-between">
         <input type="text" class="px-8 mr-4 block w-full bg-transparent border-transparent focus:border-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Affinez vos recherches de logement">
