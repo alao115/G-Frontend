@@ -1,6 +1,7 @@
 <template>
   <div class="card relative flex flex-col bg-transparent rounded-lg pb-8 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg">
     <!-- <div class="h-40 bg-gray-400 rounded-lg"></div> -->
+    <span class="opacity-50 bg-gray-400 rounded-full blur-lg h-8 w-8 absolute right-4 top-4" />
     <template v-if="favoryExisted">
       <span v-if="!onUpdate" class="icon h-8 w-8 absolute right-4 top-4 text-red-400 favorite cursor-pointer flex justify-center items-center" @click.prevent="removeFromFavorite()"><i class="fa fa-heart fa-lg" /></span>
       <span v-else class="icon h-8 w-8 absolute right-4 top-4 text-white favorite cursor-pointer flex justify-center items-center">
@@ -14,7 +15,7 @@
       </span>
     </template>
     <div @click.prevent="toDetails(appartment)">
-      <img :src="appartment.mainImg" class="w-full" alt="">
+      <img :src="appartment.mainImg" class="w-full h-auto object-cover" alt="">
       <h4 class="text-2xl font-medium mb-2 px-4">
         {{ appartmentType ? appartmentType.label : '' }} <br>
         <span class="text-gray-400 text-sm">{{ appartment && appartment.bedrooms ? appartment.bedrooms : '' }} Chambre<span v-if="appartment && appartment.bedrooms > 1">s</span> - {{ appartment && appartment.livingrooms }} Salon<span v-if="appartment && appartment.livingrooms > 1">s</span></span>  <span class="text-gray-400 text-sm"> à {{ appartment && appartment.location }}</span>

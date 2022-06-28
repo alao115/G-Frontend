@@ -31,7 +31,7 @@
                   Retour au site
                 </NuxtLink>
                 <hr>
-                <button v-if="connectedUser && connectedUser.user.userType === 2" class="flex lg:hidden btn space-x-4 items-center h-10 px-0 font-medium text-sky-550 rounded" @click="switchingModalIsOpen = true">
+                <button v-if="connectedUser && connectedUser.user.userType === userRole.REGULAR_USER" class="flex lg:hidden btn space-x-4 items-center h-10 px-0 font-medium text-sky-550 rounded" @click="switchingModalIsOpen = true">
                   <span class="">Publier une annonce</span>
                   <span class="block icon">
                     <i class="far fa-comment-alt-check" />
@@ -115,6 +115,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { userRole } from '~/helpers/constants'
 
 export default {
   middleware: 'isAdmin',
@@ -138,6 +139,8 @@ export default {
     ...mapGetters({
       connectedUser: 'account/authUserAccount'
     }),
+
+    userRole: () => userRole,
 
     routeName () {
       return this.$nuxt.$route.name

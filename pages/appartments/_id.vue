@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen overflow-x-hidden font-body">
-    <WebsiteTheNavbar :connected-user="connectedUser" />
-    <div class="pt-8 lg:pt-48 px-8 xl:px-36 w-full">
+    <WebsiteTheNavbar :connected-user="connectedUser.user" />
+    <div class="pt-8 px-8 lg:pt-48 xl:px-36 w-full">
       <div class="flex justify-between mb-8">
         <h4 class="text-2xl font-medium mb-2">
           {{ appartment && appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }} <br>
@@ -35,12 +35,12 @@
           </div>
         </div> -->
       </div>
-      <div class="flex space-x-8 flex-col md:flex-row">
+      <div class="flex space-x-0 md:space-x-8 flex-col md:flex-row">
         <img :src="appartment && appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
-        <div class="grid grid-cols-3 md:grid-cols-2 gap-8">
-          <img :src="appartment && appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="">
-          <img :src="appartment && appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="">
-          <img :src="appartment && appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="">
+        <div class="grid grid-cols-3 md:grid-cols-2 md:grid-rows-2 gap-8 justify-items-stretch place-content-stretch">
+          <img :src="appartment && appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="object-cover h-full">
+          <img :src="appartment && appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="object-cover h-full">
+          <img :src="appartment && appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="object-cover h-full">
         </div>
       </div>
       <div class="flex lg:space-x-8 flex-col md:flex-row">
@@ -254,13 +254,22 @@
               </div>
             </div>
             <!-- {{ consoleProp }} -->
-            <NewReservation
+            <template
               v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
-              :appartment-types="appartmentTypes"
-              :appartments-prop="appartments"
-              :load-reservations-func="() => loadReservations()"
-              :appartment-to-reserv="appartment"
-            />
+            >
+              <p v-if="connectedUser.user.userType === userRole.ADMIN" class="my-4">
+                <b class="text-sky-550">Vous l'administrateur</b> <br>
+                Vous n'avez pas le droit de faire des réservations
+              </p>
+              <NewReservation
+                v-else
+                :appartment-types="appartmentTypes"
+                :appartments-prop="appartments"
+                :load-reservations-func="() => loadReservations()"
+                :appartment-to-reserv="appartment"
+              />
+            </template>
+
             <p v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.PENDING && !appartmentIsReservedByOther" class="my-4">
               <b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
             </p>
@@ -317,7 +326,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { reservationStatus } from '~/helpers/constants'
+import { reservationStatus, userRole } from '~/helpers/constants'
 
 export default {
   async asyncData ({ $api, $auth, store }) {
@@ -358,6 +367,7 @@ export default {
       reservations: 'reservation/reservations'
     }),
     reservationStatus: () => reservationStatus,
+    userRole: () => userRole,
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.appartID)
     },

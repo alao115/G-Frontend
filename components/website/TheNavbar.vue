@@ -81,7 +81,7 @@
                   <NuxtLink to="#" class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Mon profil
                   </NuxtLink>
-                  <NuxtLink v-if="connectedUser.user.userType === 0 || connectedUser.user.userType === 1" to="/dashboard" class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
+                  <NuxtLink v-if="connectedUser.user.userType !== userRole.REGULAR_USER" to="/dashboard" class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'">
                     Dashboard
                   </NuxtLink>
                   <a class="text-gray-400 text-lg mr-4 px-0" :class="isMinified === true ? 'text-base' : 'text-lg'" @click.prevent="() => $auth.logout().then(() => $store.commit('account/setAuthUserAccount', null))">
@@ -138,6 +138,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import { userRole } from '~/helpers/constants'
+
 export default {
   props: {
     // connectedUser: {
@@ -155,8 +157,11 @@ export default {
   computed: {
     ...mapGetters({
       connectedUser: 'account/authUserAccount'
-    })
+    }),
+
+    userRole: () => userRole
   },
+
   beforeMount () {
     window.addEventListener('scroll', this.handleScroll)
   },

@@ -15,12 +15,12 @@
               <span class="icon mr-2"><i class="far fa-info-circle" /></span> <span class="hidden lg:block">Infos</span>
             </a>
           </li>
-          <li v-if="connectedUser && connectedUser.user.userType === 0" class="mr-2">
+          <li v-if="connectedUser && connectedUser.user.userType === userRole.ADMIN" class="mr-2">
             <a href="#" :class="activeTab === 'visites' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'visites'">
               <span class="icon mr-2"><i class="far fa-calendar-day" /></span> <span class="hidden lg:block">Visites</span>
             </a>
           </li>
-          <li v-if="connectedUser && connectedUser.user.userType === 0" class="mr-2">
+          <li v-if="connectedUser && connectedUser.user.userType === userRole.ADMIN" class="mr-2">
             <a href="#" :class="activeTab === 'reservations' ? 'text-blue-600 border-b-2 border-blue-600 ' : ''" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group" @click.prevent="activeTab = 'reservations'">
               <span class="icon mr-2"><i class="far fa-house-user" /></span> <span class="hidden lg:block">Réservations</span>
             </a>
@@ -67,10 +67,10 @@
       <div v-if="activeTab === 'infos'">
         <div class="flex space-x-8 flex-col md:flex-row">
           <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="w-full md:w-1/2 mb-4 md:mb-0">
-          <div class="grid grid-cols-3 md:grid-cols-2 gap-8">
-            <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="">
-            <img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="">
-            <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="">
+          <div class="grid grid-cols-3 md:grid-cols-2 md:grid-rows-2 gap-8 justify-items-stretch place-content-stretch">
+            <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="object-cover h-full">
+            <img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="object-cover h-full">
+            <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="object-cover h-full">
           </div>
         </div>
         <div class="flex lg:space-x-8 flex-col md:flex-row">
@@ -469,7 +469,7 @@
           <div class="overflow-auto custom__scroll py-4">
             <div v-for="(reserv, count) in appartmentReservations" :key="reserv.id" class="reservation flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
               <div class="flex items-center w-min px-2">
-                <input v-model="selectedReservations" type="checkbox" :value="reservation" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
+                <input v-model="selectedReservations" type="checkbox" :value="reserv" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
               </div>
               <div class="flex flex-col mx-2">
                 <span class="rounded-full h-12 w-12">
@@ -489,7 +489,7 @@
                 <span>{{ reserv.date }}</span>
               </div>
               <div class="hidden lg:flex flex-col w-24 px-2 mx-2">
-                <span>{{ reserv.status }}</span>
+                <span>{{ displayReservationStatus[Number(reserv.status)] }}</span>
               </div>
               <div class="hidden lg:flex flex-col w-36 px-2 mx-2">
                 <span />
@@ -529,7 +529,7 @@
 
 import { mapGetters, mapActions } from 'vuex'
 
-import { reservationStatus } from '~/helpers/constants'
+import { reservationStatus, userRole } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
@@ -568,7 +568,8 @@ export default {
       appartmentToEdit: {},
       visitToEdit: {},
       activeTab: 'infos',
-      selectedVisits: []
+      selectedVisits: [],
+      selectedReservations: []
     }
   },
   computed: {
@@ -581,6 +582,18 @@ export default {
       visits: 'visit/visits',
       accounts: 'account/accounts'
     }),
+
+    displayReservationStatus () {
+      return {
+        0: 'Non reservé',
+        1: 'En attente de traitement',
+        2: 'En attente de paiement',
+        3: 'Reservé',
+        4: 'Rejecté'
+      }
+    },
+
+    userRole: () => userRole,
 
     reservationStatus: () => reservationStatus,
 
@@ -597,8 +610,11 @@ export default {
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     },
-    appartReservation () {
-      return id => this.reservations.find(reserv => reserv.appartment === id && reserv.status !== reservationStatus.REJECTED)
+    appartmentReservations () {
+      return this.reservations.filter(reserv => reserv.appartment === this.appartID) // && reserv.status !== reservationStatus.REJECTED)
+    },
+    appartmentVisits () {
+      return this.visits.filter(visit => visit.appartment === this.appartID) // && reserv.status !== reservationStatus.REJECTED)
     },
     myReservations () {
       return this.connectedUser ? this.reservations.filter(reserv => (reserv.user === this.connectedUser.user.id && reserv.appartment === this.appartID) && (reserv.status !== reservationStatus.REJECTED && !reserv.archive)) : []

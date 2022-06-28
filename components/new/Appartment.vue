@@ -6,7 +6,7 @@
       </span>
       <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Appartements</span>
     </a>
-    <a v-else-if="isMobile && connectedUser && (connectedUser.user.userType === 0 || connectedUser.user.userType === 1)" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
+    <a v-else-if="isMobile && connectedUser && (connectedUser.user.userType === userRole.ADMIN || connectedUser.user.userType === userRole.PUBLISHER)" class="flex lg:hidden items-center border border-transparent font-medium rounded-full text-white bg-sky-550 hover:bg-blue-920 text-lg h-16 w-16 justify-center absolute right-8 bottom-20" href="#" @click.prevent="isDismissed = false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
       </svg>
@@ -532,12 +532,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { userRole } from '~/helpers/constants'
 
 export default {
   props: {
     isMinified: {
       type: Boolean,
-      default: false
+      required: true
     },
     isMobile: {
       type: Boolean,
@@ -626,6 +627,9 @@ export default {
     ...mapGetters({
       connectedUser: 'account/authUserAccount'
     }),
+
+    userRole: () => userRole,
+
     publication () {
       return id => this.publications.find(publication => publication.id === id)
     },
