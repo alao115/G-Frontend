@@ -96,6 +96,8 @@
           </div>
         </div>
         <div class="overflow-auto custom__scroll py-4">
+          {{ favories }}
+          {{ connectedUser }}
           <div v-for="(appart, count) in returnedAppartments" :key="appart.id" class="appart flex flex-shrink-0 py-1 text-sm items-center hover:bg-sky-50 cursor-pointer relative" :class="count % 2 !== 0 ? 'bg-gray-100' : ''">
             <div class="flex flex-col w-min px-2">
               <input v-model="selectedAppartments" type="checkbox" :value="appart" name="email" class="appearance-none w-6 h-6 border border-gray-300 rounded-sm outline-none cursor-pointer checked:bg-blue-400">
@@ -257,6 +259,10 @@ export default {
       if (!store.getters['visit/visits'].length) {
         await store.dispatch('visit/loadVisits')
       }
+
+      if (!store.getters['favory/favories'].length) {
+        await store.dispatch('favory/loadFavories')
+      }
     }
 
     return {
@@ -332,10 +338,10 @@ export default {
       return id => this.appartFavories.find(favory => favory.appartment === id)
     },
     publisherAppartments () {
-      return this.appartments.filter(appartment => appartment.createdBy.user.id === this.connectedUser.id)
+      return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
     },
     returnedAppartments () {
-      if (this.connectedUser.userType === userRole.ADMIN || this.connectedUser.userType === userRole.PUBLISHER) {
+      if (this.connectedUser.userType === userRole.ADMIN || this.connectedUser.userType === userRole.REGULAR_USER) {
         return this.appartments
       } else {
         return this.publisherAppartments
