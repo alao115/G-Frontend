@@ -145,12 +145,12 @@
 /* eslint-disable no-unused-vars */
 
 import { mapGetters, mapActions } from 'vuex'
-import { reservationStatus } from '~/helpers/constants'
+import { reservationStatus, userRole } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
   middleware: ({ redirect, $auth }) => {
-    if ($auth.user.userType !== 0) { redirect({ name: 'dashboard-appartements' }) }
+    if ($auth.user.userType !== userRole.ADMIN) { redirect({ name: 'dashboard-appartements' }) }
   },
   async asyncData ({ $api, store }) {
     if (!store.getters['appartment/appartments'].length) {
@@ -197,6 +197,8 @@ export default {
       reservations: 'reservation/reservations',
       accounts: 'account/accounts'
     }),
+
+    userRole: () => userRole,
 
     reservationStatus: () => reservationStatus,
 

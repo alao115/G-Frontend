@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen overflow-x-hidden">
-    <WebsiteTheNavbar :connected-user="connectedUser" />
+    <WebsiteTheNavbar />
     <Nuxt />
     <WebsiteHomeAdvantages />
     <WebsitePublications :in-home-page="false" :in-index="true" :appartments="appartments" :favories="favories" :appartment-types="appartmentTypes" />

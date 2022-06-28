@@ -15,7 +15,7 @@
           <i class="far fa-search mx-auto block" />
         </span>
       </div>
-      <div v-if="connectedUser.userType !== 2" class="grid grid-cols-2 divide-x-2 divide-gray-300 w-auto">
+      <div v-if="connectedUser.userType !== userRole.REGULAR_USER" class="grid grid-cols-2 divide-x-2 divide-gray-300 w-auto">
         <a class="flex items-center h-12 px-3 mt-1 hover:bg-blue-75 justify-end" :class="isListLayout ? 'text-blue-730' : 'text-gray-400'" href="#" @click.prevent="isListLayout = true">
           <span class="icon w-6 block">
             <i class="far fa-th-list mx-auto block fa-lg" />
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div v-if="returnedAppartments.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
-      <template v-if="connectedUser.userType !== 2">
+      <template v-if="connectedUser.userType !== userRole.REGULAR_USER">
         <h1 class="text-3xl font-bold">
           0 appartement trouvé
         </h1>
@@ -48,14 +48,14 @@
     <div v-else>
       <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-          <li v-if="connectedUser.userType !== 2" class="mr-2">
+          <li v-if="connectedUser.userType !== userRole.REGULAR_USER" class="mr-2">
             <a href="#" class="inline-flex p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
               <span class="icon mr-2"><i class="far fa-list" /></span> Tous
             </a>
           </li>
           <li class="mr-2">
             <a href="#" class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-              <template v-if="connectedUser.userType !== 2">
+              <template v-if="connectedUser.userType !== userRole.REGULAR_USER">
                 <span class="icon mr-2"><i class="far fa-heart" /></span> Favoris
               </template>
               <template v-else>
@@ -241,7 +241,7 @@ export default {
   async asyncData ({ $api, store, $auth }) {
     await store.dispatch('appartment/loadAppartments')
 
-    if ($auth.user.userType !== 2) {
+    if ($auth.user.userType !== userRole.REGULAR_USER) {
       if (!store.getters['appartmentType/appartmentTypes'].length) {
         await store.dispatch('appartmentType/loadAppartmentTypes')
       }
@@ -270,7 +270,7 @@ export default {
   data () {
     return {
       title: 'Appartements',
-      isListLayout: this.$auth.user.userType !== 2,
+      isListLayout: this.$auth.user.userType !== userRole.REGULAR_USER,
       appartmentToEdit: {},
       isFilterTrayOpened: false,
       selectedAppartments: [],

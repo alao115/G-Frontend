@@ -130,11 +130,12 @@
 <script>
 /* eslint-disable no-unused-vars */
 import { mapGetters, mapActions } from 'vuex'
+import { userRole } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
   middleware: ({ redirect, $auth }) => {
-    if ($auth.user.userType !== 0) { redirect({ name: 'dashboard-appartements' }) }
+    if ($auth.user.userType !== userRole.ADMIN) { redirect({ name: 'dashboard-appartements' }) }
   },
   async asyncData ({ $api, store }) {
     if (!store.getters['appartment/appartments'].length) {
@@ -189,6 +190,8 @@ export default {
       // visits: 'visit/visits',
       // accounts: 'account/accounts'
     }),
+
+    userRole: () => userRole,
 
     publication () {
       return id => this.publications.find(publication => publication.id === id)
