@@ -510,7 +510,7 @@
           </div>
         </div>
         <div v-if="currentStep === 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0 border border-t-2">
-          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true">
+          <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Retour</span>
           </button>
         </div>
@@ -734,8 +734,21 @@ export default {
           }
         }
         await this.loadAppartmentsFunc()
-        // this.newAppartment = {}
-        // this.currentStep = 'congrats'
+        this.newAppartment = {
+          keeper: false,
+          pool: false,
+          ac: false,
+          conditions: {
+            prepaidRentMonths: 3,
+            paymentFrequency: ''
+          },
+          forShortStay: false,
+          ownerInfos: {},
+          location: '',
+          geometry: {}
+        }
+        this.ownerInfos = {}
+        this.currentStep = 'congrats'
         this.loading = false
       } catch (error) {
         this.errorToshow = error
