@@ -255,6 +255,10 @@ export default {
       if (!store.getters['visit/visits'].length) {
         await store.dispatch('visit/loadVisits')
       }
+
+      if (!store.getters['favory/favories'].length) {
+        await store.dispatch('favory/loadFavories')
+      }
     }
 
     return {
@@ -330,7 +334,7 @@ export default {
       return id => this.appartFavories.find(favory => favory.appartment === id)
     },
     publisherAppartments () {
-      return this.appartments.filter(appartment => appartment.createdBy.user.id === this.connectedUser.id)
+      return this.appartments.filter(appartment => appartment.createdBy === this.connectedUser.id)
     },
     returnedAppartments () {
       if (this.connectedUser.userType === userRole.ADMIN || this.connectedUser.userType === userRole.REGULAR_USER) {
