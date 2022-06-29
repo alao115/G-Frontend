@@ -78,8 +78,8 @@
             <div class="flex items-center w-full">
               <!-- <Slider /> -->
               <!-- <div class="p-2 flex flex-col" @click.prevent="budgetDropdownOpened = !budgetDropdownOpened"> -->
-              <div class="flex flex-col my-4 md=my-0">
-                <div class="mb-4 text-left">
+              <div class="flex flex-col my-4 md:my-0 w-full">
+                <div class="mb-4 text-left w-full">
                   <span class="icon mr-4">
                     <i class="fas fa-money-bill-wave-alt" />
                   </span>
@@ -90,8 +90,8 @@
                     Budget minimum
                   </label>
                 </div>
-                <div class="flex space-x-2">
-                  <div>
+                <div class="flex space-x-2 w-full">
+                  <div class="w-full">
                     <input v-model.number="search.budgetMin" type="number" class="placeholder-gray-400 focus:placeholder-blue-380 w-full md:w-48 h-12 md:h-12 md:px-4 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 bg-opacity-50 focus:bg-white focus:ring-0 relative" placeholder="Min">
                   </div>
                   <!-- <div>

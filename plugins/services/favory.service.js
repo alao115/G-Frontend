@@ -3,7 +3,7 @@ export default ({ apollo, gql, $axios }) => class FavoryService {
     return apollo.query({ query: gql`query { favories { ${projections} } }`, variables })
   }
 
-  authUserFavories ({ projections, variables } = { projections: 'id user { status firstname lastname civility phone email } appartment { id  timeSlots { day selectedTimes } mainImg firstImg secondImg thirdImg fourthImg appartmentType isFurnished location rent details rooms bathrooms bedrooms livingrooms storageroom kitchen garage keeper terrace garden ac pool householdsTotal groundLevel conditions { advancePayment energyCommission prepaidRentMonths paymentFrequency } ownerInfos { civility firstname lastname address isAlive phone email } likes favorite }', variables: {} }) {
+  authUserFavories ({ projections, variables } = { projections: 'id user { status firstname lastname civility phone email } appartment { id  forShortStay timeSlots { day selectedTimes } mainImg firstImg secondImg thirdImg fourthImg appartmentType isFurnished location rent details rooms bathrooms bedrooms livingrooms storageroom kitchen garage keeper terrace garden ac pool householdsTotal groundLevel conditions { advancePayment energyCommission prepaidRentMonths paymentFrequency } ownerInfos { civility firstname lastname address isAlive phone email } likes favorite }', variables: {} }) {
     return apollo.query({ query: gql`query { authUserFavories { ${projections} } }`, variables })
   }
 

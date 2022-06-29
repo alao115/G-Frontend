@@ -1,6 +1,6 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content w-full">
-    <NewAppartment :is-mobile="true" :isMinified="false" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" class="lg:hidden" />
+    <NewAppartment :is-mobile="true" :is-minified="false" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" class="lg:hidden" />
     <EditAppartment v-if="appartmentToEdit" :appartment="appartmentToEdit" :appartment-types="appartmentTypes" :load-appartments-func="loadAppartments" />
     <div class="relative flex pt-3 pb-0 border-t border-b border-gray-300 justify-between space-x-4">
       <div class="w-full relative">
@@ -193,17 +193,15 @@
           </div>
         </div>
       </div>
-      <div v-else class="grid grid-cols-1 lg:grid-cols-3">
-        <div v-for="appartmnt in returnedAppartments" :key="appartmnt.fID" class="card flex flex-col bg-transparent rounded-lg pb-3 lg:mr-8 mb-8 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
-          <img :src="appartmnt.mainImg" alt="">
-          <div class="relative">
-            <div v-if="connectedUser.userType === userRole.ADMIN && appartmnt.forShortStay" class="tag absolute text-xs right-4 px-2 py-1 rounded-xl bg-blue-990 text-white -mt-72 top-4">
-              {{ appartmnt.forShortStay ? 'CS ': '' }}
+      <div v-else class="grid grid-cols-1 gap-4 lg:gap-8 lg:grid-cols-3 mb-8">
+        <div v-for="appartmnt in returnedAppartments" :key="appartmnt.fID" class=" relative card flex flex-col justify-between h-112 bg-transparent rounded-lg pb-3 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
+          <img :src="appartmnt.mainImg" alt="" class="object-fill w-auto h-3/5">
+          <div class="">
+            <div v-if="connectedUser && connectedUser.userType === userRole.ADMIN" class="tag absolute text-xs right-4 text-white -top-2" :class="{ 'space-x-2': appartmnt.forShortStay }">
+              <span :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="px-2 py-1 rounded-xl">{{ isPublished(appartmnt.id) ? 'Publié ': 'Non publié' }}</span>
+              <span v-if="appartmnt.forShortStay" class="px-2 py-1 rounded-xl bg-blue-990">{{ appartmnt.forShortStay ? 'CS ': '' }}</span>
             </div>
-            <div v-if="connectedUser.userType === userRole.ADMIN" :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="tag absolute text-xs right-14 px-2 py-1 rounded-xl -mt-72 top-4">
-              {{ isPublished(appartmnt.id) ? 'Publié ': 'Non publié' }}
-            </div>
-            <div class="flex flex-col items-start mt-4 px-4 justify-center lg:justify-start">
+            <div class="flex flex-col items-start px-4 justify-center lg:justify-start">
               <h4 class="text-lg font-medium mb-2">
                 {{ appartmentType(appartmnt.appartmentType) ? appartmentType(appartmnt.appartmentType).label : '' }} <br>
                 <span class="text-gray-400">{{ appartmnt.bedrooms }}
@@ -211,11 +209,11 @@
                   {{ appartmnt.livingrooms }} <span class="hidden lg:contents">Salon<span v-if="appartmnt.livingrooms > 1">s</span></span> <span class="inline-block lg:hidden"><!-- <i class="far fa-couch" /> --> Salon </span>
                 </span>
               </h4>
-              <div class="flex items-center">
+              <div class="flex items-center w-full">
                 <span class="icon mr-4 text-sky-450">
                   <i class="fas fa-map-marker-alt" />
                 </span>
-                <label for="#" class="text-md">{{ appartmnt.location }}</label>
+                <span class="text-md overflow-ellipsis truncate overflow-hidden w-5/6">{{ appartmnt.location }}</span>
               </div>
               <a class="py-3 px-8 leading-none rounded font-medium mt-8 bg-sky-50 text-sm uppercase text-sky-450 hover:bg-blue-990 hover:text-white" href="#">
                 {{ appartmnt.rent + 'F CFA' }}
