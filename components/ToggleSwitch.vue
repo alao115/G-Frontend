@@ -1,8 +1,7 @@
 <template>
-
   <label :class="isSmall ? 'small' : ''" class="switch" @click.prevent="checkStatus">
-    <input type="checkbox" v-model="checkedValue">
-    <span :class="isSmall ? 'small' : ''" class="slider round"></span>
+    <input v-model="checkedValue" type="checkbox">
+    <span :class="isSmall ? 'small' : ''" class="slider round" />
   </label>
 </template>
 

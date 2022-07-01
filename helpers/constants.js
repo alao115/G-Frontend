@@ -11,3 +11,9 @@ export const userRole = {
   PUBLISHER: 1,
   REGULAR_USER: 2
 }
+
+export const visitStatus = {
+  NOT_VISITED: 0,
+  WAITING_FOR_PAYMENT: 1,
+  RESERVED: 2
+}

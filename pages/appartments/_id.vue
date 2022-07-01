@@ -35,21 +35,18 @@
           </div>
         </div> -->
       </div>
-      <div class="flex space-x-0 md:space-x-8 flex-col md:flex-row h-125">
-        <img :src="appartment && appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="object-cover h-full w-full md:w-1/2 mb-4 md:mb-0">
+      <!-- <div class="flex space-x-0 md:space-x-8 flex-col md:flex-row h-125">
+        <img :src="appartment && appartment.mainImg ? appartment.mainImg : 'https://image-placeholder.com/images/actual-size/1024x768.png'" alt="" class="object-cover h-full w-full md:w-1/2 mb-4 md:mb-0">
         <div class="w-full md:w-1/2 grid grid-cols-4 md:grid-cols-2 md:grid-rows-2 gap-8 justify-items-stretch place-content-stretch">
-          <img :src="appartment && appartment.firstImg !== '' ? appartment.firstImg : ''" alt="" class="object-cover w-full h-full">
-          <img :src="appartment && appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="object-cover h-full w-full">
-          <img :src="appartment && appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="object-cover h-full w-full">
-          <img :src="appartment && appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="object-cover h-full w-full">
+          <img :src="appartment && appartment.firstImg ? appartment.firstImg : 'https://image-placeholder.com/images/actual-size/960x640.png'" alt="" class="object-cover w-full h-full">
+          <img :src="appartment && appartment.secondImg ? appartment.secondImg : 'https://image-placeholder.com/images/actual-size/960x640.png'" alt="" class="object-cover h-full w-full">
+          <img :src="appartment && appartment.thirdImg ? appartment.thirdImg : 'https://image-placeholder.com/images/actual-size/960x640.png'" alt="" class="object-cover h-full w-full">
+          <img :src="appartment && appartment.fourthImg ? appartment.fourthImg : 'https://image-placeholder.com/images/actual-size/960x640.png'" alt="" class="object-cover h-full w-full">
         </div>
       </div>
       <div class="flex lg:space-x-8 flex-col md:flex-row">
         <div class="flex flex-col items-start w-full lg:w-3/5">
           <div class="content font-body">
-            <!-- <h3 class="block text-3xl font-medium mt-4 text-sky-450">
-              <span>{{ appartment && appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
-            </h3> -->
             <div class="grid grid-cols-2 w-min space-x-16 my-4">
               <span class="icon">
                 <i class="fab fa-whatsapp text-3xl" />
@@ -254,7 +251,7 @@
                 </div>
               </div>
             </div>
-            <!-- {{ consoleProp }} -->
+
             <template
               v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
             >
@@ -278,24 +275,65 @@
               <p class="my-4">
                 <b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
               </p>
-              <EditReservation
-                :load-reservations-func="() => loadReservations()"
-                :account-prop="connectedUser"
-                :reservation="appartmentIsRequestedByMe"
-                :appartments-prop="appartments"
-                :appartment-types="appartmentTypes"
-                :amount="300"
-                :step="'Payment'"
-              />
+              <div class="flex">
+                <div class="contents relative">
+                  <button type="button" class="btn shadow-btn-shadow border border-blue-990 w-12 font-medium rounded-md text-blue-990 hover:bg-blue-920 hover:text-white nuxt-link-active py-2 mr-8 text-lg px-4 h-12" @click.prevent="advanceDetailsPromptIsOpen = !advanceDetailsPromptIsOpen">
+                    <span class="icon"><i class="far fa-file-invoice" /></span>
+                  </button>
+                  <div v-if="advanceDetailsPromptIsOpen" class="fixed top-0 left-0 bg-white opacity-0 h-screen w-screen z-50" @click.prevent="advanceDetailsPromptIsOpen = !advanceDetailsPromptIsOpen" />
+                  <div :class="advanceDetailsPromptIsOpen ? '' : 'hidden'" class="absolute bg-white p-4 w-80 right-40 shadow-btn-shadow -mt-8 rounded-lg">
+                    <h4 class="text-sky-450 text-xl mb-4">
+                      Détails
+                    </h4>
+                    <div class="flex justify-between mb-2">
+                      <p>Caution eau + electricité</p>
+                      <p class="text-gray-400">
+                        {{ appartment.conditions.energyCommission }}
+                      </p>
+                    </div>
+                    <template v-if="!appartment.forShortStay">
+                      <div class="flex justify-between mb-2">
+                        <p>Caution sur le loyer (3 mois)</p>
+                        <p class="text-gray-400">
+                          {{ 3 * appartment.rent }}
+                        </p>
+                      </div>
+                      <div class="flex justify-between mb-2">
+                        <p>Démarcheur</p>
+                        <p class="text-gray-400">
+                          {{ appartment.rent }}
+                        </p>
+                      </div>
+                    </template>
+                    <div class="flex justify-between mb-2">
+                      <p>Frais Gontché</p>
+                      <p class="text-gray-400">
+                        300
+                      </p>
+                    </div>
+                    <div class="flex justify-between border-t border-gray-100 pt-2">
+                      <p>TOTAL</p>
+                      <p class="text-blue-990">
+                        {{ totalCautionToPay }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <extras-payment-btn
+                  :amount="totalCautionToPay"
+                  :on-success-handler-prop="() => bookReservation()"
+                />
+              </div>
             </template>
             <p v-else-if="appartmentIsReservedByMe" class="my-4">
-              <b class="text-sky-550">Cet appartment est reservé en votre nom</b> <br>
+              <b class="text-sky-550">Cet appartement est reservé en votre nom</b> <br>
               <span v-if="appartmentIsReservedByMe && appartmentIsReservedByMe.endDate">
                 Jusqu'au :<b> {{ appartmentIsReservedByMe.endDate }} </b>
               </span>
             </p>
             <p v-else-if="appartmentIsReservedByOther" class="my-4">
-              <b class="text-sky-550">Appartment déjà réservé.</b><br>
+              <b class="text-sky-550">Appartement déjà réservé.</b><br>
               <span v-if="appartmentIsReservedByOther && appartmentIsReservedByOther.endDate">
                 Mais sera disponible pour une nouvelle réservation à partir du :<b> {{ appartmentIsReservedByOther.endDate }} </b>
               </span>
@@ -311,14 +349,48 @@
             <p class="mb-4">
               Les frais de visites s’élève à 1500 f cfa par visite. Une équipe est mise à votre disposition pour un service de qualité.
             </p>
-            <NewVisit
-              :appartments-prop="appartments"
-              :appartment-types="appartmentTypes"
-              :load-visits-func="() => {}"
-            />
+            <p v-if="appartmentIsReservedByOther || appartmentIsReservedByMe" class="my-4">
+              <b class="text-sky-550">Appartement déjà réservé.</b><br>
+              <span>
+                <b>Vous ne pouvez pas visiter un appartement déjà loué</b>.
+              </span>
+            </p>
+            <template v-else-if="appartmentVisitIsRequestedByMe">
+              <p class="my-4">
+                <b class="text-sky-550">Traitement en cours.</b><br>
+                <span>
+                  <b>Votre demande de visite pour cet appartement est en cours de traitement mais ne sera validée qu'après paiement.</b>
+                </span>
+              </p>
+
+              <extras-payment-btn
+                :amount="VISIT_FEES"
+                :on-success-handler-prop="() => bookVisit()"
+              />
+            </template>
+            <p v-else-if="appartmentVisitIsBookedByMe" class="my-4">
+              <b class="text-sky-550">Votre demande de visite pour cet appartement est validée.</b><br>
+              <span>
+                <b>Nos agents vous contacterons pour la suite de la procedure.</b>.
+              </span><br>
+              <b class="text-sky-550">Merci de nous faire confaince.</b>
+            </p>
+            <template v-else>
+              <p v-if="connectedUser && connectedUser.user.userType !== userRole.REGULAR_USER" class="my-4">
+                <b class="text-sky-550">Vous etes {{ connectedUser.user.userType === userRole.ADMIN ? "l'administrateur" : "le publicateur" }}</b> <br>
+                Vous n'avez pas le droit de réserver des visite
+              </p>
+              <NewVisit
+                v-else
+                :appartments-prop="appartments"
+                :appartment-id-prop="appartID"
+                :load-visits-func="loadVisits"
+              />
+            </template>
           </div>
         </div>
-      </div>
+      </div> -->
+      <extras-appartment-detail-main-widget v-if="appartments.length && appartmentTypes.length" :appart-i-d="appartID" :appartments="appartments" :appartment-types="appartmentTypes" />
     </div>
     <WebsitePublications :in-details="true" :appartments="appartments" :appartment-types="appartmentTypes" />
     <WebsiteTheFooter />
@@ -327,7 +399,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { reservationStatus, userRole } from '~/helpers/constants'
+import { reservationStatus, userRole, visitStatus } from '~/helpers/constants'
 
 export default {
   async asyncData ({ $api, $auth, store }) {
@@ -351,7 +423,9 @@ export default {
     return {
       appartID: this.$route.params.id,
       contextMenuIsOpen: false,
+      advanceDetailsPromptIsOpen: false,
       appartments: [],
+      VISIT_FEES: 1500,
       appartmentTypes: []
     }
   },
@@ -365,18 +439,24 @@ export default {
   computed: {
     ...mapGetters({
       connectedUser: 'account/authUserAccount',
-      reservations: 'reservation/reservations'
+      reservations: 'reservation/reservations',
+      visits: 'visit/visits'
     }),
+    totalCautionToPay () {
+      let caution = this.appartment.conditions.energyCommission + 300
+      if (this.appartment.forShortStay !== true) {
+        caution = caution + 4 * this.appartment.rent
+      }
+      return caution
+    },
     reservationStatus: () => reservationStatus,
     userRole: () => userRole,
+    visitStatus: () => visitStatus,
     appartment () {
       return this.appartments.find(appartment => appartment.id === this.appartID)
     },
     appartmentType () {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    appartReservation () {
-      return id => this.reservations.find(reserv => reserv.appartment === id && reserv.status !== reservationStatus.REJECTED)
     },
     myReservations () {
       return this.connectedUser ? this.reservations.filter(reserv => (reserv.user === this.connectedUser.user.id && reserv.appartment === this.appartID) && (reserv.status !== reservationStatus.REJECTED && !reserv.archive)) : []
@@ -395,25 +475,48 @@ export default {
     },
     appartmentIsReservedByOther () {
       return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && reserv.status === reservationStatus.RESERVED && !reserv.archive) : null
+    },
+    myVisits () {
+      return this.connectedUser ? this.visits.filter(visit => (visit.visitor.user.id === this.connectedUser.user.id && visit.appartment.id === this.appartID) && !visit.archive) : []
+    },
+    appartmentVisitIsRequestedByMe () {
+      return this.connectedUser ? this.myVisits.find(visit => visit.status === this.visitStatus.WAITING_FOR_PAYMENT) : null
+    },
+    appartmentVisitIsBookedByMe () {
+      return this.connectedUser ? this.myVisits.find(visit => visit.status === this.visitStatus.RESERVED) : null
     }
-    // consoleProp () {
-    //   console.log('RequestByMe:  ', this.appartmentIsRequestedByMe)
-    //   console.log('ReservedByMe', this.appartmentIsReservedByMe)
-    //   console.log('Reserved by others: ', this.appartmentIsReservedByOther)
-    //   console.log('ReservedByOther', this.appartmentIsReservedByOther)
-    //   console.log('Requested by Others', this.appartmentIsRequestedByOthers)
-    //   console.log('RejectedRequest: ', this.appartmentRequestByMeIsRejected)
-    //   console.log('Connected User', this.connectedUser)
-    //   return 1 // console.log('Inside consoleProp')
-    // }
+  },
+  updated () {
+    // console.log('RequestByMe:  ', this.appartmentIsRequestedByMe)
+    // console.log('ReservedByMe', this.appartmentIsReservedByMe)
+    // console.log('Reserved by others: ', this.appartmentIsReservedByOther)
+    // console.log('ReservedByOther', this.appartmentIsReservedByOther)
+    // console.log('Requested by Others', this.appartmentIsRequestedByOthers)
+    // console.log('RejectedRequest: ', this.appartmentRequestByMeIsRejected)
+    // console.log('Connected User', this.connectedUser)
   },
   methods: {
     ...mapActions({
-      loadReservations: 'reservation/loadReservations'
+      loadReservations: 'reservation/loadReservations',
+      loadVisits: 'visit/loadVisits'
     }),
 
     goBack () {
       this.$router.go(-1)
+    },
+    bookReservation () {
+      this.$api.reservationService.update({ variables: { reservationId: this.appartmentIsRequestedByMe.id, data: { ...this.appartmentIsRequestedByMe, status: this.reservationStatus.RESERVED } } })
+        .then(() => this.loadReservations())
+        .catch((error) => {
+          this.errorToshow = error
+        })
+    },
+    bookVisit () {
+      this.$api.visitService.update({ variables: { visitId: this.appartmentVisitIsRequestedByMe.id, data: { appartment: this.appartmentVisitIsRequestedByMe.appartment.id, visitor: this.appartmentVisitIsRequestedByMe.visitor.user.id, date: this.appartmentVisitIsRequestedByMe.date, status: this.visitStatus.RESERVED } } })
+        .then(() => this.loadVisits())
+        .catch((error) => {
+          this.errorToshow = error
+        })
     }
   }
 }

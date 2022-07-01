@@ -7,7 +7,7 @@
       <i class="far fa-calendar-alt" />
     </span>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md h-full lg:h-5/6 justify-between" style="width: 584px" :class="isDismissed === true ? 'hidden' : ''">
+      <div class="relative flex flex-col bg-white dark:bg-gray-800 rounded-md justify-between w-148" :class="isDismissed === true ? 'hidden' : ''">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 pb-0 lg:pb-0 relative">
           <div class="flex items-center justify-between">
             <h4 class="text-2xl font-medium mb-8 text-sky-550">
@@ -102,12 +102,11 @@
             </div>
           </div>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-if="currentStep !== 'congrats'" class="footer p-8 flex justify-between w-full bg-white">
           <button type="button" class="w-1/2 py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="currentStep === 'second' ? currentStep = 'first' : isDismissed = true">
             <span v-if="currentStep === 'first'">Annuler</span>
             <span v-else>Revenir</span>
           </button>
-          <!-- <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newType.label || !newType.description " @click.prevent="createTimeslots"> -->
           <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-sm px-8 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="(currentStep === 'first' && selectedDays.length) ? [currentStep = 'second', selectedDays[0].isSelected = true] : !selectedDays.length ? false : createTimeslots()">
             <span v-if="currentStep === 'second'">
               Enregistrer les horaires
@@ -116,7 +115,7 @@
             <loader v-if="onCreated" class="ml-4 absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
         </div>
-        <div v-else class="footer p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-else class="footer p-8 flex justify-between w-full bg-white bottom-0">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>

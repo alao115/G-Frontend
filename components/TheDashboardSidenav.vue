@@ -13,14 +13,14 @@
             <NewPublication v-if="routeName === 'dashboard-publications'" :isMinified="isMinified" :load-publications-func="loadPublications" :appartment-types="appartmentTypes" :appartments-prop="appartments" />
             <NewAppartment v-if="routeName === 'dashboard-appartements'" :isMinified="isMinified" :load-appartments-func="loadAppartments" :appartment-types="appartmentTypes" />
             <NewAppartmentType v-if="routeName === 'dashboard-types'" :isMinified="isMinified" :load-appartment-types-func="loadAppartmentTypes" />
-            <NewVisit
+            <!-- <NewVisit
               v-if="routeName === 'dashboard-visites'"
               :appartments-prop="appartments"
               :publications-prop="publications"
               :appartment-types="appartmentTypes"
               is-minisfied="isMinified"
               :load-visits-func="loadVisits"
-            />
+            /> -->
             <!-- <NewReservation v-if="routeName === 'dashboard-reservations'" is-minisfied="isMinified" :load-reservations-func="loadReservations" :appartment-types="appartmentTypes" :appartments-prop="appartments" /> -->
           </template>
 

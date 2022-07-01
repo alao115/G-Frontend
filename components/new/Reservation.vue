@@ -78,10 +78,6 @@
             Soumettre
             <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
-          <!-- <button type="button" class="relative shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium lg:mt-8 text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createReservation">
-            Payer puis Enreg.
-            <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
-          </button> -->
         </div>
         <div v-else class="footer p-8 flex justify-between w-full bg-white">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
@@ -184,25 +180,6 @@ export default {
       if (!this.connectedUser) { this.$router.push({ name: 'auth-signin' }) }
       // console.log(this.connectedUser)
       this.isDismissed = false
-    },
-    createReservation () {
-      this.onCreated = true
-      console.log(this.newReservation)
-      // this.$api.reservationService.create({ variables: { data: this.newReservation } })
-      //   .then(({ data }) => {
-      //     this.reservationResponse = data.createReservation.id
-      //     this.open()
-      //   })
-      //   .then(() => {
-      //     this.onSaved = false
-      //     this.newReservation = { status: 'Pending' }
-      //     this.currentStep = 'congrats'
-      //     // this.isDismissed = true
-      //     // this.currentStep = 'first'
-      //   })
-      //   .catch((error) => {
-      //     this.errorToshow = error
-      //   })
     },
 
     payLater () {

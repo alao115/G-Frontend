@@ -56,11 +56,8 @@
                 :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
               />
               <NewVisit
-                :appartments-prop="appartments"
                 :from="'appartMenu'"
-                :appartment-types="appartmentTypes"
                 :appartment-id-prop="appartment.id"
-                :publications-prop="publications"
                 :load-visits-func="() => {}"
               />
             </template>
@@ -71,337 +68,7 @@
         </div>
       </div>
       <div v-if="activeTab === 'infos'">
-        <div class="flex space-x-0 md:space-x-8 flex-col md:flex-row h-125">
-          <img :src="appartment.mainImg !== '' ? appartment.mainImg : ''" alt="" class="object-cover h-full w-full md:w-1/2 mb-4 md:mb-0">
-          <div class="w-full md:w-1/2 grid grid-cols-4 md:grid-cols-2 md:grid-rows-2 gap-8 justify-items-stretch place-content-stretch">
-            <img :src="appartment.firstImg !== '' ? appartment.firstImg : ''" alt="" class="object-cover w-full h-full">
-            <img :src="appartment.secondImg !== '' ? appartment.secondImg : ''" alt="" class="object-cover w-full h-full">
-            <img :src="appartment.thirdImg !== '' ? appartment.thirdImg : ''" alt="" class="object-cover w-full h-full">
-            <img :src="appartment.fourthImg !== '' ? appartment.fourthImg : ''" alt="" class="object-cover w-full h-full">
-          </div>
-        </div>
-        <div class="flex lg:space-x-8 flex-col md:flex-row">
-          <div class="flex flex-col items-start w-full lg:w-3/5">
-            <div class="content font-body">
-              <!-- <h3 class="block text-3xl font-medium mt-4 text-sky-450">
-                <span>{{ appartment.rent }} F CFA <sup class="text-sm relative -top-6">TTC</sup></span>
-              </h3> -->
-              <div class="grid grid-cols-2 w-min space-x-16 my-4">
-                <span class="icon">
-                  <i class="fab fa-whatsapp text-3xl" />
-                </span>
-                <span class="icon">
-                  <i class="far fa-envelope-open-text text-2xl" />
-                </span>
-              </div>
-              <div class="details">
-                <h4 class="text-sky-450 text-xl mt-8">
-                  Details
-                </h4>
-                <p class="font-body text-base" :class="appartment.forShortStay ? '' : 'mb-8'">
-                  {{ appartment.details }}
-                </p>
-                <p class="font-body text-base mb-8 font-bold">
-                  {{ appartment.forShortStay === true ? 'Court séjour' : '' }}
-                </p>
-              </div>
-              <div class="rooms w-full pr-4">
-                <h4 class="text-sky-450 text-xl">
-                  Caractéristiques
-                </h4>
-                <div class="grid grid-cols-3 md:grid-cols-4 mt-2">
-                  <div v-if="appartment.bedrooms" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-bed-alt text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.bedrooms }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Chambre(s)
-                    </p>
-                  </div>
-                  <div v-if="appartment.livingrooms" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-couch text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.livingrooms }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Salon (s)
-                    </p>
-                  </div>
-                  <div v-if="appartment.kitchen" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-oven text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.kitchen }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Cuisine (s)
-                    </p>
-                  </div>
-                  <div v-if="appartment.bathrooms" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-shower text-xl" /> / <i class="far fa-toilet text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.bathrooms }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Salle(s) d'eau
-                    </p>
-                  </div>
-                  <div v-if="appartment.storageroom" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-cabinet-filing text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.storageroom }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Débarras
-                    </p>
-                  </div>
-                  <div v-if="appartment.garage" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-garage-open text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.garage }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Garage
-                    </p>
-                  </div>
-                  <div v-if="appartment.garden" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-flower-tulip text-sm" /><i class="far fa-flower-daffodil text-sm" /><i class="far fa-flower text-sm" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.garden }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Jardin
-                    </p>
-                  </div>
-                  <div v-if="appartment.floor" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-list-ol text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.floor }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Niveau
-                    </p>
-                  </div>
-                  <div v-if="appartment.householdsTotal" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-4">
-                        <i class="far fa-users text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.householdsTotal }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Voisins
-                    </p>
-                  </div>
-                  <div v-if="appartment.ac" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-2 lg:mr-4">
-                        <i class="far fa-air-conditioner text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.ac === true ? 'Oui' : 'Non' }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Climatiseur
-                    </p>
-                  </div>
-                  <div v-if="appartment.pool" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-2 lg:mr-4">
-                        <i class="far fa-swimming-pool text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.pool === true ? 'Oui' : 'Non' }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Piscine
-                    </p>
-                  </div>
-                  <div v-if="appartment.keeper" class="w-full pr-4">
-                    <div class="flex items-center">
-                      <span class="icon mr-2 lg:mr-4">
-                        <i class="far fa-user-shield text-xl" />
-                      </span>
-                      <label for="#" class="text-xl">{{ appartment.keeper === true ? 'Oui' : 'Non' }}</label>
-                    </div>
-                    <p class="mb-8 text-gray-400">
-                      Gardien
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="details lg:w-1/2">
-              <h4 class="text-sky-450 text-xl mt-8 mb-4">
-                Informations sur le propriétaire
-              </h4>
-              <p class="font-body text-base">
-                Maison appartenant à {{ appartment.ownerInfos.name }} vivant au {{ appartment.ownerInfos.address }}
-              </p>
-              <p class="font-body text-base">
-                Contact: {{ appartment.ownerInfos.phone }}
-              </p>
-              <p class="font-body text-base">
-                Email: {{ appartment.ownerInfos.email }}
-              </p>
-            </div>
-          </div>
-          <div class="w-full lg:w-2/5">
-            <div class="others p-8 mt-4 lg:mt-8 w-full rounded-md border border-gray-400 relative">
-              <div class="relative">
-                <h4 class="text-sky-450 text-xl mb-4">
-                  Conditions
-                </h4>
-                <span v-if="appartmentIsReservedByMe" class="absolute py-2 px-4 bg-blue-990 text-white top-0 -mt-4 right-0 -mr-2">Réservé</span>
-                <div class="grid md:grid-cols-1 lg:grid-cols-2">
-                  <div class="w-auto mb-4">
-                    <p class="text-gray-400">
-                      Loyer
-                    </p>
-                    <div class="flex items-center font">
-                      <label for="#" class="text-xl font-semibold">{{ appartment.rent }}</label>
-                    </div>
-                  </div>
-                  <div v-if="appartment.forShortStay === false" class=" mt-2 lg:mt-0 mb-4">
-                    <p class="text-gray-400">
-                      {{ appartment.conditions.prepaidRentMonths }} mois d'avance
-                    </p>
-                    <div class="flex items-center font">
-                      <label for="#" class="text-xl font-semibold">{{ 3*appartment.rent }}</label>
-                    </div>
-                  </div>
-                  <div class=" mt-2 lg:mt-0 mb-4">
-                    <p class="text-gray-400">
-                      Commission Eau / Elec
-                    </p>
-                    <div class="flex items-center font">
-                      <label for="#" class="text-xl font-semibold">{{ appartment.conditions.energyCommission }}</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- <NewReservation
-                v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
-                :appartment-types="appartmentTypes"
-                :appartments-prop="appartments"
-                :load-reservations-func="() => loadReservations()"
-                :appartment-to-reserv="appartment"
-              /> -->
-
-              <template
-                v-if="!appartmentIsRequestedByMe && !appartmentIsReservedByMe && !appartmentIsReservedByOther && !appartmentRequestByMeIsRejected"
-              >
-                <p v-if="connectedUser && connectedUser.user.userType !== userRole.REGULAR_USER" class="my-4">
-                  <b class="text-sky-550">Vous etes {{ connectedUser.user.userType === userRole.ADMIN ? "l'administrateur" : "le publicateur" }}</b> <br>
-                  Vous n'avez pas le droit de faire des réservations
-                </p>
-                <NewReservation
-                  v-else
-                  :appartment-types="appartmentTypes"
-                  :appartments-prop="appartments"
-                  :load-reservations-func="() => loadReservations()"
-                  :appartment-to-reserv="appartment"
-                />
-              </template>
-              <p v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.PENDING && !appartmentIsReservedByOther " class="my-4">
-                <b class="text-sky-550">Traitement en cours</b> <br> Nous vérifions la disponibilité de l'appartement. Nous vous notifierons d'ici 24h de la disponibilité de cet appartement. Pour réserver, vous devrez payer <b>la commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
-              </p>
-              <template v-else-if="appartmentIsRequestedByMe && appartmentIsRequestedByMe.status === reservationStatus.WAITING_FOR_PAYMENT && !appartmentIsReservedByOther">
-                <p class="my-4">
-                  <b class="text-sky-550">Demande acceptée</b> <br> Votre demande a été étudiée et l'appartement est disponible. Vous avez 3 jours pour finaliser la réservation en payant la <b>commission eau + electricité</b>, <b>la caution</b>, <b>le loyer</b>  et les <b>frais de services (300 FCFA)</b>
-                </p>
-                <div class="flex">
-                  <div class="contents">
-                    <button type="button" class="btn shadow-btn-shadow border border-blue-990 w-12 font-medium rounded-md text-blue-990 hover:bg-blue-920 hover:text-white nuxt-link-active py-2 mr-8 text-lg px-4 h-12" @click.prevent="advanceDetailsPromptIsOpen = !advanceDetailsPromptIsOpen">
-                      <span class="icon"><i class="far fa-file-invoice"></i></span>
-                    </button>
-                    <div :class="advanceDetailsPromptIsOpen ? '' : 'hidden'" class="absolute bg-white p-4 w-80 left-24 shadow-btn-shadow -mt-8 rounded-lg">
-                      <h4 class="text-sky-450 text-xl mb-4">
-                        Détails
-                      </h4>
-                      <div class="flex justify-between mb-2">
-                        <p>Caution eau + electricité</p>
-                        <p class="text-gray-400">{{ appartment.conditions.energyCommission }}</p>
-                      </div>
-                      <template v-if="!appartment.forShortStay">
-                        <div class="flex justify-between mb-2">
-                          <p>Caution sur le loyer (3 mois)</p>
-                          <p class="text-gray-400">{{ 3 * appartment.rent }}</p>
-                        </div>
-                        <div class="flex justify-between mb-2">
-                          <p>Démarcheur</p>
-                          <p class="text-gray-400">{{ appartment.rent }}</p>
-                        </div>
-                      </template>
-                      <div class="flex justify-between mb-2">
-                        <p>Frais Gontché</p>
-                        <p class="text-gray-400">300</p>
-                      </div>
-                      <div class="flex justify-between border-t border-gray-100 pt-2">
-                        <p>TOTAL</p>
-                        <p class="text-blue-990">{{ totalCautionToPay }}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <EditReservation
-                    :load-reservations-func="() => loadReservations()"
-                    :account-prop="connectedUser"
-                    :reservation="appartmentIsRequestedByMe"
-                    :appartments-prop="appartments"
-                    :appartment-types="appartmentTypes"
-                    :amount="totalCautionToPay"
-                    :step="'Payment'"
-                  />
-                </div>
-              </template>
-              <p v-else-if="appartmentIsReservedByMe" class="my-4">
-                <b class="text-sky-550">Cet appartment est reservé en votre nom</b> <br>
-                <span v-if="appartmentIsReservedByMe && appartmentIsReservedByMe.endDate">
-                  Jusqu'au :<b> {{ appartmentIsReservedByMe.endDate }} </b>
-                </span>
-              </p>
-              <p v-else-if="appartmentIsReservedByOther" class="my-4">
-                <b class="text-sky-550">Appartment déjà réservé.</b><br>
-                <span v-if="appartmentIsReservedByOther && appartmentIsReservedByOther.endDate">
-                  Mais sera disponible pour une nouvelle réservation à partir du :<b> {{ appartmentIsReservedByOther.endDate }} </b>
-                </span>
-              </p>
-              <p v-else-if="appartmentRequestByMeIsRejected && (appartmentIsRequestedByOthers.length || appartmentIsReservedByOther)" class="my-4">
-                <b class="text-red-500">Votre demande de réservation a été rejeté</b> <br>
-                <span>
-                  Veuillez rééssayer ultérieurement
-                </span>
-              </p>
-            </div>
-            <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md">
-              <p class="mb-4">
-                Les frais de visites s’élève à 1500 f cfa par visite. Une équipe est mise à votre disposition pour un service de qualité.
-              </p>
-              <NewVisit
-                :appartments-prop="appartments"
-                :appartment-types="appartmentTypes"
-                :appartment-id-prop="appartment.id"
-                :publications-prop="publications"
-                :load-visits-func="() => {}"
-              />
-            </div>
-          </div>
-        </div>
+        <extras-appartment-detail-main-widget v-if="appartments.length && appartmentTypes.length" entry-point="dashboard" :appart-i-d="appartID" :appartments="appartments" :appartment-types="appartmentTypes" />
       </div>
       <div v-if="activeTab === 'visites'">
         <div v-if="appartmentVisits.length === 0" class="flex flex-col w-full h-4/5 items-center justify-center">
@@ -587,7 +254,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import moment from 'moment'
 
-import { reservationStatus, userRole } from '~/helpers/constants'
+import { reservationStatus, userRole, visitStatus } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
@@ -628,6 +295,7 @@ export default {
       visitToEdit: {},
       activeTab: 'infos',
       selectedVisits: [],
+      VISIT_FEES: 1500,
       selectedReservations: []
     }
   },
@@ -663,6 +331,8 @@ export default {
     userRole: () => userRole,
 
     reservationStatus: () => reservationStatus,
+
+    visitStatus: () => visitStatus,
 
     connectedAccount () {
       return this.connectedUser ? this.accounts.find(account => account.user.id === this.connectedUser.user.id) : {}
@@ -700,6 +370,15 @@ export default {
     },
     appartmentIsReservedByOther () {
       return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && reserv.status === reservationStatus.RESERVED && !reserv.archive) : null
+    },
+    myVisits () {
+      return this.connectedUser ? this.visits.filter(visit => (visit.visitor.user.id === this.connectedUser.user.id && visit.appartment.id === this.appartID) && !visit.archive) : []
+    },
+    appartmentVisitIsRequestedByMe () {
+      return this.connectedUser ? this.myVisits.find(visit => visit.status === this.visitStatus.WAITING_FOR_PAYMENT) : null
+    },
+    appartmentVisitIsBookedByMe () {
+      return this.connectedUser ? this.myVisits.find(visit => visit.status === this.visitStatus.RESERVED) : null
     },
     // consoleProp () {
     //   console.log('RequestByMe:  ', this.appartmentIsRequestedByMe)
@@ -749,6 +428,21 @@ export default {
     },
     formatDate (date) {
       return moment.unix(date).format('DD-MM-YYYY')
+    },
+    bookReservation () {
+      // console.log('Successful')
+      this.$api.reservationService.update({ variables: { reservationId: this.appartmentIsRequestedByMe.id, data: { ...this.appartmentIsRequestedByMe, status: this.reservationStatus.RESERVED } } })
+        .then(() => this.loadReservations())
+        .catch((error) => {
+          this.errorToshow = error
+        })
+    },
+    bookVisit () {
+      this.$api.visitService.update({ variables: { visitId: this.appartmentVisitIsRequestedByMe.id, data: { appartment: this.appartmentVisitIsRequestedByMe.appartment.id, visitor: this.appartmentVisitIsRequestedByMe.visitor.user.id, date: this.appartmentVisitIsRequestedByMe.date, status: this.visitStatus.RESERVED } } })
+        .then(() => this.loadVisits())
+        .catch((error) => {
+          this.errorToshow = error
+        })
     }
   }
 }

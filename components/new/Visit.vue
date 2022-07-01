@@ -16,19 +16,18 @@
           </svg>
           <span class="ml-3 text-sm font-medium" :class="isMinified === true ? 'hidden' : ''">Nv. visite</span>
         </a>
-        <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-2 h-12 text-lg px-10 w-full" @click.prevent="isDismissed = false">
+        <button v-else class="btn border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 py-2 h-12 text-lg px-10 w-full" @click.prevent="bookVisit">
           Visiter
         </button>
       </div>
     </div>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 right-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
-      <div class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-md mx-auto h-full lg:h-5/6" style="width: 584px">
+      <div class="flex flex-col bg-white dark:bg-gray-800 overflow-hidden rounded-md mx-auto h-auto w-148">
         <div class="text-start w-full p-4 sm:px-6 lg:p-8 z-20 relative">
           <div class="flex items-center justify-between">
-            <h4 class="text-2xl font-medium mb-8 text-sky-550">
+            <h4 class="text-2xl font-medium mb-4 text-sky-550">
               Demande de visite
             </h4>
-            <span class="hidden">{{ publications }}</span>
             <button class="ml-auto hover:text-blue-730 p-4 absolute top-2 right-2" @click.prevent="isDismissed = true, currentStep = 'first'">
               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -36,109 +35,39 @@
             </button>
           </div>
           <form action="#" class="pt-0 grid grid-cols-1 divide-y divide-gray-300">
-            <div v-if="currentStep === 'first'" class="overflow-scroll h-4/5 p-4 pb-48">
-              <div class="relative">
-                <p class="text-base mt-8 text-gray-400">
-                  Type
-                </p>
-                {{ appartmentType(appartment.appartmentType) && appartmentType(appartment.appartmentType).label }}
-                <button class="flex items-center justify-between w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0" @click.prevent="typeSelectIsOpen = !typeSelectIsOpen">
-                  <span v-if="!selectedType" class="leading-none">
-                    Choisissez un type
-                  </span>
-                  <p v-else class="leading-none text-left flex flex-col">
-                    {{ selectedType && selectedType.label }}
-                    <span class="text-sm mt-1 text-gray-400">{{ selectedType && selectedType.description }}</span>
-                  </p>
-                  <svg class="w-4 h-4 mt-px ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-                <div v-if="typeSelectIsOpen === true" class="absolute flex flex-col w-full mt-1 border border-black shadow-lg z-50 bg-white divide-y divide-gray-300">
-                  <!-- <input class="flex items-center h-8 px-3 text-sm border-b border-black hover:bg-gray-200 focus:outline-none" type="search" name="" id="" placeholder="Search…"> -->
-                  <a v-for="type in listOfTypes" :key="type.id" class="flex flex-col py-1 px-4 hover:bg-gray-200" href="#" @click.prevent="selectedType = type, typeSelectIsOpen = false">
-                    {{ type && type.label }}
-                    <span class="text-gray-400">{{ type.description }}</span>
-                  </a>
-                </div>
-              </div>
-              <p class="text-base mt-4 text-gray-400">
-                Veuillez sélectionner un appartement à réserver
-              </p>
-              <div class="relative inline-block w-full text-gray-700">
-                <select v-model="newVisit.appartment" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <!-- <option v-for="appart in returnedAppartments" :key="appart.id" :value="appart.id">
-                    <span>{{ appartmentType(appart.appartmentType) && appartmentType(appart.appartmentType).label }}</span>
-                    <span class="text-gray-400">{{ appart.bedrooms + ' Chambres - ' + appart.livingrooms + ' Salons' }}</span>
-                  </option> -->
-                  <option v-for="pub in publications" :key="pub.id" :value="pub.appartment.id">
-                    <span>{{ appartmentType(pub.appartment.appartmentType) && appartmentType(pub.appartment.appartmentType).label }}</span>
-                    <span class="text-gray-400">{{ pub.appartment.bedrooms + ' Chambres - ' + pub.appartment.livingrooms + ' Salons' }}</span>
-                  </option>
-                </select>
-              </div>
-              <p class="text-base mt-4 text-gray-400">
-                Qui le visitera ?
-              </p>
-              <select id="" v-model="visitorSelected" name="visitorSelect" class="w-full m-h-12 md:h-16 mt-2 mb-4 p-4 text-base border appearance-none border-gray-320 focus:border-sky-450 rounded-md focus:bg-white focus:ring-0">
-                <option value="" selected>
-                  Selectionner celui qui visitera l'appartment
-                </option>
-                <option value="Connected user">
-                  <span>Moi-même</span>
-                </option>
-                <option value="Other">
-                  <span>Autre</span>
-                </option>
-              </select>
-              <div v-if="visitorSelected === 'Other'">
-                <div class="flex space-x-8">
-                  <input v-model.trim="newVisit.visitorInfos.firstname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-                  <input v-model.trim="newVisit.visitorInfos.lastname" type="text" class="h-12 md:h-16 px-8 mt-1 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Prénom(s)">
-                </div>
-                <div class="flex space-x-8">
-                  <input v-model.trim="newVisit.visitorInfos.phone" type="text" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Téléphone">
-                  <input v-model.trim="newVisit.visitorInfos.email" type="email" class="h-12 md:h-16 px-8 mt-4 my-4 block w-1/2 border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Email">
-                </div>
-              </div>
+            <div v-if="currentStep === 'first'" class="p-4 pb-0">
               <p class="text-base mt-4 text-gray-400">
                 Jour de la visite
               </p>
               <div class="flex flex-col space-x-8">
-                <input v-model.trim="selectedDateFromCalandar" type="date" class="h-12 md:h-16 px-8 mt-1 my-4 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
-                <!-- <select v-model="newVisit.date" class="w-full h-12 md:h-16 my-4 pl-3 pr-6 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline" placeholder="Regular input">
-                  <option selected>
-                    Choisissez un jour
-                  </option>
-                  <template v-if="selectedAppart">
-                    <option v-for="day in selectedAppart.timeSlots" :key="day.day" :value="day.day">
-                      {{ day.day }}
-                    </option>
-                  </template>
-                </select> -->
+                <input v-model.trim="selectedDateFromCalandar" type="date" class="h-12 md:h-16 px-8 mt-1 block w-full border-gray-320 focus:border-sky-450 rounded-md bg-gray-100 focus:bg-white focus:ring-0 placeholder-gray-600 focus:placeholder-blue-380" placeholder="Nom">
               </div>
-              <p class="text-base mt-4 text-gray-400">
-                Horaires disponibles le {{ selectedCalendarDay }}
-              </p>
-              <div class="grid grid-col-2 lg:grid-cols-3 gap-4">
-                <template v-if="selectedDate">
-                  <label v-for="(slot, count) in selectedDate.selectedTimes" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
-                    <input
-                      :id="slot"
-                      v-model="selectedSlot"
-                      type="checkbox"
-                      :name="slot"
-                      class="mr-2"
-                      :value="slot"
-                    >
-                    {{ slot }}
-                  </label>
-                </template>
-                <p v-else class="col-span-4">
-                  Aucun horaire de disponible ce <b>{{ selectedCalendarDay + ' ' + selectedDateFromCalandar }}</b>
+
+              <template v-if="selectedDateFromCalandar">
+                <p class="text-base mt-4 text-gray-400">
+                  Horaires disponibles le {{ selectedCalendarDay }}
                 </p>
-              </div>
-              <div class="others bg-sky-50 p-8 mt-4 lg:mt-8 w-full rounded-md mb-48">
+                <div :class=" selectedDate ? 'grid grid-col-2 lg:grid-cols-3 gap-4 max-h-32 overflow-y-auto' : 'flex'">
+                  <template v-if="selectedDate">
+                    <label v-for="(slot, count) in selectedDate.selectedTimes" :key="count" :for="slot" class="p-2 py-4 bg-sky-50 align-center justify-center">
+                      <input
+                        :id="slot"
+                        v-model="selectedSlot"
+                        type="checkbox"
+                        :name="slot"
+                        class="mr-2"
+                        :value="slot"
+                      >
+                      {{ slot }}
+                    </label>
+                  </template>
+                  <p v-else>
+                    Aucun horaire de disponible ce <b>{{ selectedCalendarDay + ' ' + selectedDateFromCalandar }}</b>
+                  </p>
+                </div>
+              </template>
+
+              <div class="others bg-sky-50 p-8 pb-0 mt-4 lg:mt-8 w-full rounded-md">
                 <p>
                   Les frais de visites s’élèvent à 1500 f cfa par visite. Une équipe est mise à votre disposition pour un service de qualité.
                 </p>
@@ -157,20 +86,20 @@
             </div>
           </form>
         </div>
-        <div v-if="currentStep !== 'congrats'" class="footer py-4 px-8 lg:px-8 flex justify-between absolute w-full bg-white z-20 bottom-0 space-x-4">
+        <div v-if="currentStep !== 'congrats'" class="footer py-4 px-8 lg:px-8 flex justify-between w-full bg-white space-x-4">
           <button type="button" class="w-1/2 py-4 text-lg px-10 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100" @click.prevent="isDismissed = true">
             Annuler
           </button>
-          <button type="button" class="relative w-1/3 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="payLater">
-            Enreg.
-            <loader v-if="onSaved" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
-          </button>
-          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" @click.prevent="createVisit">
-            Payer puis Enreg.
+          <button type="button" class="relative w-1/2 shadow-btn-shadow border border-transparent py-4 text-lg px-10 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newVisit.date || !newVisit.visitor || !newVisit.appartment" @click.prevent="openKkiapayWidget">
+            Payer Maintenant
             <loader v-if="onCreated" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
           </button>
+          <button type="button" class="relative w-1/3 shadow-btn-shadow border border-transparent py-4 text-lg px-4 leading-none rounded font-medium text-white bg-sky-550 hover:bg-blue-920" :disabled="!newVisit.date || !newVisit.visitor || !newVisit.appartment" @click.prevent="payLater">
+            Payer Plutard
+            <loader v-if="onSaved" class="absolute top-1/2 right-2 transform -translate-y-1/2" />
+          </button>
         </div>
-        <div v-else class="footer py-4 px-8 lg:p-8 flex justify-between absolute w-full bg-white z-20 bottom-0">
+        <div v-else class="footer py-4 px-8 lg:p-8 flex justify-between w-full bg-white">
           <button type="button" class="w-full py-4 text-sm px-8 leading-none border border-blue-990 font-medium rounded-md text-blue-990 hover:bg-gray-100 mr-4" @click.prevent="isDismissed = true, currentStep = 'first'">
             <span>Fermer</span>
           </button>
@@ -183,6 +112,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
+import { visitStatus } from '~/helpers/constants'
 
 export default {
   props: {
@@ -201,23 +131,12 @@ export default {
     },
     appartmentsProp: {
       type: Array,
-      required: true,
-      default: () => ([])
-    },
-    appartmentTypes: {
-      type: Array,
-      required: true,
-      default: () => ([])
+      required: true
     },
     appartmentIdProp: {
       type: String,
-      required: false,
-      default: () => ('')
-    },
-    publicationsProp: {
-      type: Array,
-      required: false,
-      default: () => ([])
+      required: true
+      // default: ''
     },
     from: {
       type: String,
@@ -226,19 +145,11 @@ export default {
   },
   data () {
     return {
-      visitorSelected: '',
-      appartmentId: this.$route.params.id,
-      selectedType: {},
-      selectedAppartment: '',
       selectedDateFromCalandar: '',
       typeSelectIsOpen: false,
       currentStep: 'first',
       isDismissed: true,
-      contracts: [],
-      locations: [],
-      newVisit: { visitorInfos: {}, date: '', appartment: '' },
-      appartments: [...this.appartmentsProp],
-      publications: [...this.publicationsProp],
+      newVisit: { visitor: this.$auth.user && this.$auth.user.id, date: '', appartment: this.appartmentIdProp },
       visitResponse: null,
       onCreated: false,
       onSaved: false,
@@ -253,70 +164,23 @@ export default {
     ...mapGetters({
       authUserAccount: 'account/authUserAccount'
     }),
-    slotsToSHow () {
-      const returnedSlots = this.selectedDate.selectedTimes
-      return returnedSlots
-    },
+
+    visitStatus: () => visitStatus,
+
     routeName () {
       return this.$nuxt.$route.name
     },
-    publication () {
-      return id => this.publications.find(publication => publication.id === id)
-    },
-    reservation () {
-      return id => this.reservations.find(reservation => reservation.id === id)
-    },
-    visit () {
-      return id => this.visits.find(visit => visit.id === id)
-    },
-    appartment () {
-      return id => this.appartments.find(appartment => appartment.id === id)
-    },
-    appartmentType () {
-      return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
-    },
-    user () {
-      return id => this.users.find(user => user.id === id)
-    },
-    account () {
-      return id => this.accounts.find(account => account.id === id)
-    },
     selectedAppart () {
-      return this.appartmentsProp.find(app => app.id === this.newVisit.appartment)
+      return this.appartmentsProp.find(app => app.id === this.appartmentIdProp)
     },
     selectedDate () {
-      return this.selectedAppart?.timeSlots.find(item => item.day === this.selectedCalendarDay)
-    },
-    typeAppartments () {
-      return id => this.appartments.filter(appartment => appartment.appartmentType === id)
-    },
-    listOfTypes () {
-      const returnedListOfTypes = []
-      this.appartmentTypes.forEach((type) => {
-        if (this.typeAppartments(type.id).length > 0) {
-          returnedListOfTypes.push(type)
-        }
-      })
-      return returnedListOfTypes
-    },
-    isPublished () {
-      return id => this.publications.find(publication => publication.appartment.id === id)
-    },
-    returnedAppartments () {
-      return this.appartments.filter(appartment => appartment.appartmentType === this.selectedType?.id)
+      return this.connectedUser && this.selectedAppart?.timeSlots ? this.selectedAppart?.timeSlots.find(item => item.day === this.selectedCalendarDay) : {}
     },
     connectedUser () {
       return this.authUserAccount
     }
   },
   watch: {
-    visitorSelected (value) {
-      if (value === 'Connected user') {
-        this.newVisit.visitorInfos.lastname = this.connectedUser.lastname
-        this.newVisit.visitorInfos.firstname = this.connectedUser.firstname
-        this.newVisit.visitorInfos.email = this.connectedUser.email
-      }
-    },
     selectedDateFromCalandar (value) {
       if (value) {
         switch (new Date(value).getDay()) {
@@ -349,13 +213,15 @@ export default {
     },
     selectedSlot (value) {
       // console.log('slot => ', value)
-      if (value) {
+      if (value.length > 1) {
+        this.selectedSlot = [value[value.length - 1]]
+      }
+      if (value[0]) {
         this.newVisit.date = `${this.selectedDateFromCalandar} ${value[0].split('-')[0].replace('H', '').trim()}:00`
       }
     }
   },
   mounted () {
-    // this.$fetch()
     this.$addKkiapayListener('success', this.successHandler)
   },
   beforeDestroy () {
@@ -363,43 +229,55 @@ export default {
   },
 
   created () {
-    if (this.appartmentIdProp) {
+    if (this.appartmentIdProp && this.connectedUser) {
       this.newVisit.appartment = this.appartmentIdProp
-      this.selectedType = this.appartmentType(this.appartment(this.appartmentIdProp).appartmentType)
+      this.newVisit.visitor = this.connectedUser.user.id
     }
   },
+  updated () {
+    // console.log('updated')
+    // console.log('Selected appart: ', this.selectedAppart)
+    // console.log('AppartID: ', this.appartmentIdProp)
+    // console.log('Appartments: ', this.appartmentsProp)
+    // console.log('currentStep', this.currentStep)
+    // console.log('Data: ', this.newVisit)
+  },
+
   methods: {
-    createVisit () {
+    clearFormData () {
+      this.newVisit.date = ''
+      this.selectedSlot = []
+      this.selectedDateFromCalandar = ''
+      this.currentStep = 'congrats'
+    },
+    bookVisit () {
+      if (!this.connectedUser) { this.$router.push({ name: 'auth-signin' }) }
+      // console.log(this.connectedUser)
+      this.isDismissed = false
+    },
+    createVisit ({ status }) {
       this.onCreated = true
-      this.$api.visitService.create({ variables: { data: this.newVisit } })
-        .then(({ data }) => {
-          this.visitResponse = data.createVisit
-          this.onCreated = false
-          this.open()
-        })
+      this.$api.visitService.create({ variables: { data: { ...this.newVisit, status } } })
+        .then(() => this.loadVisitsFunc())
+        .then(() => this.clearFormData())
         .catch((error) => {
           this.errorToshow = error
+        }).finally(() => {
+          this.onCreated = false
         })
     },
     payLater () {
       this.onSaved = true
-      this.$api.visitService.create({ variables: { data: this.newVisit } })
-        .then(({ data }) => {
-          this.visitResponse = data.createVisit
-        }).then(() => this.loadVisitsFunc())
-        .then(() => {
-          this.onSaved = false
-          this.newVisit = { visitorInfos: {} }
-          this.currentStep = 'congrats'
-          this.isDismissed = true
-          this.currentStep = 'first'
-        })
+      this.$api.visitService.create({ variables: { data: { ...this.newVisit, status: visitStatus.WAITING_FOR_PAYMENT } } })
+        .then(() => this.loadVisitsFunc())
+        .then(() => this.clearFormData())
         .catch((error) => {
           this.errorToshow = error
+        }).finally(() => {
+          this.onSaved = false
         })
     },
-    open () {
-      // console.log(this.$openKkiapayWidget)
+    openKkiapayWidget () {
       this.$openKkiapayWidget({
         amount: 1500,
         api_key: 'f8095850886111ec953617ecac48fe09',
@@ -408,18 +286,7 @@ export default {
       })
     },
     successHandler (response) {
-      if (this.visitResponse) {
-        this.$api.visitService.update({ variables: { visitId: this.visitResponse.id, data: { status: 'paid' } } })
-          .then(async () => {
-            await this.loadVisitsFunc()
-            this.newVisit = {}
-            this.currentStep = 'congrats'
-            this.isDismissed = true
-            this.currentStep = 'first'
-          }).finally(() => {
-            this.onCreated = false
-          })
-      }
+      this.createVisit({ status: visitStatus.RESERVED })
     }
   }
 }

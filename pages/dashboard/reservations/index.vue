@@ -102,16 +102,8 @@
             />
             <template v-else>
               <span :class="reserv.archive ? 'bg-red-600' : 'bg-blue-990'" class="px-2 py-1 text-white text-xs rounded-full">{{ displayReservationStatus[Number(reserv.status)] }}<span v-if="reserv.archive">, archivé</span> </span>
-              <!-- <span v-if="reserv.status === reservationStatus.RESERVED" :class="reserv.archive ? 'bg-red-600' : 'bg-blue-990'" class="px-2 py-1 text-white text-xs rounded-full">Réservé<span v-if="reserv.archive">, archive</span> </span> -->
-              <!-- <span v-else class="px-2 py-1 bg-blue-990 text-white text-xs rounded-full">{{ displayReservationStatus[Number(reserv.status)] }}</span> -->
             </template>
           </div>
-          <!-- <DeleteCancelReservationPrompt
-            v-if="reserv.status === 'Reserved'"
-            :in-table="true"
-            :delete-placeholder="() => deleteReservation(reserv.id)"
-            :default-state="reserv.status !== undefined"
-          /> -->
           <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition(reserv)">
             <span class="icon">
               <i class="far fa-edit" />

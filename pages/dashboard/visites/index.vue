@@ -1,14 +1,7 @@
 <template>
   <div class="flex-grow px-6 pt-2 main__content">
-    <NewVisit
-      :is-mobile="true"
-      :appartments-prop="appartments"
-      :appartment-types="appartmentTypes"
-      :load-visits-func="loadVisits"
-    />
     <EditVisit
       :visit="visitToEdit"
-      :appartments-prop="appartments"
       :appartment-types="appartmentTypes"
       :load-visits-func="loadVisits"
     />
@@ -79,26 +72,27 @@
           </div>
           <div class="flex flex-col mx-2">
             <span class="rounded-full h-12 w-12">
-              <img :src="appartment(vis.appartment).mainImg" alt="" class="rounded-full h-12 w-12 m-0">
+              <img :src="vis.appartment.mainImg" alt="" class="rounded-full h-12 w-12 m-0">
             </span>
           </div>
           <div class="flex items-center w-2 px-2 mx-1">
             <span> - </span>
           </div>
           <div class="flex flex-col w-56 px-2 mx-2">
-            <p><span>{{ appartmentType(appartment(vis.appartment).appartmentType).label }}</span> | <span class="text-gray-400">{{ appartment(vis.appartment).bedrooms }} Chambre<span v-if="appartment(vis.appartment).bedrooms > 1">s</span> - {{ appartment(vis.appartment).livingrooms }} Salon<span v-if="appartment(vis.appartment).livingrooms > 1">s</span></span></p>
+            <p><span>{{ appartmentType(vis.appartment.appartmentType).label }}</span> | <span class="text-gray-400">{{ vis.appartment.bedrooms }} Chambre<span v-if="vis.appartment.bedrooms > 1">s</span> - {{ vis.appartment.livingrooms }} Salon<span v-if="vis.appartment.livingrooms > 1">s</span></span></p>
           </div>
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
-            <span>{{ appartment(vis.appartment).location }}</span>
+            <span>{{ vis.appartment.location }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
-            <span>{{ `${vis.visitorInfos.firstname} ${vis.visitorInfos.lastname }` }}</span>
+            <span>{{ `${vis.visitor.firstname} ${vis.visitor.lastname }` }}</span>
           </div>
           <div class="hidden lg:flex flex-col w-40 px-2 mx-2">
             <span>{{ vis.date }}</span>
           </div>
-          <div class="hidden lg:flex flex-col w-20 px-2 mx-2">
-            <span>{{ vis.status }}</span>
+          <div class="hidden lg:flex justify-between items-center w-36 px-2 mx-2">
+            <!-- <span>{{ displayVisitStatus[Number(vis.status)] }}</span> -->
+            <span :class="vis.archive ? 'bg-red-600' : 'bg-blue-990'" class="px-2 py-1 text-center text-white text-xs rounded-full">{{ displayVisitStatus[Number(vis.status)] }}<span v-if="vis.archive">, archivé</span> </span>
           </div>
           <div class="hidden lg:flex flex-col px-2 mx-2 cursor-pointer action-link" @click.prevent="setToEdition({ ...vis })">
             <span class="icon">
@@ -139,7 +133,7 @@
 /* eslint-disable no-unused-vars */
 // import { openKkiapayWidget, addKkiapayListener, removeKkiapayListener } from 'kkiapay'
 import { mapGetters, mapActions } from 'vuex'
-import { userRole } from '~/helpers/constants'
+import { userRole, visitStatus } from '~/helpers/constants'
 
 export default {
   layout: 'dashboard',
@@ -187,6 +181,16 @@ export default {
     }),
 
     userRole: () => userRole,
+
+    visitStatus: () => visitStatus,
+
+    displayVisitStatus () {
+      return {
+        0: 'Non reservé',
+        1: 'En attente de paiement',
+        2: 'Reservé'
+      }
+    },
 
     visit () {
       return id => this.visits.find(visit => visit.id === id)

@@ -3,9 +3,6 @@
     <button v-if="inTable" class="btn shadow-btn-shadow border border-transparent w-36 font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 py-0 text-xs h-6" @click.prevent="isDismissed = false">
       Valider / Rejeter
     </button>
-    <button v-if="amount" class="btn shadow-btn-shadow border border-transparent w-full font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-2 text-lg px-10 mr-8 h-12" @click.prevent="() => openKkiapayWidget()">
-      Payer ({{ amount }})
-    </button>
     <div class="flex items-center justify-center bg-black bg-opacity-75 h-screen w-screen fixed top-0 left-0 z-50" :class="isDismissed === true ? 'hidden' : ''">
       <div class="relative bg-white dark:bg-gray-800 overflow-hidden flex flex-col rounded-md shadow-btn-shadow mx-auto h-auto lg:h-auto" style="width: 584px">
         <div class="text-start w-full p-4 pb-0 sm:px-6 lg:p-8 lg:pb-0 z-20 relative">
@@ -67,9 +64,6 @@
               </div>
             </div>
             <div class="mt-4">
-              <!-- <p class="texte-xl text-gray-400 mb-2">
-                Horaires
-              </p> -->
               <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div>
                   <p class="text-gray-400">
@@ -248,12 +242,6 @@ export default {
     this.reservationToEdit = { ...this.reservation }
     this.account = { ...this.accountProp }
   },
-  mounted () {
-    this.$addKkiapayListener('success', this.successHandler)
-  },
-  beforeDestroy () {
-    this.$removeKkiapayListener('success', this.successHandler)
-  },
   methods: {
     archivedReservation () {
       this.onArchiving = true
@@ -291,39 +279,22 @@ export default {
         sandbox: true,
         phone: ''
       })
-    },
-    bookReservation (status) {
-      this.onPaying = true
+    }
 
-      this.$api.reservationService.update({ variables: { reservationId: this.reservation.id, data: { ...this.reservationToEdit, status } } })
-        .then(() => this.loadReservationsFunc())
-        .then(() => {
-          this.reservationToEdit = { status }
-          this.currentStep = 'congrats'
-          this.isDismissed = true
-          this.currentStep = 'first'
-        })
-        .catch((error) => {
-          this.errorToshow = error
-        }).finally(() => {
-          this.onPaying = false
-        })
-    },
-
-    successHandler (response) {
-      this.bookReservation(reservationStatus.RESERVED)
-      // if (this.reservationResponse) {
-      //   this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
-      //     .then(async () => {
-      //       await this.loadReservationsFunc()
-      //       this.newReservation = {}
-      //       this.currentStep = 'congrats'
-      //     }).finally(() => {
-      //       this.onCreated = false
-      //     })
-      // }
-    },
-    onCreated () {}
+    // successHandler (response) {
+    //   this.bookReservation(reservationStatus.RESERVED)
+    //   // if (this.reservationResponse) {
+    //   //   this.$api.reservationService.update({ variables: { reservationId: this.reservationResponse, data: { status: 'reserved' } } })
+    //   //     .then(async () => {
+    //   //       await this.loadReservationsFunc()
+    //   //       this.newReservation = {}
+    //   //       this.currentStep = 'congrats'
+    //   //     }).finally(() => {
+    //   //       this.onCreated = false
+    //   //     })
+    //   // }
+    // },
+    // onCreated () {}
   }
 }
 </script>

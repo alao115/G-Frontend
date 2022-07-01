@@ -195,7 +195,7 @@
       </div>
       <div v-else class="grid grid-cols-1 gap-4 lg:gap-8 lg:grid-cols-3 mb-8">
         <div v-for="appartmnt in returnedAppartments" :key="appartmnt.fID" class=" relative card flex flex-col justify-between h-112 bg-transparent rounded-lg pb-3 border border-gray-100 hover:p-8 hover:shadow-lg" @click.prevent="toDetails(appartmnt)">
-          <img :src="appartmnt.mainImg" alt="" class="object-fill w-auto h-3/5">
+          <img :src="appartmnt.mainImg" alt="" class="object-fill w-auto h-3/5 rounded-t-lg">
           <div class="">
             <div v-if="connectedUser && connectedUser.userType === userRole.ADMIN" class="tag absolute text-xs right-4 text-white -top-2" :class="{ 'space-x-2': appartmnt.forShortStay }">
               <span :class="isPublished(appartmnt.id) ? 'bg-sky-550 text-white' : 'bg-gray-200 text-black'" class="px-2 py-1 rounded-xl">{{ isPublished(appartmnt.id) ? 'Publié ': 'Non publié' }}</span>
