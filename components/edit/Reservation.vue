@@ -16,7 +16,7 @@
               </svg>
             </button>
           </div>
-          <div v-if="currentStep === 'first'" class="relative">
+          <div v-if="currentStep === 'first'" class="relative text-left">
             <p class="text-base mt-4 text-gray-400 mb-2">
               Appartment
             </p>

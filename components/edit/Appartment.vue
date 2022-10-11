@@ -14,7 +14,6 @@
             </button>
             <p v-if="currentStep !== 'congrats'" class="text-lg mt-4 text-gray-600">
               Modifier les informations de cet appartement
-              <!-- {{ appartment }} -->
             </p>
           </div>
           <div v-if="currentStep === 'first'" class="first overflow-scroll h-4/5 pb-16 p-4">

@@ -619,7 +619,9 @@ export default {
       thirdImg: '',
       fourthImg: '',
       appartImg: null,
-      loading: false
+      loading: false,
+      firstTime: true,
+      autocomplete: null
     }
   },
 
@@ -663,21 +665,45 @@ export default {
     }
   },
   mounted () {
-    const input = this.$refs.searchTextField
+    // const input = this.$refs.searchTextField
 
-    const autocomplete = this.$googleAutoComplete(input)
+    // const autocomplete = this.$googleAutoComplete(input)
 
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace()
-      const geometry = {
-        coordinates: [
-          place.geometry.location.lng(),
-          place.geometry.location.lat()
-        ]
-      }
-      this.newAppartment.geometry = geometry
-      this.newAppartment.location = `${(place.formatted_address.split(','))[1]}, ${place.name}`
-    })
+    // autocomplete.addListener('place_changed', () => {
+    //   const place = autocomplete.getPlace()
+    //   const geometry = {
+    //     coordinates: [
+    //       place.geometry.location.lng(),
+    //       place.geometry.location.lat()
+    //     ]
+    //   }
+    //   this.newAppartment.geometry = geometry
+    //   this.newAppartment.location = `${(place.formatted_address.split(','))[1]}, ${place.name}`
+    // })
+  },
+  updated () {
+    if (this.firstTime) {
+      console.log('Listening googleAutoComplete event')
+      const input = this.$refs.searchTextField
+
+      this.autocomplete = this.$googleAutoComplete(input)
+
+      this.autocomplete.addListener('place_changed', () => {
+        const place = this.autocomplete.getPlace()
+        const geometry = {
+          coordinates: [
+            place.geometry.location.lng(),
+            place.geometry.location.lat()
+          ]
+        }
+        this.newAppartment.geometry = geometry
+        this.newAppartment.location = `${(place.formatted_address.split(','))[1]}, ${place.name}`
+      })
+      this.firstTime = false
+    } else if (this.autoComplete) {
+      console.log('Removing googleAutoComplete event')
+      this.autoComplete.removeListener('place_changed')
+    }
   },
   methods: {
     uploadPicture (event, source) {
@@ -750,6 +776,7 @@ export default {
         this.ownerInfos = {}
         this.currentStep = 'congrats'
         this.loading = false
+        this.firstTime = true
       } catch (error) {
         this.errorToshow = error
         this.loading = false

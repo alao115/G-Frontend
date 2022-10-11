@@ -17,7 +17,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD-BYHslrZzJhlNWKF3nMCIL1ypcKTtNP4&libraries=places' },
+      { src: `https://maps.googleapis.com/maps/api/js?key=${process.env.GMAP_KEY}&libraries=places` },
       { src: '/assets/js/all.min.js' }
     ]
   },

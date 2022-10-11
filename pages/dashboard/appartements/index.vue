@@ -164,7 +164,7 @@
               <span v-if="isReserved(appart.id)" class="icon text-blue-990"><i class="far fa-check-circle" /></span>
               <span v-else class="icon"><i class="far fa-circle" /></span>
             </div>
-            <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition(appart)">
+            <div class="hidden lg:flex flex-col px-2 mx-1 lg:mx-2 cursor-pointer action-link" @click.prevent="setToEdition({ ...appart })">
               <span class="icon cursor:pointer p-2">
                 <i class="far fa-edit" />
               </span>

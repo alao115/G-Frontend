@@ -125,9 +125,9 @@
             </div>
           </div>
           <div class="md:mt-10">
-            <a class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
+            <button :disabled="!search.location" class="btn shadow-btn-shadow border border-transparent font-medium rounded-md text-white bg-sky-550 hover:bg-blue-920 nuxt-link-active py-4 text-lg px-10 h-16" @click.prevent="searchResult">
               <span class="icon"><i class="fas fa-search fa-lg" /></span>
-            </a>
+            </button>
           </div>
         </div>
       </form>

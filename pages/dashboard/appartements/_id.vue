@@ -45,22 +45,6 @@
               </a>
               <NewTimeSlot :in-detail="true" :appartment="appartment" />
             </template>
-            <template v-if="connectedUser.user.userType === userRole.REGULAR_USER">
-              <NewReservation
-                :load-reservations-func="loadReservations"
-                :publications-prop="publications"
-                :appartment-types="appartmentTypes"
-                :appartments-prop="appartments"
-                :from="'appartMenu'"
-                :appartment-to-reserv="appartment"
-                :appartment-type-for-reserv="appartmentType(appartment.appartmentType)"
-              />
-              <NewVisit
-                :from="'appartMenu'"
-                :appartment-id-prop="appartment.id"
-                :load-visits-func="() => {}"
-              />
-            </template>
             <NuxtLink to="/dashboard/appartements" class="flex flex-col px-8 py-4 hover:bg-gray-200">
               <span class="font-medium">Retour</span>
             </NuxtLink>
@@ -290,12 +274,10 @@ export default {
     return {
       appartID: this.$route.params.id,
       contextMenuIsOpen: false,
-      advanceDetailsPromptIsOpen: false,
       appartmentToEdit: {},
       visitToEdit: {},
       activeTab: 'infos',
       selectedVisits: [],
-      VISIT_FEES: 1500,
       selectedReservations: []
     }
   },
@@ -309,14 +291,6 @@ export default {
       visits: 'visit/visits',
       accounts: 'account/accounts'
     }),
-
-    totalCautionToPay () {
-      let caution = this.appartment.conditions.energyCommission + 300
-      if (this.appartment.forShortStay !== true) {
-        caution = caution + 4 * this.appartment.rent
-      }
-      return caution
-    },
 
     displayReservationStatus () {
       return {
@@ -352,52 +326,6 @@ export default {
     },
     appartmentVisits () {
       return this.visits.filter(visit => visit.appartment === this.appartID) // && reserv.status !== reservationStatus.REJECTED)
-    },
-    myReservations () {
-      return this.connectedUser ? this.reservations.filter(reserv => (reserv.user === this.connectedUser.user.id && reserv.appartment === this.appartID) && (reserv.status !== reservationStatus.REJECTED && !reserv.archive)) : []
-    },
-    appartmentRequestByMeIsRejected () {
-      return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.status === reservationStatus.REJECTED && reserv.user === this.connectedUser.user.id && !reserv.archive) : null
-    },
-    appartmentIsRequestedByMe () {
-      return this.myReservations.find(reserv => reserv.status === reservationStatus.PENDING || reserv.status === reservationStatus.WAITING_FOR_PAYMENT)
-    },
-    appartmentIsReservedByMe () {
-      return this.myReservations.find(reserv => reserv.status === reservationStatus.RESERVED && !reserv.archive)
-    },
-    appartmentIsRequestedByOthers () {
-      return this.connectedUser ? this.reservations.filter(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && (reserv.status === reservationStatus.PENDING || reserv.status === reservationStatus.WAITING_FOR_PAYMENT) && !reserv.archive) : []
-    },
-    appartmentIsReservedByOther () {
-      return this.connectedUser ? this.reservations.find(reserv => reserv.appartment === this.appartID && reserv.user !== this.connectedUser.user.id && reserv.status === reservationStatus.RESERVED && !reserv.archive) : null
-    },
-    myVisits () {
-      return this.connectedUser ? this.visits.filter(visit => (visit.visitor.user.id === this.connectedUser.user.id && visit.appartment.id === this.appartID) && !visit.archive) : []
-    },
-    appartmentVisitIsRequestedByMe () {
-      return this.connectedUser ? this.myVisits.find(visit => visit.status === this.visitStatus.WAITING_FOR_PAYMENT) : null
-    },
-    appartmentVisitIsBookedByMe () {
-      return this.connectedUser ? this.myVisits.find(visit => visit.status === this.visitStatus.RESERVED) : null
-    },
-    // consoleProp () {
-    //   console.log('RequestByMe:  ', this.appartmentIsRequestedByMe)
-    //   console.log('ReservedByMe', this.appartmentIsReservedByMe)
-    //   console.log('Reserved by others: ', this.appartmentIsReservedByOther)
-    //   console.log('ReservedByOther', this.appartmentIsReservedByOther)
-    //   console.log('Requested by Others', this.appartmentIsRequestedByOthers)
-    //   console.log('RejectedRequest: ', this.appartmentRequestByMeIsRejected)
-    //   console.log('Reservations: ', this.reservations)
-    //   console.log('My Reservations: ', this.myReservations)
-    //   console.log('Connected User', this.connectedUser)
-    //   return 1 // console.log('Inside consoleProp')
-    // },
-    toPay () {
-      let reservationFee = this.appartment.rent + this.appartment.conditions.energyCommission + 300
-      if (this.appartment.forShortStay) {
-        reservationFee += 3 * this.appartment.rent
-      }
-      return reservationFee
     }
   },
   methods: {
@@ -428,21 +356,6 @@ export default {
     },
     formatDate (date) {
       return moment.unix(date).format('DD-MM-YYYY')
-    },
-    bookReservation () {
-      // console.log('Successful')
-      this.$api.reservationService.update({ variables: { reservationId: this.appartmentIsRequestedByMe.id, data: { ...this.appartmentIsRequestedByMe, status: this.reservationStatus.RESERVED } } })
-        .then(() => this.loadReservations())
-        .catch((error) => {
-          this.errorToshow = error
-        })
-    },
-    bookVisit () {
-      this.$api.visitService.update({ variables: { visitId: this.appartmentVisitIsRequestedByMe.id, data: { appartment: this.appartmentVisitIsRequestedByMe.appartment.id, visitor: this.appartmentVisitIsRequestedByMe.visitor.user.id, date: this.appartmentVisitIsRequestedByMe.date, status: this.visitStatus.RESERVED } } })
-        .then(() => this.loadVisits())
-        .catch((error) => {
-          this.errorToshow = error
-        })
     }
   }
 }
