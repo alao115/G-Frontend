@@ -29,7 +29,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   data () {
     return {
       isLoggedUserDropdownnClosed: true,
@@ -43,7 +43,7 @@ export default {
       return this.$nuxt.$route.name
     }
   }
-}
+})
 </script>
 
 <style scoped>

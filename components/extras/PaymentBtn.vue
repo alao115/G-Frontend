@@ -6,7 +6,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     amount: {
       type: Number,
@@ -49,7 +49,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style>

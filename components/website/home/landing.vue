@@ -20,14 +20,14 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     noWidget: {
       type: Boolean,
       default: false
     }
   }
-}
+})
 </script>
 
 <style scoped>

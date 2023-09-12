@@ -35,9 +35,9 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup'
-}
+})
 </script>
 
 <style scoped>

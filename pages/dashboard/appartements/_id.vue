@@ -240,7 +240,7 @@ import moment from 'moment'
 
 import { reservationStatus, userRole, visitStatus } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   layout: 'dashboard',
   async asyncData ({ $api, store }) {
     if (!store.getters['appartment/appartments'].length) {
@@ -358,5 +358,5 @@ export default {
       return moment.unix(date).format('DD-MM-YYYY')
     }
   }
-}
+})
 </script>

@@ -72,7 +72,7 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 
-export default {
+export default defineComponent({
   layout: 'simple',
   async asyncData ({ $api, store, $auth }) {
     // console.log('Auth: ', $auth.loggedIn)
@@ -87,7 +87,7 @@ export default {
     }
   },
   created () {}
-}
+})
 </script>
 
 <style scoped>

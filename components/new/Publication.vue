@@ -118,7 +118,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     defaultState: {
       type: Boolean,
@@ -258,7 +258,7 @@ export default {
         })
     }
   }
-}
+})
 </script>
 
 <style>

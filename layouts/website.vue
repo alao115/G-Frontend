@@ -13,7 +13,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-export default {
+export default defineComponent({
 
   data () {
     return {
@@ -40,7 +40,7 @@ export default {
   mounted () {
     this.$fetch()
   }
-}
+})
 </script>
 
 <style scoped>

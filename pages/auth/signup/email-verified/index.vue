@@ -15,7 +15,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup',
   middleware: async ({ $api, route, redirect }) => {
     try {
@@ -30,7 +30,7 @@ export default {
     }
   }
 
-}
+})
 </script>
 
 <style scoped>

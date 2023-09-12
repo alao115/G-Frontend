@@ -22,7 +22,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     deletePlaceholder: {
       type: Function,
@@ -47,7 +47,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style scoped></style>

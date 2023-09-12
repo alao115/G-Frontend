@@ -109,7 +109,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { userRole } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   layout: 'dashboard',
   middleware: ({ redirect, $auth }) => {
     if ($auth.user.userType === userRole.REGULAR_USER) { redirect({ name: 'dashboard-appartements' }) }
@@ -222,7 +222,7 @@ export default {
         .catch(error => console.log(error))
     }
   }
-}
+})
 </script>
 
 <style>

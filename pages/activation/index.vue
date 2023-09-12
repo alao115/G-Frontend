@@ -5,13 +5,13 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup'
-}
+})
 </script>
 
 <style scoped>
-  .cover{
+  .cover {
     position: absolute;
     width: 100%; height: 100%;
     opacity: .1; z-index: 0;

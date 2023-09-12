@@ -30,7 +30,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'dashboard',
   data () {
     return {
@@ -44,5 +44,5 @@ export default {
       title: this.title
     }
   }
-}
+})
 </script>

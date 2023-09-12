@@ -128,7 +128,7 @@
 
 <script>
 import { reservationStatus } from '~/helpers/constants'
-export default {
+export default defineComponent({
   props: {
     step: {
       type: String,
@@ -296,5 +296,5 @@ export default {
     // },
     // onCreated () {}
   }
-}
+})
 </script>

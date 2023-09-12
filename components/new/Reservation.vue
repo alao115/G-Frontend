@@ -91,7 +91,7 @@
 
 <script>
 import { reservationStatus } from '~/helpers/constants'
-export default {
+export default defineComponent({
   props: {
     isMinified: {
       type: Boolean,
@@ -221,5 +221,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

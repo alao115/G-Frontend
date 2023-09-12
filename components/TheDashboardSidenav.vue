@@ -120,7 +120,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { userRole } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   data () {
     return {
       isLoggedUserDropdownnClosed: true,
@@ -164,7 +164,7 @@ export default {
       this.$router.push({ path: '/dashboard/appartements/', query: { favory: true } })
     }
   }
-}
+})
 </script>
 
 <style scoped>

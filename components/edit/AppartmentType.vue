@@ -59,7 +59,7 @@
 
 <script>
 
-export default {
+export default defineComponent({
   props: {
     appartmentType: {
       type: Object,
@@ -137,5 +137,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

@@ -365,7 +365,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { reservationStatus, userRole, visitStatus } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   props: {
     appartID: {
       type: String,
@@ -469,7 +469,7 @@ export default {
     }
   }
 
-}
+})
 </script>
 
 <style>

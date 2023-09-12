@@ -140,7 +140,7 @@ import { mapGetters } from 'vuex'
 
 import { userRole } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   props: {
     // connectedUser: {
     //   type: Object,
@@ -186,7 +186,7 @@ export default {
       this.menuIsOpen = false
     }
   }
-}
+})
 </script>
 
 <style>

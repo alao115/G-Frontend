@@ -116,7 +116,7 @@
 import { mapGetters, mapMutations } from 'vuex'
 import loader from '~/components/loader.vue'
 
-export default {
+export default defineComponent({
   components: { loader },
   middleware: 'isloggedIn',
   data () {
@@ -166,7 +166,7 @@ export default {
         })
     }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-export default {
+export default defineComponent({
   async asyncData ({ store, $api }) {
     if (!store.getters['account/authUserAccount']) {
       await store.dispatch('account/getAuthUserAccount')
@@ -20,7 +20,7 @@ export default {
       connectedUser: 'account/authUserAccount'
     })
   }
-}
+})
 </script>
 
 <style>

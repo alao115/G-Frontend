@@ -232,7 +232,7 @@ import path from 'path'
 import { mapGetters, mapActions } from 'vuex'
 import { reservationStatus, userRole } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   layout: 'dashboard',
 
   // eslint-disable-next-line require-await
@@ -387,7 +387,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style>

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     toFirst: {
       type: Boolean,
@@ -64,5 +64,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

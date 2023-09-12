@@ -32,12 +32,12 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     toFirst: {
       type: Boolean,
       default: false
     }
   }
-}
+})
 </script>

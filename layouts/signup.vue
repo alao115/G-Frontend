@@ -38,7 +38,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   middleware: 'isloggedIn'
-}
+})
 </script>

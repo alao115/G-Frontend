@@ -36,7 +36,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     appartments: {
       type: Array,
@@ -96,5 +96,5 @@ export default {
       return returnedListOfTypes
     }
   }
-}
+})
 </script>

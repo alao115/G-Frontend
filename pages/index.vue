@@ -14,15 +14,14 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
 
-export default {
+export default defineComponent({
   layout: 'website',
-  async asyncData ({ $api, store, $auth }) {
-    if ($auth.loggedIn) { await store.dispatch('account/getAuthUserAccount') }
+  async asyncData ({ }) {
+    // if ($auth.loggedIn) { await store.dispatch('account/getAuthUserAccount') }
 
-    const appartments = (await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
-    const appartmentTypes = (await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
+    const appartments = [] //(await $api.appartmentService.getAllAppartmentFromREST()).data.appartments
+    const appartmentTypes = [] //(await $api.appartmentService.getAllAppartmentTypeFromREST()).data.appartmentTypes
 
     return {
       appartments,
@@ -30,7 +29,7 @@ export default {
     }
   },
   created () {}
-}
+})
 </script>
 
 <style scoped>

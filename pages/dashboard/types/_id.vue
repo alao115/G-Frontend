@@ -246,7 +246,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'dashboard',
   data () {
     return {
@@ -499,5 +499,5 @@ export default {
       return id => this.appartmentTypes.find(appartmentType => appartmentType.id === id)
     }
   }
-}
+})
 </script>

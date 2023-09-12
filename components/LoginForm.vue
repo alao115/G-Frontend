@@ -69,11 +69,11 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   methods: {
     connexionSuccesssfull () {
       this.$router.push({ path: '/:' + true })
     }
   }
-}
+})
 </script>

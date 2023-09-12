@@ -14,7 +14,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-export default {
+export default defineComponent({
   layout: 'dashboard',
   async asyncData ({ store, $api }) {
     if (!store.getters['account/authUserAccount']) {
@@ -30,7 +30,7 @@ export default {
       connectedUser: 'account/authUserAccount'
     })
   }
-}
+})
 </script>
 
 <style>

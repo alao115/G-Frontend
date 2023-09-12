@@ -15,7 +15,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup',
   middleware: async ({ params, redirect, $api, store }) => {
     try {
@@ -35,7 +35,7 @@ export default {
       redirect({ name: 'auth-signin' })
     }
   }
-}
+})
 </script>
 
 <style scoped>

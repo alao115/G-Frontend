@@ -510,7 +510,7 @@
 // eslint-disable-next-line no-unused-vars
 import path from 'path'
 
-export default {
+export default defineComponent({
   props: {
     appartment: {
       type: Object,
@@ -754,7 +754,7 @@ export default {
       this.appartImg[source] = files[0]
     }
   }
-}
+})
 </script>
 <style>
   /* Toggle */

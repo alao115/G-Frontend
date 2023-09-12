@@ -38,7 +38,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import loader from '../loader.vue'
-export default {
+export default defineComponent({
   components: { loader },
   props: {
     appartment: {
@@ -115,7 +115,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style scoped>

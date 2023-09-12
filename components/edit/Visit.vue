@@ -104,7 +104,7 @@
 
 <script>
 
-export default {
+export default defineComponent({
   props: {
     visit: {
       type: Object,
@@ -170,5 +170,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

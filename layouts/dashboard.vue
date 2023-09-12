@@ -117,7 +117,7 @@
 import { mapGetters } from 'vuex'
 import { userRole } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   middleware: 'isAdmin',
 
   data () {
@@ -205,5 +205,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

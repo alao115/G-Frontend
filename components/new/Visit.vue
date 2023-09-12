@@ -114,7 +114,7 @@
 import { mapGetters } from 'vuex'
 import { visitStatus } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   props: {
     isMinified: {
       type: Boolean,
@@ -289,5 +289,5 @@ export default {
       this.createVisit({ status: visitStatus.RESERVED })
     }
   }
-}
+})
 </script>

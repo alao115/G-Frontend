@@ -10,7 +10,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup',
   props: {
     toFirst: {
@@ -18,7 +18,7 @@ export default {
       default: false
     }
   }
-}
+})
 </script>
 
 <style>

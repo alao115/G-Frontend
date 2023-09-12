@@ -19,7 +19,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   beforeRouteEnter (to, from, next) {
     if (!to.params.searchOpts) { next({ name: 'index' }) }
     next()
@@ -79,7 +79,7 @@ export default {
   },
   created () {
   }
-}
+})
 </script>
 
 <style scoped>

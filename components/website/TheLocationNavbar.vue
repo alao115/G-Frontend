@@ -24,7 +24,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   data () {
     return {
       isMinified: false
@@ -46,7 +46,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style>

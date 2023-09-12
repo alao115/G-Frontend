@@ -12,12 +12,12 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup',
   middleware ({ redirect, store }) {
     if (!store.getters['customAuth/passwordEmailSent']) { redirect({ name: 'auth-signin' }) }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
 
   layout: 'signup',
 
@@ -13,7 +13,7 @@ export default {
     const successSignup = store.getters['customAuth/successSignup']
     if (!successSignup) { redirect({ name: 'auth-signup' }) }
   }
-}
+})
 </script>
 
 <style scoped>

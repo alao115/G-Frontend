@@ -24,7 +24,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { reservationStatus, userRole, visitStatus } from '~/helpers/constants'
 
-export default {
+export default defineComponent({
   async asyncData ({ $api, $auth, store }) {
     if ($auth.loggedIn) {
       await store.dispatch('account/getAuthUserAccount')
@@ -93,5 +93,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

@@ -80,7 +80,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     appartments: {
       type: Array,
@@ -173,7 +173,7 @@ export default {
       this.selectedType = type.id
     }
   }
-}
+})
 </script>
 
 <style scoped>

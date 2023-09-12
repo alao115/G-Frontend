@@ -136,7 +136,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     appartments: {
       type: Array,
@@ -247,7 +247,7 @@ export default {
       this.$router.push({ name: 'search', params: { searchOpts: this.search } })
     }
   }
-}
+})
 </script>
 
 <style scoped>

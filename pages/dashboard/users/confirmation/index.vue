@@ -15,12 +15,12 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'signup',
   middleware ({ redirect, store, params }) {
     if (!params.forward) { redirect({ name: 'auth-signin' }) }
   }
-}
+})
 </script>
 
 <style scoped>

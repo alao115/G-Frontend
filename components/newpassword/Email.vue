@@ -27,7 +27,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     toSecond: {
       type: Boolean,
@@ -57,5 +57,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

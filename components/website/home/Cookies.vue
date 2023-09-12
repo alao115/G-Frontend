@@ -26,11 +26,11 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   data () {
     return {
       isDismissed: true
     }
   }
-}
+})
 </script>

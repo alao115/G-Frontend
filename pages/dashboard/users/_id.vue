@@ -266,7 +266,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   layout: 'dashboard',
   async asyncData ({ $api }) {
     const appartments = (await $api.appartmentService.getAll()).data.appartments
@@ -313,5 +313,5 @@ export default {
         .catch(error => console.log(error))
     }
   }
-}
+})
 </script>

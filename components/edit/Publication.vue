@@ -88,7 +88,7 @@
 </template>
 
 <script>
-export default {
+export default defineComponent({
   props: {
     publication: {
       type: Object,
@@ -195,5 +195,5 @@ export default {
         })
     }
   }
-}
+})
 </script>
